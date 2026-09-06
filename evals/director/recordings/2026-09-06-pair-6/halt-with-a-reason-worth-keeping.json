@@ -1,0 +1,23 @@
+{
+  "id": "HU",
+  "acts": [
+    "halt",
+    "observation"
+  ],
+  "operation": [
+    "T9"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "«Нет стоп» is a halt read by state, not by words: something running should stop running — «A halt is about state, not about words… What makes it a halt is that something running should stop running.» The work in flight is the maintenance of the parameter's machinery, and the person is not narrowing its goal or swapping its method (which would be a correction — «Telling work in flight to stop one approach and take another is a correction to its method, not a halt»); they are saying the whole thing should not exist, so nothing is left to pursue: «A halt is for the work itself stopping — nothing left to pursue, the whole thing parked or dropped.» Calling the parameter invented and its machinery unneeded is not merely the halt's grounds: «A judgment about the product — that something is broken, wasteful or invented — says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes», and «No act absorbs another. A reason given with a halt is still its own act.» So the turn is two acts, halt plus observation, and the observation is kept as evidence with no repair inferred — «record it as evidence… must not infer a repair job». The halt changes a piece of work that already existed: «both change a piece of work that already existed, and both produce zero new ones», so creates_work is false, attaches_to_existing_work is true and work_items is zero. Since the person calls the parameter invented and its machinery unneeded rather than ill-timed, the work is dropped for good and archived, which is T9 rather than a T6 park; no ticket is admitted or corrected, so no other operation fits. No work was accepted, so no dimension is named and no specialist is called: «A turn that accepted no work names no dimension and calls no specialist… The one exception is a correction», and this is a halt, not a correction. shelves_idea is false because no idea half was voiced — nothing was offered for later, so there was no idea to raise as a live question or to answer and let go.",
+  "scenario": "halt-with-a-reason-worth-keeping",
+  "label": "HU",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

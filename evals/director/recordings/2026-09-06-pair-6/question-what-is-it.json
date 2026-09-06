@@ -1,0 +1,22 @@
+{
+  "id": "RF",
+  "acts": [
+    "question"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The person asks two plain questions about a term the agent has just been using — 'what is a printable block?' and 'why is it needed?'. By the act table, 'Question or musing' is someone who 'wants to know something', and what the Director does is 'answer the question'; what it must not do is 'write a roadmap row, open a spec, start work'. Nothing is asked for, so no instruction and no idea are present. Per 'Ground every term'-shaped reading of the skill: the question is grounded in the conversation already running, but grounding a term is answering, not work — 'A question creates nothing and changes no document. That does not mean answering it is free: a good answer often needs facts, and fetching facts is reading, not work... What it may not do is turn the question into a task because answering it took effort.' Because no work is accepted, 'A turn that accepted no work names no dimension and calls no specialist' — dimensions and specialists stay empty, creates_work is false, work_items is zero. Nothing already in flight is being changed, so attaches_to_existing_work is false; there is no idea half, so shelves_idea is false. Operation takes the last line of the ladder: 'everything else runs [\"none\"] — a question...'.",
+  "scenario": "question-what-is-it",
+  "label": "RF",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

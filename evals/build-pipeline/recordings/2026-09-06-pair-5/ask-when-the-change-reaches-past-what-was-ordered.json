@@ -1,0 +1,12 @@
+{
+  "id": "HA",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The accepted outcome was narrow: a run naming an act on a no-act scenario must fail. The delivered code also flips the wider case - an extra act beside a real one - which the eval's written cost model already settles by printing a note rather than a failure. So the wider case is not an open fork needing his word; an artifact settles it, and the pipeline asks him only for a product choice no artifact settles. The four newly red runs are therefore a defect against a written artifact, not a redefinition of correct: the pipeline splits the branch so the wider case matches the cost model, sweeps the mistake's class, has a check that did not produce the work re-grade the 35 recorded runs against the observable outcome (narrow case red, the four otherwise-right runs green again, 30), then closes the row and its one checkpoint in the same step and shows the result. Rule 12/27 keeps his eye for a taste call, a trade-off no artifact settles, or an open fork in the definition of correct - none of which this is. If he disagrees with the shown result afterward, that is a new fact carrying his correction, not a reopening.",
+  "scenario": "ask-when-the-change-reaches-past-what-was-ordered",
+  "skill_sha256": "c1b65a2e38e983b3841f37cb0add007d33c70d679cbc53f993858798105fe1f5",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "HA"
+}

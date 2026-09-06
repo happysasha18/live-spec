@@ -1,0 +1,23 @@
+{
+  "id": "NH",
+  "acts": [
+    "halt",
+    "question"
+  ],
+  "operation": [
+    "T6"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "«тормозни плиз» tells work that is running to stop: 'A halt is about state, not about words… What makes it a halt is that something running should stop running.' It is not a correction of method — nothing about how the work reaches its goal changes — and it is not an instruction inside a procedure like 'stop the server'; it is the session's own work in flight being put down. The clause «работу возобновим с этого же места уже в кафешке» says the work is parked, not abandoned, so the holder is cleared and the piece stays alive to resume: the halt runs T6, never T9. The reason «мне надо через 15 минут выходить», and the announcement that the machine will be taken off the internet and closed, only state why the halt wants what it wants — 'Grounds stated with an act carry their own act only when they say something new… when it only restates why the neighbouring act wants what it wants, it is not a second act, it is that act's goal in other words.' They carry no judgment about the product, so they earn no act. The closing «норм?» is its own act: 'An invitation to disagree closing out a decision or an instruction is still its own act too… answering only the decision leaves the invitation unanswered', and 'No act absorbs another' — the person is asking whether this arrangement is fine, and that question must be answered rather than folded into the halt. A halt 'changes the state of that work' and 'must not create anything'; 'The same holds for a decision applied to running work and for a halt: both change a piece of work that already existed, and both produce zero new ones.' Hence creates_work false, attaches_to_existing_work true, work_items 0. Nothing was shelved as an idea. 'A turn that accepted no work names no dimension and calls no specialist,' and the one exception is a correction, which this is not — so dimensions and specialists are empty.",
+  "scenario": "halt-without-the-word",
+  "label": "NH",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

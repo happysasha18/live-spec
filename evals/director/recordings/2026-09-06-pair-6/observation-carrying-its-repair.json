@@ -1,0 +1,24 @@
+{
+  "id": "CF",
+  "acts": [
+    "observation"
+  ],
+  "operation": [
+    "T3"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [
+    "quality, safety, regressions"
+  ],
+  "specialists": [],
+  "reasoning": "The person reports a fact — the push looks to have failed, an email arrived — without asking for a repair, so it is an observation: 'reports a fact or an impression without asking for a repair'. The skill's own case covers it exactly: 'A failure already diagnosed, whose repair is in flight — the fix sent, the work still open, a fresh run under way — is no new problem when it is reported again: it stays an observation and lands on that running work as a correction, opening no second row and naming nothing newly blocked.' Here the cause was already diagnosed, repair was taken on with its own checkpoint still open, the fix was pushed minutes earlier and a fresh CI run is awaiting a verdict — so this is the same failure reported again, not a new problem and not a newly named blocker. It therefore attaches to the work already in flight and creates nothing: 'A correction attaches to work, not to a queue... Replanning takes on nothing that did not already exist: the board gains no row, and the count of new pieces of work the turn produces is zero.' Nothing else in the turn is a separate act — the mail is the grounds for the report, redundant with the observation's own content: 'a clause that is plainly redundant with a neighbour's goal does not' carry its own act. The email is not read as a question either; it asks for nothing. Dimensions are named only under the correction exception — 'The one exception is a correction, which changes work already running: saying what that work now touches is the whole point of it' — and the running work is a CI failure repair, which touches quality, safety, regressions. No specialist is added: 'None is mandatory'; the running work's verdict is simply awaited.",
+  "scenario": "observation-carrying-its-repair",
+  "label": "CF",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

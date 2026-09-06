@@ -1,0 +1,12 @@
+{
+  "id": "EI",
+  "closes": false,
+  "reason_kind": "trade-off no artifact settles",
+  "reasoning": "The definition of done here was 'shorter without costing anything', and no command, test, artifact read or independent verifier can decide it: the eval's own record puts a single run's producer variance at about two scenarios, so the 30-vs-29 result says nothing either way. That is not a check the pipeline can re-run to satisfaction — it is the one case where the artifact is silent, leaving a live trade-off between 3.7 KB off the pack's front door and a possible real loss the measurement cannot separate from noise. Rule 12/27 reserve exactly that for him. So this is not an ordinary delivered result whose observable outcome the verifier confirmed and which closes on being shown; the pipeline shows both versions on disk, uncommitted, with the variance figure beside the gap, and waits for his word on which front door the pack keeps. Nothing irreversible has run — neither version is committed — so no action stops here; only the close does.",
+  "scenario": "ask-whether-the-shorter-skill-ships",
+  "skill_sha256": "37a147890337ec38e7e80ee67034f13bd3951eb6dc81a9e1b1085021e2603b9c",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "EI"
+}

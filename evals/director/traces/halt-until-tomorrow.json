@@ -1,8 +1,7 @@
 {
-  "id": "MH",
+  "id": "TJ",
   "acts": [
-    "halt",
-    "observation"
+    "halt"
   ],
   "operation": [
     "T6"
@@ -13,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The turn stops what is running: work is not to continue today, and it resumes tomorrow. That is a halt by state, not by wording — something running should stop running, and the person names when it picks back up, so the work is parked rather than dropped, which clears the holder and leaves it to resume. The clause about the weekly session limit running out is its own act: it reports a fact about the situation that the halt's own goal does not carry, and it stays worth knowing after this stop ends, so it is recorded as evidence rather than dissolved into the halt as mere justification. A halt changes a piece of work that already existed, so nothing new is taken on: creates_work is false, work_items is zero, and the turn names no dimension and calls no specialist, since a turn that accepted no work routes nothing. No idea was voiced, so no idea half was shelved or discussed.",
+  "reasoning": "«стоп! работа НЕ сегодня… работа завтра» is a halt: 'Halt — wants something that is running to stop, be parked or be abandoned', and 'A halt is about state, not about words… What makes it a halt is that something running should stop running.' 'работа завтра' does not add a second act; it names the halt's own state — parked, to be resumed — rather than a new goal, so the work is left to resume later rather than dropped for good, which is the T6 line ('a halt that clears the holder and leaves the work to resume later'). The clause about the weekly session limit is the grounds for the halt, and by 'Grounds stated with an act carry their own act only when they say something new… a clause that is plainly redundant with a neighbour's goal does not' it earns no act of its own: the situation already has the weekly allowance nearly spent on record, and the sentence only restates why the halt wants what it wants. It is also not a caution about pacing that would leave work running — the person is stopping the work itself, not asking to go carefully. As a halt it changes work that already existed: 'The same holds for a decision applied to running work and for a halt: both change a piece of work that already existed, and both produce zero new ones', so creates_work is false, work_items is zero, and it attaches to the work in flight. No idea half was voiced, so shelves_idea is false. 'A turn that accepted no work names no dimension and calls no specialist' — the one exception is a correction, and this is a halt, so dimensions and specialists are empty.",
   "scenario": "halt-until-tomorrow",
-  "label": "MH",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "TJ",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

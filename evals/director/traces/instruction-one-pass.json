@@ -1,5 +1,5 @@
 {
-  "id": "WP",
+  "id": "AR",
   "acts": [
     "instruction"
   ],
@@ -12,16 +12,17 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication",
-    "quality, safety, regressions"
+    "quality, safety, regressions",
+    "documentation and communication"
   ],
   "specialists": [
+    "Product prover",
     "Developer"
   ],
-  "reasoning": "The person is asking for something to be done now: make a pass over the prover skill. That is an instruction, and the situation is choosing what the session will cover, so nothing is in flight for this to correct or halt. The word 'only' scopes the request rather than narrowing a goal already being pursued, so it is part of the same single instruction, not a second act and not a correction. One instruction with one result stays one piece of work even if the pass touches several parts of that skill, so work_items is one and the turn admits the ticket and takes it in hand (T1, T2). No idea half was voiced, so nothing was shelved. The work changes the text of a skill document and the standard it has to meet, so it touches documentation and communication and quality; the pass itself is worked by the developer, and no other specialist is needed until the pipeline finds one.",
+  "reasoning": "The message asks for something to be done now — a pass over the prover skill — so by the act table it is an Instruction: 'asks for something to be done' → 'accept the work, state the goal understood, begin'. The word 'только' narrows the scope of what is being asked for; the situation is 'choosing what this session will cover', so nothing is yet in flight for it to narrow — 'When no work is in flight yet, the same message is an idea or an instruction — decide which by whether they are asking for it now', and 'Сделай' asks for it now. So it is not a correction and attaches to no existing work. One turn, one act: there is no musing, no standing rule ('always', 'from this point on'), no reported fact, and no conditional branch, so nothing else to name and shelves_idea is false. Taking acts apart is not splitting a goal — 'One instruction stays one piece of work even when it will touch six files' — the pass over one skill is a single result someone could want on its own, hence work_items 1. creates_work true, so by the operation ladder the ticket is admitted and taken in hand in one call: ['T1','T2']. Dimensions are named only where something must change: a review pass over a skill changes the skill text and what it guarantees — documentation and communication, and quality/regressions in what the skill enforces; nothing in product behaviour, user path, architecture or analytics is claimed to change, and 'if nothing in it changes, do not name it'. Specialists: the target is the prover's own skill, so Product prover ('a class defect needs hunting') plus the Developer, since something must be built or edited.",
   "scenario": "instruction-one-pass",
-  "label": "WP",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "AR",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

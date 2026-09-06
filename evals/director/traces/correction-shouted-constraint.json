@@ -1,5 +1,5 @@
 {
-  "id": "UH",
+  "id": "SU",
   "acts": [
     "correction"
   ],
@@ -11,17 +11,15 @@
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [
-    "product value and behaviour",
-    "the user's path and the design"
+    "product value and behaviour"
   ],
   "specialists": [
-    "Developer",
-    "Spec author"
+    "Developer"
   ],
-  "reasoning": "The transition engine is being built right now, and this message rules out a whole class of result that work was heading toward: static transitions. That changes the constraint on work already in flight, which the skill calls a correction, not an idea and not an instruction — the same words with nothing being built would have been an idea, but the situation decides. A correction attaches to the work already running and its goal is replanned in the sheet that work already has; the board gains no row and the count of new pieces of work is zero, however much rewriting the remaining plan costs. The shout carries no second act: 'no static transitions' is the repair stated aloud, which the skill says is the correction's own goal in other words, and naming it separately would re-open as fresh work the very thing the correction just changed. Nothing here states a standing rule for after this work closes, so it is not a decision either. The dimensions named are the ones the corrected work now touches — what the engine produces and how the motion reads — and the specialists are the ones that corrected work may need: someone to build it and someone to bring the spec in line, since the behaviour the spec described has changed.",
+  "reasoning": "The transition engine is mid-implementation, and this message changes what that work must produce: static transitions are ruled out. Per the act table, a correction is where the person 'changes the goal or the constraints of work in flight', and the Director must 'change that work's goal and replan what is left', never 'open a new task alongside the old one'. It is not a decision: 'a decision settles an open choice within work that keeps going as planned; a correction changes that work's goal or constraints so the remainder has to be replanned' — the remainder here has to be replanned, since whatever static behaviour was being built is now excluded. It is not a halt either: 'Narrowing what work must cover is a correction to its goal, however much of the work stops as a result: a goal that came back smaller is still a goal being pursued.' The transition engine goes on, only without static transitions. It is not a caution — it drops a requirement and adds a constraint rather than merely describing the work's state. The whole turn is one clause with nothing riding alongside it, so 'no act absorbs another' has nothing to separate: the prohibition is the correction's own goal in other words, and a clause 'plainly redundant with a neighbour's goal' earns no act of its own. Because replanning 'takes on nothing that did not already exist: the board gains no row, and the count of new pieces of work the turn produces is zero', creates_work is false and work_items is 0, and the state operation is the correction's ['T3']. Dimensions are named because 'The one exception is a correction, which changes work already running: saying what that work now touches is the whole point of it' — what changes is what the engine produces, product value and behaviour; nothing in architecture, tests, docs or release is claimed to change, and 'if nothing in it changes, do not name it.' Specialists: 'Developer — something must be built', the engine's remaining implementation under the new constraint.",
   "scenario": "correction-shouted-constraint",
-  "label": "UH",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "SU",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

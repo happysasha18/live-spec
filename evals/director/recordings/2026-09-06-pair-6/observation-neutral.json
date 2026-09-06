@@ -1,0 +1,22 @@
+{
+  "id": "BN",
+  "acts": [
+    "observation"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The person reports a fact about the situation — the session's allowance has refilled — without asking for anything. That is the 'Observation or feedback' act: 'reports a fact or an impression without asking for a repair', and the Director's job is to 'record it as evidence', never to 'infer a repair job, unless the repair follows from the situation beyond doubt'. Here there is nothing to repair at all: the message reports a constraint lifting, not a failure. It is not conversation either — 'A message is conversation when it adds nothing', and this adds a fact that was not already on record, one that changes what the session can afford. It is not an instruction: nothing is asked for now, and 'Do not create work to be safe. Creating work is not the safe direction; it is the expensive one.' It is not a correction: 'naming that a limit is close, or asking to go carefully, describes the work's state without changing what it must do — no new constraint, no new step, no dropped requirement. That is an observation the work should be paced by' — a limit lifting is the same kind of clause read the other way round, pacing information about the work's state, not a change to any goal. It is not a decision: no standing rule, grant of authority or division of responsibility is settled. So the turn is answered and the fact kept as evidence; per the operation ladder, 'an observation kept as evidence' runs ['none']. Because 'A turn that accepted no work names no dimension and calls no specialist', dimensions and specialists are empty and work_items is zero.",
+  "scenario": "observation-neutral",
+  "label": "BN",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

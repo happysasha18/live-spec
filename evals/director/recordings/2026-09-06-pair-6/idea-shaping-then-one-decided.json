@@ -1,0 +1,31 @@
+{
+  "id": "TH",
+  "acts": [
+    "idea",
+    "instruction"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "product value and behaviour",
+    "the user's path and the design",
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "Developer",
+    "Spec author"
+  ],
+  "reasoning": "Read the whole turn to the end before deciding: 'No act absorbs another' and 'Deciding early is how acts get lost'. The opener 'давай накидывать идеи' is framing, not one of the seven. Four possibilities are voiced — board opening itself after a push, a morning Telegram bot for the canon, a dark theme, dropping HTML for terminal output — and none is asked for at the moment they are said, so they land as the act 'Idea for later': the person 'names a possibility they are not asking for now'. The closing clause then splits them: 'делаем сейчас только автооткрытие борды после пуша' asks for one of them now, which is an Instruction — 'asks for something to be done' — so that one becomes accepted work, one result someone could want on its own, hence work_items 1 and creates_work true. 'Остальное просто держим в голове' is the skill's own case: 'Saying where an idea belongs is not asking for it to be kept: \"just as an idea\", \"far backlog, at some point\" puts the thought down and commissions nothing, so no ticket opens for it, not even a queued one. Only a direct ask to record it — put that on the list — opens one.' The person explicitly declined recording, so the remaining three are answered and let go, with no live question needed about queueing them (they already gave their word) — shelves_idea true, and nothing is stored anywhere. Nothing was in flight ('The previous piece of work closed about an hour ago and its checkpoint is shut'), so this is neither a correction nor a decision applied to running work: attaches_to_existing_work is false. Operation follows the first line that fits: creates_work true, a piece of work accepted now, runs T1 then T2 — the ticket is admitted and taken in hand in one call; the exception for an idea explicitly kept for later does not apply, because the person asked for nothing to be kept. Dimensions are named only for the accepted work — the auto-open behaviour after a push: a new behaviour of the product, the person's own path to seeing the board, and the push flow it has to hook into. The ideas that were let go name no dimension, per 'A turn that accepted no work names no dimension and calls no specialist' applied to the shelved half. Specialists are the smallest set the pipeline may need: 'something must be built' (Developer) and behaviour that goes beyond what the spec already says (Spec author).",
+  "scenario": "idea-shaping-then-one-decided",
+  "label": "TH",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

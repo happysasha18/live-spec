@@ -97,11 +97,14 @@ def read_text(path):
 
 
 # ---------------------------------------------------------------- stamps
-# Requirement 309 criteria 63-67 want the time a task was given against the time it took. No
-# artifact in this tree carries an ESTIMATE — no ticket field, no checkpoint line, no report —
-# so the board states that plainly per card rather than printing an invented number. The ACTUAL
-# comes from the stamps the checkpoint file already carries: it is created when the ticket is
-# admitted and written again at every transition, the last of which is the close.
+# Requirement 309 criteria 63-67 want the time a task was given against the time it took. The
+# ESTIMATE is the one a task's own statement carries — `**Statement.** … Estimate: <low>–<high>
+# <unit>` — and the ACTUAL is the one its delivery trail settles against it, `estimate <low>–<high>
+# <unit> → actual <n> <unit>`. Where the trail has not settled yet, the actual comes from the
+# stamps the checkpoint file already carries: it is created when the ticket is admitted and written
+# again at every transition, the last of which is the close. A row whose statement carries no
+# estimate says so; a row that closed before statements carried estimates says THAT, because
+# "no estimate recorded" on a row nobody could have estimated reads as a defect that is not one.
 NOW = datetime.now()
 
 
@@ -220,8 +223,21 @@ def lane_claims():
     return claims
 
 
+def liveness_window():
+    """The minutes a holder's record may stand still and the holder still count as alive.
+
+    Not a number invented here: it is the heartbeat staleness `docs/worker-liveness.md` already
+    states for the resume protocol's own death check ("a heartbeat moved within the last ~2 min
+    means a live writer"), read from that page so the board and the protocol cannot disagree.
+    """
+    m = re.search(r"heartbeat moved within the last ~(\d+) min",
+                  read_text(os.path.join("docs", "worker-liveness.md")) or "")
+    return int(m.group(1)) if m else 2
+
+
 CAP = lane_cap()
 CLAIMS = lane_claims()
+LIVENESS_MIN = liveness_window()
 PRIMARY_TREE = git("rev-parse", "--show-toplevel") or os.path.abspath(".")
 PRIMARY_BRANCH = git("branch", "--show-current") or "main"
 
@@ -242,13 +258,45 @@ def spec_anchor(task):
     return m.group(1) if m else None
 
 
-TERMINAL_RE = re.compile(r"\b(landed|declined|superseded|decided)\b", re.I)
 DOOR_RE = re.compile(r"\b(feature|bug|refactor|docs-only|skip)\b", re.I)
 
+# Criterion 71's terminal states, plus the two words this project's own archives use for a row that
+# left the board without being built. A row's terminal state is READ FROM THE ARCHIVE'S OWN RECORD
+# — the index-table line that names the row, else an outcome word in the archive file's own name —
+# and a row no record names says so. It is never defaulted to *landed*: q-54, q-811 and q-385 each
+# stood on this page as a landed ⬜ row for exactly that reason, when two of them were declined and
+# the third was taken off the board unbuilt.
+TERMINAL_WORDS = ("declined", "superseded", "decided", "landed", "removed", "rotated")
+TERMINAL_NOT_RECORDED = "terminal state not recorded"
+_TERMINAL_IN_CELL = re.compile(
+    r"\b(%s)\b(?:\s+(\d{4}-\d{2}-\d{2}))?" % "|".join(TERMINAL_WORDS), re.I)
 
-def terminal_state(task):
-    m = TERMINAL_RE.search(" ".join(task["body"]))
-    return m.group(1).lower() if m else "landed"
+
+def archive_record(archive_file, task_id):
+    """(terminal state, close date) as the archive itself names them, or (None, None).
+
+    Two records are read, in the order a reader would trust them: the archive's own index table,
+    whose Status cell carries the outcome and the date it was reached, then the archive file's
+    name, which this project writes as `rotated-PLAN-<date>-<row>-<outcome>.md`. The word searched
+    for is the most specific one present, so a *rotated-…-declined* file reads declined.
+    """
+    body = read_text(os.path.join(ARCHIVE, archive_file)) or ""
+    number = task_id.rsplit("-", 1)[-1]
+    for line in body.splitlines():
+        s = line.strip()
+        if not s.startswith("|"):
+            continue
+        cells = [c.strip() for c in s.strip("|").split("|")]
+        if not cells or cells[0].strip("*` ") not in (task_id, number):
+            continue
+        for cell in cells[1:]:
+            m = _TERMINAL_IN_CELL.search(cell)
+            if m:
+                return m.group(1).lower(), m.group(2)
+    for word in TERMINAL_WORDS:
+        if re.search(r"\b%s\b" % word, archive_file, re.I):
+            return word, None
+    return None, None
 
 
 def door_of(task):
@@ -256,6 +304,60 @@ def door_of(task):
     records a door, so a row carrying none says so rather than being sorted into a made-up one."""
     m = DOOR_RE.search(task.get("source") or "")
     return m.group(1).lower() if m else None
+
+
+# ---------------------------------------------------------------- what the row itself records
+# The three lines a row writes about itself that this page reads, each in the shape the ticket
+# writes it. None of them is inferred: a row missing the line is shown as missing it.
+#   **Statement.** … Estimate: <low>–<high> <unit> — basis: …        criteria 41, 48, 63
+#   … estimate <low>–<high> <unit> → actual <n> <unit> …             criteria 64, 65 (the trail)
+#   **Validation.** <date> · floor: … · status: ready|rewritten      criteria 49-55
+#   **Closed <YYYY-MM-DD>[ HH:MM].** …                               criterion 67's close date
+_RANGE = r"([0-9]+(?:\.[0-9]+)?)\s*[–—-]\s*([0-9]+(?:\.[0-9]+)?)\s*([A-Za-z]+)"
+STATEMENT_RE = re.compile(r"\*\*Statement\.\*\*(.*?)(?:\n\s*\n|\Z)", re.S)
+ESTIMATE_RE = re.compile(r"Estimate:\s*" + _RANGE)
+TRAIL_RE = re.compile(r"estimate\s+" + _RANGE +
+                      r"\s*(?:→|->)\s*actual\s+([0-9]+(?:\.[0-9]+)?)\s*([A-Za-z]+)", re.I)
+VALIDATION_RE = re.compile(r"(?m)^\*\*Validation\.\*\*\s*(.+)$")
+VALIDATION_STATUS_RE = re.compile(r"status:\s*(ready|rewritten)", re.I)
+# Anchored at the head of its own line, so a sentence that merely uses the word — "one false claim
+# closed 2026-09-01" — is not read as this row's close date.
+CLOSED_LINE_RE = re.compile(r"(?m)^\*{0,2}Closed\s+(\d{4}-\d{2}-\d{2})")
+
+
+def _body_text(task):
+    return "\n".join(task["body"])
+
+
+def estimate_of(task):
+    """The estimate the row's own statement carries, as it is written there, or None."""
+    sm = STATEMENT_RE.search(_body_text(task))
+    if not sm:
+        return None
+    em = ESTIMATE_RE.search(sm.group(1))
+    return "%s–%s %s" % em.groups() if em else None
+
+
+def trail_settlement(task):
+    """(estimate, actual) as the delivery trail settled them at the close, or (None, None)."""
+    m = TRAIL_RE.search(_body_text(task))
+    if not m:
+        return None, None
+    return "%s–%s %s" % m.group(1, 2, 3), "%s %s" % m.group(4, 5)
+
+
+def validation_of(task):
+    m = VALIDATION_RE.search(_body_text(task))
+    if not m:
+        return None
+    line = m.group(1).strip()
+    sm = VALIDATION_STATUS_RE.search(line)
+    return {"line": line, "status": sm.group(1).lower() if sm else None}
+
+
+def closed_line_date(task):
+    m = CLOSED_LINE_RE.search(_body_text(task))
+    return m.group(1) if m else None
 
 
 # ---------------------------------------------------------------- read the plan
@@ -343,12 +445,25 @@ def build_card(task, archived=False, archive_file=None):
     changed = cp["changed"] if cp else None
     closed = changed if (cp and cp.get("status") == "closed") else None
 
+    # The close DATE, which criterion 67's day count reads. The checkpoint's own close stamp is the
+    # first source; an old checkpoint carries none, and a row with no checkpoint at all carries
+    # none either, so the row's own `**Closed <date>**` line and the archive's dated outcome stand
+    # behind it. Without them a row that closed today was simply not counted — which is how a day
+    # that closed three rows printed "1 today".
+    terminal, archive_date = (archive_record(archive_file, task["id"])
+                              if archived and archive_file else (None, None))
+    closed_date = (closed.date().isoformat() if closed
+                   else closed_line_date(task) or archive_date)
+
     actual = None
     running = None
     if opened and closed:
         actual = span((closed - opened).total_seconds() / 60.0)
     elif opened:
         running = span((NOW - opened).total_seconds() / 60.0)
+
+    trail_estimate, trail_actual = trail_settlement(task)
+    estimate = estimate_of(task) or trail_estimate
 
     parked = (task["icon"] == "⬜" and cp is not None and cp.get("status") == "open"
               and not is_empty_section(section(cp, "NEXT")))
@@ -381,12 +496,14 @@ def build_card(task, archived=False, archive_file=None):
         "tier": tier,
         "spec_anchor": spec_anchor(task),
         "door": door_of(task),
-        "estimate": None,   # no artifact in this tree carries one — see criteria 63-65 below
+        "estimate": estimate,
+        "settled_actual": trail_actual,
+        "validation": validation_of(task),
         "actual": actual,
         "running": running,
         "opened": opened.isoformat(timespec="minutes") if opened else None,
         "closed": closed.isoformat(timespec="minutes") if closed else None,
-        "closed_date": closed.date().isoformat() if closed else None,
+        "closed_date": closed_date,
         "parked": parked,
         "preempted_by": preempted_by,
         "verified": task["verified"],
@@ -394,8 +511,12 @@ def build_card(task, archived=False, archive_file=None):
         "note": task["note"],
         "archived": archived,
         "archive_file": archive_file,
-        "terminal": terminal_state(task) if archived else None,
+        # A row still on the plan page carries its own mark, and ✅ there IS the record that it
+        # landed. An archived row's outcome comes from the archive, or reads as unrecorded.
+        "terminal": terminal if archived else ("landed" if task["icon"] == "✅" else None),
         "stage": None,
+        "live": False,
+        "lane_note": None,
         "checkpoint": None,
         "branch": None,
         "worktree": None,
@@ -431,15 +552,23 @@ def build_card(task, archived=False, archive_file=None):
 # hand when a holder is named and queued when none is, so that is where a blocked row stands.
 # A parked row stands in the in-work column marked parked (criterion 26) — its checkpoint is open
 # and its NEXT says what remains, which is work in flight with nobody holding it.
+IN_HAND = "\U0001f504"
+REOPENED = "\U0001f501"
+
+
 def column_of(card):
     if card["icon"] == "✅":
         return "done"
     if card["parked"]:
         return "inwork"
-    if card["icon"] in ("\U0001f504", "\U0001f501"):
+    if card["icon"] in (IN_HAND, REOPENED):
         return "inwork"
     if card["icon"] == "⛔":
         return "inwork" if card["holder"] else "validate"
+    # Criterion 55: a statement that passes validation sets its row *ready*. The row records that
+    # itself, on its own Validation line — the board reads that word and invents no readiness.
+    if card["validation"] and card["validation"]["status"] == "ready":
+        return "ready"
     return "validate"
 
 
@@ -512,12 +641,51 @@ CLOSED_TODAY = sum(1 for c in BY_COLUMN["done"] if c["closed_date"] == NOW.date(
 # Criterion 27-29: the in-work column splits into one lane per build lane the cap allows; a lane
 # holding no row reads as free; a free lane draws the head *ready* task into it, and this host's
 # plan records no *ready* status, so a free lane says what it is waiting for.
-INWORK = [c for c in BY_COLUMN["inwork"] if not c["parked"]]
+def lane_liveness(card):
+    """(holds a lane, why) — a busy lane means an EXECUTOR ACTUALLY WORKING.
+
+    Three things together: the row is in hand, a holder is named on it, and that holder is live by
+    the same checks `docs/worker-liveness.md` states — an open lane from `scripts/open-lane.sh`,
+    which git itself holds as a branch and a worktree, or a heartbeat on the holder's own
+    checkpoint inside that page's window. A blocked row, a row waiting on somebody's decision, a
+    parked row and a reopened row nobody has taken up hold no lane, whoever is named on them: the
+    page said "1 of 10 lanes busy" over a row blocked on an owner action with no worker anywhere.
+    """
+    if card["parked"]:
+        return False, "parked — %s" % (
+            "%s took the lane" % card["preempted_by"] if card["preempted_by"]
+            else "the row that took the lane is not recorded")
+    if card["icon"] == "⛔":
+        return False, "blocked on %s — a blocked row waits, it does not occupy a lane" % (
+            card["blocked_by"].split(":")[0] if card["blocked_by"] else "a cause outside the work")
+    if card["icon"] == REOPENED:
+        return False, "was done and is not — nobody has taken it up again"
+    if card["icon"] != IN_HAND:
+        return False, "not in hand"
+    if not card["holder"]:
+        return False, "no holder is named on this row, so no worker is running it"
+    claim = CLAIMS.get(card["id"])
+    if claim:
+        return True, "its lane %s is open" % claim["branch"]
+    cp = CPS.get(card["id"])
+    if not (cp and cp.get("changed")):
+        return False, "no open lane, and no record of this holder to read a heartbeat from"
+    quiet = (NOW - cp["changed"]).total_seconds() / 60.0
+    if quiet <= LIVENESS_MIN:
+        return True, "its holder's record moved %s ago" % span(quiet)
+    return False, ("its holder's record has stood still for %s, past the %d-minute liveness window"
+                   % (span(quiet), LIVENESS_MIN))
+
+
+for c in BY_COLUMN["inwork"]:
+    c["live"], c["lane_note"] = lane_liveness(c)
 PARKED = [c for c in BY_COLUMN["inwork"] if c["parked"]]
+RUNNING = [c for c in BY_COLUMN["inwork"] if c["live"]]
+IDLE = [c for c in BY_COLUMN["inwork"] if not c["live"]]
 
 lanes = []
-claimed = [c for c in INWORK if c["branch"] and c["branch"].startswith("lane/")]
-loose = [c for c in INWORK if c not in claimed]
+claimed = [c for c in RUNNING if c["branch"] and c["branch"].startswith("lane/")]
+loose = [c for c in RUNNING if c not in claimed]
 for n in range(1, CAP + 1):
     lanes.append({"n": n, "card": None})
 for card in claimed + loose:
@@ -579,10 +747,16 @@ now_h = NOW.strftime("%H:%M, %d.%m.%Y")
 
 # What the board needs of the person, on the one identifying line every opened artifact carries
 # (criterion 10) — read from the waiting list, which is where an item waiting on him actually is.
+# — plus the rows blocked on the person's own act. `owner action` is one of the three block kinds
+# the closed set in scripts/task-admission.py names, so this reads a recorded word, not a guess.
+# Without it the page read "nothing waiting on you" while q-816 sat blocked on his decision.
+ON_YOU = [c for c in cards if c["blocked_by"] and c["blocked_by"].lower().startswith("owner action")]
+_needs = []
 if WAITING:
-    NEEDS = "%d item%s waiting on you" % (len(WAITING), "" if len(WAITING) == 1 else "s")
-else:
-    NEEDS = "nothing waiting on you"
+    _needs.append("%d item%s waiting on you" % (len(WAITING), "" if len(WAITING) == 1 else "s"))
+if ON_YOU:
+    _needs.append("%d row%s blocked on your word" % (len(ON_YOU), "" if len(ON_YOU) == 1 else "s"))
+NEEDS = " · ".join(_needs) or "nothing waiting on you"
 
 model = {
     "project": project,
@@ -600,6 +774,10 @@ model = {
     "far": len(FAR),
     "columns": {k: [c["id"] for c in v] for k, v in BY_COLUMN.items()},
     "parked": [c["id"] for c in PARKED],
+    "holding_no_lane": [{"id": c["id"], "why": c["lane_note"]} for c in IDLE],
+    "blocked_on_you": [c["id"] for c in ON_YOU],
+    "closed_today_rows": sorted(c["id"] for c in BY_COLUMN["done"]
+                                if c["closed_date"] == NOW.date().isoformat()),
     "lane_rows": [{"n": l["n"], "id": l["card"]["id"] if l["card"] else None} for l in lanes],
     "cards": {c["id"]: c for c in cards},
 }
@@ -658,6 +836,16 @@ def chips(card):
     else:
         out.append("<span class='chip spec none'>no spec anchor on this row</span>")
     out.append("<span class='chip est'>%s</span>" % esc(time_pair(card)))
+    # Criteria 49-55: a queued row cannot enter work until its statement passes validation, and
+    # the row itself records that pass. Where the row records nothing, the card says which of the
+    # two it is — never validated yet, or rewritten and waiting to be validated again.
+    if card["column"] == "validate" and card["icon"] == "⬜":
+        v = card["validation"]
+        out.append("<span class='chip val'>%s</span>" % (
+            "statement rewritten, validation pending" if v and v["status"] == "rewritten"
+            else "awaiting validation"))
+    elif card["validation"]:
+        out.append("<span class='chip val'>validation %s</span>" % esc(card["validation"]["line"]))
     craft = "%s %s" % (card["craft_icon"], card["craft"]) if card["craft_icon"] else card["craft"]
     tier = "<span class='tier'>· %s</span>" % esc(card["tier"]) if card["tier"] else ""
     out.append("<span class='chip worker'>%s%s</span>" % (esc(craft.strip()), tier))
@@ -675,21 +863,45 @@ def chips(card):
     return "".join(out)
 
 
+def given(card):
+    """The left half of criteria 63-65's pair: the time the task was GIVEN.
+
+    The estimate is the one the row's own statement carries. A row that carries no statement and
+    is still open genuinely has none recorded. A row that carries none and is already closed was
+    closed before statements carried estimates — saying "no estimate recorded" about it reads as a
+    defect on a row where nothing is wrong, so it says what actually happened instead.
+    """
+    if card["estimate"]:
+        return "estimate %s" % card["estimate"]
+    if card["column"] == "done" or card["closed"] or card["closed_date"]:
+        return "closed before estimates were recorded"
+    return "no estimate recorded"
+
+
 def time_pair(card):
     """Criteria 63-67 — the time the task was given beside the time it took.
 
-    THE ESTIMATE IS NOT RECORDED ANYWHERE IN THIS TREE. No ticket field, no checkpoint line and no
-    delivery report carries one, so the board says so instead of printing a number nobody wrote.
-    The actual and the end-to-end are real: they are read off the checkpoint's own stamps, which
-    are written when the ticket is admitted and again at every transition through to the close.
+    The actual is the one the delivery trail settled against the estimate where it has settled one
+    (`estimate <low>–<high> <unit> → actual <n> <unit>`), and otherwise the checkpoint's own
+    stamps, which are written when the ticket is admitted and again at every transition through to
+    the close.
     """
+    head = given(card)
+    if card["settled_actual"]:
+        return "%s → took %s%s" % (head, card["settled_actual"],
+                                   " (closed %s)" % card["closed_date"] if card["closed_date"]
+                                   else "")
     if card["actual"]:
-        return "no estimate recorded → took %s (opened %s, closed %s)" % (
-            card["actual"], card["opened"].replace("T", " "), card["closed"].replace("T", " "))
+        return "%s → took %s (opened %s, closed %s)" % (
+            head, card["actual"], card["opened"].replace("T", " "),
+            card["closed"].replace("T", " "))
     if card["running"]:
-        return "no estimate recorded → running %s so far (opened %s)" % (
-            card["running"], card["opened"].replace("T", " "))
-    return "no estimate recorded, and no checkpoint stamps to read a time from"
+        return "%s → running %s so far (opened %s)" % (
+            head, card["running"], card["opened"].replace("T", " "))
+    if card["closed_date"]:
+        return "%s → closed %s, with no stamps to read a duration from" % (head,
+                                                                           card["closed_date"])
+    return "%s, and no checkpoint stamps to read a time from" % head
 
 
 def bullet_html(b):
@@ -756,14 +968,18 @@ def card_html(card):
 
 def done_line(card):
     """Criterion 69: a closed task renders as one line — state mark, echo-name, time pair — the
-    rest behind a fold. Criterion 71: its own terminal state stands on it."""
+    rest behind a fold. Criterion 71: its own terminal state stands on it, and the mark FOLLOWS
+    that state. The tick means landed and nothing else; a row that was declined, superseded or
+    taken off the board unbuilt shows no tick, and the word for what became of it stands in the
+    tick's place. The plan's five marks stay five — none is minted here — and the archived row's
+    own stale open-header mark is never reprinted, which is how a declined row read ⬜ landed."""
     return """
     <div class="card closed" id="card-%s">
       <div class="doneline">%s <b>%s</b> <span class="st">%s · %s</span></div>
       <details><summary>more</summary>%s</details>
     </div>""" % (
-        esc(card["id"]), card["icon"], esc(card["echo"]),
-        esc(card["terminal"] or "landed"), esc(time_pair(card)), details_html(card))
+        esc(card["id"]), "✅" if card["terminal"] == "landed" else "—", esc(card["echo"]),
+        esc(card["terminal"] or TERMINAL_NOT_RECORDED), esc(time_pair(card)), details_html(card))
 
 
 # ---------------------------------------------------------------- the in-work column
@@ -781,13 +997,18 @@ if free_lanes:
                      ", ".join(str(n) for n in free_lanes),
                      "Holding no row" if len(free_lanes) == 1
                      else "%d of the %d lanes the cap allows hold no row" % (len(free_lanes), CAP)))
-if PARKED:
-    lane_html += "<div class='lane'><div class='lanelbl'>Parked — holding no lane</div>%s</div>" % (
-        "".join(card_html(c) for c in PARKED))
-if not INWORK and not PARKED:
+if IDLE:
+    # Still in this column — each of these rows is work begun and not finished — but none of them
+    # is a running worker, so none of them counts against the lanes. Each says which it is.
+    lane_html += ("<div class='lane'><div class='lanelbl'>Holding no lane</div>%s</div>"
+                  % "".join("<p class='freebox'>%s — %s</p>%s"
+                            % (esc(c["echo"]), esc(c["lane_note"] or "no lane"), card_html(c))
+                            for c in IDLE))
+if not RUNNING:
     head = ("The head of the queue is: %s." % esc(RUNNABLE[0]["echo"])) if RUNNABLE \
         else "The queue behind it is empty too."
-    lane_html += "<p class='empty'>Nothing is in hand right now. %s</p>" % head
+    lane_html = ("<p class='empty'>Nothing is in hand right now: no lane holds a row a worker is "
+                 "running. %s</p>" % head) + lane_html
 
 # ---------------------------------------------------------------- the awaiting-validation column
 head_cards = RUNNABLE[:QUEUE_HEAD]
@@ -821,8 +1042,9 @@ if other_months:
 
 # ---------------------------------------------------------------- the ready column
 ready_html = ("".join(card_html(c) for c in BY_COLUMN["ready"])
-              or "<p class='empty'>Nothing is checked and waiting. A row lands here when its "
-                 "statement passes validation, and the check that would pass it is not built.</p>")
+              or "<p class='empty'>Nothing is checked and waiting. A row lands here when its own "
+                 "Validation line records <code>status: ready</code>; every queued row today is "
+                 "still awaiting that.</p>")
 
 COLUMNS = [
     ("inwork", "In work", "%d of %d lanes busy" % (BUSY, CAP),
@@ -942,7 +1164,9 @@ page = """<!DOCTYPE html>
 <div class="foot">
 Every mark carries its meaning where it stands: ✅ done · \U0001f504 in hand ·
 \U0001f501 was done and is not · ⬜ queued · ⛔ blocked on a cause outside the
-work. The crafts a running step is named by: {crafts}; a step whose record names no craft reads
+work. In the done column the mark follows what became of the row: ✅ where it landed, and where it
+did not, a dash with the word for what happened — declined, superseded, taken off the board — in
+the tick's place. The crafts a running step is named by: {crafts}; a step whose record names no craft reads
 &ldquo;{unnamed}&rdquo;. This page reads PLAN.md, the checkpoints under {cpdir}, the lanes git
 itself holds, {waiting_file} and the archive under {archive}:
 there is no second source of state, and no history the journal already owns is written here. It answers to {anchors}. It does
@@ -963,6 +1187,7 @@ not reload itself: draw it again when something changes.
 with open(out_path, "w", encoding="utf-8") as f:
     f.write(page)
 
-print("written: %s (%d in work, %d awaiting validation, %d closed today)"
-      % (out_path, len(INWORK) + len(PARKED), len(RUNNABLE), CLOSED_TODAY))
+print("written: %s (%d running in lanes, %d in the in-work column, %d awaiting validation, "
+      "%d closed today)"
+      % (out_path, BUSY, len(BY_COLUMN["inwork"]), len(RUNNABLE), CLOSED_TODAY))
 PYEOF

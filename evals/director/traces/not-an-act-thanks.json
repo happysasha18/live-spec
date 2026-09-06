@@ -1,5 +1,5 @@
 {
-  "id": "ZL",
+  "id": "GB",
   "acts": [],
   "operation": [
     "none"
@@ -10,10 +10,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This is a thumbs-up on something already delivered and agreed, and it reports nothing that was not already known: the change was delivered and works, and the person is confirming that. The skill's section 'Not every message is one of the seven' names exactly this case — a thank-you or an approval that adds no new fact is conversation, answered like a person and recorded nowhere. Reaching for one of the seven acts here is how a thank-you becomes a roadmap row. It is not an observation, because 'exactly it' carries no fact beyond the delivery already known to both sides, so there is no evidence worth keeping. It is not a decision either: nothing that was open got settled, and no rule with force beyond this message was stated. No work is accepted and none in flight is changed, so no ticket state moves, no dimension is named and no specialist is called — a turn that accepted no work names no dimension and calls no specialist.",
+  "reasoning": "Under 'Not every message is one of the seven': 'A greeting, a thank-you, a thumbs-up on something already agreed, a joke or a curse that reports nothing new: these are conversation. Answer like a person and record nothing.' The change was just delivered and works; 'Thanks, that's exactly it' confirms what is already known and adds no fact — 'A message is conversation when it adds nothing, not when it is said lightly.' So no act from the seven is named, and 'Reaching for one of the seven acts here is how a thank-you becomes a roadmap row.' Nothing is accepted, corrected, halted or blocked, so per the operation ladder this is 'everything else runs [\"none\"] — a question, a thank-you...'. Since no work was accepted or corrected, 'A turn that accepted no work names no dimension and calls no specialist', and work_items is zero.",
   "scenario": "not-an-act-thanks",
-  "label": "ZL",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "GB",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

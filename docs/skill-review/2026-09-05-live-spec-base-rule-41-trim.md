@@ -66,3 +66,17 @@ this check does not clear.
 Rule count unchanged at 27 (rule 41's own number stays; only its body shrank), so the description's
 "twenty-seven rules" still holds. `SKILL.md`: 34,057 bytes. `skills/live-spec-base/` whole
 directory: 69,750 bytes.
+
+---
+
+## Rule 42 added, 2026-09-06 — one line
+
+Verdict: passes. Rule 42 ("A task must not redefine its own definition of done so that the result
+already produced becomes acceptable") stands at the right depth and states something no other rule
+here does; a cold reader read it against rules 12, 27, 39, 40 and 41 and found its nearest neighbour
+in rule 39's "widening it for this one case is neither", which governs gates and thresholds rather
+than a row's own done, and asked only for the anchor every rule around it carries — so rule 42 now
+ends by naming the close in `scripts/task-admission.py` and matrix rows M-640 and M-641 as the code
+that refuses it. The description's rule count moved twenty-seven to twenty-eight.
+`quick_validate.py skills/live-spec-base` — Skill is valid! (exit 0). `SKILL.md`: 34,057 → 34,555
+bytes.

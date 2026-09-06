@@ -1,0 +1,22 @@
+{
+  "id": "GY",
+  "acts": [
+    "decision"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The message settles who owns what from here on: the person keeps the moratorium negotiation, the agent takes the rest. That is exactly the act the skill names — 'A decision is a standing rule, not only a single choice... settle something with force beyond the message that carried it: a standing rule, a grant of authority, a division of responsibility.' Both halves are the two sides of one division of responsibility, not two separate acts: neither half says anything the other's own content does not already carry, and the skill's own list treats 'a division of responsibility' as a single decision. 'Остальное на тебе' names no concrete result to produce now, so it is not an instruction — 'A request that stays amorphous once read is not routed as accepted work', and the skill's test for an instruction is whether the person is asking for a specific thing now. The scenario states nothing is running that either sentence stops, so there is no halt and no work in flight for the decision to be applied to: 'A correction attaches to work, not to a queue' has no target here, and attaches_to_existing_work is false. Nothing new is taken on, so creates_work is false and work_items is zero — 'the count of new pieces of work the turn produces is zero' for a decision. Operation is ['none'] by the derivation table's last line, 'a standing rule remembered'. Dimensions and specialists stay empty because 'A turn that accepted no work names no dimension and calls no specialist. This holds for the standing rule that will shape everything built afterwards.' No idea half was voiced, so shelves_idea is false. What the person hears: the split is recorded and stands from here on; nothing was started.",
+  "scenario": "decision-a-boundary",
+  "label": "GY",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

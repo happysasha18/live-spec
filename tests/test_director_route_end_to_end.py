@@ -182,6 +182,7 @@ class RouteHost(unittest.TestCase):
             "done_when": "the fixture records exactly one weekly message",
             "verification": "python3 tests/test_weekly_digest.py",
             "context_pointers": ["`scripts/weekly_digest.py`", "R-104"],
+            "estimate": "2–4 hours",
         }
         with tempfile.NamedTemporaryFile("w", suffix=".json", encoding="utf-8") as fh:
             json.dump(route, fh)

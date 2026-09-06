@@ -829,6 +829,8 @@ class TestWritesAreAtomic(unittest.TestCase):
         plan.write_text(
             "# Host plan\n\n## Tasks\n\n### \u2b1c Ship the digest \u2014 id: q-1\n"
             "**Group:** Reports \u00b7 **Priority:** normal\n**Source:** the person.\n\n"
+            "**Validation.** 2026-09-06 \u00b7 floor: passed \u00b7 reader: passed \u00b7 "
+            "echo-name placed: yes \u00b7 status: ready\n\n"
             "It ships weekly.\n",
             encoding="utf-8",
         )

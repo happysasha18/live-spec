@@ -2,6 +2,7 @@
 
 import importlib.util
 import json
+import subprocess
 import sys
 from pathlib import Path
 
@@ -32,6 +33,10 @@ def new_route(**overrides):
         "done_when": "the fixture records exactly one weekly message",
         "verification": "python3 tests/test_digest.py",
         "context_pointers": ["`scripts/digest.py`", "R-104"],
+        # Requirement 309 criterion 41: a statement carries a time estimate. With no comparable
+        # closed row in a throwaway tree there is no history to read one off, so the route
+        # carries the range and the derived basis says the history is missing.
+        "estimate": "2\u20134 hours",
     }
     route.update(overrides)
     return route
@@ -121,9 +126,23 @@ def test_done_when_cannot_make_the_person_the_checker(tmp_path):
 
 
 def seeded(tmp_path):
-    """One admitted ticket: a queued row and its open checkpoint. Returns both plus the id."""
+    """One admitted ticket, ready for work: a queued row whose statement has passed validation,
+    and its open checkpoint. Returns both plus the id.
+
+    The validation run is what lets these transitions reach `hold` at all — no task enters work
+    on an unvalidated statement (Requirement 309 criterion 49). The reader half is a stub here;
+    the mechanics it exercises are proven in `tests/test_statement_validation.py`.
+    """
     plan, checkpoints = host(tmp_path)
     task_id = admission.admit(new_route(), plan, checkpoints)["task_id"]
+    echo = admission.read_statement(row_of(plan, task_id))["echo"]
+    reader = tmp_path / "reader.txt"
+    reader.write_text(
+        "What is to be done: a weekly digest reaches the test inbox\n"
+        "Why: the people on the list get the week's news without asking\n"
+        "How long: between two and four hours\n"
+        "Echo-name placed: %s\n" % echo, encoding="utf-8")
+    admission.validate(plan, task_id, reader=reader)
     return plan, checkpoints, task_id, checkpoints / (task_id + ".md")
 
 
@@ -171,7 +190,9 @@ def test_a_correction_rewrites_a_queued_tickets_goal_and_done_in_place(tmp_path)
     sheet_before = cp.read_bytes()
     admission.correct(plan, checkpoints, task_id,
                       goal="Send the weekly digest to the whole list",
-                      done="the fixture records one weekly message per subscriber")
+                      done="the fixture records one weekly message per subscriber",
+                      source="the person, this turn",
+                      reason="the list grew and one message for all of them is not the ask")
     row = row_of(plan, task_id)
     assert "### ⬜ Send the weekly digest to the whole list — id: %s" % task_id in row
     assert "**Done when:** the fixture records one weekly message per subscriber" in row
@@ -290,9 +311,15 @@ def finished(plan, checkpoints, task_id, cp):
     checkpoint.update_checkpoint(cp, done="the digest ships", in_progress="(nothing)", next="(nothing)")
 
 
-def test_closing_closes_the_checkpoint_and_then_writes_the_mark(tmp_path):
-    plan, checkpoints, task_id, cp = seeded(tmp_path)
+def verified(plan, checkpoints, task_id, cp):
+    """Finished, and accepted by somebody other than the holder — what `close` now reads."""
     finished(plan, checkpoints, task_id, cp)
+    admission.verify(plan, checkpoints, task_id, by="a second pair of eyes", commands=["true"])
+
+
+def test_closing_closes_the_checkpoint_and_then_writes_the_mark(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
     admission.close(plan, checkpoints, task_id)
     assert checkpoint.read_checkpoint(cp)["status"] == "closed"
     assert row_of(plan, task_id).startswith("### ✅ ")
@@ -301,8 +328,8 @@ def test_closing_closes_the_checkpoint_and_then_writes_the_mark(tmp_path):
 def test_a_close_over_open_work_is_refused_and_the_mark_does_not_move(tmp_path):
     """The order is what this proves: the mark is the second write, so a checkpoint that
     cannot close leaves a ticket that is not marked done."""
-    plan, checkpoints, task_id, cp = seeded(tmp_path)
-    admission.hold(plan, task_id, "the session")
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
     checkpoint.update_checkpoint(cp, next="the footer is still missing")
     message = refused(admission.close, plan, checkpoints, task_id)
     assert "NEXT" in message
@@ -311,8 +338,8 @@ def test_a_close_over_open_work_is_refused_and_the_mark_does_not_move(tmp_path):
 
 
 def test_a_second_close_over_a_closed_checkpoint_only_rewrites_the_mark(tmp_path):
-    plan, checkpoints, task_id, cp = seeded(tmp_path)
-    finished(plan, checkpoints, task_id, cp)
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
     admission.close(plan, checkpoints, task_id)
     plan.write_text(plan.read_text(encoding="utf-8").replace("### ✅ ", "### 🔄 ", 1), encoding="utf-8")
     sheet = cp.read_bytes()
@@ -324,8 +351,8 @@ def test_a_second_close_over_a_closed_checkpoint_only_rewrites_the_mark(tmp_path
 # --- T8, reopen --------------------------------------------------------------------------
 
 def test_reopening_names_the_false_condition_and_never_writes_a_copy(tmp_path):
-    plan, checkpoints, task_id, cp = seeded(tmp_path)
-    finished(plan, checkpoints, task_id, cp)
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
     admission.close(plan, checkpoints, task_id)
     admission.reopen(plan, checkpoints, task_id,
                      false_condition="the fixture records exactly one weekly message",
@@ -432,8 +459,8 @@ def test_an_artifact_proven_done_is_admitted(tmp_path):
 # --- hold and block read the state they overwrite -----------------------------------------
 
 def test_taking_a_closed_ticket_in_hand_is_refused(tmp_path):
-    plan, checkpoints, task_id, cp = seeded(tmp_path)
-    finished(plan, checkpoints, task_id, cp)
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
     admission.close(plan, checkpoints, task_id)
     before = plan.read_bytes()
     message = refused(admission.hold, plan, task_id, "a second session")
@@ -458,8 +485,8 @@ def test_the_same_holder_may_retake_its_own_ticket(tmp_path):
 
 
 def test_blocking_a_closed_ticket_is_refused(tmp_path):
-    plan, checkpoints, task_id, cp = seeded(tmp_path)
-    finished(plan, checkpoints, task_id, cp)
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
     admission.close(plan, checkpoints, task_id)
     before = plan.read_bytes()
     message = refused(admission.block, plan, checkpoints, task_id, "owner action",
@@ -485,8 +512,8 @@ def test_a_second_block_over_a_blocked_ticket_is_refused(tmp_path):
 # --- T8 needs the checkpoint it reopens ---------------------------------------------------
 
 def test_reopening_a_ticket_with_no_checkpoint_is_refused(tmp_path):
-    plan, checkpoints, task_id, cp = seeded(tmp_path)
-    finished(plan, checkpoints, task_id, cp)
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
     admission.close(plan, checkpoints, task_id)
     cp.unlink()
     before = plan.read_bytes()
@@ -494,3 +521,151 @@ def test_reopening_a_ticket_with_no_checkpoint_is_refused(tmp_path):
                       false_condition="the digest shipped", evidence="the inbox is empty")
     assert "no checkpoint" in message
     assert plan.read_bytes() == before, "the row walked back to in-hand with nothing to resume"
+
+
+# ---------------------------------------------------------------- the trusted closure kernel
+# The definition of done is fixed at admission; changing it is its own explicit operation; the
+# executor gives evidence and never the verdict; and the close reads a receipt rather than a
+# claim. Every test below was red against the tree of 2026-09-06 before the kernel was built.
+
+
+def repo(tmp_path):
+    """A seeded ticket inside a real git tree — an acceptance receipt pins a real tree hash."""
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True, capture_output=True)
+    return seeded(tmp_path)
+
+
+def accepted(plan, checkpoints, task_id, cp, by="a second pair of eyes", commands=("true",),
+             surfaces=()):
+    admission.verify(plan, checkpoints, task_id, by=by, commands=list(commands),
+                     surfaces=list(surfaces))
+
+
+def test_admission_records_the_dods_own_text_and_hash(tmp_path):
+    plan, checkpoints, task_id, _ = repo(tmp_path)
+    row = row_of(plan, task_id)
+    text, recorded = admission.read_dod(row)
+    assert text == "the fixture records exactly one weekly message"
+    assert recorded == admission.dod_digest(text)
+
+
+def test_rewriting_the_done_without_a_source_and_a_reason_is_refused(tmp_path):
+    plan, checkpoints, task_id, _ = repo(tmp_path)
+    before = plan.read_bytes()
+    message = refused(admission.correct, plan, checkpoints, task_id,
+                      done="the fixture records at least one message")
+    assert "--source" in message and "--reason" in message
+    assert plan.read_bytes() == before
+
+
+def test_correcting_the_done_keeps_the_previous_text_its_hash_the_source_and_the_reason(tmp_path):
+    plan, checkpoints, task_id, _ = repo(tmp_path)
+    old_text, old_hash = admission.read_dod(row_of(plan, task_id))
+    admission.correct(plan, checkpoints, task_id,
+                      done="the fixture records one weekly message per subscriber",
+                      source="the person, 2026-09-06 10:12",
+                      reason="the list grew and one message for all of them is not the ask")
+    row = row_of(plan, task_id)
+    assert old_text in row and old_hash in row
+    assert "the person, 2026-09-06 10:12" in row
+    assert "the list grew" in row
+    text, recorded = admission.read_dod(row)
+    assert text == "the fixture records one weekly message per subscriber"
+    assert recorded == admission.dod_digest(text)
+
+
+def test_a_close_over_a_silently_changed_done_is_refused(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    accepted(plan, checkpoints, task_id, cp)
+    plan.write_text(plan.read_text(encoding="utf-8").replace(
+        "**Done when:** the fixture records exactly one weekly message",
+        "**Done when:** the fixture runs"), encoding="utf-8")
+    message = refused(admission.close, plan, checkpoints, task_id)
+    assert "definition of done" in message
+    assert row_of(plan, task_id).startswith("### 🔄 ")
+
+
+def test_the_producer_may_not_issue_its_own_acceptance_verdict(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    message = refused(admission.verify, plan, checkpoints, task_id,
+                      by="the session", commands=["true"])
+    assert "produced this work" in message
+    assert "RECEIPT:" not in cp.read_text(encoding="utf-8")
+
+
+def test_a_close_with_no_acceptance_receipt_is_refused(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    message = refused(admission.close, plan, checkpoints, task_id)
+    assert "receipt" in message
+    assert checkpoint.read_checkpoint(cp)["status"] == "open"
+    assert row_of(plan, task_id).startswith("### 🔄 ")
+
+
+def test_a_receipt_whose_command_failed_is_a_failed_verdict(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    accepted(plan, checkpoints, task_id, cp, commands=["true", "false"])
+    receipt = admission.read_receipt(cp)
+    assert receipt["verdict"] == "failed" and receipt["checks"][1] == ["false", 1]
+    message = refused(admission.close, plan, checkpoints, task_id)
+    assert "failed" in message
+    assert row_of(plan, task_id).startswith("### 🔄 ")
+
+
+def test_a_change_after_verification_voids_the_receipt(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    accepted(plan, checkpoints, task_id, cp)
+    (tmp_path / "shipped.txt").write_text("one more edit\n", encoding="utf-8")
+    message = refused(admission.close, plan, checkpoints, task_id)
+    assert "tree" in message
+    assert row_of(plan, task_id).startswith("### 🔄 ")
+
+
+def test_a_verified_and_unchanged_tree_closes(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    accepted(plan, checkpoints, task_id, cp)
+    admission.close(plan, checkpoints, task_id)
+    assert checkpoint.read_checkpoint(cp)["status"] == "closed"
+    assert row_of(plan, task_id).startswith("### ✅ ")
+
+
+def test_a_done_naming_a_rendered_surface_needs_the_surface_in_the_receipt(tmp_path):
+    plan, checkpoints = host(tmp_path)
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True, capture_output=True)
+    task_id = admission.admit(
+        new_route(done_when="the board page renders every row and is published at one link"),
+        plan, checkpoints)["task_id"]
+    echo = admission.read_statement(row_of(plan, task_id))["echo"]
+    reader = tmp_path / "reader.txt"
+    reader.write_text(
+        "What is to be done: a weekly digest reaches the test inbox\n"
+        "Why: the people on the list get the week's news without asking\n"
+        "How long: between two and four hours\n"
+        "Echo-name placed: %s\n" % echo, encoding="utf-8")
+    admission.validate(plan, task_id, reader=reader)
+    cp = checkpoints / (task_id + ".md")
+    finished(plan, checkpoints, task_id, cp)
+    message = refused(admission.verify, plan, checkpoints, task_id,
+                      by="a second pair of eyes", commands=["true"])
+    assert "--surface" in message
+    assert "RECEIPT:" not in cp.read_text(encoding="utf-8")
+    admission.verify(plan, checkpoints, task_id, by="a second pair of eyes",
+                     commands=["true"], surfaces=["board.html"])
+    assert admission.read_receipt(cp)["surfaces"] == ["board.html"]
+
+
+def test_every_refusal_prints_a_plain_reason_exits_two_and_leaves_the_mark(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    run = subprocess.run(
+        [sys.executable, str(SCRIPT), "close", task_id,
+         "--plan", str(plan), "--checkpoints", str(checkpoints)],
+        capture_output=True, text=True)
+    assert run.returncode == 2, run.stdout + run.stderr
+    assert "receipt" in run.stdout
+    assert row_of(plan, task_id).startswith("### 🔄 ")

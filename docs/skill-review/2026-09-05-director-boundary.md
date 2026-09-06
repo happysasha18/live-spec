@@ -114,3 +114,44 @@ thumbs-up on something already agreed, a joke or a curse that reports nothing ne
 conversation. Answer like a person and record nothing", and "An answer to the Director's own
 question is not a new act" each close one of the four quiet cases, and the route contract answers a
 question without loading a pipeline. The body is 318 lines, inside the 500-line guidance.
+
+## Re-review 2026-09-06, after the q-823 reopening
+
+Two classification sentences were added to `skills/director/SKILL.md` that night — one in *An idea
+is not an instruction*, one in *Some observations carry their repair with them* — to settle three
+`operation` reds two independent recordings agreed on. The body went from 21,977 to 22,548 bytes, so
+the Anthropic review was run again over the changed file: one fresh Sonnet reader holding
+`~/.claude/skills/skill-creator/SKILL.md`, this skill in full, its `references/` listing, and the
+build-pipeline front matter and headings for the ownership question. It was given the four questions
+below and nothing else, and it did not see this file.
+
+Both quick validators pass on the changed skill: `python3
+~/.codex/skills/.system/skill-creator/scripts/quick_validate.py skills/director` and `python3
+~/.claude/skills/skill-creator/scripts/quick_validate.py skills/director` each print `Skill is
+valid!` and exit 0.
+
+- **Progressive disclosure — pass with a caveat.** The body is 331 lines, inside the 500-line
+  guidance. The caveat has two halves. The first is the orphan already on record above:
+  `references/footprint-read.md` still exists, still opens by claiming it is "referenced from
+  `SKILL.md`'s intake line", and no sentence in the body points at it — the reader found it
+  independently and named it the single most-worth-fixing defect. It stays unfixed for the reason
+  given above: the file is read by `tests/test_impact_analysis_entry.py` at its current path, so
+  moving it is a move plus a test change, and this session's write-set did not include either. The
+  second half is new: the reader judged that more than half the body is edge-case prose every turn
+  loads — conditional requests, the standing-clause taxonomy, correction against decision against
+  caution — and that skill-creator's own domain-organization pattern would push some of it into a
+  reference, the way `request-kind-table.md` was already pushed. That is a real observation and it
+  is not acted on here, because this directory's own record says what happens when this skill is cut
+  on a size argument alone: the 2026-09-02 cut scored 29 of 35 against 30 and was withdrawn, and the
+  2026-09-04 addition of four paragraphs turned three failing scenarios green. A cut of those
+  passages has to be recorded against, not reasoned about.
+- **Routing clarity — pass.** The route contract names every field returned and states where each
+  outcome goes, and the specialist table names the skill each specialist lives in.
+- **Circular ownership — pass.** Director's "Work that belongs elsewhere" and build-pipeline's own
+  defer exactly what the other claims; the reader found no loop and no gap, and read the
+  correction/decision/halt handoff as stated identically on both sides.
+- **A quiet message loads no pipeline — pass.** Three places say it: the acts table's must-not column
+  for a question or musing, "Not every message is one of the seven", and the route contract's own
+  sentence. The reader called it unambiguous.
+
+Nothing in the review contradicts the two sentences added that night; neither is quoted as a defect.

@@ -43,6 +43,15 @@ scope, context pointers and duplicate title, then writes exactly one row and its
 checkpoint. A route for a question writes nothing; a correction names existing work and writes
 nothing new.
 
+Admission also derives the task's statement onto that row — an echo-name of two to five words, a
+description a stranger can act on, a plan whose steps stand in the order they run, and a time
+estimate given as a range with the basis it rests on. The person never writes those fields, and no
+default fills one in. Before the task is taken up, `python3 scripts/task-admission.py validate <id>
+--reader <file>` runs the mechanical floor and a clean-context reader's record over that statement;
+`hold` refuses a row whose validation has not passed. See
+[the execution reference](references/accepted-work-execution.md) for who writes the reader's file
+and what take-up freezes.
+
 A correction, decision or halt targets the existing row and checkpoint named by Director and
 creates zero new work. A new candidate that passes admission creates exactly one row. `PLAN.md` and
 its generated board are the only task state; `NEXT_STEPS.md` is never read or written as a queue.
@@ -52,6 +61,25 @@ Director named, add or remove one when a new fact changes the graph, and keep on
 whole piece of work. The definition of done is the closing contract: meet it, verify it without the
 producer's self-report, close the checkpoint and row, show the result, and continue without waiting
 for the person's attention.
+
+## The closing kernel
+
+A row is closed against the definition of done it was admitted on, never against what shipped.
+Three commands carry that, and a session holding only this page can run them:
+
+- `python3 scripts/task-admission.py correct <id> --done "<new>" --source "<who asked>" --reason
+  "<why>"` — the only door through a done already fixed;
+- `python3 scripts/task-admission.py verify <id> --by <name> --command "<cmd>" [--surface <path>]`
+  — the acceptance receipt, refused when `--by` names the row's own holder;
+- `python3 scripts/task-admission.py close <id>` — which reads that receipt.
+
+Every refusal prints one reason, exits 2, and leaves the row's mark where it was.
+
+The ten clauses this rule stands on — who may change a done and what that keeps, what the verifier
+receives, what voids the evidence, what `blocked` may mean, and why the presence of a test is not a
+test that passes — are in
+[references/accepted-work-execution.md](references/accepted-work-execution.md), which is their one
+home.
 
 Execution references live here, not in Director: [class hunt](references/class-hunt.md),
 [verification](references/verify-step-detail.md), and [landing law](references/landing-law.md).

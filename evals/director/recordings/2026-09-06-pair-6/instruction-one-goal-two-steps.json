@@ -1,0 +1,22 @@
+{
+  "id": "EP",
+  "acts": [
+    "instruction"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The turn is one act. 'скинь отчет в файл ... дай путь к файлу' is an instruction — 'asks for something to be done' — and the two clauses name one result, not two: 'Steps toward a single result are not separate work, however many of them there are' (writing the file and reporting its path are the same delivery). The middle clause 'я его передам кому надо на перепроверку' is grounds, not a second act: 'Grounds stated with an act carry their own act only when they say something new ... when it only restates why the neighbouring act wants what it wants, it is not a second act, it is that act's goal in other words.' It carries no judgment about the product, so nothing is worth keeping after the act closes. It is not a halt, correction or decision either — nothing in flight changes goal, state or constraints, and no standing rule is set ('always', 'from this point on' are absent). It produces no new piece of work. The report itself already exists — 'A report has just been produced in the conversation' — so nothing new is being made; what is asked is that the existing result be handed over in a form the person can carry to someone else. That is the passing-on case: 'Where the ask is to hand the idea itself to someone — tell another project, drop it in their inbox — that is passing a message, done in the turn like an answer: no row, no work item.' The exception 'an ask that makes something exist is an instruction as usual' does not bite, because the thing that must exist — the report — already does; only its container changes. The rule that 'when someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other' governs a report that still has to be produced, not one already on the table. Admitting a ticket here would be exactly what the skill warns against: 'Recording is not free, and a place to put everything becomes a place nothing is found', and 'Creating work is not the safe direction; it is the expensive one.' With creates_work false and no correction to running work, the operation list falls to the last line, ['none'] — nothing on the board opens, moves or closes. And since no work was accepted, 'A turn that accepted no work names no dimension and calls no specialist' leaves dimensions and specialists empty. shelves_idea is false because no idea-shaped branch was voiced: the request is unconditional and is served in the turn, so there is nothing to raise as a live question or let go.",
+  "scenario": "instruction-one-goal-two-steps",
+  "label": "EP",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

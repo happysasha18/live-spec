@@ -1,0 +1,12 @@
+{
+  "id": "HC",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The rewrite was an instruction the person gave himself, so the fork over how titles should read was already settled when he ordered it; carrying it out is executing his decision, not making one. The pipeline's rule is explicit that a shown result closes the work and the person's own eye is never the gate on an ordinary delivery: the observable outcome (eleven titles reading as plain sentences) is confirmed by artifacts that do not rest on the producer's self-report — plan_checks.py exits 0 and names each rewritten row, and the board page regenerated from PLAN.md shows the new titles. Nothing here is one of the three cases reserved for him: no taste call is open, since he set the standard; no trade-off lacking an artifact to settle it; and no change to the definition of correct still forked, since he ordered the redefinition. The change is reversible in git, so rule 12's irreversible-action stop does not apply, and his being asleep is not a reason to hold a row open. If he dislikes the wording once he reads it, that disagreement is a new fact and becomes its own task carrying his correction; the closed row stays closed.",
+  "scenario": "close-a-mechanical-title-rewrite",
+  "skill_sha256": "c1b65a2e38e983b3841f37cb0add007d33c70d679cbc53f993858798105fe1f5",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "HC"
+}

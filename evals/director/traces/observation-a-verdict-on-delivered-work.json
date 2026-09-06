@@ -1,5 +1,5 @@
 {
-  "id": "TK",
+  "id": "QE",
   "acts": [
     "observation"
   ],
@@ -18,13 +18,12 @@
   ],
   "specialists": [
     "Developer",
-    "Design reviewer",
-    "Product prover"
+    "Design reviewer"
   ],
-  "reasoning": "Every clause here reports how the delivered build lands: the effects please, continuity is absent, and it is strange to see this level of understanding after continuity had been discussed at length. That is feedback, not an order, and no work is in flight, so it cannot be a correction — a correction attaches to work already running, and this build is delivered and accepted. It is an observation whose repair follows from the situation beyond doubt: continuity between shots was an agreed requirement, the shipped build does not have it, and a competent colleague would not need to ask what is wanted. So the observation is acted on rather than merely filed, and a new piece of work is proposed — one result, continuity between shots in the build, however many places it touches. The remark about the level of understanding is the same kind of act, a judgment about the product and the reason the observation is being made, not a separate instruction or decision; it is worth keeping because it names the requirement as one that keeps failing to land. Since a new result is accepted, the ticket is admitted and taken in hand in the same call.",
+  "reasoning": "The person reports a fact about a build they were shown: the effects look good, continuity is absent. That is an observation — 'reports a fact or an impression without asking for a repair' — and the second sentence adds no separate act: continuity as a requirement is already on record from the earlier conversations, and 'the half already on record is that clause's grounds and earns no act of its own'. Its frustration is tone, and 'tone does not decide this'. It is not a correction. A correction 'changes the goal or the constraints of work in flight', and 'when no work is in flight yet, the same message is an idea or an instruction — decide which by whether they are asking for it now'. The situation states the build was delivered and accepted with nothing open or checkpointed, so there is no running work for it to attach to and attaches_to_existing_work is false. The observation carries its repair with it. The test is 'whether a competent colleague would need to ask what was wanted. If they would, ask. If they would not, act.' Continuity between shots was settled at length as a requirement, and the delivered build does not meet it — this is the '500s' case, a named requirement violated, not the 'onboarding copy feels stiff' case where a repair is one of several reasonable answers. Nobody reports an agreed requirement missing to be agreeable. So the repair follows beyond doubt and the turn accepts one new result: make the shots carry continuity. One result, one piece of work, however many steps it takes — 'steps toward a single result are not separate work'. Because a piece of work is accepted now, the operation is T1 then T2: the ticket is admitted and taken in hand in the same call. Dimensions are named only where something must change: what the output does (continuity across shots), how it reads to the viewer, and the regression guard so the requirement stops being lost. Specialists are the smallest set — someone to build the continuity behaviour, and a design reviewer since coherence across shots is exactly interaction and experience coherence. No spec author is named: the requirement was already agreed, so behaviour does not change beyond what was already promised.",
   "scenario": "observation-a-verdict-on-delivered-work",
-  "label": "TK",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "QE",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

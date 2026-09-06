@@ -1,0 +1,20 @@
+{
+  "id": "ED",
+  "acts": [],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Under 'Not every message is one of the seven': 'A greeting, a thank-you, a thumbs-up on something already agreed, a joke or a curse that reports nothing new: these are conversation. Answer like a person and record nothing. Reaching for one of the seven acts here is how a thank-you becomes a roadmap row.' The change was just delivered and works, so 'that's exactly it' confirms what is already known and adds no fact — 'A message is conversation when it adds nothing, not when it is said lightly.' It is not an observation carrying a repair, since nothing is reported as wrong and no competent colleague would need to ask what was wanted. Action is answer: 'A question, musing or conversation is answered without loading a pipeline.' Nothing is accepted, so 'A turn that accepted no work names no dimension and calls no specialist' — dimensions and specialists stay empty and work_items is zero. Operation is ['none'] by the listed rule for a thank-you.",
+  "scenario": "not-an-act-thanks",
+  "label": "ED",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

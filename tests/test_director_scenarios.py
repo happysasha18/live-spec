@@ -22,6 +22,7 @@ it.
 import hashlib
 import json
 import os
+import shutil
 import subprocess
 import sys
 
@@ -216,6 +217,40 @@ def test_fixtures_changed_after_grading_are_declared(book):
     for c in book.get("corrections", []):
         assert c.get("scenario") and c.get("why")
         assert any(s["id"] == c["scenario"] for s in book["scenarios"])
+
+
+def test_all_exits_on_the_intersection_of_the_recorded_pair():
+    """`--all`'s exit follows this directory's own definition of a defect: a red both
+    independent recordings agree on. A red in one recording only is producer variance —
+    recorded here since 2026-09-02, and never a reason to fail the eval — so the exit
+    cannot be a clean sweep, which is a floor nobody declared and which moves with the
+    draw."""
+    r = subprocess.run([sys.executable, CHECK, "--all"], capture_output=True, text=True,
+                       cwd=REPO)
+    assert "shared reds: 0" in r.stdout, r.stdout[-2000:]
+    assert r.returncode == 0, r.stdout[-2000:]
+    assert "variance reds (one recording only):" in r.stdout, r.stdout[-2000:]
+
+
+def test_all_fails_on_a_red_both_recordings_share(tmp_path):
+    """The other half of the same gate, on a copy of the whole eval directory with one
+    scenario broken in BOTH recordings. Without this, an exit that always read zero would
+    pass the test above and prove nothing."""
+    copy = tmp_path / "director"
+    shutil.copytree(EVAL, copy)
+    book = json.loads((copy / "scenarios.json").read_text(encoding="utf-8"))
+    partner = book["recorded_pair"]["partner"]
+    victim = book["scenarios"][0]["id"]
+    for d in (copy / "traces", copy / partner):
+        run = json.loads((d / (victim + ".json")).read_text(encoding="utf-8"))
+        run["work_items"] = (run.get("work_items") or 0) + 7
+        run["creates_work"] = not run.get("creates_work")
+        (d / (victim + ".json")).write_text(json.dumps(run), encoding="utf-8")
+
+    r = subprocess.run([sys.executable, str(copy / "check.py"), "--all"],
+                       capture_output=True, text=True)
+    assert f"shared reds: 1 {victim}" in r.stdout, r.stdout[-2000:]
+    assert r.returncode == 1, r.stdout[-2000:]
 
 
 # --- the closing suite: does accepted, built work close, or does it wait for the person? ---

@@ -1,0 +1,22 @@
+{
+  "id": "RK",
+  "acts": [
+    "decision"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The message settles how the session may act from here on: it grants blanket authority to push and to run commands without stopping to ask each time. That is the act the skill calls a decision — 'A decision is a standing rule, not only a single choice. \"From this point on\", \"always\", \"note this for yourself\" settle something with force beyond the message that carried it: a standing rule, a grant of authority, a division of responsibility.' The words 'на все пуши ... и так далее' scope it to every future case, not to this one time, so it is not the instruction the skill describes as 'A request scoped to this one time — \"for this session\", \"just this once\"'. Nothing is asked to be built, so it is not an instruction; nothing running is told to stop, so it is not a halt. Checked against 'No act absorbs another' and its example 'always deploy without asking, and deploy this one': there the person also demanded today's deploy in the same breath. Here they name no particular push and ask for nothing to be done now — the turn carries only the standing rule, so there is no second act to lose and no demand for this moment to answer. The situation given is a habit of stopping to ask, not one named push in flight, so there is no existing task the decision lands on: this is not a 'decision applied to running work' but a rule remembered, which is why the state operation is none — 'everything else runs [\"none\"] — ... a standing rule remembered.' Nothing is admitted to the board, so work_items is zero, and by 'A turn that accepted no work names no dimension and calls no specialist. This holds for the standing rule that will shape everything built afterwards', no dimension and no specialist is named. shelves_idea is false because no idea half was voiced — the turn is a settled rule, not a possibility floated for later.",
+  "scenario": "decision-granting-authority",
+  "label": "RK",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

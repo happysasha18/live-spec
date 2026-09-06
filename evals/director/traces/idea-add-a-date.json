@@ -1,5 +1,5 @@
 {
-  "id": "VX",
+  "id": "KG",
   "acts": [
     "idea"
   ],
@@ -12,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person is thinking aloud about a possibility - adding a date - and is not asking for it now: the feature has just shipped and nothing related is being built, which is exactly the situation the skill uses to separate an idea from a correction or an instruction. The clause after 'потому что' is the reason the idea wants what it wants - the same channels will receive many posts over time, so entries need a date to be told apart - and grounds that only restate the neighbouring act's own goal earn no act of their own; it names no defect and no standing rule. So this is one act, not two. It is worth raising, so it gets one live question asking whether to queue it, and it becomes a row only on the person's own word; nothing is filed anywhere in the meantime. No work is accepted, so the turn names no dimension and calls no specialist, produces no new work item, and changes no ticket state.",
+  "reasoning": "The person names a possibility they are not asking for now — «думаю еще можно сделать дату» is thinking aloud about a next thing, and the situation is that the feature has just shipped and nothing related is being built. That is the row 'Idea for later': 'names a possibility they are not asking for now'. The skill's own example fits exactly — 'We should probably cache this' is an idea when nothing in that area is being built, and a correction only when work is in flight; here nothing is in flight, so there is no work to attach to and no correction. Nothing in the message asks for the date now, and there is no direct ask to record it — 'Only a direct ask to record it — put that on the list — opens one' — so the Director judges it: worth raising gets one live question about whether to queue it, and it becomes a row only on the person's own word. It must not 'turn it into a row on the Director's own judgment', so creates_work is false and work_items is zero. The trailing «потому что в те же каналы будет много раз по времени» is the grounds stated with the idea: 'Grounds stated with an act carry their own act only when they say something new… when it only restates why the neighbouring act wants what it wants, it is not a second act, it is that act's goal in other words.' It says why a date would help — repeated posting into the same channels over time — which is the idea's own goal restated as its reason, not a separate judgment that something is broken, wasteful or invented, so it earns no observation of its own. Since no work was accepted, 'A turn that accepted no work names no dimension and calls no specialist' — dimensions and specialists are empty. For the operation, the derivation's last line fits: 'everything else runs [\"none\"] — … an idea discussed and let go' — no ticket exists to change and none is admitted.",
   "scenario": "idea-add-a-date",
-  "label": "VX",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "KG",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

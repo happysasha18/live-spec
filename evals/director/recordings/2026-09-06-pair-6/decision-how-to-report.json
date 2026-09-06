@@ -1,0 +1,28 @@
+{
+  "id": "WR",
+  "acts": [
+    "decision",
+    "instruction"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "«С этого момента» settles something with force beyond this message: a standing rule about how work is kept and reported. That is a decision — 'From this point on', 'always' settle a standing rule, and it 'travels with the request and gets recorded separately, so the rule survives after that work item closes'. But the rule does not absorb the ask underneath it. 'No act absorbs another' states the case exactly: 'a rule about how something is kept, reported or shown also asks for that thing, and where it does not exist yet — the plan to be kept, the status line to be watched — making it is what they want today.' The situation is early in a session setting terms, so no plan and no 'где мы находимся' line exist yet; recording only the standing rule would lose the thing they actually want done now. So the turn carries two acts: the standing rule, and the instruction to make the plan and the status line. Two acts, one new piece of work. The parenthetical '(краткий, без умных слов)' is a constraint on that same result, not an act of its own — it is the instruction's goal in other words, the plainly-redundant case the grounds paragraph excludes. The plan and the 'where we are' line are not separate work: the line is the plan shown, neither could ship or be cancelled without the other, and 'steps toward a single result are not separate work, however many of them there are.' The work is a candidate accepted now, so creates_work is true and the operation admits the ticket and takes it in hand in one call. Nothing is in flight for it to attach to, and no idea half was voiced, so nothing was shelved. On dimensions: 'Naming a dimension claims something in it must change' — what changes here is a kept document and how state is reported, which is documentation and communication; nothing in product behaviour, architecture, quality or analytics changes. Specialists: the plan and its status line have to be built, which is the developer, worked inside the pipeline. Not the communicator — the skill warns explicitly that when someone asks for a plan or a status, 'they have asked for something to be made, and it is work like any other — routing it to the communicator instead of doing it is how a plain request disappears.' On the rule's home: the skill requires naming the one house whose declared sentence the standing rule extends, from references/request-kind-table.md; that reference was not part of the text handed to me, so I can only say the rule pins to the house governing how work is reported and shown to the person, and I cannot cite its declared sentence.",
+  "scenario": "decision-how-to-report",
+  "label": "WR",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

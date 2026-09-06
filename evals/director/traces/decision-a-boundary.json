@@ -1,5 +1,5 @@
 {
-  "id": "VN",
+  "id": "ZB",
   "acts": [
     "decision"
   ],
@@ -12,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Both halves of the sentence say the same one thing: who owns what from here on. The skill names a division of responsibility as a decision — a standing rule with force beyond the message that carried it — so the two clauses are one act, not two; the second half is the other side of the same split, not a separate demand. It is not an instruction: no concrete result is named that someone could want on its own, and an amorphous request is not routed as accepted work. It is not a correction or a halt either, since the situation says nothing is running that either sentence stops, so there is no work in flight to attach to or to stop. That leaves a standing rule to be recorded and applied to whatever gets accepted later, which changes no ticket state: operation none, no new work, and no dimensions or specialists — the skill is explicit that a turn accepting no work names no dimension and calls no specialist, including for a standing rule that will shape everything built afterwards.",
+  "reasoning": "The message settles who owns what: the person keeps the moratorium negotiation, the agent takes the rest. The skill names exactly this shape under 'A decision is a standing rule, not only a single choice' — it settles something 'with force beyond the message that carried it: a standing rule, a grant of authority, a division of responsibility.' The two halves are one division said in one breath, not two acts: the second clause states the other side of the same allocation and adds nothing the first does not already carry, which is the case the skill excludes in 'a clause that is plainly redundant with a neighbour's goal does not' get its own act. It is not a halt: the scenario states nothing is running that either sentence stops, and 'What makes it a halt is that something running should stop running.' It is not a correction for the same reason — a correction 'changes something already in flight,' and nothing is in flight. It is not an instruction: no concrete result is being asked for now. The 'No act absorbs another' rule about 'always deploy without asking, and deploy this one' does not fire, because no demand for a particular thing today rides alongside the rule — only the allocation itself. So the turn is remembered as a standing rule and creates nothing: 'A turn that accepted no work names no dimension and calls no specialist. This holds for the standing rule that will shape everything built afterwards.' Under the operation ladder, a standing rule remembered runs ['none'].",
   "scenario": "decision-a-boundary",
-  "label": "VN",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "ZB",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

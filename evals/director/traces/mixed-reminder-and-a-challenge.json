@@ -1,5 +1,5 @@
 {
-  "id": "VI",
+  "id": "DT",
   "acts": [
     "decision",
     "idea",
@@ -18,12 +18,12 @@
     "documentation and communication"
   ],
   "specialists": [
-    "Developer"
+    "developer"
   ],
-  "reasoning": "Four acts ride in one breath and none absorbs another. Reminding that the plan's goals of compacting and optimising still stand is a decision reaffirmed, not a new idea. The parenthetical 'maybe look at it next session' names a possibility not asked for now, so the optimisation pass itself is handled as an idea and not turned into a row on my own judgment. 'These parameters must be monitored in the status in the plan file' is a standing rule about how something is kept and shown, and the skill is explicit that such a rule also asks for the thing where it does not exist yet: the status line to be watched has to be made, and that is today's instruction, one result someone could want on its own, so one new piece of work and the pair of ticket operations that admit it and take it in hand. 'Agree or argue with me' is an invitation to disagree closing out the decision, still its own act, answered in the turn and recording nothing. The accepted work changes what the plan file reports, so only documentation and communication is named, with a developer to build it; the goals being reaffirmed are already in the plan and nothing in flight has its goal changed.",
+  "reasoning": "Four acts, read to the end of the turn. (1) «напоминаю: у нас в плане были цели» — 'Reminding that a goal already in the plan still stands is the same kind of act — a decision reaffirmed, not a new idea.' The goals are already on record, so this clause is a decision, not fresh work. (2) «(посмотришь может в след. сессии)» — the compacting-and-optimizing work itself is named as a possibility for later, not asked for now: an idea. Saying where it belongs commissions nothing, so it is handled as an idea — raised as one live question about queueing it, becoming a row only on his own word — never filed on the Director's judgment; hence shelves_idea true and no row for it. (3) «эти параметры необходимо мониторить в статусе в файле плана» — 'From this point on' force: a standing rule about how something is reported, so a decision recorded separately from any work item. But 'No act absorbs another': 'a rule about how something is kept, reported or shown also asks for that thing, and where it does not exist yet — the plan to be kept, the status line to be watched — making it is what they want today.' The status line carrying those parameters does not exist yet, so the rule also carries an instruction for today — one new result, one piece of work, creates_work true, work_items 1. (4) «согласен или поспорь со мной» — 'An invitation to disagree closing out a decision or an instruction is still its own act too … answering only the decision leaves the invitation unanswered': a question, answered in the turn, creating nothing. Nothing is in flight that this changes — the standing rule and the new status line are not a replan of a running piece — so attaches_to_existing_work is false and the operation is the creates_work line: admitting the ticket and taking it in hand in one call, [\"T1\",\"T2\"]. Dimensions are named only for the accepted work — making the plan file's status show these parameters — which is documentation and communication; the areas the deferred optimization would touch belong to work nobody has taken on. Specialist: developer, since something must be built and nothing here changes boundaries, spec behaviour or tests.",
   "scenario": "mixed-reminder-and-a-challenge",
-  "label": "VI",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "DT",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

@@ -70,6 +70,19 @@ def normalize_mark(mark):
     return _CANONICAL_MARKS.get(stripped, mark)
 
 
+def run_key(command):
+    """Run one acceptance key and hand back the completed process.
+
+    Under `set -o pipefail`, so a command that fails inside a pipe cannot be hidden by a trailing
+    stage that succeeds anyway. Without it, `<a grader that prints its line and then exits 1> |
+    grep -q '<that line>'` reads green while the thing the key exists to test is red — which is
+    how q-823 closed once on its Director arm (2026-09-06). One home, because both the plan
+    readers and the acceptance receipt run their commands through it.
+    """
+    return subprocess.run("set -o pipefail; " + command, shell=True,
+                          executable="/bin/bash", capture_output=True)
+
+
 def reads_outside_the_tree(command):
     """True when a key reaches for state git does not carry — a path under the person's home.
 
@@ -352,7 +365,7 @@ def evaluate(tasks):
     """
     for t in tasks:
         if t["check"]:
-            r = subprocess.run(t["check"], shell=True, capture_output=True)
+            r = run_key(t["check"])
             ok = r.returncode == 0
             t["failing_key"] = t["mark"] == "✅" and not ok
             if t["failing_key"] and t["blocked_by"]:

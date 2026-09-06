@@ -1,0 +1,12 @@
+{
+  "id": "BG",
+  "closes": false,
+  "reason_kind": "trade-off no artifact settles",
+  "reasoning": "The definition of done here was to decide whether the shorter Director could be made shorter without costing anything, and the eval cannot decide it: the record itself puts about two scenarios of producer variance on a single run, so 30 vs 29 is inside the noise and says neither that the cut is free nor that it costs. No command, test, artifact read or independent verifier can settle the remaining question, which is whether 3.7 KB off the pack's front door is worth accepting a version whose equality is unmeasured — a trade-off no artifact settles, one of the three cases rule 12/27 reserve for him. This is not the ordinary delivered result the pipeline closes on a shown outcome, because there is no observable outcome the verifier can confirm as reached. Nothing is irreversible: both versions sit on disk uncommitted, so the work stops before the fork, and his verdict when it lands is itself the movement end, written into the row in the same minute.",
+  "scenario": "ask-whether-the-shorter-skill-ships",
+  "skill_sha256": "c1b65a2e38e983b3841f37cb0add007d33c70d679cbc53f993858798105fe1f5",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "BG"
+}

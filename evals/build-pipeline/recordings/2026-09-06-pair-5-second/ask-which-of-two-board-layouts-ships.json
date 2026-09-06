@@ -1,0 +1,12 @@
+{
+  "id": "XF",
+  "closes": false,
+  "reason_kind": "taste call",
+  "reasoning": "Both layouts meet the definition of done a command can decide: they render from PLAN.md, pass tests/test_board_matches_the_canon.py, and show every row the plan declares. So the verifier's check cannot separate them, and what remains is which one ships. The pipeline's rule is that a shown result closes the work and the person's eye is never the gate on an ordinary delivered result — but it names three cases rule 12/27 reserve for him, and this is the first: a taste call. Both are correct and they look different; 'easier to scan' is the thing being chosen between, nothing in the tree measures it, and no earlier decision settles it. Admission's own rule says to derive facts from the project and ask the person only for a product choice no artifact settles, which is exactly this one. So the pipeline shows both, does not pick, and holds the row open for his verdict — and when that verdict lands it is itself the movement end, written into the board row in the same minute, amending the row in place rather than appending to it.",
+  "scenario": "ask-which-of-two-board-layouts-ships",
+  "skill_sha256": "c1b65a2e38e983b3841f37cb0add007d33c70d679cbc53f993858798105fe1f5",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "XF"
+}

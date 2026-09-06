@@ -1,0 +1,12 @@
+{
+  "id": "LL",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The row was admitted on a definition of done fixed at admission — make the grader treat an extra act beside an expected one as a failure — and it is closed against that DOD, never against what shipped. The change does exactly that, its own check passes, and the re-grade over the 35 recorded runs is the closing check reaching the thing as it actually runs over the records it really reads: it confirms the observable outcome rather than contradicting it. The drop from 30 to 26 is the redefinition's own intended effect made visible, not a red check inside the accepted scope and not a missing artifact, so nothing in the closure kernel blocks the close; the 30-of-35 figure was never in the admitted DOD, and treating it as a floor now would be inventing a numeric threshold after start. The rule reserving the person's eye covers a taste call, a trade-off no artifact settles, or a change to the definition of correct that is still an open fork — and this redefinition is not an open fork: he ordered it himself, so carrying it out is executing his decision, not making it. If the pipeline believed the rule was wrong (four runs right in every material field now reading red is exactly the kind of flaw it owes plainly), that objection belonged in the same reply as the decision sheet, before the checkpoint; it is not grounds to hold a delivered row open afterwards. So the pipeline shows the result — the change, the passing check, the new 26/35 with the four newly red runs named — closes the checkpoint and the row in the same step, and if he disagrees with the shown score that disagreement arrives as a new fact and its own task, with this row staying closed.",
+  "scenario": "close-a-redefinition-the-person-himself-ordered",
+  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "LL"
+}

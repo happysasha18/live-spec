@@ -1,0 +1,27 @@
+{
+  "id": "UK",
+  "acts": [
+    "instruction"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "product value and behaviour"
+  ],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "The skill's rule 'An answer to the Director's own question is not a new act' governs directly: the Director asked 'build it now or park it?' and the reply is 'go ahead' — 'nothing new was said — the act already in play was completed. The idea just became the instruction it was waiting to become, and a fresh row opens for it. Treat the exchange as one act, not two.' The question is still open (the reply came straight back to it), so the reply is not read fresh. The single act is therefore the instruction the idea became, not a separate decision or conversation: 'yeah go ahead' is not a thumbs-up on something already agreed, because what was being asked was whether to agree at all. Per the instruction row, the Director accepts the work, states the goal understood, and begins; creates_work is true because a new result not covered by an existing task is being accepted, and it is one piece of work, since 'Taking acts apart is not the same as splitting a goal.' Nothing is attached to work in flight — the idea had no row until now, which is why 'a fresh row opens for it.' shelves_idea is false: the idea half was not raised as a live question or let go, it was taken on as work. Per the operation rule, creates_work true runs ['T1','T2'] — admission and taking it in hand in one call — and this is not the exception, since the person did not ask to keep it for later. Dimensions must name only what genuinely changes; the scenario gives no detail beyond a thing to build, so only product value and behaviour is claimed, with the Developer named under 'something must be built' as the smallest set the pipeline may need.",
+  "scenario": "not-an-act-answering-the-director",
+  "label": "UK",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

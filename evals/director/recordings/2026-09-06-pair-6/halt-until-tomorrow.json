@@ -1,0 +1,22 @@
+{
+  "id": "AS",
+  "acts": [
+    "halt"
+  ],
+  "operation": [
+    "T6"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The turn is a halt: 'стоп! работа НЕ сегодня... работа завтра' means something running should stop running — 'A halt is about state, not about words... What makes it a halt is that something running should stop running.' The wording 'работа завтра' is the same shape as the skill's own example 'this can wait until the release', which the skill names a halt; it also fixes the halt as a park rather than an abandonment, so the work is left to resume later rather than dropped. The clause 'у нас заканчивается лимит сессии на неделю' is the reason given with the halt, and it is not a second act: 'Grounds stated with an act carry their own act only when they say something new... when it only restates why the neighbouring act wants what it wants, it is not a second act, it is that act's goal in other words.' The situation already records that the weekly allowance is nearly spent, so the half already on record 'is that clause's grounds and earns no act of its own'; it is no judgment about the product of the kind the skill says stays worth keeping. This is not a correction to method — the work does not keep running by another route — and not a caution about pacing; the work itself stops. Per the route contract, a halt changes the state of work already in flight: 'the count of new pieces of work the turn produces is zero... The same holds for a decision applied to running work and for a halt: both change a piece of work that already existed, and both produce zero new ones.' So creates_work is false, attaches_to_existing_work is true, work_items is zero. No idea half was voiced, so shelves_idea is false. Dimensions and specialists stay empty because 'A turn that accepted no work names no dimension and calls no specialist,' whose one exception is a correction, not a halt. The operation is T6: a halt that clears the holder and leaves the work to resume later — the person named tomorrow, so nothing is archived.",
+  "scenario": "halt-until-tomorrow",
+  "label": "AS",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

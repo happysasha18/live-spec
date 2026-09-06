@@ -1,5 +1,5 @@
 {
-  "id": "KH",
+  "id": "UA",
   "acts": [
     "instruction"
   ],
@@ -15,10 +15,10 @@
     "documentation and communication"
   ],
   "specialists": [],
-  "reasoning": "The person asks for the report to be put in a file and for its path — something must be made that does not exist yet, so this is an instruction and the work is accepted now. The skill says plainly that when someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other. The clause about passing it on to someone for re-checking states what the person will do afterwards; it adds no goal of its own and is the instruction's background, not a second act. 'дай путь к файлу' is a step toward the same single result, not separate work — one result someone could want on its own, so work_items is one. Since a piece of work is accepted now, admission and taking it in hand happen in one call, hence T1 and T2. The only area that genuinely changes is documentation and communication: a document is produced. No specialist is needed — the report already exists in the conversation, and routing the wording to the communicator instead of doing the thing asked is exactly how a plain request disappears.",
+  "reasoning": "The turn asks for something to be done now — put the report into a file and give back its path — which is the Instruction row: 'asks for something to be done | accept the work, state the goal understood, begin'. It is not the 'Passing an idea on is not work' case: that covers handing an idea itself to someone in the turn, whereas 'An ask that makes something exist is an instruction as usual' — a file that does not yet exist has to be made. The skill also settles this kind directly: 'When someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other.' The clause 'я его передам кому надо на перепроверку' is read against 'Grounds stated with an act carry their own act only when they say something new' — the person is naming what they will do with the file, which only restates why the neighbouring act wants what it wants; it carries no judgment about the product and states no standing rule ('Which act a standing clause is depends on which half of it is new'), so it earns no act of its own. 'дай путь к файлу' is not separate work either: 'Steps toward a single result are not separate work' and separate work needs 'a result someone could want on its own' — the path is worthless without the file. Nothing is in flight that this changes, so it is not a correction or a halt; creates_work is true and, by the operation ladder, a piece of work accepted now runs T1 and T2 together. One accepted result means work_items 1. Dimensions are named only for accepted work and only where something must change: writing the report out for another reader touches documentation and communication, and nothing in behaviour, architecture, quality or release changes — 'Naming a dimension claims something in it must change; if nothing in it changes, do not name it.' No specialist is needed: the report already exists and writing it to a path is done in the pipeline itself; 'None is mandatory. Name only specialists the accepted or corrected work may need.'",
   "scenario": "instruction-one-goal-two-steps",
-  "label": "KH",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "UA",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

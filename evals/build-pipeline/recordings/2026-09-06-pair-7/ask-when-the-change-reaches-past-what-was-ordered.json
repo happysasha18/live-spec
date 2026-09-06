@@ -1,0 +1,12 @@
+{
+  "id": "AX",
+  "closes": false,
+  "reason_kind": "change to the definition of correct",
+  "reasoning": "The admitted DOD froze one narrow redefinition — an act named on a no-act scenario must fail — and the person settled that fork when he ordered it, so executing it is execution, not a decision. But the delivered code reaches past that frozen DOD: it also flips the wider case, an extra act beside a real one, which the eval's written cost model deliberately records as a note rather than a failure. That is a second change to what counts as correct, made silently, and it conflicts with a standing decision already on record in the cost model — exactly the flaw the procedure says the pipeline must state plainly rather than execute past in silence. Nobody has said which behaviour the wider case should have, splitting the branches is possible and was not asked for, so this is a fork still open, not a redefinition he ordered. The closing kernel also blocks the close on its own terms: the accepted scope now carries four red runs whose every other field is right, and the score moving from 30 to 26 is a numeric effect that was never in the admitted DOD; a done cannot be widened except through the explicit correct operation with source and reason. The class hunt reaches the same place — the sibling case shares the branch, and this class boundary is one whose call belongs to the person. So the row stays open, the pipeline names the collision between the narrow instruction and the cost model's written note behaviour, and asks whether to split the branches or widen the failure before verifying and closing.",
+  "scenario": "ask-when-the-change-reaches-past-what-was-ordered",
+  "skill_sha256": "6a1821bd0ac403eac99d95c01b656db1028f0dfdddd37cd53fc916f1738954e7",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "AX"
+}

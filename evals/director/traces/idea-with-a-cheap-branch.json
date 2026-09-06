@@ -1,6 +1,7 @@
 {
-  "id": "DN",
+  "id": "AL",
   "acts": [
+    "observation",
     "instruction",
     "idea"
   ],
@@ -13,15 +14,17 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
+    "product value and behaviour",
     "the user's path and the design"
   ],
   "specialists": [
-    "Developer"
+    "Developer",
+    "Design reviewer"
   ],
-  "reasoning": "This is a conditional request that states both branches aloud: do it now if it can be done, otherwise keep it for later. The skill says both halves are real acts and both stay named, so the turn carries an instruction-shaped branch and an idea-shaped branch. The outcome, though, is exclusive: the condition either holds or it does not. Here it holds, because the display already exists and is live in another window of the same tool, so showing it here reuses it rather than building anything new. The work is therefore taken on and the idea half does not fire, which is why shelves_idea is false: answering the condition twice would be the error the skill names. The opening clause about workers being visible in the other window is not a separate observation; it is the request's own goal in other words, and 'more fun to watch the dynamics' only restates why he wants it, so neither earns an act. One new result is accepted, so the ticket is admitted and taken in hand in the same call. It changes what he sees in this window, and nothing about boundaries, data or operations moves, so only the design dimension is named and only a developer is needed.",
+  "reasoning": "The turn opens with a report of a fact — the other window sometimes shows all the workers along the bottom — which is its own act under 'No act absorbs another' ('A fact reported before a request is still its own act'); when in doubt 'it is its own act'. Then comes 'если так тоже можно то давай? ... если не сейчас то запиши, потом сделаем': this is the shape the skill names directly — 'A conditional request states both branches, and both are real', an instruction and an idea 'in one breath', and 'Both halves still count as acts', so both are named. The outcome, however, is exclusive: 'the condition either holds or it does not, so the request is taken as work or handled as the idea half above, never both'. Here the situation says the display is already built and live in another window and showing it here reuses it rather than building anything new — the condition ('если так тоже можно') holds, so the instruction branch is taken: 'Instruction — asks for something to be done — accept the work, state the goal understood, begin'. The idea branch therefore does not fire, and nothing is recorded for later; shelves_idea is false because the condition answered it. 'так прикольнее смотреть динамику' is grounds, not a separate act: under 'Grounds stated with an act carry their own act only when they say something new', it only restates why the request wants what it wants — it is that act's goal in other words, not a fresh judgment about the product. One accepted result, not several: 'One instruction stays one piece of work even when it will touch six files', and there is no second result here that could ship or be cancelled on its own, so work_items is 1 and, per the operation rule, creates_work true runs T1 then T2 — the ticket is admitted and taken in hand in one call. Nothing is in flight that this changes, so attaches_to_existing_work is false. Dimensions are named only where something must change: what the tool shows the person and how that view reads — 'product value and behaviour' and 'the user's path and the design'. Since the display already exists and is being reused, no boundary, data or integration change is claimed, so no architect; the smallest set is the Developer to wire the existing view in, with the Design reviewer for 'interface, interaction or experience coherence' now that the same display appears in two places.",
   "scenario": "idea-with-a-cheap-branch",
-  "label": "DN",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "AL",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

@@ -578,3 +578,80 @@ for a plain report, and act-or-boolean disagreements on `observation-a-verdict-o
 The runs on file are the tenth recording, the second of the pair, by the standing precedent. The
 ninth is in this session's scratchpad (`.../scratchpad/director-run11/`). All thirty-six carry
 `operation`.
+
+bare run pair: 2026-09-06 (night) — the fifth pair of the day, and the one q-823 was reopened
+against. The pair before it read 30 and 33 of 36 and shared three reds, all on the `operation`
+field: `halt-with-a-reason-worth-keeping`, `idea-plus-a-fact` and `observation-carrying-its-repair`.
+By this file's own rule three reds on both recordings are three defects, so the row that had closed
+on "the grader reads that field" was closed on a failing eval. It was reopened through
+`scripts/task-admission.py reopen q-823` against that false condition, and this pair is what closed
+it again.
+
+The owner settled each of the three, and the settlements went to different files.
+
+- **`halt-with-a-reason-worth-keeping` — the fixture was wrong.** Four recordings had answered
+  `["T9"]` against a fixture wanting `["T6"]`. "Ты тупо жжешь токены обслуживая ненужную машинерию
+  выдуманного параметра" orders needless machinery stopped, not parked for later, so the producers
+  were right: `expect.operation` is now `["T9"]`, and the fixture's `why` says why the abandon and
+  not the park. No other field of that fixture moved, and no other fixture changed.
+- **`idea-plus-a-fact` — the Director was unclear.** The fixture keeps its strict `["none"]`: "может
+  имеет смысл", "просто как идея", "дальний бэклог" with no commitment to do it is neither a task
+  nor a kept ticket. Producers had been reading "дальний бэклог" as the explicit ask-to-keep that the
+  operation derivation's own exception admits as `["T1"]`. Two sentences were added to *An idea is not
+  an instruction* (`skills/director/SKILL.md:59`): saying where an idea belongs is not asking for it
+  to be kept — that wording commissions nothing, so no ticket opens for it, not even a queued one,
+  and only a direct ask to record it opens one.
+- **`observation-carrying-its-repair` — the Director was unclear.** Producers read a mail about an
+  old CI failure as a newly named blocker (`["T4"]`) where the fixture reads it as a correction in
+  place (`["T3"]`, attaching). One sentence was added to *Some observations carry their repair with
+  them* (`skills/director/SKILL.md:127`): a failure already diagnosed whose repair is in flight — the
+  fix sent, the work still open, a fresh run under way — is no new problem when it is reported again;
+  it stays an observation and lands on that running work as a correction, opening no second row and
+  naming nothing newly blocked.
+
+Both edits are classification only; neither adds an execution rule. The file went from 21,977 to
+22,548 bytes, and `skill_sha256` from
+`94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b` to
+`25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943`.
+
+All thirty-six were then recorded twice against the edited text, under the isolation protocol above:
+one fresh Opus producer per scenario, holding the skill's full text, one situation and message, the
+required JSON shape including `operation`, and an opaque two-letter label drawn fresh for each of the
+two recordings — no repository, no fixture, no expected verdict, no other producer's answer.
+
+| recording | score | extra acts | reds |
+|---|---|---|---|
+| eleventh (first of the pair) | 33 of 36 | 7 | `observation-a-verdict-on-delivered-work`, `instruction-one-goal-two-steps`, `not-an-act-a-bare-trace` |
+| twelfth (second of the pair) | 34 of 36 | 6 | `observation-neutral`, `mixed-plan-and-two-questions` |
+
+**The intersection is empty.** `python3 evals/director/check.py --pair evals/director/traces
+evals/director/recordings/2026-09-06-pair-6` prints `shared reds: 0` as its last line. All three
+scenarios the day's settlements were aimed at pass on both recordings, and every red above is a
+draw by this file's own rule. The first recording's three are one shape — a producer declining to
+accept work the fixture expects accepted, so `creates_work` false and `operation` `["none"]` or
+`["T4"]` — and the second recording answers all three the fixture's way, which is the variance this
+file has warned about since 2026-09-02 rather than a finding.
+
+Both recordings of this pair are kept in the tree, not only in a scratchpad. The twelfth is in
+`traces/`, the recording the probe and the grader's `--all` read, by the standing precedent that the
+runs on file are the second of the pair. The eleventh is in
+`recordings/2026-09-06-pair-6/` — thirty-six JSON files of the same shape, each carrying its own
+scenario, label, `skill_sha256`, `recorded`, `skill_version`, `producer_model` and `operation`. A pair
+whose second half alone survives cannot be re-checked by anyone, and the intersection is the whole
+verdict here, so both halves stay.
+
+`check.py` gained `--pair DIR_A DIR_B` for this: it grades two recording directories, prints each
+one's score and reds, and prints `shared reds: N` followed by the ids as its last line. The
+acceptance keys for q-822 and q-823 read that clause and no score at all.
+
+**The grader's own exit follows the same rule.** A defect in this directory is a red both
+independent recordings agree on; a red in one recording only is producer variance, on record here
+since 2026-09-02 and never a reason to fail the eval. So `--all` grades the recording named by
+`recorded_pair` in `scenarios.json` beside `traces/`, prints `variance reds (one recording only):`
+and `shared reds:` above its score line, and exits 0 when the intersection is empty — as it does
+today, at 34 of 36 with five variance reds and none shared. Until 2026-09-06 it exited 1 on anything
+short of 36 of 36, which is a clean-sweep floor nobody declared and which moves with the draw. The
+score line itself keeps its exact shape, because `scripts/state-probe.sh` and
+`scripts/plan_checks.py` read it with `tail -1`, and the variance reds stay printed rather than
+swallowed: a scenario that oscillates is worth seeing even when it is not a defect. With no
+`recorded_pair` on file the exit falls back to the clean sweep and says so on its own line.

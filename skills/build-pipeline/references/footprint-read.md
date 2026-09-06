@@ -1,8 +1,10 @@
 # The footprint — the three-source impact read
 
-The full footprint read referenced from `SKILL.md`'s intake line (SPEC INV-128): the three sources, the
-three footprints, how the footprint composes with the door, what a disagreement owes, and the mid-work
-re-classification. Every line below reads exactly as it read in the body.
+The full footprint read for accepted work (SPEC INV-128): the three sources, the three footprints, how
+the footprint composes with the door, what a disagreement owes, and the mid-work re-classification. Every
+line below reads exactly as it read in the body it was lifted from. It lived under `skills/director/`
+until 2026-09-06, pointed at by an intake line the Director/build-pipeline split removed; the content is
+execution routing — how far each step reaches — which belongs to the pipeline, so it came back here.
 
 - **The same line reads the footprint — a three-source impact read that decides the route (SPEC INV-128).**
   Beside the door and the work-kind, read the change against three sources at once: the spec (what

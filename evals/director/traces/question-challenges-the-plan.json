@@ -1,5 +1,5 @@
 {
-  "id": "IO",
+  "id": "DC",
   "acts": [
     "question"
   ],
@@ -12,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person is answering a proposal the agent made, and what they say is two questions in one breath: does the prover already do this, and if not, is it because our real cases are harder? Neither clause asks for anything to be done, settles an open choice, or changes a goal of work in flight - nothing was accepted yet, only proposed. The doubt about duplicated machinery is voiced interrogatively, as a request to know, not as a report of a fact, so it stays inside the question rather than becoming a separate observation. The Director answers it: explain what the prover covers and where the proposed step would or would not overlap, and let them decide whether the step is wanted. Creating work to be safe here is exactly the expensive direction the skill forbids, so no row opens, no ticket state changes, and a turn that accepted no work names no dimension and calls no specialist.",
+  "reasoning": "The person is responding to a proposal the agent just made, and what they do with it is ask: is this not already what the prover does, or are our real cases simply harder? Two interrogatives in one breath, both aimed at the same thing — understanding whether the proposed checking step is redundant with an existing capability. Per the act table, 'Question or musing' is someone who 'wants to know something', and what the Director does is 'answer the question'; what it must not do is 'write a roadmap row, open a spec, start work'. The skill also warns not to decide by wording: 'но погоди' ('but wait') sounds like a brake, but a halt is 'about state, not about words' — 'What makes it a halt is that something running should stop running'. Nothing is running here: the agent has only proposed a step, not begun it, so there is no work in flight for a halt to stop or a correction to attach to. 'When no work is in flight yet, the same message is an idea or an instruction — decide which by whether they are asking for it now' — and they are asking for neither; they are asking a question about the proposal itself. Nor is this a correction: the person does not change any goal or constraint, they ask whether the proposal is warranted. Under 'One turn, several acts' the two clauses would be counted separately if each said something new, but here the second clause ('or are our real cases just harder?') is the alternative branch of the same single question — one act, not two, since it is plainly the same inquiry offered in the alternative rather than a distinct thing the person did. There is no assertion of fact here, so no observation: the person states nothing about the product, they ask whether something is so. Since no work was accepted, per 'A turn that accepted no work names no dimension and calls no specialist', dimensions and specialists are empty and work_items is zero. Under the operation ladder, a question falls to 'everything else runs [\"none\"]'.",
   "scenario": "question-challenges-the-plan",
-  "label": "IO",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "DC",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

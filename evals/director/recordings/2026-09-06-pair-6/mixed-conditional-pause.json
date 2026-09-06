@@ -1,0 +1,24 @@
+{
+  "id": "BZ",
+  "acts": [
+    "question",
+    "observation",
+    "halt"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Read to the end and list every act first ('One turn, several acts'). Three clauses do three different things. «ну как там? долго еще?» is a question about work already running — the Director answers it, and answering costs reading, not work ('A question creates nothing and changes no document'). «может на паузу поставим и там еще раз по новой через пару часов?» is a halt by meaning, not by wording: 'What makes it a halt is that something running should stop running' — pausing now and starting over in a couple of hours stops the work itself, not merely a technique inside it, so it is not a correction to method. «надо этот комп отключить ненадолго» is its own act: 'A reason given with a halt is still its own act', and by the narrower test it 'says something new' the halt's own goal does not carry — the machine itself will be off, so nothing at all can run in that window; that fact stays worth knowing after this exchange, so it is an observation, not a redundant restatement. «но если там еще минут 10 то могу подождать» makes the whole thing conditional: 'A conditional request states both branches, and both are real' — the person has already said what to do in each case, so both halves stay named and the outcome is exclusive. Which branch fires depends on the answer to the question they just asked, and the situation gives no remaining time, so nothing is decided yet: the condition has not fired, and the operation is ['none'] by the line naming exactly that case. Consequently no ticket state changes this turn — no T6, because the halt branch has not been taken; the Director answers how long is left and lets the person's own stated rule pick the branch. A halt, when it does fire, 'produce[s] zero new ones', and here nothing is accepted at all, so creates_work is false and work_items is 0. There is no idea half in this turn — the conditional is halt-versus-wait, not instruction-versus-idea — so shelves_idea is false. attaches_to_existing_work is false because nothing has yet been changed on the running job; the turn is answered first. 'A turn that accepted no work names no dimension and calls no specialist', so both lists are empty.",
+  "scenario": "mixed-conditional-pause",
+  "label": "BZ",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

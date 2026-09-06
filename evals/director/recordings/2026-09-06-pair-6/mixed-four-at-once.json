@@ -1,0 +1,30 @@
+{
+  "id": "MI",
+  "acts": [
+    "question",
+    "decision",
+    "instruction",
+    "observation"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "Read to the end and listed every act before deciding about any of them, because 'Deciding early is how acts get lost' and 'No act absorbs another'. (1) 'где был образец ридми плиз?' wants to know something — a question, answered in the turn, creating nothing. (2) 'всегда давай ссылку если я забыл' is a decision: 'always' settles something 'with force beyond the message that carried it', a standing rule that 'travels with the request and gets recorded separately, so the rule survives after that work item closes'. It does not absorb the question that preceded it, nor is it absorbed by the requests after it. (3) 'хотя, погоди … [проект-B] даст идею, подхвати а пока работай' is not a halt: 'What makes it a halt is that something running should stop running', and here the same breath says 'а пока работай' — keep working. 'погоди' interrupts the speaker, not the work. 'подхвати' is an instruction-shaped arrangement whose trigger has not fired — project-B's idea has not arrived, so there is nothing yet to take on and it adds no new piece of work this turn. (4) 'ты работаешь?' is a second question, answered, not a demand for a new programme. (5) 'давай план, замеры по времени, все пиши' is the instruction: 'When someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other — routing it to the communicator instead of doing it is how a plain request disappears.' The plan, the timings and writing them down are one result — 'Steps toward a single result are not separate work, however many of them there are' — so work_items is 1 and creates_work is true. (6) 'через час выходим из кафе но час у тебя точно есть … потом из дому дозапущу' is an observation, not a correction: 'A correction is not a caution either: naming that a limit is close, or asking to go carefully, describes the work's state without changing what it must do … That is an observation the work should be paced by.' Nothing was in flight for it to attach to, so attaches_to_existing_work is false. shelves_idea is false because the person voiced no idea of their own — the only idea named is one project-B has yet to send. Operation is ['T1','T2'] by the first line that fits: creates_work is true, so the ticket is admitted and taken in hand in one call. Dimensions name only what the accepted work genuinely touches — a written plan with time measurements is documentation and communication; naming more would 'claim something in it must change' when nothing does. The developer is the only specialist the plan needs; per 'What the human hears', none of these names reach the person.",
+  "scenario": "mixed-four-at-once",
+  "label": "MI",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

@@ -1,5 +1,5 @@
 {
-  "id": "KZ",
+  "id": "HV",
   "acts": [
     "instruction"
   ],
@@ -13,10 +13,10 @@
   "work_items": 1,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The skill says an answer to the Director's own open question is not a new act: the exchange counts as one act, not two. The question 'build it now, or park it?' was still open, and 'yeah go ahead' completes the act already in play by choosing the build branch, so the idea becomes the instruction it was waiting to become and a fresh row opens for it. That makes this one instruction, creating one new piece of work, so admitting the ticket and taking it in hand run together as T1 and T2. Nothing is shelved, because the person chose to build rather than park, and nothing is attached to work already in flight, since the row is new. Dimensions and specialists are left empty because the prompt never states what the idea was about: naming a dimension claims something in it must change, and with the subject unknown any name here would be a guess rather than a claim the work supports; the pipeline names them once the goal is derived.",
+  "reasoning": "The skill's rule 'An answer to the Director's own question is not a new act' covers this exactly: 'When the Director asked \"build it now or park it?\" and the reply is \"go ahead\", nothing new was said — the act already in play was completed. The idea just became the instruction it was waiting to become, and a fresh row opens for it. Treat the exchange as one act, not two.' The question is still open — the Director asked it immediately before — so the reply is not read fresh. Hence one act, instruction, not a decision and not a second act alongside the original idea. Because the idea has become the instruction it was waiting to become, the idea half was not shelved: shelves_idea is false, since it was neither raised as a live question nor answered and let go, but taken on. 'creates_work — true only when a new result not covered by an existing task is being accepted': the row opens fresh here, so true, and 'a fresh row opens for it' with one result means work_items is 1. Nothing was in flight for this idea (it was awaiting the person's word), so attaches_to_existing_work is false. Per the operation ladder, creates_work true — a piece of work accepted now — runs [\"T1\",\"T2\"]; the queued-only exception does not apply, because the person said go ahead rather than asking to keep it for later. Dimensions and specialists are left empty: the scenario states no content for the thing being built, and 'Naming a dimension claims something in it must change; if nothing in it changes, do not name it', with specialists likewise 'None is mandatory' — naming either on a guess would claim a change this turn gives no grounds for.",
   "scenario": "not-an-act-answering-the-director",
-  "label": "KZ",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "HV",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

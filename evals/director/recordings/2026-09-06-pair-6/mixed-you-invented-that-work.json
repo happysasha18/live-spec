@@ -1,0 +1,27 @@
+{
+  "id": "ZE",
+  "acts": [
+    "correction",
+    "observation"
+  ],
+  "operation": [
+    "T3"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [
+    "analytics, unknowns, hypotheses, experiments"
+  ],
+  "specialists": [
+    "data and experiment analyst"
+  ],
+  "reasoning": "Measuring was already in flight, and the message changes what that work must cover: everything except one quick platform measurement before deciding how complex the transitions will be is withdrawn. That is the correction clause the skill names explicitly — 'The second is the part of the goal being withdrawn. Narrowing what work must cover is a correction to its goal, however much of the work stops as a result: a goal that came back smaller is still a goal being pursued, and the work goes on toward it. A halt is for the work itself stopping — nothing left to pursue.' Something is left to pursue (the quick platform measure), so it is a correction, not a halt. Per 'A correction attaches to work, not to a queue' the running measurement work is found and replanned, and per 'Replanning is what a correction asks for, and replanning takes on nothing that did not already exist: the board gains no row, and the count of new pieces of work the turn produces is zero', creates_work is false and work_items is zero — the operation is the replan of the existing ticket, T3. The recalled proposal ('я предлагал ... быстрый замер на платформе ... это да') is not a fresh idea or instruction: it states what the replan will contain, which the skill calls 'the repair stated aloud ... That clause names what the replan will contain, so it is the correction's own goal in other words' — naming it as its own instruction would re-open as fresh work the very thing the correction just changed. No idea half is voiced, so shelves_idea is false. The closing judgment — 'это тоже баг ... сработало что то типа автозаявки на любую хрень вместо того чтобы думать' — is its own act by 'Grounds stated with an act carry their own act only when they say something new. ... A judgment about the product — that something is broken, wasteful or invented — says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes', and by 'No act absorbs another. ... the ones most often dissolved this way are judgments about the product'. It is an observation: it reports what is true about the product (the auto-ticket reflex is a defect) rather than stating a rule the project will follow from here, per 'A clause saying what is true about the product — this is broken, this measurement is false, this was invented — is an observation'. It asks for no separate repair beyond the correction already carried, so it is recorded as evidence and opens nothing. Dimensions are named only because a correction is the one exception to a non-accepting turn naming none ('The one exception is a correction, which changes work already running: saying what that work now touches is the whole point of it'); the remaining goal is one cheap measurement to settle an unknown before a transition-complexity decision, which touches analytics, unknowns, hypotheses, experiments and nothing else — 'Naming a dimension claims something in it must change; if nothing in it changes, do not name it.' The matching specialist row is 'Data and experiment analyst — the cause is unknown or a hypothesis needs testing', kept as the smallest set the pipeline may need.",
+  "scenario": "mixed-you-invented-that-work",
+  "label": "ZE",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

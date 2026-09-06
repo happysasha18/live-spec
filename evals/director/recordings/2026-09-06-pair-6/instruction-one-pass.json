@@ -1,0 +1,29 @@
+{
+  "id": "WZ",
+  "acts": [
+    "instruction"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication",
+    "quality, safety, regressions"
+  ],
+  "specialists": [
+    "Text audit / reader",
+    "Developer"
+  ],
+  "reasoning": "The message is a direct ask for something to be done now — 'Сделай проход' is a request for a pass over one named target, the prover skill. The Director's table: 'Instruction — asks for something to be done — accept the work, state the goal understood, begin.' Nothing here is turned over as a possibility, so it is not an idea; the person is asking for it now, which is the test the skill gives ('The difference is whether the person is asking for the thing now'). The situation is 'choosing what this session will cover' — nothing is yet in flight for this to change, so it is not a correction and attaches to no existing work; the skill's rule that 'when no work is in flight yet, the same message is an idea or an instruction — decide which by whether they are asking for it now' resolves it to an instruction. The word 'только' narrows the scope of what is being asked for, not the goal of running work; with nothing running there is nothing to narrow, so it is scope on a new instruction rather than a correction's withdrawal clause. One act only: there is no second clause, no reported fact, no standing rule, no invitation to disagree — 'No act absorbs another' has nothing else to keep here. One piece of work: a pass over one skill is a single result someone could want on its own, and however many steps or files it touches, 'steps toward a single result are not separate work.' Because a piece of work is accepted now, the operation is admission plus taking it in hand, ['T1','T2']. Dimensions name only what must change: the pass is over a skill document, so documentation and communication, and the quality of that text, which is what a pass is for; nothing in architecture, data, the user's path, analytics or release is claimed to change, and 'if nothing in it changes, do not name it.' Specialists are the smallest set the pass may need — a reader to audit the text and the developer to make the edits.",
+  "scenario": "instruction-one-pass",
+  "label": "WZ",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

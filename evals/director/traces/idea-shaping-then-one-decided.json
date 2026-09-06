@@ -1,8 +1,6 @@
 {
-  "id": "GS",
+  "id": "VA",
   "acts": [
-    "idea",
-    "idea",
     "idea",
     "instruction"
   ],
@@ -15,16 +13,16 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "architecture, data, integrations, operations",
+    "product value and behaviour",
     "release, observation, feedback"
   ],
   "specialists": [
     "Developer"
   ],
-  "reasoning": "The person opens with an explicit brainstorm and names four possibilities, then closes by picking one to do now and saying the rest are only to be held in mind. The closing clause turns the auto-open-the-board-after-push possibility into a request for it now, so that idea and its selection are one act, an instruction, exactly as an answer to an open question completes the act already in play rather than adding a second. The other three - the morning Telegram bot, the dark theme, the terminal-instead-of-HTML swap - stay ideas nobody is asking for now; the person's own word was to keep them in mind, so they are answered and let go, with no row and no second list, since recording is not free and the skill keeps no place to file them. Nothing was in flight, so nothing is corrected or halted: the turn accepts one new result with its own goal and decision sheet, which admits the ticket and takes it in hand in the same call. The accepted work changes the push flow itself and what happens at the moment of a push, so it touches operations and release/observation; nothing else in it changes, so nothing else is named, and it needs only someone to build it.",
+  "reasoning": "Read the whole turn to the end before deciding: the opening frame ('давай накидывать идеи') commissions nothing, then four possibilities are named, then the closing clause splits them. Per 'One turn, several acts', every act is listed — three of the four possibilities (telegram bot, dark theme, terminal instead of html) stay ideas, and the fourth (auto-open board after push) is asked for now, so it is an instruction: 'An idea is not an instruction. The difference is whether the person is asking for the thing now.' The closing clause says it outright — 'делаем сейчас только автооткрытие борды после пуша'. The remaining three get the treatment the skill names explicitly: 'Saying where an idea belongs is not asking for it to be kept: \"just as an idea\", \"far backlog, at some point\" puts the thought down and commissions nothing, so no ticket opens for it, not even a queued one.' 'остальное просто держим в голове' is exactly that, and it is also not a live question worth asking, because the person already said what to do with them — so they are answered and let go, nothing recorded, no second list ('file it in a second list anywhere' is the forbidden move). That is what shelves_idea reports: the road the idea half took, not that anything was stored. Nothing is in flight — the previous work closed an hour ago and its checkpoint is shut — so this is not a correction or a decision applied to running work ('When no work is in flight yet, the same message is an idea or an instruction — decide which by whether they are asking for it now'), and attaches_to_existing_work is false. One instruction accepted for a result someone could want on its own gives work_items 1; 'Taking acts apart is not the same as splitting a goal' — the three shelved ideas add none. creates_work true, so operation runs T1 then T2, admitting the ticket and taking it in hand in one call. Dimensions are named only for the accepted work and only where something must change: the push flow gains behaviour the person will see ('Naming a dimension claims something in it must change; if nothing in it changes, do not name it') — the shelved ideas name none, since 'A turn that accepted no work names no dimension'. Specialist routing is not mandatory; something must be built and nothing here changes boundaries, data or integrations, so the Developer alone.",
   "scenario": "idea-shaping-then-one-decided",
-  "label": "GS",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "VA",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

@@ -1,0 +1,12 @@
+{
+  "id": "DQ",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The procedure's closing clause states that a shown result closes the work and the human's own eye is never the gate on an ordinary delivery. It further says explicitly that a row whose own definition of done names his eye as the check is describing one of the three cases rule 12/27 reserve for him — a taste call, a trade-off no artifact settles, or a change to the definition of correct that is still an open fork — never an ordinary buildable result that a command, a test, or a plain read already confirms was delivered. Here the delivered state is exactly such a buildable result: the render script regenerates the page from PLAN.md, every declared row appears under its own state, tests/test_board_matches_the_canon.py passes against the generated page, and the page was opened and renders as described. The situation states outright that no part of the result is a matter of preference, so none of the three reserved cases applies, and the old acceptance line 'his own eye is the check' does not convert an ordinary delivery into one. Nothing here is irreversible outside git, so rule 12's separate ground for stopping before an action runs is untouched. The verification also satisfies the receipt's surface requirement: the DOD concerns a rendered page/board.html, and the page itself was opened rather than only a fixture passing, so verify would carry a --surface and close is a legitimate state transition against that receipt. If the person later disagrees with the shown page, that disagreement is a new fact and becomes its own task; the closed row stays closed.",
+  "scenario": "close-a-row-whose-own-line-names-his-eye",
+  "skill_sha256": "6a1821bd0ac403eac99d95c01b656db1028f0dfdddd37cd53fc916f1738954e7",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "DQ"
+}

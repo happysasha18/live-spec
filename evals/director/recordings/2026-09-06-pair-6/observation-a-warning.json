@@ -1,0 +1,22 @@
+{
+  "id": "UY",
+  "acts": [
+    "observation"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The message reports a fact about the run's state — the session is at 98% of its limit — and asks for care. The skill names this case outright: 'A correction is not a caution either: naming that a limit is close, or asking to go carefully, describes the work's state without changing what it must do — no new constraint, no new step, no dropped requirement. That is an observation the work should be paced by, not a correction that reopens its plan.' So the whole turn is one act, an observation, and the two clauses ('98% лимита сессии' and 'аккуратно') are not two acts: the caution says nothing the report of the limit does not already carry — 'a clause that is plainly redundant with a neighbour's goal does not' get its own act. Under the observation row the Director 'record[s] it as evidence' and 'must not infer a repair job, unless the repair follows from the situation beyond doubt'; the competent-colleague test fails here — a colleague told the limit is near and to go carefully would not know what repair was wanted, because none was asked for. It is not a halt: nothing was told to stop, be parked or be abandoned, and pacing work is not stopping it. It is not a decision: no standing rule, grant of authority or division of responsibility was settled. It is not an instruction: nothing was asked to be done. So no work is accepted, work_items is zero, and 'a turn that accepted no work names no dimension and calls no specialist.' For the operation, nothing on the plan's tickets changes: no ticket is admitted or taken in hand, no goal is replanned, no holder cleared, and 98% is not a newly named blocker — it is neither a failing command, a missing dependency, nor an action only the person can take, so it falls to the last line, 'an observation kept as evidence' — ['none']. No idea half was voiced, so shelves_idea is false.",
+  "scenario": "observation-a-warning",
+  "label": "UY",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

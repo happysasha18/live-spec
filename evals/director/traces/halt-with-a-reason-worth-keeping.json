@@ -1,5 +1,5 @@
 {
-  "id": "UD",
+  "id": "VM",
   "acts": [
     "halt",
     "observation"
@@ -13,10 +13,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The turn carries two acts. 'Нет стоп' tells work that is running right now to stop running, and nothing is left to pursue: the machinery being maintained is called unneeded, so the work is abandoned rather than redirected — a halt, not a correction to method, and not a caution. The second clause, that the parameter is invented and the machinery serving it unnecessary, is a judgment about the product; the skill says such a judgment says something new even when it doubles as the reason for the neighbouring act, and is worth keeping after that act closes, so it is its own observation rather than the halt's grounds restated. A halt changes a piece of work that already existed and creates none, so creates_work is false and work_items is zero; the verdict attaches to the work in flight for the pipeline to drop and archive. No idea half was voiced, so shelves_idea is false. A turn that accepted no work names no dimension and calls no specialist, and the correction exception does not apply here.",
+  "reasoning": "«Нет стоп» tells something running to stop running, and the skill says a halt is about state, not about words: the person wants the maintenance of that parameter to stop. It is not a correction — a correction narrows or changes a goal that the work then goes on pursuing, whereas here nothing is left to pursue: the parameter is called invented and its upkeep unnecessary machinery, so the work itself is dropped, which is the halt that drops the work for good and archives it (T9), not the one that parks it for later. The second clause — that the machinery is unnecessary and the parameter invented — is its own act under 'Grounds stated with an act carry their own act only when they say something new': 'a judgment about the product — that something is broken, wasteful or invented — says something new even when it doubles as the reason for the neighbouring act', and 'No act absorbs another' keeps the reason given with a halt from dissolving into it. That judgment is an observation: it reports what is true about the product without asking for a repair, and it is worth keeping after the halted work closes. Its repair does not follow beyond doubt — the halt already says what to do about it — so no work is inferred. A halt 'change[s] the state of that work' and 'must not create anything', so creates_work is false and work_items is zero: per the numbers passage, a halt 'change[s] a piece of work that already existed, and both produce zero new ones'. attaches_to_existing_work is true because the halt names the running maintenance work for build-pipeline to change. No idea was voiced, so shelves_idea is false. 'A turn that accepted no work names no dimension and calls no specialist', and the one exception is a correction, not a halt — so dimensions and specialists are empty.",
   "scenario": "halt-with-a-reason-worth-keeping",
-  "label": "UD",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "VM",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

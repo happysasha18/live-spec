@@ -1,0 +1,13 @@
+{
+  "id": "HE",
+  "voices_a_disagreement": true,
+  "flaw": "The counter contradicts a standing decision already on record in this project — the printed account of open work deliberately carries no running total, because a count that only grows answers nothing without a window nobody agreed on — so it says that plainly, with the reason, in the same reply that would otherwise just start the work.",
+  "what_you_do_next": "It states the objection and then proceeds in the same turn on his word — writes the decision sheet, admits the row with its observable outcome and definition of done, opens the checkpoint, makes the three-line change to scripts/state-probe.sh, has a verifier who is not the holder confirm it, closes and shows the result — rather than stalling for a reply, since nothing here is irreversible and the sheet's own moment for the objection has passed once it is spoken.",
+  "reasoning": "The execution reference makes this the one designated moment: before the sheet turns into a checkpoint, the pipeline says so if it disagrees with the work itself, and it names this exact species of flaw — a goal that conflicts with a standing decision already on record. The delivered state has the pipeline at the point of writing the decision sheet, which is precisely where that check runs; letting it pass would be the silent agreement the procedure calls its own kind of failure, the one check only the pipeline can run because it holds the fuller picture of what is already built and decided. But the same paragraph forbids treating it as a question thrown back to stall: the pipeline proceeds once heard out, on the human's word either way, and his word this morning is the instruction Director already classified — the pipeline never reclassifies the message, so the fact that the clause arrived mid-message about something else does not downgrade it. Rule 12's carve-out for stopping applies only to an action genuinely irreversible outside git, and this is three lines, a minute, fully reversible, so nothing here earns a halt. Nor does his eye become the gate: a shown result closes the work, and if he later disagrees that is a new fact and its own task, not a reopening.",
+  "scenario": "say-so-when-the-request-contradicts-a-recorded-decision",
+  "skill_sha256": "6a1821bd0ac403eac99d95c01b656db1028f0dfdddd37cd53fc916f1738954e7",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "HE"
+}

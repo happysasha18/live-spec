@@ -1,21 +1,21 @@
 {
-  "id": "PJ",
+  "id": "OO",
   "acts": [
     "observation"
   ],
   "operation": [
-    "none"
+    "T5"
   ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person reports a fact about the session's state — the allowance refilled — and asks for nothing. That is an observation, recorded as evidence, not an instruction. Its repair does not follow beyond doubt: a competent colleague would still have to ask what to pick up, and the skill is explicit that creating work to be safe is the expensive direction. No blocker was ever named as a ticket here, so nothing is being cleared; the message only states that a condition changed, so no ticket state moves and the operation is none. A turn that accepted no work names no dimension and calls no specialist. The right response is to say what is in hand and let the person say what to run next.",
+  "reasoning": "The person reports a fact about the session's state and asks for nothing: 'Observation or feedback — reports a fact or an impression without asking for a repair | record it as evidence | infer a repair job, unless the repair follows from the situation beyond doubt'. There is no repair to infer here — a refilled allowance is not a defect; it is the removal of one. So no work is accepted: 'An observation is evidence unless its repair follows beyond doubt', and creates_work stays false with work_items zero. It is not conversation either, because it carries a fact that was not already known and changes what the session can do next — 'A message is conversation when it adds nothing'. On the state operations, an exhausted allowance is precisely the blocker shape the ledger names ('an action only the person can take'), and this message is 'a report that a named blocker is verifiably gone', which runs T5; it does not run T1/T2 because nothing was admitted or taken in hand, and not T3 because no goal or constraint of running work changed. The operation lands on a ticket that already existed rather than opening one, so it attaches to existing work. Dimensions and specialists stay empty by the rule 'A turn that accepted no work names no dimension and calls no specialist' — the one exception is a correction, and this is not one.",
   "scenario": "observation-neutral",
-  "label": "PJ",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "OO",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

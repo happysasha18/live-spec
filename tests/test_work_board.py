@@ -96,6 +96,29 @@ ROWS = [
          extra="\nA row that landed and stays on the board.\n"),
     _row(QUEUED, "The deferred row waits on its trigger", "q-6",
          extra="\n**Deferred:** the upstream release ships\n\nA row postponed on a named trigger.\n"),
+    # A statement that passed validation: it carries its estimate, its row records the pass, and
+    # that word — not a guess about the queue — is what stands it in the ready column.
+    _row(QUEUED, "The validated row stands ready", "q-7",
+         extra="\n**Statement.** The board draws a row that has passed its checks. "
+               "Estimate: 2–4 h — basis: the two neighbouring rows took that.\n\n"
+               "**Validation.** 2026-09-06 · floor: passed (echo-name, description, plan and "
+               "estimate all present) · reader: passed (three questions answered) · echo-name "
+               "placed: yes · status: ready\n\n**Frozen at take-up 2026-09-06.**\n"),
+    # A statement rewritten after a failed validation: queued, and saying which of the two it is.
+    _row(QUEUED, "The rewritten row waits to be validated again", "q-10",
+         extra="\n**Validation.** 2026-09-06 · floor: failed (no estimate stated) · reader: "
+               "failed (how long went unanswered) · echo-name placed: no · status: rewritten\n\n"
+               "A row whose statement went back for a rewrite.\n"),
+    # Blocked on the person's own act — the one block kind that puts something in front of him.
+    _row(BLOCKED, "The row blocked on your word", "q-14",
+         extra="\n**Blocked by:** owner action: the publish host is not chosen\n\n"
+               "A row that cannot move until you decide.\n"),
+    # Closed with both halves of criteria 63-65 on record: the statement's estimate, and the
+    # delivery trail's settlement of an actual against it. Its close date is its own line's.
+    _row(DONE, "The settled row shows given against actual", "q-15",
+         extra="\n**Statement.** The row records what it was given. Estimate: 1–2 h — basis: the "
+               "same shape of change last week.\n\n**Closed %s.** Delivery trail: estimate 1–2 h "
+               "→ actual 3 h — the reader pass ran twice.\n" % time.strftime("%Y-%m-%d")),
 ] + [
     _row(QUEUED, "Queued row number %d" % n, "q-1%02d" % n,
          extra="\nA row waiting in the queue.\n")
@@ -104,6 +127,17 @@ ROWS = [
 
 ARCHIVE_ROW = _row(DONE, "The archived row reads from the archive", "q-9",
                    extra="\nThis row landed and moved off the plan page.\n")
+# A row that left the board WITHOUT being built, carrying the stale ⬜ its heading had on the day
+# it was archived. Its terminal state is the one its archive's index table names, and the mark the
+# done column shows follows that state — never the heading's own stale mark.
+DECLINED_ROW = _row(QUEUED, "The declined row shows as declined", "q-12",
+                    extra="\nThis row was declined and never built.\n")
+ARCHIVE_INDEX = (
+    "| # | Wish (plain words) | Class | Status | Decision / acceptance |\n"
+    "| --- | --- | --- | --- | --- |\n"
+    "| q-9 | The archived row reads from the archive | surface | landed 2026-09-05 | it shipped |\n"
+    "| q-12 | The declined row shows as declined | surface | declined 2026-09-05 | nobody asked "
+    "for it and nothing outside the row could tell when they would |\n")
 
 
 def _run(tree, *args, env=None):
@@ -170,7 +204,8 @@ def _build_tree(tmp_path, plan_rows=None, waiting="an answer you have not read y
     with open(os.path.join(tree, "docs", "queue-archive",
                           "%s-closed-rows.md" % time.strftime("%Y-%m-%d")), "w",
               encoding="utf-8") as fh:
-        fh.write("# Closed rows\n\n" + ARCHIVE_ROW)
+        fh.write("# Closed rows\n\n" + ARCHIVE_INDEX + "\n---\n\n"
+                 + ARCHIVE_ROW + "\n" + DECLINED_ROW)
     with open(os.path.join(tree, "docs", "queue-archive", "2026-01-01-closed-rows.md"), "w",
               encoding="utf-8") as fh:
         fh.write("# Closed rows of an earlier month\n\n"
@@ -200,6 +235,12 @@ def board(tmp_path_factory):
         page = fh.read()
     model = json.loads(_run(tree, "--json").stdout)
     return {"tree": tree, "page": page, "model": model}
+
+
+def ready_column(page):
+    """The ready column's own body — what the page says about rows that passed validation."""
+    start = page.index("col ready")
+    return page[start:page.index("<div class='col ", start + 1)]
 
 
 def cards_html(page):
@@ -272,6 +313,10 @@ def test_m521_identifier_line_and_registry_before_it_renders(board, tmp_path):
     assert "the work board" in head
     assert "what is in hand, who runs it, and what it took" in head, "the registry needle is absent"
     assert "waiting on you" in head, "the line does not say what the board needs of the person"
+    # What it needs of the person is not only the waiting list: a row blocked on the person's own
+    # act is waiting on him too, and the page read "nothing waiting on you" over exactly that.
+    assert board["model"]["blocked_on_you"] == ["q-14"], board["model"]["blocked_on_you"]
+    assert "1 row blocked on your word" in head, head
     # RED-FIRST: a tree whose registry carries no work-board row renders nothing.
     unregistered = _build_tree(tmp_path)
     with open(os.path.join(unregistered, "SURFACES.md"), "w", encoding="utf-8") as fh:
@@ -323,6 +368,17 @@ def test_m523_every_row_stands_in_exactly_one_column(board):
     assert "q-2" in columns["inwork"], "an in-hand row is not in the in-work column"
     assert "q-101" in columns["validate"], "a queued row is not awaiting validation"
     assert "q-5" in columns["done"], "a done row is not in the done column"
+    # Ready is the status the ROW records on its own Validation line (criteria 22, 55) — never a
+    # guess, and never a column standing empty because the board says the check does not exist.
+    assert columns["ready"] == ["q-7"], columns["ready"]
+    assert "q-10" in columns["validate"], "a rewritten statement is not back awaiting validation"
+    ready_col = ready_column(board["page"])
+    assert "not built" not in ready_col, "the board still claims the validation check is unbuilt"
+    cards = cards_html(board["page"])
+    assert "awaiting validation" in cards["q-101"], \
+        "a queued row with no validation record does not say it is awaiting one"
+    assert "statement rewritten, validation pending" in cards["q-10"], \
+        "a rewritten statement does not say why it is not ready"
     # Every id the page shows is on the page.
     page = board["page"]
     for task_id in plan_ids:
@@ -363,11 +419,19 @@ def test_m525_lanes_match_the_cap_free_lanes_read_free_parked_row_kept(board):
     assert model["lane_cap"] == 3, "the cap is not read from the profile"
     assert len(model["lane_rows"]) == model["lane_cap"], \
         "the lane count diverges from the cap: %s" % model["lane_rows"]
-    # Two lanes are busy: the row in hand, and the blocked row, whose holder still holds its lane.
-    assert model["lanes_busy"] == 2
-    assert sorted(l["id"] for l in model["lane_rows"] if l["id"]) == ["q-2", "q-4"]
-    assert "Lane 1" in page and "Lane 2" in page
-    assert "Lane 3 — free" in page, "the free lane does not read as free"
+    # ONE lane is busy: a busy lane means an executor actually working — a row in hand, with a
+    # holder named on it, and that holder live by an open lane or a fresh heartbeat. q-2 is that
+    # row. q-4 is blocked and q-3 is parked; each has a holder or a checkpoint, and neither is a
+    # worker running, so neither occupies a lane.
+    assert model["lanes_busy"] == 1, model["lane_rows"]
+    assert sorted(l["id"] for l in model["lane_rows"] if l["id"]) == ["q-2"]
+    assert "Lane 1" in page
+    assert "Lanes 2, 3 — free" in page, "the free lanes do not read as free"
+    idle = {r["id"]: r["why"] for r in model["holding_no_lane"]}
+    assert set(idle) == {"q-3", "q-4"}, idle
+    assert "blocked" in idle["q-4"] and "does not occupy a lane" in idle["q-4"]
+    assert "parked" in idle["q-3"]
+    assert "Holding no lane" in page, "the rows in the column that hold no lane are not named as such"
     # The parked row: in the in-work column, marked parked, naming what took its lane.
     assert model["parked"] == ["q-3"], model["parked"]
     assert "q-3" in model["columns"]["inwork"]
@@ -485,14 +549,21 @@ def test_m530_the_craft_set_has_one_home_and_no_skill_name_reaches_a_card(board)
 def test_m536_the_row_carries_the_time_it_was_given_beside_the_time_it_took(board):
     """The estimate is written onto the row and the actual stands beside it at the close.
 
-    NOTHING IN THIS TREE RECORDS AN ESTIMATE — no ticket field, no checkpoint line, no delivery
-    report — so what the board must never do is print one anyway. It states the absence per row and
-    prints the actual, which the checkpoint's own stamps do carry.
+    The estimate is the one the row's own statement carries; the actual is the one the delivery
+    trail settled against it, or the checkpoint's own stamps where the trail settled none. A row
+    that records no estimate says which kind of silence it is — never estimated yet, or closed
+    before statements carried estimates — and never prints a number nobody wrote.
     """
     page, model = board["page"], board["model"]
     for task_id, card in cards_html(page).items():
-        assert "chip est" in card or "no estimate recorded" in card, \
-            "%s carries no time pair" % task_id
+        assert "chip est" in card or "estimate" in card, "%s carries no time pair" % task_id
+    # Given against actual, both read from the row's own record.
+    settled = model["cards"]["q-15"]
+    assert settled["estimate"] == "1–2 h", settled["estimate"]
+    assert settled["settled_actual"] == "3 h", settled["settled_actual"]
+    assert "estimate 1–2 h → took 3 h" in page, "the settled pair is not on the page"
+    assert model["cards"]["q-7"]["estimate"] == "2–4 h", "the statement's estimate was not read"
+    # The actual off the stamps, where no trail settled one.
     closed = model["cards"]["q-5"]
     assert closed["estimate"] is None, "an estimate was invented for a row that records none"
     assert closed["actual"], "no actual was read from the closed checkpoint's stamps"
@@ -500,7 +571,24 @@ def test_m536_the_row_carries_the_time_it_was_given_beside_the_time_it_took(boar
     assert "took %s" % closed["actual"] in page
     live = model["cards"]["q-2"]
     assert live["running"], "an in-work row shows no time so far"
-    assert "no estimate recorded" in page, "the page hides that no estimate exists"
+    # The two silences, each named for what it is.
+    assert "no estimate recorded" in cards_html(page)["q-101"], \
+        "an open row with no statement does not say its estimate is unrecorded"
+    assert "closed before estimates were recorded" in cards_html(page)["q-5"], \
+        "a row closed before estimates existed is charged with a missing estimate"
+
+    # Criterion 67 — how many tasks closed on the day the page is read. The close date comes off
+    # the checkpoint's close stamp, and off the row's own `**Closed <date>**` line where no
+    # checkpoint carries stamps: a row closed today by a hand that wrote the line and no
+    # checkpoint was simply not counted, which is how a day that closed several rows printed one.
+    today = time.strftime("%Y-%m-%d")
+    # q-5 closed on its checkpoint's stamp; q-15 has no checkpoint at all and carries the line.
+    assert model["cards"]["q-5"]["closed_date"] == today
+    assert model["cards"]["q-15"]["closed_date"] == today
+    assert "q-15" not in [k for k in model["cards"] if model["cards"][k]["checkpoint"]]
+    assert sorted(model["closed_today_rows"]) == ["q-15", "q-5"], model["closed_today_rows"]
+    assert model["closed_today"] == 2
+    assert "<span class='count'>2 today</span>" in page
 
 
 # --------------------------------------------------------------------------- M-537
@@ -514,12 +602,21 @@ def test_m537_closed_rows_are_kept_and_the_done_column_reads_the_archive(board):
     assert "earlier months — open one" in page, "older months do not open on the person's ask"
     assert "2026-01" in page, "the older month is not named"
     # One line per closed row — mark, echo-name, time pair — the rest behind a fold.
-    for task_id in ("q-5", "q-9"):
+    for task_id in ("q-5", "q-9", "q-12"):
         card = cards_html(page)[task_id]
         assert 'class="doneline"' in card, "%s is not rendered as one line" % task_id
         assert "<details>" in card
         assert model["cards"][task_id]["terminal"] in ("landed", "declined", "superseded",
-                                                       "decided") or task_id == "q-5"
+                                                       "decided"), task_id
+    # The terminal state is READ from the archive's own record, and the mark FOLLOWS it: a row that
+    # was declined and never built shows as declined and carries no done tick, whatever stale mark
+    # its archived heading still wears. q-12's heading is ⬜; its record says declined.
+    assert model["cards"]["q-12"]["terminal"] == "declined"
+    assert model["cards"]["q-9"]["terminal"] == "landed"
+    assert '<div class="doneline">— <b>The declined row shows as declined</b>' in page, \
+        "the declined row wears a mark that does not follow its terminal state"
+    assert "declined · " in cards_html(page)["q-12"]
+    assert '<div class="doneline">✅ <b>The archived row reads from the archive</b>' in page
     assert "door not recorded" in page, "a door was invented for rows that record none"
 
 
@@ -631,7 +728,8 @@ def test_m543_the_board_writes_no_history_and_takes_over_no_chat_duty(board):
     plan_ids = set(re.findall(r"— id: (\S+)",
                               open(os.path.join(board["tree"], "PLAN.md"), encoding="utf-8").read()))
     shown = {i for ids in model["columns"].values() for i in ids}
-    assert shown - plan_ids <= {"q-9"}, "rows from outside this project's plan and archive"
+    assert shown - plan_ids <= {"q-9", "q-12"}, \
+        "rows from outside this project's plan and archive"
     # The generator reads no journal: the history stays where it lives.
     with open(RENDERER, encoding="utf-8") as fh:
         source = fh.read()
@@ -663,5 +761,238 @@ def test_m544_the_four_questions_are_answered_from_the_page_alone(board):
     assert "The archived row reads from the archive" in cards["q-9"]
     # 4 — how long each took against its estimate.
     assert "took " in cards["q-5"]
-    assert "no estimate recorded" in cards["q-5"], \
-        "the page neither shows an estimate nor says none was recorded"
+    assert "estimate 1–2 h → took 3 h" in cards["q-15"], \
+        "the page does not answer how long a task took against its estimate"
+    assert "closed before estimates were recorded" in cards["q-5"], \
+        "the page neither shows an estimate nor says why there is none"
+
+
+# =========================================================================== the real tree
+# Everything above renders a fixture. A fixture proves the rule; it cannot prove the page a person
+# actually opens is true, and every one of the six things the owner caught on 2026-09-06 was true
+# of the fixture and false of the real page. These render THIS repository — read-only, into a temp
+# file, never over board.html — and check the page against PLAN.md, the real checkpoints and the
+# real archives, each expected value computed here from those sources rather than read back off
+# the page.
+#
+# Red-proved 2026-09-06 against the renderer as it stood at HEAD 4a1579d0, by copying that file to
+# scripts/_redproof-old.sh (any path under scripts/ works — the script cds to its own parent's
+# parent to find the repo) and running
+#   LIVE_SPEC_BOARD_RENDERER=$PWD/scripts/_redproof-old.sh python3 -m pytest -q \
+#       tests/test_work_board.py -k TestRealTree
+# All five fail on it: lanes counted a blocked row and a reopened row as busy, the day count read
+# only checkpoint stamps, q-385 and q-811 printed *landed*, and every row read "no estimate
+# recorded". The old file is not kept in the tree — `git show 4a1579d0:scripts/render-board.sh`
+# reproduces it exactly.
+ARCHIVE_DIR = os.path.join(ROOT, "docs", "queue-archive")
+LIVENESS_DEFAULT_MIN = 2
+
+
+def _real_model(tmp_path):
+    """The real repository's own board, rendered into a temp path. Nothing in ROOT is written."""
+    out = str(tmp_path / "real-board.html")
+    render_start = time.time()
+    r = subprocess.run(["bash", RENDERER, out], capture_output=True, text=True, cwd=ROOT)
+    assert r.returncode == 0, r.stderr
+    j = subprocess.run(["bash", RENDERER, "--json"], capture_output=True, text=True, cwd=ROOT)
+    assert j.returncode == 0, j.stderr
+    render_end = time.time()
+    with open(out, encoding="utf-8") as fh:
+        page = fh.read()
+    assert not os.path.exists(os.path.join(ROOT, os.path.basename(out)))
+    return {"page": page, "model": json.loads(j.stdout),
+            "render_start": render_start, "render_end": render_end}
+
+
+@pytest.fixture(scope="module")
+def real(tmp_path_factory):
+    return _real_model(tmp_path_factory.mktemp("realboard"))
+
+
+class TestRealTree:
+    """The page a person opens, checked against the tree it claims to report."""
+
+    def test_an_archived_row_shows_the_outcome_its_archive_records(self, real):
+        """q-385 and q-811 were declined and their archives say so, in an index table and in the
+        file's own name. Both stood on the board as ⬜ *landed*, which is the terminal state the
+        renderer defaulted to when it found no word — a default that turned two refusals into two
+        deliveries. A row no record names says that, and never *landed*."""
+        model, page = real["model"], real["page"]
+        # Read the outcome out of the archives here, independently of the renderer.
+        for row_id, expected in (("q-385", "declined"), ("q-811", "declined")):
+            files = [n for n in os.listdir(ARCHIVE_DIR) if row_id.replace("-", "") in n
+                     or row_id in n]
+            assert files, "no archive names %s" % row_id
+            assert any(expected in n for n in files), files
+            card = model["cards"].get(row_id)
+            assert card, "%s is not on the board at all" % row_id
+            assert card["archived"], "%s is not read from the archive" % row_id
+            assert card["terminal"] == expected, "%s reads %r" % (row_id, card["terminal"])
+        # And the mark follows the state: no done tick on a row that was refused.
+        for row_id in ("q-385", "q-811"):
+            card = cards_html(page)[row_id]
+            assert "declined" in card
+            assert not re.search(r'<div class="doneline">✅', card), \
+                "%s wears a done tick over a declined outcome" % row_id
+        # Nothing anywhere on the page calls either of them landed.
+        for row_id in ("q-385", "q-811"):
+            line = re.search(r'<div class="doneline">(.*?)</div>', cards_html(page)[row_id], re.S)
+            assert "landed" not in line.group(1), line.group(1)
+
+    def test_a_row_with_no_recorded_outcome_says_so(self, real):
+        """q-54 and plan-9 were taken off the board on the owner's word; their archive records the
+        removal in prose and names no terminal state. Neither is landed, and the board says the
+        outcome is unrecorded rather than inventing one."""
+        model = real["model"]
+        archive = os.path.join(ARCHIVE_DIR, "2026-09-04-rows-taken-off-the-board.md")
+        assert os.path.exists(archive), "the archive this test reads has moved"
+        with open(archive, encoding="utf-8") as fh:
+            text = fh.read()
+        # Independently: that file names no terminal state for either row, in a table or its name.
+        assert not [ln for ln in text.splitlines() if ln.strip().startswith("|")], \
+            "the archive grew an index table — read the outcome from it instead"
+        for row_id in ("q-54", "plan-9"):
+            card = model["cards"].get(row_id)
+            assert card and card["archived"], row_id
+            assert card["terminal"] is None, "%s reads %r off a record that names none" % (
+                row_id, card["terminal"])
+        assert "terminal state not recorded" in real["page"]
+
+    def test_the_day_count_holds_every_row_that_closed_today(self, real):
+        """Criterion 67. Two rows closed on 2026-09-06 with a checkpoint stamp and a `**Closed
+        <date>**` line respectively; the page counted only the first kind and printed "1 today"."""
+        model = real["model"]
+        today = time.strftime("%Y-%m-%d")
+        expected = set()
+        # 1 — a checkpoint that is closed and whose last write was today.
+        cpdir = os.path.join(ROOT, ".live-spec", "checkpoints")
+        for name in os.listdir(cpdir):
+            if not name.endswith(".md"):
+                continue
+            path = os.path.join(cpdir, name)
+            with open(path, encoding="utf-8") as fh:
+                head = fh.read(400)
+            if re.search(r"(?mi)^Status:\s*closed", head) and \
+                    time.strftime("%Y-%m-%d", time.localtime(os.stat(path).st_mtime)) == today:
+                expected.add(name[:-3])
+        # 2 — a row whose own text carries the close date at the head of a line.
+        sources = [os.path.join(ROOT, "PLAN.md")] + [
+            os.path.join(ARCHIVE_DIR, n) for n in os.listdir(ARCHIVE_DIR) if n.endswith(".md")]
+        for path in sources:
+            with open(path, encoding="utf-8") as fh:
+                body = fh.read()
+            row_id = None
+            for line in body.splitlines():
+                m = re.match(r"^### \S+ .*— id: (\S+)\s*$", line)
+                if m:
+                    row_id = m.group(1)
+                    continue
+                if row_id and re.match(r"^\*{0,2}Closed\s+%s" % today, line):
+                    expected.add(row_id)
+        # 3 — an archive index table naming an outcome reached today.
+        for name in os.listdir(ARCHIVE_DIR):
+            with open(os.path.join(ARCHIVE_DIR, name), encoding="utf-8") as fh:
+                for line in fh:
+                    if not line.strip().startswith("|"):
+                        continue
+                    cells = [c.strip() for c in line.strip().strip("|").split("|")]
+                    if len(cells) < 4 or not re.match(r"^(q-)?\d+$", cells[0]):
+                        continue
+                    if any(re.search(r"\b(declined|superseded|decided|landed)\b\s+%s" % today, c)
+                           for c in cells[1:]):
+                        expected.add(cells[0] if cells[0].startswith("q-") else "q-" + cells[0])
+        expected &= set(model["cards"])
+        assert expected, "nothing in the tree closed today — this test has nothing to prove"
+        # q-822 closed today and records it on its own row rather than in a checkpoint stamp; it
+        # is the case the old count dropped, so it is named here rather than left to the set.
+        assert "q-822" in expected, sorted(expected)
+        assert set(model["closed_today_rows"]) == expected, (
+            sorted(model["closed_today_rows"]), sorted(expected))
+        assert model["closed_today"] == len(expected)
+        assert "<span class='count'>%d today</span>" % len(expected) in real["page"]
+
+    def test_a_lane_is_busy_only_where_a_worker_is_actually_running(self, real):
+        """A busy lane means an executor actually working. The page said "1 of 10 lanes busy" over
+        q-816, blocked on an owner action with no worker anywhere, and counted a reopened row with
+        no holder beside it."""
+        model = real["model"]
+        lane_ids = [l["id"] for l in model["lane_rows"] if l["id"]]
+        assert model["lanes_busy"] == len(lane_ids)
+        assert len(model["lane_rows"]) >= model["lane_cap"]
+        # Race-free half: whatever else is true, a row that is not in hand, or has no holder,
+        # never holds a lane — that is the whole of what went wrong.
+        for row_id in model["columns"]["inwork"]:
+            card = model["cards"][row_id]
+            if card["icon"] != "\U0001f504" or not card["holder"] or card["parked"]:
+                assert row_id not in lane_ids, \
+                    "%s holds a lane on mark %r, holder %r, parked=%s" % (
+                        row_id, card["icon"], card["holder"], card["parked"])
+                assert any(r["id"] == row_id and r["why"] for r in model["holding_no_lane"]), \
+                    "%s holds no lane and the page does not say why" % row_id
+        # And the count itself, recomputed here from git and the checkpoints. The clock is the
+        # page's own build minute, so the recomputation reads the same instant the render did.
+        built = time.mktime(time.strptime(model["built"], "%Y-%m-%dT%H:%M"))
+        window = LIVENESS_DEFAULT_MIN * 60
+        doc = os.path.join(ROOT, "docs", "worker-liveness.md")
+        if os.path.exists(doc):
+            with open(doc, encoding="utf-8") as fh:
+                m = re.search(r"heartbeat moved within the last ~(\d+) min", fh.read())
+            assert m, "the liveness window has left docs/worker-liveness.md — repoint the board"
+            window = int(m.group(1)) * 60
+        branches = subprocess.run(["git", "branch", "--list", "lane/*"], cwd=ROOT,
+                                  capture_output=True, text=True).stdout
+        expected = []
+        for row_id in model["columns"]["inwork"]:
+            card = model["cards"][row_id]
+            if card["icon"] != "\U0001f504" or not card["holder"] or card["parked"]:
+                continue
+            if re.search(r"lane/%s-" % re.escape(row_id), branches):
+                expected.append(row_id)
+                continue
+            cp = os.path.join(ROOT, ".live-spec", "checkpoints", "%s.md" % row_id)
+            # A heartbeat sitting within a minute of the window's edge would make this a race
+            # between the render and this recomputation, not a check of the rule.
+            if os.path.exists(cp):
+                quiet = built - os.stat(cp).st_mtime
+                if abs(quiet - window) < 60:
+                    pytest.skip("%s sits on the liveness boundary — rerun" % row_id)
+                if quiet <= window:
+                    expected.append(row_id)
+        assert sorted(lane_ids) == sorted(expected), (sorted(lane_ids), sorted(expected))
+
+    def test_the_page_tells_the_truth_about_estimates_validation_and_its_own_freshness(self, real):
+        """Three claims the page made about itself. Every row read "no estimate recorded" while
+        given-vs-actual was promised; the ready column said the check that would fill it is not
+        built; and the freshness stamp criterion 93 asks for has to be the render's own minute."""
+        model, page = real["model"], real["page"]
+        # The estimate: read from the row's own statement, and the two silences told apart.
+        with open(os.path.join(ROOT, "PLAN.md"), encoding="utf-8") as fh:
+            plan = fh.read()
+        stated = re.findall(r"\*\*Statement\.\*\*[^\n]*(?:\n(?!\s*\n)[^\n]*)*", plan)
+        estimated = [s for s in stated if re.search(r"Estimate:\s*[0-9]", s)]
+        carried = [c for c in model["cards"].values() if c["estimate"]]
+        assert len(carried) >= len(estimated) or not estimated, (len(carried), len(estimated))
+        for card in model["cards"].values():
+            if card["estimate"]:
+                assert "estimate %s" % card["estimate"] in page, card["id"]
+        for card in model["cards"].values():
+            if not card["estimate"] and card["column"] == "done":
+                assert "closed before estimates were recorded" in cards_html(page)[card["id"]], \
+                    "%s is charged with a missing estimate it could not have carried" % card["id"]
+        # The validation gate: the page never says it does not exist.
+        col = ready_column(page)
+        assert "not built" not in col, "the ready column still claims its own check is unbuilt"
+        assert "status: ready" in col, "the ready column does not name what puts a row in it"
+        # Freshness: the stamp is this render's own minute, not an older one.
+        m = re.search(r"built (\d{2}):(\d{2}), (\d{2})\.(\d{2})\.(\d{4})", page)
+        assert m, "the page carries no freshness stamp"
+        stamped = time.mktime(time.strptime(
+            "%s-%s-%s %s:%s" % (m.group(5), m.group(4), m.group(3), m.group(1), m.group(2)),
+            "%Y-%m-%d %H:%M"))
+        # The stamp has minute granularity, so allow ±90s around the render's own window
+        # rather than comparing to time.time() at assertion time (which also counts however
+        # long the rest of the suite took to reach this point).
+        window_start, window_end = real["render_start"] - 90, real["render_end"] + 90
+        assert window_start < stamped < window_end, (
+            "the stamp is %ds before the render window and %ds after it" % (
+                window_start - stamped, stamped - window_end))

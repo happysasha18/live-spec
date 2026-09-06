@@ -1,5 +1,5 @@
 {
-  "id": "JT",
+  "id": "MZ",
   "acts": [
     "question"
   ],
@@ -12,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person asks how long the running job will take. That is a question: they want to know something so they can decide whether to wait. It changes no goal and no constraint of the work in flight, so it is not a correction, and nothing is being asked to stop, so it is not a halt. Answering it may require reading or checking progress, but the skill is explicit that fetching facts to answer is reading, not work, and a question must not become a task because answering it took effort. A turn that accepted no work names no dimension and calls no specialist, so both lists are empty and no ticket state changes.",
+  "reasoning": "The person asks how long the running job will take. Per the act table, a question is where the person 'wants to know something' and the Director's job is to 'answer the question', never to 'write a roadmap row, open a spec, start work'. Nothing in the message asks for the job's goal or constraints to change, so it is not a correction: 'a correction changes the goal or the constraints of work in flight', and 'naming that a limit is close, or asking to go carefully, describes the work's state without changing what it must do'. Nothing is told to stop, so it is not a halt: 'What makes it a halt is that something running should stop running' — the person is only deciding whether to wait, and has not said to stop. There is one clause and one act; no second clause rides along, so the 'no act absorbs another' rule adds nothing here. 'A question creates nothing and changes no document,' and answering may require reading facts about the run, but 'What it may not do is turn the question into a task because answering it took effort'. Therefore creates_work is false and work_items is zero: 'work_items — the number of new pieces of work, zero for a question'. 'A turn that accepted no work names no dimension and calls no specialist,' so dimensions and specialists are empty; the exception for a correction does not apply. By the operation ladder, nothing is created, corrected, halted, blocked, unblocked or reopened, so it falls to the last line: 'everything else runs [\"none\"] — a question'. shelves_idea is false because no idea half was voiced.",
   "scenario": "question-how-long",
-  "label": "JT",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "MZ",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

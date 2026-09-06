@@ -1,0 +1,27 @@
+{
+  "id": "VZ",
+  "acts": [
+    "instruction"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "Every clause here asks for something to be done, so the turn is instruction-shaped throughout: 'asks for something to be done | accept the work, state the goal understood, begin'. The opening 'останови текущий сервер' is not a halt. The skill settles this case by name: 'A halt is about the session's own work in progress, not about some other system that happens to be running: \"stop the server\" said in the middle of a procedure names a step of that procedure — it is an instruction, part of the work, not a halt.' Nothing of the session's own work is being stopped, parked or abandoned; a process on port 8790 is being cycled as the first step of the procedure the person spells out. Reading the whole turn to the end before deciding ('Read the whole turn to the end and list every act in it'), the four clauses are: kill the process on 8790, start it again from the named directory with the given command, confirm the listener is on 0.0.0.0:8790 rather than 127.0.0.1, and report the machine's real Wi-Fi address. None of them is a musing, an idea, a decision or a correction — no prior work is in flight for anything to attach to, and 'не предполагаемый' is a constraint written into the asked-for result, not a change to a goal already being pursued. All four are steps toward one result a person could want on its own — a server actually reachable on the LAN at a stated address — so by 'Taking acts apart is not the same as splitting a goal. One instruction stays one piece of work even when it will touch six files. Separate work appears only for a result someone could want on its own', this is one piece of work, not four. The final clause is not a bare question either: it is the last step of the same procedure and its deliverable, so it does not split off as a separate answer-only act. creates_work is therefore true and work_items is 1, and since work is accepted now, operation runs [T1, T2] — admitting the ticket and taking it in hand in one call. Dimensions: 'Naming a dimension claims something in it must change; if nothing in it changes, do not name it.' What changes is a running process, its bind address and the host's reachable network endpoint — operations. Product behaviour, the user's path, analytics, documentation and release change in nothing here, so they are not named; the binding check is this instruction's own done-condition, not a separate quality change. Specialists: 'Name only specialists the accepted or corrected work may need' — something must be built and run, which is the developer, worked inside the pipeline itself. No architect (no boundary, integration or scale decision is being made — a bind flag is being set as instructed), no spec author (no promised behaviour changes), no test author, and no independent verifier, since the person named the verification step themselves and it is a single command's output.",
+  "scenario": "instruction-a-procedure",
+  "label": "VZ",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

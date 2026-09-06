@@ -350,7 +350,10 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         #: restored sentences the row actually promises. The `python3 -c` one-liner and the
         #: precheck call are unchanged and were read again: still `json.load(open(...))` and
         #: `sys.exit`, still a print piped into `grep -q`, no write on either road.
-        "q-805": "f18d440939b934df429369e527ac9069fd2c5de118729e62df35e936fc8a7bfb",
+        #: Re-read 2026-09-06 after the runner gained pipefail: the precheck exits 1 on open
+        #: findings by design, so the key now tolerates that exit explicitly (`|| true`) and
+        #: still only reads state.
+        "q-805": "b549e6091d38c9c8c739ccd43e563c95986cb469d1bf7b16026f7b95f0c2d293",
         #: Four keys added on 2026-09-05 carry a `python3 -c` payload this reader stops at, and
         #: each was read by hand on 2026-09-06 before its pin was written here. All four import a
         #: test module and call test functions in it; none opens a file for writing, and none
@@ -373,8 +376,15 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         #: test functions over the page that comes out, and clean the directory up. Neither opens
         #: a file for writing outside it; what they read of this tree — `scripts/render-board.sh`,
         #: `SURFACES.md`, the `scripts/` listing — they only read.
+        #: q-816 re-read and re-pinned 2026-09-06, when its key grew the statement half of
+        #: Requirement 309: two more `python3 -c` payloads, read by hand the same way. The first
+        #: calls five named functions of `tests/test_statement_validation.py`, each in its own
+        #: `tempfile.TemporaryDirectory()` it cleans up after, and those functions write only
+        #: inside that directory. The second imports `scripts/task-admission.py`, reads `PLAN.md`
+        #: and asserts on q-816's own statement and validation record — `read_text` and two
+        #: asserts, no write of any kind.
         "q-166": "317060f6aa782410460f38d4234ecfc8d196075e44454d06a0878c3330fe805e",
-        "q-816": "7f56b9fb76125932f5696224eabf5cbcc337d359fc67e965a9128ba1d0619665",
+        "q-816": "0e54bfcba469465447411670798eaf91683af0b6e1c08c9caa5c3bf8a22cab04",
     }
 
     def setUp(self):

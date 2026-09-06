@@ -1,5 +1,5 @@
 {
-  "id": "AZ",
+  "id": "LH",
   "acts": [
     "correction",
     "observation"
@@ -15,12 +15,12 @@
     "analytics, unknowns, hypotheses, experiments"
   ],
   "specialists": [
-    "data and experiment analyst"
+    "Data and experiment analyst"
   ],
-  "reasoning": "Measuring was already in flight, and the person narrows what it must cover: nothing he did not ask for, only the quick measurement on the platform taken before deciding how complex the transitions will be. Narrowing a goal is a correction to work already running, not a halt, because a goal remains to pursue and the work goes on toward it; the clause naming the quick platform measurement is that correction's own goal restated, so it earns no instruction of its own. Replanning takes on nothing new, so no row is added and the count of new pieces of work is zero. Alongside it he states a judgment about the product itself: the unrequested measuring is a bug, and something like an auto-ticket reflex fired in place of thinking. That says something the correction's goal does not carry and stays worth knowing after this work closes, so it is its own act, kept as evidence. Dimensions and the specialist name only what the corrected measuring work now touches.",
+  "reasoning": "Measuring was already in flight, so the message lands on work that exists. 'я на самом деле не просил ничего замерять … остальное ничего не просил' withdraws most of that goal while 'делать быстрый замер на платформе, перед тем как решать насколько сложные будут переходы, это да' keeps a smaller one. The skill settles this: 'Narrowing what work must cover is a correction to its goal, however much of the work stops as a result: a goal that came back smaller is still a goal being pursued, and the work goes on toward it. A halt is for the work itself stopping — nothing left to pursue.' Something is still to be pursued, so this is a correction, not a halt. The kept clause is the repair stated aloud — 'That clause names what the replan will contain, so it is the correction's own goal in other words; naming it as an instruction of its own re-opens as fresh work the very thing the correction just changed' — so it earns no instruction of its own. 'это тоже баг' and 'у тебя сработало что то типа автозаявки на любую хрень вместо того чтобы думать' is a judgment that something is broken and invented, and 'A judgment about the product — that something is broken, wasteful or invented — says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes' makes it its own observation act; it states what is true, not a rule for what the project will do from here on, so it is an observation and not a decision. Counts follow the correction rule: 'the board gains no row, and the count of new pieces of work the turn produces is zero. The one piece already in flight stays the one piece in flight, with a new goal written into the sheet it already had' — hence creates_work false, work_items 0, attaches_to_existing_work true, and operation T3 for a correction. No idea half was voiced, so nothing was shelved. Dimensions are named because 'The one exception is a correction, which changes work already running: saying what that work now touches is the whole point of it' — the surviving goal is a quick platform measurement feeding a decision about transition complexity, which touches analytics, unknowns, hypotheses, experiments and nothing else. That is the specialist called when 'the cause is unknown or a hypothesis needs testing'.",
   "scenario": "mixed-you-invented-that-work",
-  "label": "AZ",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "LH",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

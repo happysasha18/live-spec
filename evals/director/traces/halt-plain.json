@@ -1,5 +1,5 @@
 {
-  "id": "ZF",
+  "id": "QP",
   "acts": [
     "halt"
   ],
@@ -12,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The agent had already started acting on the previous message, and this turn tells that running work to stop. A halt is about state, not words: something running should stop running, and that is all this message does. The clause about forgetting to reset the context is the grounds for the halt, not a second act — it says nothing new beyond why the halt wants what it wants, and it carries no judgment about the product worth keeping after the halt closes. Nothing is dropped for good; the person wants a pause to clear the context, so the work is put down and can be resumed, which clears the holder rather than archiving the ticket. A halt changes a piece of work that already existed, so it creates nothing: no new row, zero new work items, no dimensions and no specialists named, since naming them would route work nobody has taken on.",
+  "reasoning": "The agent had already started acting on the previous message, so something is running. \"стоп ... стоп\" wants that running work to stop: \"A halt is about state, not about words... What makes it a halt is that something running should stop running. Nothing else about it matters.\" This is the session's own work in flight, not some other system's process, so the exception for \"stop the server\" as a step of a procedure does not apply. The clause \"забыл обнулить контекст\" is the reason given with the halt, and \"Grounds stated with an act carry their own act only when they say something new\" — it only restates why the halt wants what it wants (the person needs a clean context before this runs), carrying no judgment about the product worth keeping after the act closes, so it is not a second act. \"секунду\" marks the stop as temporary: the work is parked to be resumed once the context is reset, not dropped and archived, which is the halt that clears the holder and leaves the work to resume later. A halt \"change[s] the state of that work\" and must not \"create anything\": \"a halt: both change a piece of work that already existed, and both produce zero new ones\", so creates_work is false, attaches_to_existing_work is true and work_items is zero. Nothing was accepted, and \"A turn that accepted no work names no dimension and calls no specialist\" — the one exception is a correction, which this is not, since a correction leaves a goal still being pursued while \"A halt is for the work itself stopping\".",
   "scenario": "halt-plain",
-  "label": "ZF",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "QP",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

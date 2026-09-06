@@ -1,0 +1,23 @@
+{
+  "id": "VB",
+  "acts": [
+    "observation",
+    "observation"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Two clauses, and by 'No act absorbs another' each is its own act. The first — the effects are beautiful but there is no continuity — is a report of a fact about the delivered build with no repair asked for: 'Observation or feedback ... reports a fact or an impression without asking for a repair ... record it as evidence'. The second — that after all those conversations this level of understanding is strange — is a judgment about the work, and by 'Grounds stated with an act carry their own act only when they say something new' it says something new: not that continuity is missing, but that the shared understanding of it did not land, which stays worth knowing after any single work item closes. It is not merely the first clause's grounds, and where placement is doubtful 'it is its own act'. Neither is a correction: a correction 'attaches to work, not to a queue' and 'changes the goal or the constraints of work in flight'; the situation states the build is delivered and accepted with nothing open or checkpointed, so there is no work in flight to attach to, and the skill's own remark that 'when no work is in flight yet, the same message is an idea or an instruction — decide which by whether they are asking for it now' applies: nothing is being asked for now. Nor is the repair beyond doubt in the sense of 'Some observations carry their repair with them.' 'Production is returning 500s' needs no asking; here the complaint is precisely that what continuity means was talked through at length and still not understood, so a competent colleague would have to ask what is wanted — rebuild the effects, rework what continuity means, or simply be told. The skill orders that case explicitly: 'If they would, ask.' And 'Do not create work to be safe. Creating work is not the safe direction; it is the expensive one.' So the turn is answered and kept as evidence, with one short question in the person's own terms, and produces no new piece of work; operation is 'none' by the ledger's last line — an observation kept as evidence. Because no work was accepted or corrected, 'A turn that accepted no work names no dimension and calls no specialist' leaves dimensions and specialists empty. No idea was voiced, so shelves_idea is false.",
+  "scenario": "observation-a-verdict-on-delivered-work",
+  "label": "VB",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

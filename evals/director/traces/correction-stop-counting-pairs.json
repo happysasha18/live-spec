@@ -1,5 +1,5 @@
 {
-  "id": "VA",
+  "id": "PM",
   "acts": [
     "correction",
     "decision"
@@ -17,14 +17,14 @@
     "quality, safety, regressions"
   ],
   "specialists": [
-    "Developer",
     "Spec author",
+    "Developer",
     "Test author"
   ],
-  "reasoning": "Work is in flight that counts the pairs shipped in the package, and this message changes what that work must do: stop counting them. That is a correction — find the work already running and replan what is left, never open a second row beside it. 'Убери этот дебилизм' is the repair stated aloud, which the skill names as the correction's own goal in other words, not an instruction of its own; the 'в 1000000 раз говорю' complaint only restates why the correction wants what it wants and is redundant with it. The closing clause says what the project must do from here on — build a transition for any pair of pictures in the world — a standing rule reaffirmed rather than a new idea, so it is a decision, and it applies to the work already running. A correction and a decision applied to running work both change a piece of work that already existed: nothing is admitted to the board, so creates_work is false and work_items is zero, and the ticket operation is the replan of the one piece in hand. Naming dimensions is right here because a correction is the stated exception: the replanned work changes what the package does with any pair (behaviour), removes the counting path and whatever it fed (architecture and data), and has to keep the regression evidence honest once the count is gone. Smallest specialist set: the developer takes the count out, the spec author records that any pair in the world gets a transition since that goes beyond what the spec says, and the test author picks the evidence that the universal case holds without the old counting checks.",
+  "reasoning": "Work is in flight — the implementation under way counts the image pairs the package ships. The demand to stop counting them changes the constraints of that running work, so it is a correction: 'A correction attaches to work, not to a queue. When a message changes something already in flight, find that work and change it.' The clause 'убери этот дебилизм' is the repair stated aloud, which the skill assigns to the correction itself: 'The first is the repair stated aloud — do it this way instead, sweep it as a class, take that part out. That clause names what the replan will contain, so it is the correction's own goal in other words'; naming it as an instruction of its own would re-open as fresh work the very thing the correction just changed. The closing sentence — any pair of pictures in the world must get a transition built for it — is not merely the correction's grounds, because 'Grounds stated with an act carry their own act only when they say something new'; it states what the project must do from here on, and 'A clause saying what the project will do from here on — the rule, the grant of authority, the division of responsibility — is a decision.' It rides alongside the correction but is recorded separately so the rule survives after that work item closes. 'в 1000000 раз говорю' does not make it a new idea and is not a separate act: 'Reminding that a goal already in the plan still stands is the same kind of act — a decision reaffirmed, not a new idea.' The insult and the exasperation report nothing new — 'A message is conversation when it adds nothing, not when it is said lightly.' Neither act creates work: 'Replanning is what a correction asks for, and replanning takes on nothing that did not already exist: the board gains no row, and the count of new pieces of work the turn produces is zero. The same holds for a decision applied to running work.' Hence work_items 0, creates_work false, attaches_to_existing_work true, and the operation is the state change on the ticket already in flight. Dimensions are named because 'The one exception is a correction, which changes work already running: saying what that work now touches is the whole point of it' — the corrected work changes product behaviour (the engine must build a transition for any pair, not for a counted set), the data and operations that carried the pair counting, and the regressions guarding the removal. Specialists follow that: spec author because 'behaviour changes beyond what the spec already says' — the standing rule is a behaviour law and needs its one declared home; developer because the counting must be taken out; test author because the evidence and regressions for the removed measurement must be rechosen. No architect, prover, publisher or communicator: nothing about boundaries, class-defect hunting or shipping was asked for, and 'Naming a dimension claims something in it must change; if nothing in it changes, do not name it.'",
   "scenario": "correction-stop-counting-pairs",
-  "label": "VA",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "PM",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

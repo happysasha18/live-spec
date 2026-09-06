@@ -1,11 +1,11 @@
 {
-  "id": "MC",
+  "id": "MG",
   "acts": [
     "idea",
     "observation"
   ],
   "operation": [
-    "T1"
+    "none"
   ],
   "creates_work": false,
   "shelves_idea": true,
@@ -13,10 +13,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two acts. Showing reference files is voiced as a possibility, and the same breath says where it goes: far backlog, just as an idea for some later moment. That is the person's own word to keep it for later rather than a request to build it now, so it is handled as an idea, not taken on as work — no goal derived, no decision sheet, nobody holding it. The closing clause, that one agent is still running, is a separate act: it reports a fact about the state of the work with no repair asked for and none following beyond doubt, so it is kept as evidence. Nothing absorbs it just because it arrived as an aside while the person was looking elsewhere. Since no work was accepted and nothing in flight was corrected, the turn names no dimension and calls no specialist, and it produces zero new pieces of work.",
+  "reasoning": "Two acts. The first is an idea: 'может имеет смысл показать референс файлы' names a possibility, and the person immediately says where it belongs — 'но это в дальний бэклог просто как идеи на какой то момент'. The skill is explicit: 'Saying where an idea belongs is not asking for it to be kept: \"just as an idea\", \"far backlog, at some point\" puts the thought down and commissions nothing, so no ticket opens for it, not even a queued one. Only a direct ask to record it — put that on the list — opens one.' There is no such direct ask, so the idea is answered and let go — a passing thought, shelved as an idea rather than taken on. The second act is an observation: 'я пока вижу правда что один агент все еще бежит' reports a fact without asking for a repair, and no repair follows beyond doubt — a competent colleague would need to ask what was wanted, and in fact the situation says work is running, so an agent still running is expected, not a defect. It is recorded as evidence. Per 'No act absorbs another', the observation stays its own act even though it rides in the same breath as the idea; per 'When you cannot tell whether a clause is its own act or part of the neighbouring one, it is its own act', naming it costs a sentence while losing it loses what was said. Neither act creates work: 'An idea is discussed and creates no durable work until the person asks for it. An observation is evidence unless its repair follows beyond doubt.' Nothing in flight has its goal or constraints changed, so this is no correction and attaches to no existing work. Because 'A turn that accepted no work names no dimension and calls no specialist', dimensions and specialists are empty. Operation is [\"none\"]: an idea discussed and let go plus an observation kept as evidence, with no blocker newly named — the running agent is the expected state of work already under way, not a failing command or a missing dependency.",
   "scenario": "idea-plus-a-fact",
-  "label": "MC",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "MG",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

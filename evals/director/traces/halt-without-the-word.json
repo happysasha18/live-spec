@@ -1,5 +1,5 @@
 {
-  "id": "RO",
+  "id": "NW",
   "acts": [
     "halt",
     "observation",
@@ -14,10 +14,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The leading clause asks the running work to stop, and the closing clause says it will be picked up from this same point later, so this is a halt that parks rather than abandons: the state of work already in flight changes, nothing is created, and the ticket is released to be resumed (T6). The announcement that the machine will lose its connection and be closed says something the halt's own goal does not carry, so by the rule that a clause you cannot fold into a neighbour keeps its own act, it stands as an observation. The closing check asks for agreement and is its own act too, the way an invitation to disagree beside a decision stays unanswered if only the decision is read. The reason for leaving in fifteen minutes only restates why the halt wants what it wants, so it earns no act. No work was accepted, so no dimension is named and no specialist is called.",
+  "reasoning": "«тормозни плиз» is a halt: 'A halt is about state, not about words... What makes it a halt is that something running should stop running.' The work in flight should stop; the message adds that it will be picked up again later («возобновим с этого же места»), so the work is parked rather than abandoned — the holder is cleared and the work stays resumable, which is the T6 line, not T9. The reason «мне надо через 15 минут выходить» is grounds, not a second act: 'a reason given with a halt... when it only restates why the neighbouring act wants what it wants, it is not a second act, it is that act's goal in other words.' «я отключу тебя от интернета и закрою» is a fact reported that the halt's own goal does not carry — the machine goes offline and the session closes — and 'A fact reported before a request is still its own act'; where a clause cannot be placed, 'it is its own act', so it is recorded as an observation. «норм?» is its own act as well: 'An invitation to disagree closing out a decision or an instruction is still its own act too... answering only the decision leaves the invitation unanswered' — it asks for confirmation and must be answered. No act absorbs another. creates_work is false and work_items is zero because a halt 'change[s] the state of that work' and 'must not create anything'; 'The same holds for a decision applied to running work and for a halt: both change a piece of work that already existed, and both produce zero new ones.' attaches_to_existing_work is true — the halt names the one piece already in flight for build-pipeline to change. No idea was voiced, so shelves_idea is false. Dimensions and specialists stay empty: 'A turn that accepted no work names no dimension and calls no specialist. The one exception is a correction' — this is a halt, not a correction.",
   "scenario": "halt-without-the-word",
-  "label": "RO",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "NW",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

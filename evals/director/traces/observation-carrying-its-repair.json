@@ -1,21 +1,23 @@
 {
-  "id": "AG",
+  "id": "LG",
   "acts": [
     "observation"
   ],
   "operation": [
-    "T4"
+    "T3"
   ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [],
+  "dimensions": [
+    "quality, safety, regressions"
+  ],
   "specialists": [],
-  "reasoning": "The person reports a fact they just learned from an email: the run that was awaiting a verdict appears to have failed again. Nothing is asked for, so this is an observation, not an instruction. The repair it points at is already in flight with its own open checkpoint, so no new work is accepted and no second row is opened beside the one already being worked; a competent colleague would simply keep going on the repair already taken on, now knowing the latest run went red. The report names a fresh failing run against that open ticket, which is a newly named blocker on work already running, so the turn changes that ticket's state and produces zero new pieces of work. Since no work was accepted and this is not a correction, the turn names no dimension and calls no specialist.",
+  "reasoning": "The person reports a fact — a mail says the push did not pass — and asks for no repair. That is an 'Observation or feedback': 'reports a fact or an impression without asking for a repair', which the Director records as evidence and must not turn into an inferred repair job. The situation is exactly the one the skill names: 'A failure already diagnosed, whose repair is in flight — the fix sent, the work still open, a fresh run under way — is no new problem when it is reported again: it stays an observation and lands on that running work as a correction, opening no second row and naming nothing newly blocked.' The cause was already diagnosed, the repair is an open work item with its own checkpoint, the fix was pushed minutes ago and the fresh CI run is still awaiting a verdict — so this mail is the same known failure arriving again, not a new one. It therefore attaches to that running work rather than starting anything: 'A correction attaches to work, not to a queue. When a message changes something already in flight, find that work and change it… Never answer a correction by creating a second row that contradicts the first.' Because it lands on work already in flight, the count is zero: 'Replanning… takes on nothing that did not already exist: the board gains no row, and the count of new pieces of work the turn produces is zero.' No new blocker is named — the skill says this case names 'nothing newly blocked' — so the operation is not the blocker one; it is the state change on the ticket already in hand, which is what a correction or a decision applied to running work runs. No idea half was voiced, so nothing was shelved. Dimensions are named only because of the exception the skill grants: 'A turn that accepted no work names no dimension… The one exception is a correction, which changes work already running: saying what that work now touches is the whole point of it' — the running work is a red CI run being repaired, which is quality, safety and regressions. No specialist is added: 'None is mandatory' and the repair is already in flight awaiting its verdict, so nothing new is needed to route.",
   "scenario": "observation-carrying-its-repair",
-  "label": "AG",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "LG",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

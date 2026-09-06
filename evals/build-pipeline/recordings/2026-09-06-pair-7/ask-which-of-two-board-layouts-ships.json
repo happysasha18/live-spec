@@ -1,0 +1,12 @@
+{
+  "id": "IN",
+  "closes": false,
+  "reason_kind": "taste call",
+  "reasoning": "The closing kernel lets a shown result close the work only when the verifier can confirm the observable outcome against the frozen definition of done without the person acting as the checker. Here the outcome asked for was a board page that is easier to scan, and the tree carries nothing that decides which of the two layouts delivers it: the shared check `tests/test_board_matches_the_canon.py` passes for both, so it proves only that each renders the canon faithfully — it does not touch the axis the work was accepted on. Both candidates are correct, so no failed check, no red, and no missing artifact separates them; what separates them is how the page reads, which is exactly the judgment the procedure reserves to him rather than an ordinary buildable result a command, a test, or a plain read already confirms. The admission rule points the same way — ask the person only for a product choice no artifact settles — and no earlier decision settles this one, so the pipeline cannot pick a winner and call it execution of a fork he already closed. Shipping one and closing would also make the surviving layout the de facto answer to a question never decided, and a later disagreement would arrive as a new task over a row that shipped the wrong artifact. The row stays open with the two layouts shown side by side and one question put to him: which column shape ships.",
+  "scenario": "ask-which-of-two-board-layouts-ships",
+  "skill_sha256": "6a1821bd0ac403eac99d95c01b656db1028f0dfdddd37cd53fc916f1738954e7",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "IN"
+}

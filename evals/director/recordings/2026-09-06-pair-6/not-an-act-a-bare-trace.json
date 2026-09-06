@@ -1,0 +1,22 @@
+{
+  "id": "XT",
+  "acts": [
+    "observation"
+  ],
+  "operation": [
+    "T4"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "A message with no words — a pasted stack trace — is still an act, and usually an observation: 'A message with no words — a pasted stack trace, a screenshot, a dropped file — is still an act, and usually an observation. What the person wants done with it is often clear from what they were doing a minute earlier.' Here the context supplies that: it arrived moments after a deploy the person was watching, so the paste reports a fact about the deploy they were observing. It is not an instruction — nobody asked for anything — and there is no work in flight whose goal it changes, so it is not a correction or a halt. Under 'Some observations carry their repair with them', a TypeError crashing an entitlement check on a fresh deploy is closer to 'Production is returning 500s' than to 'The onboarding copy feels stiff'; a competent colleague would not need to ask what was wanted. But the skill's rule about creating work still governs the count: no repair task has been derived through the board's one door, and 'A new instruction is only a candidate until skills/build-pipeline derives its observable outcome and definition of done'. What the turn actually names, in the plan's own terms, is a newly named blocker — a failing path on the deploy just watched — so the operation is T4, and creates_work stays false with zero new work items. 'A turn that accepted no work names no dimension and calls no specialist', so dimensions and specialists are empty. Nothing was shelved as an idea.",
+  "scenario": "not-an-act-a-bare-trace",
+  "label": "XT",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

@@ -1,0 +1,34 @@
+{
+  "id": "PZ",
+  "acts": [
+    "correction",
+    "observation",
+    "instruction",
+    "question"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 1,
+  "dimensions": [
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions"
+  ],
+  "specialists": [
+    "Architect",
+    "Product prover",
+    "Test author",
+    "Independent verifier"
+  ],
+  "reasoning": "Read to the end and list every act first: 'a turn scored as one act looks tidy and is missing something the person said.' (1) 'мне надо чтобы ты очень хорошо проверил что после этой модификации код не сильно раздувается (либо подгружается динамически по типу платформы)... ну и вообще что там ничего для пользователя не ломается' arrives as a P.S. to a modification just made — work in flight — and adds constraints it must now satisfy. That is a correction: 'changes the goal or the constraints of work in flight', and 'when a message changes something already in flight, find that work and change it', never 'a second row that contradicts the first'. The no-breakage clause is the same constraint in other words, not a separate act — it is part of that correction's own goal. (2) 'и это прувер тоже должен был бы поймать!' is a judgment about the product — a gap in the prover — and 'a judgment about the product... says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes.' So it is an observation, recorded as evidence; a competent colleague would still not know from it alone what repair was wanted. (3) 'кстати проверь' does say what is wanted: a direct ask to go look at whether the prover catches this class. That is an instruction — 'asks for something to be done' — and it is a result someone could want on its own: the prover's coverage 'could ship without the other, or be cancelled without cancelling the other', so it is separate work, not a step inside the modification. One new piece of work. (4) 'не знаю эт реально или нет' turns over whether any of this is feasible without asking for anything to be built; 'when you cannot tell whether a clause is its own act or part of the neighbouring one, it is its own act', and 'naming one act too many costs a sentence' — a question or musing, answered, nothing recorded. Numbers: the correction adds no row — 'replanning takes on nothing that did not already exist: the board gains no row', so only the prover check counts, work_items 1, and creates_work is true because that result is not covered by the existing task. attaches_to_existing_work is true for the correction half. Operation takes the first fitting line: creates_work true runs T1 then T2 — admitted and taken in hand in one call, since the person asked for the check now rather than to keep it for later. shelves_idea is false: there is no idea half here; the doubt about feasibility is a musing that gets an answer, not an idea offered for queueing. Dimensions are named only where something must change: bundle shape and platform-conditional loading sit in architecture, data, integrations, operations; the no-bloat and no-user-breakage bars and the prover's missed class sit in quality, safety, regressions. Product value is deliberately not named — the point is that user-facing behaviour must not change, and 'naming a dimension claims something in it must change'. Specialists, smallest set the pipeline may need: Architect where loading boundaries and bundle operations move; Product prover for the class defect the prover failed to hunt; Test author to choose the regression evidence; Independent verifier because 'очень хорошо проверил' asks for someone other than the producer to test the result.",
+  "scenario": "mixed-check-now-improve-later",
+  "label": "PZ",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

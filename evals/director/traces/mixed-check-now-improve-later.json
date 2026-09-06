@@ -1,5 +1,5 @@
 {
-  "id": "HU",
+  "id": "UC",
   "acts": [
     "correction",
     "observation",
@@ -15,6 +15,7 @@
   "attaches_to_existing_work": true,
   "work_items": 1,
   "dimensions": [
+    "product value and behaviour",
     "architecture, data, integrations, operations",
     "quality, safety, regressions"
   ],
@@ -23,10 +24,10 @@
     "Product prover",
     "Test author"
   ],
-  "reasoning": "Four acts. The modification is in flight, and demanding that the code not bloat significantly (or be loaded dynamically per platform) and that nothing break for the user adds real constraints to that work's goal, so it is a correction: the existing piece is replanned, the board gains no row and the count of new work stays zero for it. Saying the prover should have caught this is a judgment about the product being broken, which stays worth knowing after this work closes, so it is its own observation rather than the correction's grounds. The explicit ask that follows it, check whether the prover catches this class, is an instruction aimed at a different result: the prover's own coverage could be checked, shipped or cancelled independently of this modification, so it is one new piece of work. Closing with uncertainty about whether that is even feasible asks for a judgment back and is answered in the turn, not recorded. Dimensions cover only what actually changes: packaging and platform-conditional loading, and the regression and safety evidence; user-facing behaviour is required to stay as it is, so it is not named. Specialists are the smallest set the corrected and accepted work may need.",
+  "reasoning": "Read to the end first: 'A single message often carries more than one. Read the whole turn to the end and list every act in it before deciding what to do about any of them.' (1) 'мне надо чтобы ты очень хорошо проверил что после этой модификации код не сильно раздувается (либо подгружается динамически по типу платформы)... ну и вообще что там ничего для пользователя не ломается' lands on the modification that has just been made — work in flight. Per the act table, a correction 'changes the goal or the constraints of work in flight', and 'A correction attaches to work, not to a queue. When a message changes something already in flight, find that work and change it... Never answer a correction by creating a second row that contradicts the first.' The bundle-size bound, the dynamic-loading-by-platform alternative and the no-user-breakage requirement are constraints written into the sheet that work already had; replanning 'takes on nothing that did not already exist: the board gains no row'. The clause about nothing breaking for the user is not a separate result — 'Steps toward a single result are not separate work' — so it stays inside the same replan, not a second row. (2) 'и это прувер тоже должен был бы поймать!' is a judgment about the product: the prover has a gap. 'A judgment about the product — that something is broken, wasteful or invented — says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes.' So it is its own act, an observation, recorded as evidence, not dissolved into the correction it arrived with. (3) 'кстати проверь' asks for that claim to be checked now — the act table's instruction, 'asks for something to be done'. It is a result someone could want on its own: whether the prover catches bundle growth 'could ship without the other, or be cancelled without cancelling the other', so unlike the user-breakage clause it is genuinely separate work — one new piece, and the only one this turn produces. It is not merely reading to answer a question, because what is asked for is a change to what the prover covers, not a fact fetched to reply with. (4) 'не знаю эт реально или нет' turns over whether that is even achievable without asking for anything to be built: a question or musing — 'engage with the thought', write no row. 'No act absorbs another'; and 'When you cannot tell whether a clause is its own act or part of the neighbouring one, it is its own act.' Dimensions are named only for the corrected and the accepted work, as the skill allows for a correction ('saying what that work now touches is the whole point of it'): bundle weight and platform-conditional loading are architecture and operations; 'ничего для пользователя не ломается' is product value and behaviour; the whole ask is a regression and safety check, so quality, safety, regressions. Specialists are the smallest set that work may need: Architect, because dynamic loading by platform type changes boundaries and operations; Product prover, because the person named a class defect the prover let through ('a class defect needs hunting'); Test author, because 'evidence and regressions must be chosen' to bound bundle growth and prove nothing broke. Operation follows the field's own ladder — creates_work is true, so the first fitting line applies and the turn admits the new ticket and takes it in hand.",
   "scenario": "mixed-check-now-improve-later",
-  "label": "HU",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "UC",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

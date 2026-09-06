@@ -1,5 +1,5 @@
 {
-  "id": "SW",
+  "id": "OT",
   "acts": [
     "decision",
     "instruction"
@@ -16,12 +16,12 @@
     "documentation and communication"
   ],
   "specialists": [
-    "Developer"
+    "developer"
   ],
-  "reasoning": "The turn carries two acts. \"From this moment on\" settles a standing rule about how work is kept and shown from here forward - a short plan in plain words, and a permanent \"where we are\" line - and that rule is recorded separately so it outlives any one task. But a standing rule does not absorb the demand for the thing itself: the skill says a rule about how something is kept, reported or shown also asks for that thing, and where the plan and the status line do not exist yet, making them is what the person wants today. So the instruction half is real and gets accepted. It is one result, not two - the plan and the line saying where we are ship together and neither could be cancelled without the other - so one new piece of work, admitted and taken in hand in the same call (T1, T2). Nothing was in flight for this to attach to. The only area that genuinely changes is what gets written and shown to the person, so that single dimension is named; a builder is the only role needed, since the wording rule is already given in the message itself.",
+  "reasoning": "Two acts, not one. «С этого момента … всегда» settles something with force beyond this message: 'A decision is a standing rule, not only a single choice. \"From this point on\", \"always\" … settle something with force beyond the message that carried it', and it 'gets recorded separately, so the rule survives after that work item closes'. That rule pins to the house whose declared sentence covers how work is kept and reported to the person, so it lands in one home rather than being filed twice. But the standing rule does not swallow the demand for now: 'No act absorbs another … a rule about how something is kept, reported or shown also asks for that thing, and where it does not exist yet — the plan to be kept, the status line to be watched — making it is what they want today.' The plan and the «где мы находимся» line do not exist yet, so an instruction was voiced in the same breath and is accepted. Naming only the decision would lose the thing they actually wanted done today. It is one piece of work, not two: 'One instruction stays one piece of work even when it will touch six files' — the kept plan and the shown position are steps toward a single result, not results either of which someone would want cancelled without the other. Nothing is in flight this early in the session, so nothing is corrected or attached; creates_work is true and, per the operation ladder, admitting the ticket and taking it in hand happen in one call. Dimensions are named only for the accepted work, and the only area that must change is documentation and communication — how the plan is written and how position is reported. Naming a further dimension would claim something in it must change, which it does not. Specialists: only a developer, because something must be built. Not the communicator — 'When someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other — routing it to the communicator instead of doing it is how a plain request disappears.' The parenthetical «краткий, без умных слов» is not a third act: it states the constraint of the same request, redundant with that work's own goal, and 'a clause that is plainly redundant with a neighbour's goal does not' earn an act.",
   "scenario": "decision-how-to-report",
-  "label": "SW",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "OT",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

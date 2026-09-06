@@ -1,0 +1,32 @@
+{
+  "id": "VJ",
+  "acts": [
+    "correction",
+    "observation"
+  ],
+  "operation": [
+    "T3"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions",
+    "analytics, unknowns, hypotheses, experiments",
+    "documentation and communication"
+  ],
+  "specialists": [
+    "Developer",
+    "Product prover",
+    "Test author"
+  ],
+  "reasoning": "Work is in flight: the agent has been measuring the current corpus to size its work. The demand to remove any unneeded measurement changes the goal and constraints of exactly that running work, which is the definition given for correction — 'changes the goal or the constraints of work in flight' — and 'A correction attaches to work, not to a queue. When a message changes something already in flight, find that work and change it.' The two trailing clauses, 'remove any memory of this measurement' and 'fix the problem as a class', are not separate instructions: 'Two clauses that ride inside a correction belong to it. The first is the repair stated aloud — do it this way instead, sweep it as a class, take that part out. That clause names what the replan will contain, so it is the correction's own goal in other words; naming it as an instruction of its own re-opens as fresh work the very thing the correction just changed.' It is not a halt either: a goal that came back smaller is still a goal being pursued, and the sizing work goes on toward it under new constraints. 'Any statistics on the current corpus is false' is its own act and an observation: 'A clause saying what is true about the product — this is broken, this measurement is false, this was invented — is an observation, and it stays worth knowing long after the work it arrived with,' and per 'Grounds stated with an act carry their own act only when they say something new,' a judgment about the product says something new even when it doubles as the reason for the neighbouring act. 'We are making a generic engine' is the half already on record — the project's own premise — so it is that clause's grounds and earns no act of its own; it states no new rule, so no decision is named. Numbers follow the rule stated for exactly this case: 'Replanning is what a correction asks for, and replanning takes on nothing that did not already exist: the board gains no row, and the count of new pieces of work the turn produces is zero.' So creates_work false, work_items 0, attaches_to_existing_work true, and the operation is the correction's single state change, T3. shelves_idea is false because no idea half was voiced — there is no conditional branch here, only a repair demanded now. Dimensions are named because 'The one exception is a correction, which changes work already running: saying what that work now touches is the whole point of it': the measurement machinery and its removal from the engine (architecture, data, operations), the statistics and hypotheses themselves being declared false (analytics, unknowns, hypotheses, experiments), the class sweep so the defect does not return (quality, safety, regressions), and erasing every recorded memory of the measurement (documentation and communication). Specialists are the smallest set the replanned work may need: Developer, because something must be changed; Product prover, since 'a class defect needs hunting' is stated outright in the message; Test author, since evidence and regressions must be chosen to keep the removed measurement from coming back.",
+  "scenario": "correction-widening-the-goal",
+  "label": "VJ",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

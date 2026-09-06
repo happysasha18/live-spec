@@ -60,9 +60,16 @@ fields and skipped on this one, because the field did not exist when the produce
 and no re-reading of an old trace can invent it. That skip is a fact about those recordings,
 not an allowance for new ones.
 
+WHAT A PAIR IS FOR. One recording carries producer variance: a scenario can read red on one
+run and green on the next with nothing in the skill or the fixture between them. By this
+directory's own rule a defect is what both independent recordings agree on, so `--pair` grades
+two recording directories and prints their intersection as its last line, `shared reds: N`
+followed by the ids. An empty intersection is the finding — every red on either run is a draw.
+
 USAGE
   check.py --scenario ONE.json --actual RUN.json
   check.py --all       grade every scenario in scenarios.json that has a run in traces/
+  check.py --pair DIR_A DIR_B   grade two recordings and print the reds they share
 """
 import argparse
 import glob
@@ -197,6 +204,22 @@ def grade(scenario, actual):
     return fails, notes, checks
 
 
+def grade_dir(book, tracedir):
+    """Grade one recording directory. Returns (red ids, passed, graded, ids with no run)."""
+    reds, passed, missing = [], 0, []
+    for sc in book["scenarios"]:
+        run = os.path.join(tracedir, sc["id"] + ".json")
+        if not os.path.exists(run):
+            missing.append(sc["id"])
+            continue
+        fails, _notes, _checks = grade(sc, load(run))
+        if fails:
+            reds.append(sc["id"])
+        else:
+            passed += 1
+    return reds, passed, passed + len(reds), missing
+
+
 def load(path):
     with open(path, encoding="utf-8") as fh:
         return json.load(fh)
@@ -219,7 +242,21 @@ def main():
     ap.add_argument("--scenario")
     ap.add_argument("--actual")
     ap.add_argument("--all", action="store_true")
+    ap.add_argument("--pair", nargs=2, metavar=("DIR_A", "DIR_B"))
     a = ap.parse_args()
+
+    if a.pair:
+        book = load(os.path.join(HERE, "scenarios.json"))
+        sets = []
+        for d in a.pair:
+            reds, passed, graded, missing = grade_dir(book, d)
+            print(f"{d}: {passed} of {graded} pass; reds: {' '.join(reds) or 'none'}")
+            if missing:
+                print(f"  {len(missing)} scenarios have no run here")
+            sets.append(set(reds))
+        shared = sorted(sets[0] & sets[1])
+        print("shared reds: " + str(len(shared)) + ("" if not shared else " " + " ".join(shared)))
+        return 0 if not shared else 1
 
     if a.all:
         book = load(os.path.join(HERE, "scenarios.json"))
@@ -243,14 +280,18 @@ def main():
     passed = 0
     noted = 0
     op_only = 0
+    kept_reds = []
     for sc, actual in pairs:
         fails, notes, checks = grade(sc, actual)
         if report(sc.get("id", "scenario"), fails, notes, checks):
             passed += 1
-        elif all(f.startswith("operation:") for f in fails):
+        else:
+            kept_reds.append(sc.get("id", "scenario"))
+        if fails and all(f.startswith("operation:") for f in fails):
             # Red on the operation field and nothing else. Counted apart so a reader can
             # see that field's own share of the score rather than inferring it.
             op_only += 1
+
         if notes:
             noted += 1
 
@@ -265,7 +306,33 @@ def main():
     if noted:
         line += f"; {noted} named an act the scenario did not ask for"
     print(f"\noperation-only reds: {op_only}")
+
+    # THE EXIT CODE FOLLOWS THE INTERSECTION, NOT A CLEAN SWEEP. `recorded_pair` in
+    # scenarios.json names the recording kept beside `traces/`, and a defect here is a red
+    # both independent recordings agree on — a red in one only is producer variance, which
+    # this directory has recorded since 2026-09-02. So `--all` grades the partner too,
+    # prints the variance and the intersection, and exits 0 when the intersection is empty.
+    # Demanding 36 of 36 would be a floor nobody declared, and it would move with the draw.
+    shared = None
+    if a.all:
+        rp = book.get("recorded_pair") or {}
+        partner = rp.get("partner")
+        if not partner:
+            print("no recorded_pair in scenarios.json: the exit demands a clean sweep")
+        else:
+            partner_reds, _p, _g, partner_missing = grade_dir(
+                book, os.path.join(HERE, partner))
+            if partner_missing:
+                print(f"partner {partner}: {len(partner_missing)} scenarios have no run")
+            kept, other = set(kept_reds), set(partner_reds)
+            shared = sorted(kept & other)
+            variance = sorted(kept ^ other)
+            print("variance reds (one recording only): " + (" ".join(variance) or "none"))
+            print("shared reds: " + str(len(shared)) + ("" if not shared else " " + " ".join(shared)))
+
     print(line)
+    if a.all and shared is not None:
+        return 0 if not shared and not missing else 1
     return 0 if passed == len(pairs) and not (a.all and missing) else 1
 
 

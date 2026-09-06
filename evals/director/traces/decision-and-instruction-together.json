@@ -1,5 +1,5 @@
 {
-  "id": "RM",
+  "id": "JH",
   "acts": [
     "instruction",
     "decision"
@@ -16,12 +16,12 @@
     "release, observation, feedback"
   ],
   "specialists": [
-    "Publisher"
+    "Publisher, communicator"
   ],
-  "reasoning": "One breath, two acts. \"always deploy without my confirmation\" settles a standing rule with force beyond this message — a grant of authority, recorded separately so it survives this work item. \"деплой!!\" demands today's deploy right now: the skill's own example is \"always deploy without asking, and deploy this one\", where recording only the standing rule loses the thing they actually wanted done today. No act absorbs another, so the demand keeps its own act. The curse reports nothing new and is not an eighth act. The withholding is a standing policy, not a tracked task, and shipping the ready build has never been checkpointed, so there is no work in flight to attach to: this is a new accepted result, one piece of work, admitted and taken in hand in the same call. The standing rule itself creates nothing and names no dimension of its own; the dimension named belongs to the deploy that was accepted, which ships and has to be reported back.",
+  "reasoning": "Two acts in one breath, and the skill names this exact shape: \"'always deploy without asking, and deploy this one' grants authority going forward and asks for today's deploy in the same breath; recording only the standing rule loses the thing they actually wanted done today.\" So \"деплой блин!!\" is an instruction — the person is asking for the deploy now — and \"запиши себе всегда деплой без моего подтверждения\" is a decision: \"'From this point on', 'always', 'note this for yourself' settle something with force beyond the message that carried it: a standing rule, a grant of authority\", and it \"travels with the request and gets recorded separately, so the rule survives after that work item closes.\" The annoyance ('блин', the exclamation marks) is tone, not a further act: \"a joke or a curse that reports nothing new: these are conversation... Tone does not decide this... A message is conversation when it adds nothing\" — the person's irritation restates why they want the deploy and the rule, adding nothing the two acts do not already carry. The decision here is a grant of authority for the future, not a settlement applied to work already running: the situation states the withholding is a standing policy, not a tracked task, and shipping the build \"has not been checkpointed as its own piece of work\". So there is nothing in flight for a correction, decision or halt to attach to — attaches_to_existing_work is false, and the zero-work rule for \"a decision applied to running work\" does not reach this turn. The instruction is therefore accepted work with its own goal: creates_work true, work_items 1 — one result the person could want on its own, the build shipped. Per the operation ladder, creates_work true runs [\"T1\",\"T2\"], admitting the ticket and taking it in hand in one call. No idea half was voiced, so shelves_idea is false. Dimensions are named only for the accepted work, and only where something must change: shipping the ready build touches release, observation, feedback; nothing in the product's behaviour, path, architecture, tests or docs changes, and \"if nothing in it changes, do not name it.\" The standing rule itself names no dimension — \"A turn that accepted no work names no dimension... This holds for the standing rule that will shape everything built afterwards.\" Specialist: publisher/communicator, called when \"the result ships and has to be explained\"; nothing is built, so no developer, spec author or test author.",
   "scenario": "decision-and-instruction-together",
-  "label": "RM",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "JH",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

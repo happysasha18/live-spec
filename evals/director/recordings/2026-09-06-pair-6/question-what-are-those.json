@@ -1,0 +1,22 @@
+{
+  "id": "BR",
+  "acts": [
+    "question"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The person asks what the shells running in the terminal are, whether they are just programs, and what code they are running. Every clause is one and the same act: 'wants to know something' — the Question row, whose Director column says 'answer the question' and whose must-not column forbids writing a roadmap row, opening a spec or starting work. 'ты все продумал' is not a judgment about the product being broken or invented; it is part of the same asking, so under 'Grounds stated with an act carry their own act only when they say something new' it is not a second act. Nothing is asked for now, so there is no instruction, no idea to shelve, and nothing in flight to correct or halt. Per 'A question creates nothing and changes no document', reading the terminal to answer is reading, not work — 'What it may not do is turn the question into a task because answering it took effort.' Per 'A turn that accepted no work names no dimension and calls no specialist', dimensions and specialists stay empty, work_items is zero, and the operation list falls to the last line of the ladder: everything else — a question — runs ['none'].",
+  "scenario": "question-what-are-those",
+  "label": "BR",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

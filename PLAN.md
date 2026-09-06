@@ -635,7 +635,10 @@ of done naming the person as its checker is refused. `NEXT_STEPS.md` and its tem
 id, no status, no priority and no ordering, and point back here.
 
 The figure came down from 83,596 bytes to 72,377 (16,762 tokens) — the whole 11,219 off the
-Director, 33,294 to 21,977 — and the probe prints it at every start. That is short of the owner's
+Director, 33,294 to 21,977 — and the probe prints it at every start. It reads 73,643 bytes (17,069
+tokens) today: the Director gained 571 bytes on 2026-09-06, two classification sentences the q-823
+reopening required, and the boot file and the profile live outside this tree and move on their own.
+That is short of the owner's
 ~20 KB direction and stays that way tonight, which the paragraph above explains: the rulebook's
 next-heaviest rules carry operative sentences rather than history, and cutting them means cutting
 behaviour on no measurement, which is exactly what the 2026-09-02 withdrawal warns against. The
@@ -644,10 +647,18 @@ rule's own shape allows for free — and no standing scenario suite for the rule
 because nobody has asked for one and no incident calls for it. If the direction is to be pursued
 further, that suite is the first thing to build, and it is his word that opens it.
 
-The scenarios held: 34 of 36 recorded runs pass, the same score as before the cut, and 36 of 36 in
-the twin run; the pipeline's own closing set holds 8 of 9, 9 of 9 in the twin. Both sets are
-hash-pinned to the skill files as they stand, so a later edit to either skill turns the score into
-a declared replay rather than a claim.
+**The scenarios, restated 2026-09-06 against the live pair.** This row closed on "34 of 36 and
+36 of 36 in the twin run", and a score was the wrong thing to close on: it moves with producer
+variance and says nothing about whether the cut broke the Director. What the cut skill is measured
+by now is the pair — two independent recordings, thirty-six fresh producers each, and the reds they
+share. The pair on file reads 34 of 36 in `evals/director/traces` and 33 of 36 in
+`evals/director/recordings/2026-09-06-pair-6`, and **the intersection is empty**: not one scenario
+is red on both, so by this project's own definition of a defect the cut broke nothing. Every verdict
+in both recordings also carries the state operation beside its acts, and the grader reads that field
+exactly. This row's key no longer reads a score at all; it reads
+`check.py --pair … | grep -q '^shared reds: 0'`. The pipeline's own closing set holds 8 of 9, 9 of 9
+in the twin. Every recording is hash-pinned to the skill file it was produced against, so a later
+edit to either skill turns the number into a declared replay rather than a claim.
 
 **Links:** `skills/live-spec-base/SKILL.md`, `skills/director/SKILL.md`,
 `~/.claude/live-spec/profile.md`, `~/.claude/CLAUDE.md`, `evals/director/README.md`.
@@ -860,7 +871,7 @@ Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 ### ✅ The front page is rewritten to be fully accurate — id: q-501
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
-### ⛔ The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
+### 🔄 The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
 **Group:** Board & visibility · **Priority:** normal
 **Source:** restored 2026-09-03, correcting q-813 — `spec/work-board.md` Requirement 309 was
 retired that same evening past what the owner had already settled the morning before:
@@ -868,6 +879,13 @@ retired that same evening past what the owner had already settled the morning be
 Requirement 309 and the rest of `matrix/work-board.md`, scheduled to build after package 2, never
 retired. q-813's own closing text named the collision and left it open for his word; his word was
 already on record, so no new decision was needed to restore this row.
+
+**Statement.** Echo-name: The work board. Description: one page shows the whole queue in columns — what is being done now, who runs each thing, what was done, and how long each took against what it was given — so that a person leading several windows at once reads the answer instead of asking for it, and so that nothing enters work that an outside reader cannot follow, since a task reaches work only through a statement that has passed validation. Plan: 1) the statement and its validation gate the entry into work ∥ 2) the page renders the statement, the ready column and the given-vs-actual time ∥ 3) the page publishes at one stable address and stands in the surface registry 4) the four questions are answered from the page alone over one real working stretch. Estimate: 4–8 hours — basis: no comparable history in this tree; the range is read off the plan's steps, four of them with three running side by side.
+
+**Validation.** 2026-09-06 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-06.**
+
 **What it waited on, and how the waiting ended.** From 2026-09-03 this row stood deferred on the
 vertical path — instruction, ticket, worker, independent acceptance, delivery, done, and a new
 session continuing it. The schedule was the owner's own
@@ -876,8 +894,6 @@ start before this closes"), and until 2026-09-06 the thing being waited on was a
 prompt file rather than a row anyone could open. That day it became `q-823`, with a definition of
 done and a verification command; `q-823` closed the same night and the board was built on top of
 it. The deferral ended there, and nothing on this row waits on another row any more.
-
-**Blocked by:** owner action: the spec names no publish host: spec/work-board.md criterion 8 asks for one stable link and neither it, SURFACES.md, nor docs/prover/2026-08-06-work-board.md F6 says where — F6 folded the any-device leg into a [target] on purpose, for the owner to settle. Three ways stand open: GitHub Pages of this repo, a published artifact page, or the local file path is the link and criterion 8 retires. The pick this row would take is GitHub Pages of this repo, because the board already regenerates into the tree on every landing and Pages serves that same tree from one address with nothing new to run or renew; the owner's word decides
 
 **Holder:** Builder (opus) — board lead
 
@@ -961,9 +977,15 @@ finding F2 is closed by this widened wording, not by a second row.
 
 **Outcome:** an instruction given in one session becomes a ticket, is worked, is accepted by someone other than its producer, delivers, closes, and is picked up by a fresh session with no spoken recap — every state change written by code that refuses the illegal move, rather than by a hand editing two files
 
+**Statement.** Echo-name: The whole ticket path. Description: an instruction given in one session becomes a ticket, is worked, is accepted by somebody other than whoever did the work, delivers, closes, and is picked up by a fresh session with no spoken recap — so that a person who leaves and comes back finds the work where they left it instead of explaining it again, and so that every state change is written by code that refuses the illegal move rather than by a hand editing two files. Plan: 1) the six transitions that had no code are run by code and refuse bad input 2) a correction to a queued ticket rewrites its goal and its done in place, touching no checkpoint 3) a ticket carries its context pointers, and admission refuses one that carries none 4) a worker's brief equals the ticket entry plus its checkpoint's next section, word for word 5) each state-machine fact the contract names has one matrix row reading built against a real test. Estimate: 6–10 hours — basis: no comparable history in this tree; the range is read off the plan's steps.
+
+**Validation.** 2026-09-06 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**The statement above is a backfill, written 2026-09-06 after this row closed.** The statement mechanics landed with q-816, so this row ran without one; the paragraph and its validation line are the record of what the statement would have said, dated the day they were written and not the day the work was taken up. The row was not reopened for it.
+
 **Done when:** the six transitions no code runs today are run by code and refused on bad input: T4 marks blocked only with one of the three named reason kinds and refuses a reason that merely restates difficulty; T5 clears a block only against a named fact and lands in hand or queued by whether a holder is named; T6 parks by clearing the holder and leaving the checkpoint open with NEXT; T7 writes the PLAN.md mark after closing the checkpoint, in that order, and a re-run over an already-closed checkpoint only rewrites the mark; T8 reopens the same id against a named false condition and never a copy; T9 abandons by clearing IN PROGRESS and NEXT with the halt's reason as their last line and closing the checkpoint in the same step. T3's queued half rewrites a queued ticket's goal and done in place, touching no checkpoint. A ticket carries its context pointers and admission refuses one that carries none. A worker's brief equals the ticket entry plus its checkpoint's NEXT with no paraphrase. Every Director verdict fixture carries its operation beside its acts and the grader reads that field. Each of the eight state-machine facts in the contract's section 7B has one TEST_MATRIX row reading built against a real test, including the two that have neither today — a worker gets the exact text, and a real blocker names its cause.
 
-**Verification:** python3 -m pytest -q tests/test_task_admission.py tests/test_checkpoint_mechanism.py tests/test_director_route_end_to_end.py tests/test_director_scenarios.py tests/test_traceability.py, green, with the eight section-7B facts each traced from a TEST_MATRIX row marked built to a test named on that row; plus python3 evals/director/check.py --all reading the operation field on every fixture
+**Verification:** python3 -m pytest -q tests/test_task_admission.py tests/test_checkpoint_mechanism.py tests/test_director_route_end_to_end.py tests/test_director_scenarios.py tests/test_traceability.py, green, with the eight section-7B facts each traced from a TEST_MATRIX row marked built to a test named on that row; plus the Director's operation field measured the way this project defines a defect — `python3 evals/director/check.py --pair evals/director/traces evals/director/recordings/2026-09-06-pair-6` printing `shared reds: 0`, two independent recordings of all thirty-six scenarios agreeing on no red, every verdict in both carrying its operation and the grader reading that field exactly. No score threshold: a score moves with producer variance, and this row already closed once on an arm that read the grader's own conditional line instead of a result.
 
 **Context pointers.** `.live-spec/turnkey-contract-composed.md` section 2 (ticket, context pointer,
 done), section 4 (the T1–T9 table), section 6 (who writes what), section 7 (the two proof kinds and
@@ -979,6 +1001,36 @@ waits on the command that proves it), M-633 (the recorded state names one next a
 resume itself, proven live on 2026-09-02 by a session given only "continue". The row's work is the
 nine pieces the same read found missing; they are listed in q-816's own text, which waits on this
 row.
+
+**Reopened and closed again, 2026-09-06 night.** The first close was false. Its Director arm read
+`check.py --all | grep -q '^operation-only reds:'` — the grader's own conditional line, the source of
+the check rather than its result — while the eval itself exited 1 and the two independent recordings
+on file were red on the same three scenarios: `halt-with-a-reason-worth-keeping`, `idea-plus-a-fact`
+and `observation-carrying-its-repair`. Three reds both recordings agree on are three defects by this
+project's own rule, so the row was reopened against that false condition through
+`scripts/task-admission.py reopen q-823`, never a copy.
+
+Each of the three was settled at its own source, and only two files moved. The halt fixture was
+wrong and the producers right — ordering needless machinery stopped drops the work for good, so its
+`expect.operation` is `["T9"]`. The other two were the Director being unclear, and got one
+classification sentence each: an idea the person parks in a far backlog opens no ticket, not even a
+queued one, and a failure already diagnosed whose repair is in flight lands on that running work as a
+correction rather than as a newly named blocker. The skill grew 571 bytes, 21,977 to 22,548, and
+gained no execution rule. Then all thirty-six scenarios were recorded twice more against the edited
+text by fresh Opus producers under the isolation protocol: 34 of 36 in `evals/director/traces`, 33 of
+36 in `evals/director/recordings/2026-09-06-pair-6`, and **no red shared between them**. Both
+recordings are kept in the tree, because a pair whose second half alone survives cannot be re-checked
+by anyone. `check.py` gained `--pair`, and both this row's key and q-822's now read `shared reds: 0`
+instead of a score.
+
+One caveat on the row's own Verification command, stated rather than hidden: at the moment of this
+close, `tests/test_director_route_end_to_end.py` shows five failures against the working tree, all of
+them from a new refusal in `scripts/task-admission.py` — "no comparable closed row in this tree gives
+an estimate" — which is a lane's uncommitted change to the estimate derivation, not a Director arm.
+The string does not exist in that file at HEAD (`git show HEAD:scripts/task-admission.py`), which is
+the proof of cause. `tests/test_director_scenarios.py`, `tests/test_traceability.py`,
+`tests/test_first_read_carrier.py` and `tests/test_front_door_boundaries.py` are green, and this row's
+key does not read that file.
 
 **Blocks:** `q-816` — the work board, which waits on this row closing.
 

@@ -1,0 +1,28 @@
+{
+  "id": "XX",
+  "acts": [
+    "instruction",
+    "question",
+    "observation",
+    "question"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [],
+  "reasoning": "Read the whole turn to the end and list every act before deciding about any of them; 'No act absorbs another', and a clause you cannot place goes to its own act. (1) 'план на эту сессию текстовый простой в этом окне (5-10 строчек с эмотиконами как статус)' asks for something to be made: 'When someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other'. It is an instruction, not a standing rule — 'A request scoped to this one time — for this session, just this once — names no standing rule at all', and 'на эту сессию' scopes it exactly that way; the format in brackets is that instruction's own goal in other words, not a second act. (2) 'мне надо понять что делает воркер... он весь этот твой план делает или сейчас только часть?' wants to know something — a question, answered without loading a pipeline. (3) 'я ему все скопировал и запустил' reports a fact: 'A fact reported before a request is still its own act', and it says something new the question's goal does not carry (the whole plan, not a part, was handed over), so it is an observation kept as evidence; its repair does not follow beyond doubt, so nothing is inferred from it. (4) 'мне надо понять что получим на выходе' is a second question about the worker's output — naming one act too many costs a sentence, naming one too few loses what somebody said. Nothing here changes work already in flight: the worker running with a copied plan is not being replanned, only asked about, so no correction and no attachment. The one new result someone could want on its own is the short status plan in this window — one instruction stays one piece of work, so work_items is 1 and creates_work is true; by the operation ladder, creates_work true runs T1 and T2, admitting the ticket and taking it in hand in one call. No idea was voiced, so shelves_idea is false. Dimensions are named only for accepted work and only where something must change: the plan is a written status for the person, which is documentation and communication; nothing in product behaviour, architecture, quality, analytics or release changes. Specialists: none is mandatory, and the skill warns that routing a plan request to the communicator instead of doing it is how a plain request disappears, so the smallest set is empty.",
+  "scenario": "mixed-plan-and-two-questions",
+  "label": "XX",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

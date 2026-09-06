@@ -1,5 +1,5 @@
 {
-  "id": "VK",
+  "id": "QG",
   "acts": [
     "question"
   ],
@@ -12,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The whole turn is curiosity about what is already on screen: what these shells are, whether they are just programs, whether they are already running code, and which code. Every clause asks to know something; none asks for anything to be made, changed or stopped. Under the first table row, a question is answered and nothing is recorded — writing a row here is exactly the failure the Director exists to prevent. The doubt in 'ты все продумал?' is part of the same asking, not an observation or a correction: no fact about the product is reported and no work in flight has its goal changed. Answering may require the Director to read the running commands, but reading to answer is not work. Since no work was accepted, the turn names no dimension and calls no specialist, and no ticket changes state.",
+  "reasoning": "The whole turn is one person asking to know something about what they see on their screen — what the running shells are, whether they are just programs, whether they are already running code, and which code. The rapid follow-up clauses are all the same curiosity restated, not separate acts: per 'Grounds stated with an act carry their own act only when they say something new', a clause that is plainly redundant with a neighbour's goal does not get its own act, and 'ты все продумал, они просто уже код гоняют? какой?' only sharpens the same question. Nothing is requested, so by the act table a 'Question or musing' is answered and must not become a roadmap row, a spec, or started work. The Director may read, and may send a reader to fetch and report back, in order to answer — 'What it may not do is turn the question into a task because answering it took effort.' Therefore creates_work is false and work_items is zero; 'A turn that accepted no work names no dimension and calls no specialist', so dimensions and specialists are empty. No work is in flight being changed, so nothing attaches. No idea half was voiced, so shelves_idea is false. Operation falls to the last line of the ladder — 'everything else runs [\"none\"] — a question'.",
   "scenario": "question-what-are-those",
-  "label": "VK",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "QG",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

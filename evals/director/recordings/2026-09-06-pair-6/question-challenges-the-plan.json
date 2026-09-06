@@ -1,0 +1,22 @@
+{
+  "id": "DO",
+  "acts": [
+    "question"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The person is challenging a proposal the agent just made, with two questions in one breath: is this not already what the prover does, and are our real cases simply harder? Both clauses ask the same thing from two sides — whether the proposed step duplicates existing capability — so under 'Grounds stated with an act carry their own act only when they say something new', the second question is the first one's other half, not a separate act. Neither clause reports a fact about the product nor settles anything: they ask. Per the act table, a question 'wants to know something' and the Director's job is to 'answer the question', and it must not 'write a roadmap row, open a spec, start work'. There is no instruction here — nothing was asked to be built — and no correction, because the checking step was only proposed, not in flight; 'When no work is in flight yet, the same message is an idea or an instruction — decide which by whether they are asking for it now', and here it is neither, only a question about the proposal's merit. 'Do not create work to be safe. Creating work is not the safe direction; it is the expensive one.' Answering may require reading what the prover already covers, but 'fetching facts is reading, not work' and the Director may not 'turn the question into a task because answering it took effort'. Since no work was accepted or corrected, 'A turn that accepted no work names no dimension and calls no specialist', so dimensions and specialists are empty and work_items is zero. Operation is ['none'] by the field's own ladder: a question falls in 'everything else'.",
+  "scenario": "question-challenges-the-plan",
+  "label": "DO",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

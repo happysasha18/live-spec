@@ -260,5 +260,36 @@ class TestAKeyThatReadsThisMachineSaysSo(unittest.TestCase):
                                                                  "drawn here yet'; false"))
 
 
+class TestAKeyCannotHideAFailureInsideAPipe(unittest.TestCase):
+    """A key runs under `set -o pipefail`, so a trailing `grep` cannot pass for a failing pipe.
+
+    Without it, `<something red> | grep -q ''` exits on grep's own status and reads green while
+    the thing the key exists to test is red — the shape that closed a row on a grader's own
+    conditional line rather than on its result (q-823, 2026-09-06).
+    """
+
+    def _evaluate(self, command):
+        import sys
+
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from plan_checks_core import evaluate
+
+        task = {"mark": "\u2705", "check": command, "blocked_by": None}
+        return evaluate([task])[0]
+
+    def test_a_failing_command_inside_a_pipe_reads_red(self):
+        # The key named in the order, `false | grep -q ''`, was already red before pipefail —
+        # grep finds nothing in an empty stream and exits 1 on its own. The key that actually
+        # hid a failure is the one whose failing command PRINTS the line the grep looks for
+        # first, which is the exact shape of the q-823 incident: a grader that printed
+        # `shared reds: 0` and then exited 1.
+        self.assertFalse(self._evaluate("false | grep -q ''")["ok"])
+        self.assertFalse(self._evaluate("{ echo 'shared reds: 0'; false; } | "
+                                        "grep -q 'shared reds: 0'")["ok"])
+
+    def test_a_pipe_whose_every_stage_passes_still_reads_green(self):
+        self.assertTrue(self._evaluate("echo hi | grep -q hi")["ok"])
+
+
 if __name__ == "__main__":
     unittest.main()

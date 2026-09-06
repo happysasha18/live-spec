@@ -1,0 +1,12 @@
+{
+  "id": "KQ",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The accepted instruction was itself the redefinition: he ordered the grader to treat an extra act as a failure. The pipeline's rule is explicit that a redefinition he ordered himself is not the reserved third case — he settled the fork when he ordered it, and carrying it out is executing his decision, not making it. So the observable outcome named by the decision sheet (the grader fails a scenario on an extra act) is delivered, the definition of done is decidable by a command rather than by his eye, and the verifier can check it against the changed grader and the re-graded runs without the producer's self-report. The 30-to-26 move is not a defect but the direct arithmetic of the stricter rule he asked for; nothing is broken. A shown result closes the work, and a row is never left open waiting for him to bless an ordinary buildable result. If he looks at the four newly-red runs and disagrees, that disagreement is a new fact and becomes its own task; the closed row stays closed. Nothing here is irreversible outside git, so rule 12's stop-before-acting ground does not apply.",
+  "scenario": "close-a-redefinition-the-person-himself-ordered",
+  "skill_sha256": "c1b65a2e38e983b3841f37cb0add007d33c70d679cbc53f993858798105fe1f5",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "KQ"
+}

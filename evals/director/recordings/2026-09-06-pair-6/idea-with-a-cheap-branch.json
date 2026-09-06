@@ -1,0 +1,29 @@
+{
+  "id": "DK",
+  "acts": [
+    "instruction",
+    "idea"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "product value and behaviour",
+    "the user's path and the design"
+  ],
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "This is the case the skill calls a conditional request: 'Do it if that's easy, and if not just note it for later' — 'если так тоже можно то давай... если не сейчас то запиши, потом сделаем'. Both branches are real and both stay named, so the turn carries an instruction-shaped act and an idea-shaped act. But 'What is exclusive is the outcome: the condition either holds or it does not, so the request is taken as work or handled as the idea half above, never both.' The situation says the display is already built and live in another window of this same tool and showing it here reuses it rather than building anything new, so the condition holds: the work is taken, and the record-it-later branch never fires. shelves_idea is false for that reason — the idea half was not raised as a live question nor answered and let go; the person's condition resolved to the work branch. creates_work is true and work_items is 1: one result someone could want on its own, and 'One instruction stays one piece of work even when it will touch six files.' operation is therefore ['T1','T2'] — 'creates_work true — a piece of work is accepted now — runs [\"T1\",\"T2\"], because admitting the ticket and taking it in hand happen in one call'; the exception for an idea explicitly kept for later does not apply, because that branch was not the one taken. Nothing is in flight that this changes, so attaches_to_existing_work is false. The opening clause ('иногда видны все воркеры внизу вот из другого окна') and the reason ('так прикольнее смотреть динамику') are not separate acts: under 'Grounds stated with an act carry their own act only when they say something new', both only restate what the neighbouring request already wants — seeing the worker display here to watch the dynamics — and 'a clause that is plainly redundant with a neighbour's goal does not' get an act of its own. Neither is a judgment that the product is broken, wasteful or invented, so the exception that preserves such judgments does not apply. The ':)' is conversation and records nothing. Dimensions are named only where something must change: what this window shows and how the person watches it — product value and behaviour, and the user's path and the design. No boundary, data, integration or operations change is implied by reusing a display that already exists, so no architect; no spec change beyond what is asked, so the smallest set is the developer, per 'Name only specialists the accepted or corrected work may need.'",
+  "scenario": "idea-with-a-cheap-branch",
+  "label": "DK",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

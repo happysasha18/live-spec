@@ -1,0 +1,30 @@
+{
+  "id": "TG",
+  "acts": [
+    "correction",
+    "observation"
+  ],
+  "operation": [
+    "T3"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [
+    "product value and behaviour",
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions"
+  ],
+  "specialists": [
+    "Developer",
+    "Test author"
+  ],
+  "reasoning": "Work is in flight — the implementation under way counts the image pairs the package ships — and this message changes what that work must do: stop counting the pairs, and build a transition for any pair of pictures in the world. That is the definition of a correction: it 'changes the goal or the constraints of work in flight', and the Director must 'change that work's goal and replan what is left', never 'open a new task alongside the old one'. So attaches_to_existing_work is true and the operation is the replan of the ticket already held. 'Убери этот дебилизм' is the repair stated aloud — 'do it this way instead, sweep it as a class, take that part out' — which the skill assigns to the correction itself: 'That clause names what the replan will contain, so it is the correction's own goal in other words; naming it as an instruction of its own re-opens as fresh work the very thing the correction just changed.' Hence no instruction act and no new row. 'Ты должен любую пару картинок в мире уметь построить для нее переход' is the same goal said positively, and 'в 1000000 раз говорю' marks it as already on record — 'the half already on record is that clause's grounds and earns no act of its own' — so it adds no decision. What does earn a second act is the judgment carried in 'дебилизм': a statement that this measurement is invented and worthless. 'A judgment about the product — that something is broken, wasteful or invented — says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes', and 'No act absorbs another', so it is recorded as evidence alongside the correction. Counting: 'Replanning is what a correction asks for, and replanning takes on nothing that did not already exist: the board gains no row, and the count of new pieces of work the turn produces is zero.' So creates_work is false and work_items is 0; shelves_idea is false because no idea half was voiced. Dimensions are named because a correction is the one exception where naming what the corrected work now touches 'is the whole point of it': the pair-counting behaviour is removed from the product, the implementation and its data path change to handle any pair, and the guarantee needs evidence against regression. Smallest specialist set: Developer, since something must be built, and Test author, since the 'any pair' guarantee is exactly what the evidence must now pin.",
+  "scenario": "correction-stop-counting-pairs",
+  "label": "TG",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

@@ -1,0 +1,22 @@
+{
+  "id": "PC",
+  "acts": [
+    "question"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The person asks how long the running job will take — 'wants to know something' — which is the question act: 'answer the question; engage with the thought', and it 'must not write a roadmap row, open a spec, start work'. Nothing about the running work's goal or constraints changes, so it is not a correction ('changes the goal or the constraints of work in flight'), and nothing is being told to stop, so it is not a halt ('what makes it a halt is that something running should stop running'). The person is deciding whether to wait, but they have not yet said to stop or to continue — reading it as a halt would guess at an act they did not perform, and 'creating work is not the safe direction'. Answering may require reading the job's progress, but 'a question creates nothing and changes no document... What it may not do is turn the question into a task because answering it took effort.' Per the route contract, work_items is zero for a question, and 'a turn that accepted no work names no dimension and calls no specialist.' Operation is ['none'] by the rule's last line: a question runs ['none'].",
+  "scenario": "question-how-long",
+  "label": "PC",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

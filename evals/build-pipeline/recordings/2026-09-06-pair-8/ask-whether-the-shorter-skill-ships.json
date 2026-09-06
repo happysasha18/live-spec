@@ -1,0 +1,12 @@
+{
+  "id": "WM",
+  "closes": false,
+  "reason_kind": "trade-off no artifact settles",
+  "reasoning": "The work was admitted on the question of whether the front door could be made shorter without costing anything, so the definition of done rests on the eval deciding that. The eval did not decide it: its own record puts about two scenarios of producer variance in a single run, and the observed 30-vs-29 gap sits inside that band, so the run is an indeterminate check rather than a passing one. Under the closing kernel the presence of a run is not success — the command has to actually settle the admitted done — and a row cannot close while its accepted scope still holds an unresolved check, so there is no verifier receipt to close against here. What remains is a live fork: spend 3.7 KB of the pack's front door for a quality difference no artifact can distinguish from noise. That is precisely the trade-off no artifact settles that rule 12/27 reserves for the person, not an ordinary delivered result a command, test, or plain read already confirms. Nothing is irreversible — both versions sit on disk uncommitted — so the pipeline does not stop for danger; it stops because the only remaining judgment is his. The right move is to show both versions and the eval record, state plainly that the measurement cannot separate them, and put the choice to him, holding the row open with his verdict written onto it in the same minute it lands.",
+  "scenario": "ask-whether-the-shorter-skill-ships",
+  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "WM"
+}

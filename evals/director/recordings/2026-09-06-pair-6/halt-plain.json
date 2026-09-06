@@ -1,0 +1,22 @@
+{
+  "id": "SN",
+  "acts": [
+    "halt"
+  ],
+  "operation": [
+    "T6"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The message stops work the agent has already started acting on: «стоп... стоп» is a halt, and 'A halt is about state, not about words' — what makes it a halt is that something running should stop running, and this is the session's own work in flight, not some other system. The stated reason — «забыл обнулить контекст» — is grounds given with the halt, and under 'Grounds stated with an act carry their own act only when they say something new' it only says why the halt wants what it wants (the run should not proceed on this context); it is not a judgment about the product worth keeping after the act closes, so it earns no second act. «секунду» is not one of the seven — it is conversation adding nothing. The halt names no new approach to take instead, so it is not a correction to method. Per the Director's table, a halt changes the state of that work and must not create anything; per 'Replanning is what a correction asks for... The same holds for a decision applied to running work and for a halt: both change a piece of work that already existed, and both produce zero new ones' — creates_work false, work_items 0, attaches to the work in flight. Wanting to reset the context and rerun means the work is parked to resume, not abandoned for good, so the state operation clears the holder and leaves it to resume: T6. 'A turn that accepted no work names no dimension and calls no specialist' — the one exception is a correction, which this is not — so dimensions and specialists stay empty.",
+  "scenario": "halt-plain",
+  "label": "SN",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

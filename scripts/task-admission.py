@@ -18,13 +18,19 @@ decides which transition runs, and this file decides whether it may.
 from __future__ import annotations
 
 import argparse
+import datetime
+import hashlib
+import importlib.util
 import json
+import os
 import re
+import subprocess
 import sys
 import tempfile
 from pathlib import Path
 
 import checkpoint
+import plan_checks_core
 
 
 REQUIRED_NEW = ("title", "observable_outcome", "done_when", "verification", "project", "scope")
@@ -111,8 +117,12 @@ def _row_span(plan: str, task_id: str):
     return m.start(), end, m.group(1), m.group(2)
 
 
-def _set_paragraph(block: str, prefix: str, value):
-    """Set, replace or (value=None) drop the one paragraph of a row that starts with `prefix`."""
+def _set_paragraph(block: str, prefix: str, value, after: str = None):
+    """Set, replace or (value=None) drop the one paragraph of a row that starts with `prefix`.
+
+    A new paragraph lands after the paragraph `after` names when that one is there, so the
+    validation record stands under the statement it judges rather than at the row's head.
+    """
     paras = block.split("\n\n")
     for i, para in enumerate(paras):
         if para.startswith(prefix):
@@ -123,7 +133,13 @@ def _set_paragraph(block: str, prefix: str, value):
             return "\n\n".join(paras)
     if value is None:
         return block
-    paras.insert(1, prefix + " " + value)
+    at = 1
+    if after:
+        for i, para in enumerate(paras):
+            if para.startswith(after):
+                at = i + 1
+                break
+    paras.insert(at, prefix + " " + value)
     return "\n\n".join(paras)
 
 
@@ -139,8 +155,8 @@ def _rewrite_row(plan_path: Path, task_id: str, mark=None, title=None, edits=())
     block = plan[start:end]
     header_end = block.index("\n")
     block = (ROW_HEADER % (mark or cur_mark, title or cur_title, task_id)) + block[header_end:]
-    for prefix, value in edits:
-        block = _set_paragraph(block, prefix, value)
+    for edit in edits:
+        block = _set_paragraph(*((block,) + tuple(edit)))
     checkpoint.write_atomic(plan_path, plan[:start] + block + plan[end:])
 
 
@@ -165,25 +181,298 @@ def _pointers(route: dict) -> str:
     return "; ".join(pointers)
 
 
+# ------------------------------------------------- the statement, its validation, its freeze
+# Requirement 309 criteria 41-62. A task carries one statement — echo-name, description, plan,
+# time estimate — and enters work only after that statement passes a mechanical floor and a
+# clean-context reader. The statement and its validation record live in the task's own PLAN.md
+# entry, keyed by the row's id: PLAN.md is the work board's own source file today, and a second
+# store would be the "two homes for one fact" this project already forbids.
+
+PARALLEL = "\u2225"          # before a step: the plan expects it to run beside the previous one
+EN_DASH = "\u2013"           # the estimate's range separator
+STATEMENT = "**Statement.**"
+VALIDATION = "**Validation.**"
+FROZEN = "**Frozen at take-up"
+
+_STATEMENT_RE = re.compile(
+    r"Echo-name:\s*(?P<echo>.+?)\.\s+"
+    r"Description:\s*(?P<description>.+?)\s+"
+    r"Plan:\s*(?P<plan>.+?)\s+"
+    r"Estimate:\s*(?P<low>[\d.]+)\s*[\u2013\u2014-]\s*(?P<high>[\d.]+)\s+(?P<unit>[A-Za-z]+)"
+    r"\s*[\u2014\u2013-]+\s*basis:\s*(?P<basis>.+?)\s*$", re.S)
+_STEP_RE = re.compile(
+    r"(?P<par>%s\s*)?(?P<n>\d+)\)\s*(?P<text>.*?)(?=\s*(?:%s\s*)?\d+\)|$)"
+    % (PARALLEL, PARALLEL), re.S)
+_VALIDATION_RE = re.compile(
+    r"(?P<date>\d{4}-\d\d-\d\d)\s*\u00b7\s*floor:\s*(?P<floor>[^\u00b7]+?)\s*\u00b7\s*"
+    r"reader:\s*(?P<reader>[^\u00b7]+?)\s*\u00b7\s*echo-name placed:\s*(?P<placed>[^\u00b7]+?)"
+    r"\s*\u00b7\s*status:\s*(?P<status>\w+)", re.S)
+READER_FIELDS = ("What is to be done", "Why", "How long", "Echo-name placed")
+
+
+def _paragraph(block: str, prefix: str):
+    for para in block.split("\n\n"):
+        if para.startswith(prefix):
+            return para
+    return None
+
+
+def read_statement(block: str):
+    """The row's statement, parsed, or None when it carries none that reads."""
+    para = _paragraph(block, STATEMENT)
+    if not para:
+        return None
+    m = _STATEMENT_RE.search(" ".join(para[len(STATEMENT):].split()))
+    if not m:
+        return None
+    out = m.groupdict()
+    out["steps"] = [(int(st.group("n")), bool(st.group("par")), st.group("text").strip())
+                    for st in _STEP_RE.finditer(out["plan"]) if st.group("text").strip()]
+    return out
+
+
+def read_validation(block: str):
+    para = _paragraph(block, VALIDATION)
+    if not para:
+        return None
+    m = _VALIDATION_RE.search(" ".join(para[len(VALIDATION):].split()))
+    return {k: v.strip() for k, v in m.groupdict().items()} if m else None
+
+
+def parallel_expectation(steps) -> int:
+    """How many of the plan's steps stand side by side at its widest — the plan's expectation,
+    never the lane decision, which take-up makes and the LANES line records beside it."""
+    best = run = 0
+    for _, parallel, _ in steps:
+        run = run + 1 if parallel else 1
+        best = max(best, run)
+    return best or 1
+
+
+_REGISTER = None
+
+
+def _register_hits(text: str):
+    """The repo's own register lint, run on the statement's words (criterion 49's clean check)."""
+    global _REGISTER
+    if _REGISTER is None:
+        path = Path(__file__).resolve().with_name("preshow-register-lint.py")
+        if not path.exists():
+            _REGISTER = False
+        else:
+            spec = importlib.util.spec_from_file_location("preshow_register_lint", path)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            _REGISTER = mod
+    return _REGISTER.scan(text) if _REGISTER else []
+
+
+def floor_issues(block: str) -> list:
+    """The mechanical floor: the four fields present, the register clean, the steps in order."""
+    statement = read_statement(block)
+    if not statement:
+        return ["the row carries no statement with an echo-name, a description, "
+                "a plan and an estimate"]
+    issues = []
+    words = statement["echo"].split()
+    if not 2 <= len(words) <= 5:
+        issues.append("an echo-name runs two to five plain words")
+    if not statement["description"].strip():
+        issues.append("the description is empty")
+    if not statement["steps"]:
+        issues.append("the plan names no step")
+    elif [n for n, _, _ in statement["steps"]] != list(range(1, len(statement["steps"]) + 1)):
+        issues.append("the plan's steps are not numbered in the order they run")
+    if not statement["basis"].strip():
+        issues.append("the estimate names no basis")
+    hits = _register_hits(_paragraph(block, STATEMENT) or "")
+    if hits:
+        issues.append("the register check reads %s in the statement" % hits[0][1])
+    return issues
+
+
+def read_reader_record(path) -> dict:
+    """The fresh reader's own answers, as a file of `Field: answer` lines.
+
+    Who writes it is the pipeline skill's sentence: an agent with no project vocabulary, given
+    only the Statement paragraph and the three questions. What this reads is whether the record
+    is complete and which name the reader placed.
+    """
+    text = Path(path).read_text(encoding="utf-8")
+    got = {}
+    for line in text.splitlines():
+        key, sep, value = line.partition(":")
+        if sep and key.strip() in READER_FIELDS:
+            got[key.strip()] = value.strip()
+    missing = [f for f in READER_FIELDS if not got.get(f)]
+    if missing:
+        raise AdmissionError("the reader's record answers nothing for: %s" % ", ".join(missing))
+    # Criterion 50: a question the reader cannot answer fails the statement. The reader is told
+    # to write "cannot tell from this" rather than guess, so that answer is the failure itself.
+    unanswered = [f for f in READER_FIELDS if "cannot tell" in got[f].lower()]
+    if unanswered:
+        raise AdmissionError(
+            "the reader could not answer from the statement alone: %s" % ", ".join(unanswered))
+    return got
+
+
+def _same_name(one: str, two: str) -> bool:
+    norm = lambda s: " ".join(s.lower().replace(".", " ").split())  # noqa: E731
+    return norm(one) == norm(two)
+
+
+def validate(plan_path, task_id: str, reader=None) -> dict:
+    """Run the statement's validation and write its record onto the row.
+
+    A failed floor or a failed reader leaves the record at `status: rewritten`, which is what
+    `hold` refuses on — so the task stays out of work until the statement is rewritten and
+    validated again (criterion 53).
+    """
+    plan = Path(plan_path).read_text(encoding="utf-8")
+    start, end, _, _ = _row_span(plan, task_id)
+    block = plan[start:end]
+    issues = floor_issues(block)
+    floor = "passed" if not issues else "failed (%s)" % issues[0]
+
+    placed, reader_note = "no", "not run"
+    if not issues:
+        if reader is None:
+            reader_note = "not run"
+        else:
+            try:
+                record = read_reader_record(reader)
+            except (AdmissionError, OSError) as exc:
+                reader_note = "failed (%s)" % exc
+            else:
+                if _same_name(record["Echo-name placed"], read_statement(block)["echo"]):
+                    placed, reader_note = "yes", "passed"
+                else:
+                    reader_note = ("failed (the reader placed the name on %r)"
+                                   % record["Echo-name placed"])
+
+    status = "ready" if floor == "passed" and reader_note == "passed" else "rewritten"
+    line = "%s \u00b7 floor: %s \u00b7 reader: %s \u00b7 echo-name placed: %s \u00b7 status: %s" % (
+        datetime.date.today().isoformat(), floor, reader_note, placed, status)
+    _rewrite_row(plan_path, task_id, edits=[(VALIDATION, line, STATEMENT)])
+    return {"status": status, "floor": issues, "reader": reader_note, "placed": placed}
+
+
+# ------------------------------------------------------------------ deriving one at admission
+
+def _echo_name(route: dict) -> str:
+    echo = str(route.get("echo_name") or "").strip()
+    if not echo:
+        echo = " ".join(str(route["title"]).split()[:5])
+    if not 2 <= len(echo.split()) <= 5:
+        raise AdmissionError("an echo-name runs two to five plain words: %r" % echo)
+    return echo.rstrip(".")
+
+
+def _plan_steps(route: dict) -> list:
+    """The plan, in the order the steps run. Given on the route, or read off the definition of
+    done — whose conditions are already the slices of the change, written when the row opens."""
+    raw = route.get("plan")
+    if not raw:
+        raw = [part.strip() for part in str(route["done_when"]).split(";") if part.strip()]
+    steps = []
+    for i, step in enumerate(raw, 1):
+        step = str(step).strip()
+        parallel = step.startswith(PARALLEL)
+        steps.append((i, parallel, step.lstrip(PARALLEL).strip().rstrip(".")))
+    if not steps:
+        raise AdmissionError("a statement carries a plan: the steps in the order they run")
+    return steps
+
+
+def _span(minutes: float):
+    if minutes >= 90:
+        return round(minutes / 60.0, 1), "hours"
+    return round(minutes), "minutes"
+
+
+def comparable_durations(scope: str, plan: str, checkpoints_dir) -> list:
+    """Closed rows of the same group whose own checkpoint stamps give a real duration.
+
+    This is the only history this tree records: the checkpoint file is created when the ticket is
+    admitted and written again at every transition through the close, so its birth and its last
+    write are the two ends of the work. Nothing invents a number where there are no such rows.
+    """
+    out = []
+    if not checkpoints_dir:
+        return out
+    for m in re.finditer(r"(?m)^### (\S+) .+? \u2014 id: (\S+)$", plan):
+        if m.group(1) != DONE:
+            continue
+        nxt = re.search(r"(?m)^#{2,6} ", plan[m.end():])
+        block = plan[m.start():m.end() + nxt.start() if nxt else len(plan)]
+        group = re.search(r"(?m)^\*\*Group:\*\*\s*([^\u00b7\n]+)", block)
+        if not group or group.group(1).strip() != str(scope).strip():
+            continue
+        cp = _checkpoint_path(checkpoints_dir, m.group(2))
+        if not cp.exists():
+            continue
+        st = cp.stat()
+        born = getattr(st, "st_birthtime", st.st_ctime)
+        out.append((m.group(2), max(0.0, (st.st_mtime - born) / 60.0)))
+    return out
+
+
+def _estimate(route: dict, plan: str, checkpoints_dir):
+    history = comparable_durations(route.get("scope", ""), plan, checkpoints_dir)
+    if history:
+        low, unit = _span(min(m for _, m in history))
+        high, _unit = _span(max(m for _, m in history))
+        if _unit != unit:
+            low, unit = round(min(m for _, m in history) / 60.0, 1), "hours"
+        return low, high, unit, (
+            "closed rows %s in the same group, timed off their own checkpoint stamps"
+            % ", ".join(i for i, _ in history))
+    raw = " ".join(str(route.get("estimate") or "").split())
+    m = re.fullmatch(r"([\d.]+)\s*[\u2013\u2014-]\s*([\d.]+)\s+([A-Za-z]+)", raw)
+    if not m:
+        raise AdmissionError(
+            "no comparable closed row in this tree gives an estimate, so the route carries one: "
+            "a range with a unit, as \"2%s4 hours\" \u2014 never an invented default" % EN_DASH)
+    return m.group(1), m.group(2), m.group(3), (
+        "no comparable history in this tree; the range is read off the plan's steps")
+
+
+def derive_statement(route: dict, plan: str = "", checkpoints_dir=None) -> str:
+    """The statement, derived from the route the pipeline already carries — its title, its
+    observable outcome, its definition of done — never typed by the person."""
+    echo = _echo_name(route)
+    description = str(route["observable_outcome"]).strip().rstrip(".")
+    steps = _plan_steps(route)
+    low, high, unit, basis = _estimate(route, plan, checkpoints_dir)
+    written = " ".join(("%s%d) %s" % (PARALLEL + " " if parallel else "", n, text))
+                       for n, parallel, text in steps)
+    return ("Echo-name: %s. Description: %s. Plan: %s. Estimate: %s%s%s %s \u2014 basis: %s."
+            % (echo, description, written, low, EN_DASH, high, unit, basis.rstrip(".")))
+
+
 def next_task_id(plan: str) -> str:
     nums = [int(num) for prefix, num in TASK_HEADER.findall(plan) if prefix == "q"]
     return "q-%d" % ((max(nums) if nums else 0) + 1)
 
 
-def render_task(route: dict, task_id: str) -> str:
+def render_task(route: dict, task_id: str, statement: str) -> str:
     source = route["source"]["detail"].strip()
     return (
         "### ⬜ {title} — id: {task_id}\n"
         "**Group:** {scope} · **Priority:** normal\n"
         "**Source:** {source}\n\n"
         "**Outcome:** {outcome}\n\n"
+        "{statement_prefix} {statement}\n\n"
         "**Done when:** {done}\n\n"
+        "{dod_hash_prefix} {dod_hash}\n\n"
         "**Verification:** {verification}\n\n"
         "**Context pointers.** {pointers}\n"
     ).format(
         title=route["title"].strip(), task_id=task_id, scope=route["scope"].strip(),
         source=source, outcome=route["observable_outcome"].strip(),
+        statement_prefix=STATEMENT, statement=statement,
         done=route["done_when"].strip(), verification=route["verification"].strip(),
+        dod_hash_prefix=DOD_HASH, dod_hash=dod_digest(route["done_when"]),
         pointers=_pointers(route),
     )
 
@@ -236,7 +525,7 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
     cp_path = checkpoints_dir / (task_id + ".md")
     if cp_path.exists():
         raise AdmissionError("checkpoint already exists: %s" % cp_path)
-    task = render_task(route, task_id)
+    task = render_task(route, task_id, derive_statement(route, plan, checkpoints_dir))
     new_plan = insert_row(plan, task)
 
     # Validate the checkpoint completely in a temporary location before either durable write.
@@ -253,14 +542,155 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
             "writes": [str(plan_path), str(cp_path)]}
 
 
+# ------------------------------------------------- the definition of done, and its acceptance
+# The closure kernel. The done is fixed when the row is admitted; changing it is its own
+# operation that keeps the previous text and hash; the executor gives evidence and a verifier
+# who is not the holder issues the verdict; and the close reads that receipt rather than any
+# agent's sentence. The hash lives on the row, beside the text it hashes — the one place the
+# row parser already reads, so there is no second store.
+
+DONE_WHEN = "**Done when:**"
+DOD_HASH = "**DOD hash.**"
+DOD_HISTORY = "**DOD changed.**"
+RECEIPT = "RECEIPT: "
+# The heuristic, said plainly here and in `verify --surface`'s own help: a done written in these
+# words promises something rendered or published, and a fixture passing is not that thing.
+SURFACE_WORDS = re.compile(
+    r"(?i)\b(page|board\.html|link|published|publishes|rendered|renders|url)\b")
+
+
+def dod_digest(text: str) -> str:
+    """The done's sha256, over its own words with runs of whitespace collapsed — so a rewrap
+    is not a change and a reworded condition is."""
+    return hashlib.sha256(" ".join(str(text).split()).encode("utf-8")).hexdigest()
+
+
+def read_dod(block: str):
+    """(the row's definition of done, the hash recorded beside it or None)."""
+    para = _paragraph(block, DONE_WHEN)
+    text = " ".join(para[len(DONE_WHEN):].split()) if para else ""
+    recorded = _paragraph(block, DOD_HASH)
+    return text, (recorded[len(DOD_HASH):].strip() if recorded else None)
+
+
+def tree_hash(root, exclude=None):
+    """(tree, HEAD) — `git write-tree` over a temporary index of the working tree, plus the
+    commit it stands on.
+
+    The temporary index is the point: the receipt pins the tree the verifier actually ran
+    against, including what is not committed yet, and the real index is never touched. The
+    checkpoint directory is left out of the count, because the receipt is written into it — a
+    tree that counted its own ledger would differ from itself the moment it was recorded.
+    """
+    root = Path(root)
+    with tempfile.TemporaryDirectory(prefix="live-spec-tree-") as tmp:
+        env = dict(os.environ, GIT_INDEX_FILE=str(Path(tmp) / "index"))
+        run = lambda *a: subprocess.run(("git",) + a, cwd=str(root), env=env,  # noqa: E731
+                                        capture_output=True, text=True)
+        if run("add", "-A").returncode:
+            raise AdmissionError(
+                "no git tree at %s: an acceptance receipt pins the exact tree it was written "
+                "against, and there is none to pin" % root)
+        if exclude:
+            try:
+                rel = Path(exclude).resolve().relative_to(root.resolve())
+            except ValueError:
+                rel = None
+            if rel:
+                run("rm", "--cached", "-r", "-q", "--ignore-unmatch", str(rel))
+        written = run("write-tree")
+        if written.returncode:
+            raise AdmissionError(
+                "no git tree at %s: an acceptance receipt pins the exact tree it was written "
+                "against, and there is none to pin" % root)
+        head = run("rev-parse", "HEAD")
+        return written.stdout.strip(), (head.stdout.strip() if not head.returncode else "none")
+
+
+def read_receipt(cp):
+    """The last acceptance receipt written into the checkpoint's DONE section, or None."""
+    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    for line in reversed(body.splitlines()):
+        if line.startswith(RECEIPT):
+            try:
+                return json.loads(line[len(RECEIPT):])
+            except json.JSONDecodeError:
+                return None
+    return None
+
+
+def verify(plan_path: Path, checkpoints_dir: Path, task_id: str, by: str,
+           commands=(), surfaces=()) -> dict:
+    """Write the acceptance receipt: who accepted, when, the tree, the frozen done, the
+    commands and the exit code each one actually returned.
+
+    Not a transition. It is the evidence `close` reads instead of an agent's claim, and the one
+    thing the producer may not write: `--by` naming the row's own holder is refused.
+    """
+    by = str(by).strip()
+    if not by:
+        raise AdmissionError("an acceptance receipt names its verifier: verify --by <name>")
+    plan = Path(plan_path).read_text(encoding="utf-8")
+    start, end, _, _ = _row_span(plan, task_id)
+    block = plan[start:end]
+
+    holder = _holder(block)
+    if holder and _same_name(holder, by):
+        raise AdmissionError(
+            "%s produced this work: the executor may hand over evidence and never issues the "
+            "acceptance verdict itself \u2014 verify --by someone who did not hold the row" % by)
+
+    dod, recorded = read_dod(block)
+    if recorded and dod_digest(dod) != recorded:
+        raise AdmissionError(
+            "the definition of done no longer matches the one admitted: the verifier is handed "
+            "the frozen done, so correct it as its own operation before accepting anything")
+    if SURFACE_WORDS.search(dod) and not surfaces:
+        raise AdmissionError(
+            "this done names a rendered or published surface, so the receipt names the surface "
+            "it was read on: verify --surface <path-or-url>. A fixture passing is not the "
+            "surface rendering")
+    commands = [str(c) for c in commands if str(c).strip()]
+    if not commands:
+        raise AdmissionError(
+            "an acceptance receipt records the checks it ran: verify --command \"<cmd>\"")
+
+    cp = _checkpoint_path(checkpoints_dir, task_id)
+    if not cp.exists() or checkpoint.read_checkpoint(cp)["status"] != "open":
+        raise AdmissionError("%s has no open checkpoint to accept" % task_id)
+
+    checks = [[cmd, plan_checks_core.run_key(cmd).returncode] for cmd in commands]
+    tree, head = tree_hash(Path(plan_path).resolve().parent, checkpoints_dir)
+    receipt = {
+        "by": by,
+        "at": datetime.datetime.now().isoformat(timespec="seconds"),
+        "tree": tree, "head": head, "dod_hash": dod_digest(dod),
+        "surfaces": [str(s) for s in surfaces], "checks": checks,
+        # The presence of a check is not success. One non-zero exit is a failed verdict.
+        "verdict": "passed" if all(code == 0 for _, code in checks) else "failed",
+    }
+    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    kept = [ln for ln in body.splitlines()
+            if not ln.startswith(RECEIPT) and not checkpoint._is_empty_body(ln)]
+    line = RECEIPT + json.dumps(receipt, ensure_ascii=False)
+    checkpoint.update_checkpoint(cp, done="\n".join(kept + [line]).strip())
+    return receipt
+
+
 # ---------------------------------------------------------------- T3..T9, one per transition
 
 
-def hold(plan_path: Path, task_id: str, holder: str) -> None:
+def hold(plan_path: Path, task_id: str, holder: str, checkpoints_dir=None, lanes=None) -> None:
     """T2's naming half: a holder takes a ticket that was admitted earlier.
 
     The checkpoint is already there — `admit` opens it — so this writes the one thing the plan
     itself has to carry while work is in hand: who holds it. T5 and T6 both read it back.
+
+    Take-up is also where three of Requirement 309's clauses land. A row whose statement has not
+    passed validation is refused (criterion 49). The wording freezes here, and the row records the
+    date it froze (criteria 58-59), which is what `correct` refuses against afterwards. And the
+    plan's own parallel expectation meets the lane decision take-up actually makes, the two
+    written onto the checkpoint's own LANES line with their divergence named (criterion 46).
     """
     holder = str(holder).strip()
     if not holder:
@@ -279,26 +709,81 @@ def hold(plan_path: Path, task_id: str, holder: str) -> None:
         raise AdmissionError(
             "%s is already in hand, held by %s — park it before another holder takes it"
             % (task_id, current))
-    _rewrite_row(plan_path, task_id, mark=IN_HAND, edits=[("**Holder:**", holder)])
+    block = plan[start:end]
+    record = read_validation(block)
+    if not record or record["status"] != "ready":
+        raise AdmissionError(
+            "%s has not passed statement validation: run `validate` (and rewrite the statement "
+            "where it failed) before taking it up" % task_id)
+
+    edits = [("**Holder:**", holder)]
+    if not _paragraph(block, FROZEN):
+        edits.append((FROZEN, "%s.**" % datetime.date.today().isoformat(), VALIDATION))
+    _rewrite_row(plan_path, task_id, mark=IN_HAND, edits=edits)
+
+    statement = read_statement(block)
+    cp = _checkpoint_path(checkpoints_dir, task_id) if checkpoints_dir else None
+    if statement and cp and cp.exists() and checkpoint.read_checkpoint(cp)["status"] == "open":
+        expects = parallel_expectation(statement["steps"])
+        runs = int(lanes) if lanes else expects
+        line = ("LANES: plan expects %d steps side by side; lane decision runs %d; divergence: %s"
+                % (expects, runs, "none" if runs == expects else
+                   "the plan expected %d side by side and the lane decision runs %d"
+                   % (expects, runs)))
+        # The line goes in DONE, the delivery trail the close writes into, and not in IN PROGRESS:
+        # a close refuses over a non-empty IN PROGRESS, so a lane decision parked there would
+        # either block every close or be wiped by whoever cleared the section to get past it —
+        # and the divergence it records is exactly what the close has to carry.
+        body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+        kept = [ln for ln in body.splitlines()
+                if not ln.startswith("LANES:") and not checkpoint._is_empty_body(ln)]
+        checkpoint.update_checkpoint(cp, done="\n".join(kept + [line]).strip())
 
 
-def correct(plan_path: Path, checkpoints_dir: Path, task_id: str, goal=None, done=None) -> None:
+def correct(plan_path: Path, checkpoints_dir: Path, task_id: str,
+            goal=None, done=None, statement=None, source=None, reason=None) -> None:
     """T3, the queued half: a queued ticket's goal and done are rewritten where they live.
 
     A correction to work already in hand belongs on that work's own checkpoint
     (`checkpoint.py update`), which is why this refuses one: two homes for one correction is
     how the plan and the sheet start disagreeing about what the work is.
     """
-    if goal is None and done is None:
-        raise AdmissionError("a correction rewrites the goal, the done, or both")
+    if goal is None and done is None and statement is None:
+        raise AdmissionError("a correction rewrites the goal, the done, the statement, or several")
     plan = Path(plan_path).read_text(encoding="utf-8")
-    _, _, mark, _ = _row_span(plan, task_id)
+    start, end, mark, _ = _row_span(plan, task_id)
     if mark != QUEUED:
+        frozen = read_statement(plan[start:end])
         raise AdmissionError(
-            "%s is not queued: a ticket in hand is corrected on its own checkpoint" % task_id)
+            "%s is not queued: a ticket in hand is corrected on its own checkpoint%s" % (
+                task_id,
+                "" if not frozen else
+                " \u2014 its statement is frozen at take-up and its echo-name stands as \u00ab%s\u00bb"
+                % frozen["echo"]))
     edits = []
     if done is not None:
-        edits.append(("**Done when:**", str(done).strip()))
+        # The one door through a fixed definition of done, and it leaves a trail: the previous
+        # text, the previous hash, who asked and why. Without both flags the change is refused,
+        # which is what makes "the DOD cannot be silently changed" a fact rather than a wish.
+        if not str(source or "").strip() or not str(reason or "").strip():
+            raise AdmissionError(
+                "changing the definition of done is its own operation: it names --source (who "
+                "asked) and --reason (why), and keeps the previous text and hash on the row")
+        old_text, old_hash = read_dod(plan[start:end])
+        prior = _paragraph(plan[start:end], DOD_HISTORY)
+        prior = prior[len(DOD_HISTORY):].strip() if prior else ""
+        entry = ("%s \u00b7 previous: %s \u00b7 previous hash: %s \u00b7 source: %s "
+                 "\u00b7 reason: %s"
+                 % (datetime.date.today().isoformat(), old_text or "(none)",
+                    old_hash or "(none recorded)", str(source).strip(), str(reason).strip()))
+        edits.append((DONE_WHEN, str(done).strip()))
+        edits.append((DOD_HASH, dod_digest(done), DONE_WHEN))
+        edits.append((DOD_HISTORY, (prior + " " + entry).strip(), DOD_HASH))
+    if statement is not None:
+        # Criterion 61: a revision before take-up runs statement validation again, so the record
+        # of the validation the OLD wording passed goes with the wording it judged.
+        edits.append((STATEMENT, str(statement).strip()))
+        edits.append((VALIDATION, None))
     _rewrite_row(plan_path, task_id, title=(goal.strip() if goal else None), edits=edits)
 
 
@@ -391,11 +876,38 @@ def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
     mark first — a crash would leave a ticket marked done with its work still open.
     """
     plan = Path(plan_path).read_text(encoding="utf-8")
-    _, _, mark, _ = _row_span(plan, task_id)
+    start, end, mark, _ = _row_span(plan, task_id)
     if mark == BLOCKED:
         raise AdmissionError("%s is blocked: clear the block before closing" % task_id)
     cp = _checkpoint_path(checkpoints_dir, task_id)
     if cp.exists() and checkpoint.read_checkpoint(cp)["status"] == "open":
+        dod, recorded = read_dod(plan[start:end])
+        now = dod_digest(dod)
+        if recorded and now != recorded:
+            raise AdmissionError(
+                "the definition of done changed since it was admitted: rewrite it through "
+                "`correct %s --done ... --source ... --reason ...`, never at closing" % task_id)
+        receipt = read_receipt(cp)
+        if not receipt:
+            raise AdmissionError(
+                "%s carries no acceptance receipt: close is a state transition against one, not "
+                "a claim \u2014 run `verify %s --by <someone who did not hold the row>` first"
+                % (task_id, task_id))
+        if receipt.get("verdict") != "passed":
+            failed = [cmd for cmd, code in receipt.get("checks", []) if code != 0]
+            raise AdmissionError(
+                "the acceptance receipt is a failed verdict: %s did not pass. The presence of a "
+                "check is not success" % ", ".join(failed))
+        if receipt.get("dod_hash") != now:
+            raise AdmissionError(
+                "the definition of done changed after it was verified: the evidence is void, "
+                "and %s is verified again against the done as it now reads" % task_id)
+        if receipt.get("tree") != tree_hash(Path(plan_path).resolve().parent,
+                                           checkpoints_dir)[0]:
+            raise AdmissionError(
+                "the tree changed after it was verified: the evidence is void, and %s is "
+                "verified again against the tree as it now stands" % task_id)
+        _write_delivery_trail(plan, task_id, cp)
         try:
             checkpoint.close_checkpoint(cp)
         except ValueError as exc:
@@ -403,6 +915,39 @@ def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
     # The holder stays on the row. T8's fork reads it — a done that turns out false comes back
     # in hand where somebody still holds it, and queued where nobody does.
     _rewrite_row(plan_path, task_id, mark=DONE)
+
+
+def _write_delivery_trail(plan: str, task_id: str, cp: Path) -> None:
+    """Criteria 46 and 63-65: the close writes the time the task was given beside the time it
+    took, and the lane divergence take-up recorded, into the trail the delivery report draws on.
+
+    The actual is read off the checkpoint's own stamps — the file is created when the ticket is
+    admitted and written again at every transition, the last of which is this close.
+    """
+    start, end, _, _ = _row_span(plan, task_id)
+    statement = read_statement(plan[start:end])
+    if not statement:
+        return
+    st = cp.stat()
+    born = getattr(st, "st_birthtime", st.st_ctime)
+    minutes = max(0.0, (st.st_mtime - born) / 60.0)
+    unit = statement["unit"]
+    if unit.lower().startswith("hour"):
+        actual = "%.1f %s" % (minutes / 60.0, unit)
+    elif unit.lower().startswith("day"):
+        actual = "%.1f %s" % (minutes / 1440.0, unit)
+    else:
+        actual = "%d %s" % (round(minutes), unit)
+    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    lanes = [ln for ln in body.splitlines() if ln.startswith("LANES:")]
+    divergence = lanes[0].split("divergence:")[-1].strip() if lanes \
+        else "no lane decision was recorded at take-up"
+    trail = ["estimate %s%s%s %s \u2192 actual %s" % (
+        statement["low"], EN_DASH, statement["high"], unit, actual),
+        "divergence: %s" % divergence]
+    kept = [ln for ln in body.splitlines()
+            if not ln.startswith("estimate ") and not ln.startswith("divergence: ")]
+    checkpoint.update_checkpoint(cp, done="\n".join(kept + trail).strip())
 
 
 def reopen(plan_path: Path, checkpoints_dir: Path, task_id: str,
@@ -490,9 +1035,25 @@ def main() -> int:
 
     op("admit", help="T1+T2 — one accepted route becomes one row and one checkpoint"
        ).add_argument("--route", required=True, type=Path)
-    op("hold", ("--holder", True), help="T2 — name the holder of a ticket already admitted")
-    op("correct", ("--goal", False), ("--done", False),
-       help="T3 — rewrite a queued ticket's goal and done in place")
+    op("hold", ("--holder", True), help="T2 — name the holder of a ticket already admitted"
+       ).add_argument("--lanes", type=int,
+                      help="how many steps the lane decision actually runs side by side")
+    op("validate", ("--reader", False),
+       help="run the statement's floor and its clean-context reader, and write the record")
+    op("correct", ("--goal", False), ("--done", False), ("--statement", False),
+       ("--source", False), ("--reason", False),
+       help="T3 — rewrite a queued ticket's goal, done and statement in place; --done also "
+            "names --source and --reason, and keeps the previous text and hash")
+    accept = op("verify", ("--by", True),
+                help="write the acceptance receipt: the frozen done, the exact tree, and the "
+                     "exit code each check actually returned")
+    accept.add_argument("--command", action="append", default=[], dest="command",
+                        help="a check to run, repeatable; any non-zero exit is a failed verdict")
+    accept.add_argument("--surface", action="append", default=[], dest="surface",
+                        help="a path or URL the acceptance was read on, repeatable. Required "
+                             "when the done names a rendered or published surface — the "
+                             "words page, board.html, link, published, rendered, url — "
+                             "because a fixture passing is not the surface rendering")
     op("block", ("--kind", True), ("--reason", True), help="T4 — mark blocked, reason named")
     op("unblock", ("--cleared-by", True), help="T5 — clear a block against a named fact")
     op("park", ("--next", True), help="T6 — clear the holder, leave the checkpoint open")
@@ -514,9 +1075,19 @@ def main() -> int:
             print(worker_brief(plan, cps, args.id), end="")
             return 0
         if args.op == "hold":
-            hold(plan, args.id, args.holder)
+            hold(plan, args.id, args.holder, checkpoints_dir=cps, lanes=args.lanes)
+        elif args.op == "validate":
+            print(json.dumps({"status": "ok", **validate(plan, args.id, reader=args.reader)},
+                             ensure_ascii=False))
+            return 0
         elif args.op == "correct":
-            correct(plan, cps, args.id, goal=args.goal, done=args.done)
+            correct(plan, cps, args.id, goal=args.goal, done=args.done,
+                    statement=args.statement, source=args.source, reason=args.reason)
+        elif args.op == "verify":
+            print(json.dumps({"status": "ok", "receipt": verify(
+                plan, cps, args.id, args.by, commands=args.command, surfaces=args.surface)},
+                ensure_ascii=False))
+            return 0
         elif args.op == "block":
             block(plan, cps, args.id, args.kind, args.reason)
         elif args.op == "unblock":
@@ -530,8 +1101,9 @@ def main() -> int:
         elif args.op == "abandon":
             abandon(plan, cps, args.id, args.reason)
     except (OSError, json.JSONDecodeError, AdmissionError, ValueError) as exc:
+        # Every refusal: one plain reason, exit 2, and the row's mark exactly where it was.
         print(json.dumps({"status": "red", "error": str(exc)}, ensure_ascii=False))
-        return 1
+        return 2
     print("%s: %s" % (args.op, args.id))
     return 0
 

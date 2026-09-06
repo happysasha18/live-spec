@@ -1,5 +1,5 @@
 {
-  "id": "AV",
+  "id": "OC",
   "acts": [
     "correction",
     "observation"
@@ -12,20 +12,20 @@
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [
-    "product value and behaviour",
     "architecture, data, integrations, operations",
     "quality, safety, regressions",
     "analytics, unknowns, hypotheses, experiments"
   ],
   "specialists": [
+    "Architect",
     "Developer",
     "Product prover",
     "Test author"
   ],
-  "reasoning": "Measuring the current corpus is the work already in flight, and this message changes its goal and constraints: drop the unnecessary measurement, strip every trace of it, and treat the defect as a class. That is a correction, so it attaches to the running work and is replanned in place; the board gains no row and the turn produces zero new pieces of work. The clause that states the repair aloud - remove every memory of the measurement, cure it as a class - is the correction's own goal in other words, not a separate instruction, and naming it separately would reopen as fresh work exactly what the correction just changed. The claim that we are building a generic engine and that any statistic over the current corpus is false is a judgment about the product: it says something new, stays worth knowing after this work closes, and is recorded as evidence rather than dissolved into the correction's grounds. Because a correction is the one case where naming what the corrected work touches is the point, the dimensions cover the engine's behaviour, the code and data carrying the measurement, the regressions that must keep it from returning, and the withdrawn measurement itself; the specialists are the ones the replanned work may need to remove it, hunt the class, and choose the evidence.",
+  "reasoning": "The situation names work already in flight: the agent has been measuring the current corpus to size its work. 'Убери любое ненужное измерение' changes the goal and constraints of exactly that work, which is the Director's definition of a correction — 'changes the goal or the constraints of work in flight', and 'A correction attaches to work, not to a queue... find that work and change it', never by opening a second row. The closing clause, 'Убери любое воспоминание об этом измерении и лечи срочно проблему как класс', is the repair stated aloud — 'do it this way instead, sweep it as a class, take that part out' — which the skill says 'names what the replan will contain, so it is the correction's own goal in other words'; naming it as its own instruction would re-open as fresh work the very thing the correction just changed. Urgency ('срочно') is pacing, not a further act. 'Мы делаем генерный движок. Любая статистика по текущему корпусу ложная' is a judgment about the product — that a measurement is false and invented — and the skill is explicit that such a judgment 'says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes'; under 'Which act a standing clause is', the half that states what is true about the product is an observation, so it is recorded as evidence rather than dissolved into the correction's grounds. Because the turn is a correction plus an observation, the action is to change existing work: 'Replanning is what a correction asks for, and replanning takes on nothing that did not already exist: the board gains no row, and the count of new pieces of work the turn produces is zero' — so creates_work is false and work_items is 0, and the one piece already in flight keeps its sheet with a new goal written into it. No idea half is present, so shelves_idea is false. Dimensions are named under the stated exception that 'a correction... changes work already running: saying what that work now touches is the whole point of it': the measurement machinery being torn out of the path is analytics/hypotheses, the generic-engine boundary is architecture and operations, and a class-wide sweep with no corpus statistics left behind is quality and regressions. Specialists are the smallest set that replan may need: the Developer to remove the measurement, the Architect because the engine's boundaries and what it may depend on change, the Product prover because 'a class defect needs hunting' is exactly what 'лечи проблему как класс' asks, and the Test author to choose the evidence that no corpus-derived statistic returns.",
   "scenario": "correction-widening-the-goal",
-  "label": "AV",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "OC",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

@@ -1,0 +1,24 @@
+{
+  "id": "DU",
+  "acts": [
+    "idea",
+    "instruction",
+    "observation"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Three acts, read to the end of the turn. (1) Idea: «может имеет смысл обогатить аудит скилл» names a possibility, hedged with «может», and the person is not asking for the audit skill to be changed now — «An idea is not an instruction. The difference is whether the person is asking for the thing now». Nothing in that area is in flight, so it stays an idea; it is discussed and let go or raised as one live question, and «it becomes a row only on the person's own word». (2) Instruction: «кинь лайвспеку идею» does ask for something to be done, so it is its own act — «No act absorbs another» — but it produces no work item, because «Passing an idea on is not work. Where the ask is to hand the idea itself to someone — tell another project, drop it in their inbox — that is passing a message, done in the turn like an answer: no row, no work item.» The idea is handed on, not commissioned; nothing is made to exist. (3) Observation: «в спеке такое не надо, а если тексты, или сообщения то иногда надо такое» plus «может это хорошо для всех холодных читателей если это НЕ спека» is a judgment about the product — that the audit's behaviour should differ for spec versus ordinary text — and «A judgment about the product … says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes». It reports how things stand without asking for a repair, and a competent colleague would still have to ask what change was wanted, so no repair follows beyond doubt. Nothing is in flight for this to correct, so it is not a correction; no standing rule is laid down for the project from here on, so it is not a decision. creates_work is false: «creates_work — true only when a new result not covered by an existing task is being accepted», and no result was accepted. work_items is zero. Dimensions and specialists are empty: «A turn that accepted no work names no dimension and calls no specialist … naming them here routes a piece of work nobody has taken on.» Operation is [\"none\"] by the ladder's last line — an idea discussed and passed on, and an observation kept as evidence.",
+  "scenario": "idea-for-another-project",
+  "label": "DU",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

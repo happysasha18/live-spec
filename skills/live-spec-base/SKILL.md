@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-seven rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
+description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-eight rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
 metadata:
   version: 6.1.0
 ---
@@ -418,6 +418,14 @@ its own manifest line. Every other rule below keeps the number it already carrie
 
     — prose-only, no dedicated check; the history and the measured numbers behind it are in
     `references/rule-origins.md`.
+
+42. **A task must not redefine its own definition of done so that the result already produced
+    becomes acceptable.** The done is written when the row opens and judged as written. Rewriting
+    it to fit what shipped turns the one thing that could have failed into something that cannot,
+    and every row after it closes on nothing.
+
+    — backed by the close in `scripts/task-admission.py`, which recomputes the done's own hash and
+    refuses a close over a mismatch (matrix M-640, M-641).
 
 ## Work that belongs elsewhere
 

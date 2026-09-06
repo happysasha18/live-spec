@@ -73,6 +73,18 @@ it believes is wrong without having said so first. Silent agreement is its own k
 it looks like competence and is actually the pipeline skipping the one check only it, holding
 the fuller picture of what is already built and decided, can run.
 
+**A task enters work only through a validated statement.** The skill body carries the four fields
+admission derives and the command that validates them, and is not repeated here; what it defers to
+this page is who writes the reader's file and what take-up freezes. That `<file>` carries the
+answers of a fresh agent holding no project vocabulary, given only the Statement paragraph and
+three questions — what is to be done, why, and how long — plus the short name it places on the
+work. A failed floor or a failed reader leaves the row out of work until the statement is rewritten
+and validated again. `hold --lanes <n>` then takes the row up: it freezes the wording, and it writes the plan's own
+expectation of what runs side by side against the lane decision `<n>` actually makes, naming any
+divergence on the checkpoint's `LANES` line. From that freeze on the task is spoken in those words
+letter for letter — in the chat, in a worker's brief, at the close — and the close carries the
+estimate beside the actual and that divergence into the delivery trail.
+
 **New work opens a checkpoint before the first specialist is called; work already in
 flight updates the one it already has — never a second `new` on the same work.** An
 instruction naming a goal nothing already covers opens a fresh checkpoint: run `python3
@@ -128,7 +140,9 @@ protocol: when a fresh checker is required (SPEC INV-46) versus when the pipelin
 re-check against the decision sheet's observable outcome is enough, the worker-restore
 gate, and the audit walk. The short version: a check that did not produce the work is
 handed the observable outcome and the paths the work actually touched, and checks the
-claim against them directly.
+claim against them directly. That closing check reaches the product on real data — the thing as it
+actually runs, over the records it really reads — never a stand-in built for the test, and never
+the producer's own test alone.
 
 **Closing the work closes the checkpoint in the same step, never a later one.** Once the
 verifier is satisfied, clear the checkpoint's IN PROGRESS and NEXT sections to reflect what
@@ -164,6 +178,49 @@ still read "awaits his walk" the whole time. An adversarial reviewer caught the 
 session, and not him. The corollary is amend, not append: a new verdict replaces the superseded
 board state in place, and the old text moves to history; appending an addendum over a line
 the verdict has already made stale is the failure that produced that incident.
+
+## The trusted closure kernel
+
+The skill body carries the rule in short. These are the ten clauses it defers here, and the
+commands that run them.
+
+- The definition of done (DOD) is fixed at admission and cannot be silently changed after work
+  starts.
+- Changing the DOD is a separate explicit T3 operation: keep the previous text/hash, the source and
+  the reason of the change.
+- The executor may provide evidence but may not issue the final acceptance verdict itself.
+- The verifier receives the frozen DOD, the real diff/artifact, the check commands, and the exact
+  commit/tree hash.
+- Any change after verification voids the evidence.
+- The presence of a test, a field or a report is not success: the command must actually pass.
+- A task cannot close while its accepted scope still holds todo/target/not-built, a missing
+  artifact, or a red check.
+- No numeric threshold may be invented after start that was not in the admitted DOD.
+- `blocked` is allowed only for a real external dependency; needing the owner's choice is not
+  blocked.
+- close is a controlled state transition, never a textual claim by an agent.
+
+`admit` writes the DOD's own sha256 onto the row beside the text it hashes. `correct <id> --done
+"<new>" --source "<who asked>" --reason "<why>"` is the only door through it: it records the
+previous text and the previous hash on the row, and a `--done` without both of those flags is
+refused. The close recomputes the hash from the row and refuses a mismatch, so a done edited by
+hand between admission and closing stops the close rather than passing under it.
+
+`verify <id> --by <name> --command "<cmd>" [--command ...] [--surface <path-or-url>]` writes the
+acceptance receipt into the checkpoint's `DONE` section: who accepted, when, the tree hash `git
+write-tree` computes over a temporary index of the working tree, the HEAD commit, the frozen DOD's
+hash, the surfaces given, and every command with the exit code it actually returned. `--by` is
+refused when it names the row's own holder, because the holder is the producer. A receipt carrying
+any non-zero exit code is a failed verdict, which is what "the presence of a test is not success"
+means in code. Where the DOD names a rendered or published surface — the words `page`, `board.html`,
+`link`, `published`, `rendered`, `url` — a receipt with no `--surface` is refused, because a fixture
+passing is not the surface rendering.
+
+`close` reads that receipt rather than any agent's sentence. It refuses when there is none, when
+its verdict failed, when the DOD's hash has moved since it was written, or when the tree hash no
+longer matches the tree as it stands — a change after verification voids the evidence and the work
+is verified again. Every refusal prints one plain reason, exits 2, and leaves the row's mark exactly
+as it was.
 
 **Landing a change owes its own law, regardless of which specialist performed the work.** See
 [the landing law](landing-law.md) for the bug-door tripwire, the

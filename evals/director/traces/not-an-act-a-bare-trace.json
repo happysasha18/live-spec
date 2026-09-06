@@ -1,5 +1,5 @@
 {
-  "id": "KQ",
+  "id": "EY",
   "acts": [
     "observation"
   ],
@@ -19,10 +19,10 @@
     "Developer",
     "Test author"
   ],
-  "reasoning": "A message with no words is still an act, and a pasted stack trace is usually an observation. This one carries its repair with it: a crash in checkEntitlement thrown moments after a deploy the person was watching is the 'production is returning 500s' case, not the 'copy feels stiff' case. A competent colleague would not need to ask what was wanted, so the Director acts rather than asking. Nothing was in flight that this changes, so it is not a correction and attaches to no existing work: the crash is one result someone could want on its own, so one new piece of work is accepted, admitted and taken in hand. It touches the paid behaviour that broke and the regression evidence that must stop it coming back; the entitlement check is a code fix, not a boundary or integration change, so no architect. The person said nothing beyond the trace, so no idea and no standing rule were voiced.",
+  "reasoning": "A wordless paste is covered explicitly: 'A message with no words — a pasted stack trace, a screenshot, a dropped file — is still an act, and usually an observation. What the person wants done with it is often clear from what they were doing a minute earlier.' Here the minute earlier is a deploy they were watching, so nothing needs asking — the one short question the skill reserves for an unclear paste is not owed. The act is therefore an observation, not an instruction: they reported a fact, they did not phrase an ask. The question is then whether the repair follows. 'Some observations carry their repair with them' sets the test as whether a competent colleague would need to ask what was wanted; a live TypeError in checkEntitlement moments after a deploy is the same shape as 'Production is returning 500s' — nobody pastes a fresh crash from their own deploy to be agreeable, and no colleague would ask whether the crash should be fixed. The repair follows beyond doubt, so the Director acts rather than merely filing evidence, and the exception in the observation row ('infer a repair job, unless the repair follows from the situation beyond doubt') is met. Nothing in the scenario names a repair already diagnosed and in flight, so the clause about a known failure reported again — 'the fix sent, the work still open, a fresh run under way' — does not apply and this does not land as a correction on running work; the deploy the person was watching is not itself an open task whose goal is being changed. That makes this newly accepted work: creates_work is true, attaches_to_existing_work is false, and one result is wanted — the crash stopped — which is one piece of work however many files it touches ('One instruction stays one piece of work even when it will touch six files'). Since a piece of work is accepted now, the operation line taken is the first that fits: admitting the ticket and taking it in hand in one call, ['T1','T2']. No idea half was voiced, so shelves_idea is false, and no new blocker is named — the crash is the work itself, not something only the person can clear. Dimensions are named only where something must change: the entitlement check behaves wrongly for real users (product value and behaviour) and this is a live regression that needs evidence against its return (quality, safety, regressions). Specialists stay the smallest set the pipeline may need — the developer to fix the undefined read at billing.js:142, and the test author to choose the regression that proves it stays fixed. No architect: nothing says a boundary, integration or data shape changes, only that a value arrived undefined.",
   "scenario": "not-an-act-a-bare-trace",
-  "label": "KQ",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "EY",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

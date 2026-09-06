@@ -1,5 +1,5 @@
 {
-  "id": "GH",
+  "id": "OU",
   "acts": [
     "question"
   ],
@@ -12,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two sentences, one act: the person asks what a printable block is and why it is needed. Both clauses ask for the same understanding of a term the agent has just been using, so the second is not a separate act but the same question continued. Nothing is requested to be built, changed, stopped or decided, and nothing new about the product is reported. Per the skill, a question is answered without loading a pipeline: it creates nothing, changes no document, and names no dimension or specialist. Answering it may take reading, but reading to answer is not work. Since no ticket state changes, the operation is none.",
+  "reasoning": "The person asks what a printable block is and why it is needed, mid-conversation about a document format the agent was describing. That is the first act in the table: 'Question or musing — wants to know something... answer the question; engage with the thought', and it 'must not write a roadmap row, open a spec, start work'. Nothing here asks for anything to be made or changed, so it is not an instruction, and no work is in flight whose goal it alters, so it is not a correction. The skill's own words: 'A question creates nothing and changes no document. That does not mean answering it is free: a good answer often needs facts, and fetching facts is reading, not work... What it may not do is turn the question into a task because answering it took effort.' Two questions in one breath about the same thing are one act, not two — they are 'Steps toward a single result', a single ask for an explanation of the same term, its meaning and its purpose. Under 'Route contract', work_items is 'zero for a question', and 'A turn that accepted no work names no dimension and calls no specialist', so dimensions and specialists stay empty. No idea half was voiced, so shelves_idea is false. Operation takes the last line of the ladder: 'everything else runs [\"none\"] — a question...'.",
   "scenario": "question-what-is-it",
-  "label": "GH",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "OU",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

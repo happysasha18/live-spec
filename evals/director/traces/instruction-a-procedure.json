@@ -1,8 +1,7 @@
 {
-  "id": "MG",
+  "id": "DO",
   "acts": [
-    "instruction",
-    "question"
+    "instruction"
   ],
   "operation": [
     "T1",
@@ -18,10 +17,10 @@
   "specialists": [
     "Developer"
   ],
-  "reasoning": "\"Stop the server on 8790\" is not a halt: the skill says a halt is about the session's own work in progress, and \"stop the server\" said in the middle of a procedure names a step of that procedure — it is an instruction, part of the work. Stopping, relaunching from the named directory with the given command, and checking it listens on 0.0.0.0 rather than 127.0.0.1 are steps toward one result someone could want on its own — a server actually reachable on the LAN interface — so they stay one piece of work, however many commands they take. The closing ask, name the Mac's actual Wi-Fi IP rather than the assumed one, is a separate act: the person wants to know something, and no act absorbs another. Answering it needs facts, and fetching facts is reading, not work, so it adds no second piece of work. The turn therefore accepts one new piece of work and answers a question alongside it: admitting the ticket and taking it in hand is T1 then T2. The work touches how the machine runs and what it exposes on the network, and nothing else changes — no behaviour the spec describes, no interface, no test choice — so operations is the only dimension named and the developer the only specialist; the verification is the person's own instruction inside the work, not an independent verifier standing outside it.",
+  "reasoning": "The turn is one instruction: the person asks for something to be done now, so the Director accepts the work, states the goal understood, and begins. The opening clause 'останови текущий сервер' is not a halt: 'A halt is about the session's own work in progress, not about some other system that happens to be running: \"stop the server\" said in the middle of a procedure names a step of that procedure — it is an instruction, part of the work, not a halt.' Stopping, relaunching from the named directory with the given command, confirming the socket is on 0.0.0.0:8790 rather than 127.0.0.1, and reporting the machine's real Wi-Fi address are steps toward one result — a server actually reachable on the LAN at a known address — and 'Steps toward a single result are not separate work, however many of them there are'; 'One instruction stays one piece of work even when it will touch six files.' Nothing here could ship or be cancelled on its own, so no second row opens. 'Проверь, что он слушает…' and 'не предполагаемый' are the acceptance conditions inside that same instruction, not a correction to work in flight and not a separate act. No idea, decision or standing rule was voiced — the request is scoped to this run, so nothing is recorded beyond the work itself. creates_work is true because a new result not covered by an existing task is accepted, and by the operation ladder an accepted piece of work runs T1 then T2, admitting the ticket and taking it in hand in one call. Dimensions name only what genuinely changes: a local process, its port and its bind address are operations; 'Naming a dimension claims something in it must change; if nothing in it changes, do not name it' — no product behaviour, spec or user-facing design changes here. Specialists: only the developer, since something must be built/run; the verification asked for is the producer's own check of the socket, not a case where 'someone other than the producer must test the result'.",
   "scenario": "instruction-a-procedure",
-  "label": "MG",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "DO",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

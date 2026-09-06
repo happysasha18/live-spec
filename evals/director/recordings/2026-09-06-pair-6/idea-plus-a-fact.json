@@ -1,0 +1,23 @@
+{
+  "id": "IN",
+  "acts": [
+    "idea",
+    "observation"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Two acts in one turn, and the second must not be dissolved into the first: 'Read the whole turn to the end and list every act in it before deciding what to do about any of them' and 'No act absorbs another.' First act — 'может имеет смысл показать референс файлы? но это в дальний бэклог просто как идеи на какой то момент' — is an idea, and the person has already said where it belongs. The skill is explicit that this closes it: 'Saying where an idea belongs is not asking for it to be kept: \"just as an idea\", \"far backlog, at some point\" puts the thought down and commissions nothing, so no ticket opens for it, not even a queued one. Only a direct ask to record it — put that on the list — opens one.' They gave no such ask, so it is answered and let go: shelves_idea is true, and nothing was stored. Second act — 'я пока вижу правда что один агент все еще бежит' — reports a fact without asking for a repair, so it is an observation, 'record it as evidence'. It is not an observation carrying its repair beyond doubt: a running agent while work is running is the expected state, not 'Production is returning 500s', and a competent colleague would have nothing to act on. It names no blocker — no failing command, no missing dependency, no action only the person can take — so no T4, and it reports nothing verifiably cleared, so no T5. Neither act is a correction, decision or halt: nothing changes the goal or constraints of the work in flight, and nothing asks the running work to stop. So creates_work is false and work_items is zero — 'An idea is discussed and creates no durable work until the person asks for it. An observation is evidence unless its repair follows beyond doubt.' operation is ['none'] by the ladder's last line: an idea discussed and let go, and an observation kept as evidence. dimensions and specialists stay empty because 'A turn that accepted no work names no dimension and calls no specialist.'",
+  "scenario": "idea-plus-a-fact",
+  "label": "IN",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

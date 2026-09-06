@@ -66,7 +66,7 @@ a test matrix derives from the proven spec, then the code gets written until the
 Four scripted checks sit on the pre-push hook and turn it red: a change with no test behind it, a
 piece of content the spec promises that came out missing or blank, a behaviour with no spec
 sentence backing it, and two different things sharing one name. The rules behind every step of
-this pipeline — twenty-seven shared rules across the skill set — are stated once, in
+this pipeline — twenty-eight shared rules across the skill set — are stated once, in
 [`live-spec-base`](skills/live-spec-base/SKILL.md). You do not read them yourself; the agent loads
 them and follows them on every turn, automatically.
 
@@ -101,6 +101,11 @@ commit: the change lands with its spec, matrix, and architecture together. And i
 the gates go red and stop the push.
 
 ## Where the pack stands
+
+The pack's own work board is public: https://happysasha18.github.io/live-spec/board.html shows what
+is in hand, who runs it, and what it took. It is not a copy — `.github/workflows/pages.yml` runs
+`scripts/render-board.sh` over this repository on every push to main and publishes the one page that
+renderer wrote.
 
 One author, no outside adopters yet — small and early. Every gate earns its place before it ships:
 someone watched the exact mistake it now catches happen for real, on purpose, then built the gate

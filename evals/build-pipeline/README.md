@@ -123,3 +123,111 @@ closing on `ask-when-the-change-reaches-past-what-was-ordered` — did not appea
 across eight recordings it has never reddened both runs of the same pair. Three producers of eight
 took it. It stays a fixture question rather than a skill defect: the fixture holds that the wider
 case is unsettled, and those three read the eval's own written cost model as settling it.
+
+### 2026-09-06 (statement half) — the pipeline gains a validated statement, one more pair
+
+Requirement 309's statement half landed in `scripts/task-admission.py`: admission derives the
+task's statement, `validate` puts it through a mechanical floor and a clean-context reader before
+any take-up, `hold` freezes the wording and records the lane decision against the plan's own
+expectation, and the close carries the estimate beside the actual. Both documents changed, so both
+were re-recorded. The skill gained one paragraph naming what admission derives and what `validate`
+runs (`skills/build-pipeline/SKILL.md`: 6,299 → 6,974 bytes). The reference gained the procedure
+behind it — who writes the reader's file, what take-up freezes, what the close carries — and one
+sentence putting the closing check on the product as it renders rather than on the producer's own
+test (`references/accepted-work-execution.md`: 12,756 → 14,069 bytes).
+
+| recording | text | score | red |
+|---|---|---|---|
+| 9 | after the statement half, `c1b65a2e…` | 8 of 9 | `ask-when-the-change-reaches-past-what-was-ordered` (closes=True, expected False) |
+| 10 | after the statement half, `c1b65a2e…` | 9 of 9 | — |
+
+Intersection: empty. Symmetric difference: `ask-when-the-change-reaches-past-what-was-ordered`.
+No scenario is red on both, so this pair holds no finding. Both recordings are kept whole under
+`recordings/2026-09-06-pair-5/` and `recordings/2026-09-06-pair-5-second/` — a pair is kept now
+rather than the first half being thrown away once graded — because the documents changed again
+before these runs could be the ones on file, for a reason the pair itself did not raise.
+
+The one shape that has recurred all day appeared again in recording 9 and not in recording 10:
+four producers of ten now resolve `ask-when-the-change-reaches-past-what-was-ordered` by repairing
+the delivered overreach themselves and closing. It has still never reddened both runs of a pair.
+Recording 10's producer read the same case as a change to the definition of correct nobody ordered
+and held the row open, which is the fixture's own reading.
+
+### 2026-09-06 (statement half, after the skill-creator fold) — one more pair
+
+The pair above held no finding, but the Anthropic skill-creator review run beside it did, and both
+cold readers found it separately: the execution reference restated the four statement fields, the
+person-never-writes-them fact and the `validate` command the skill body already owns, instead of
+stating only what the body defers to it. That is the two-homes-for-one-fact shape this pack forbids
+and the same file already refuses one paragraph over ("rule 7 carries the lane law in full and is
+not repeated here"). It was folded, along with a verify sentence that repeated its own paragraph's
+thesis and illustrated it with one project's nouns
+(`references/accepted-work-execution.md`: 14,069 → 14,027 bytes; `SKILL.md` unchanged at 6,974).
+The full review is at `docs/skill-review/2026-09-05-build-pipeline-admission.md`, third section.
+
+| recording | text | score | red |
+|---|---|---|---|
+| 11 | after the fold, `37a14789…` | 8 of 9 | `ask-when-the-change-reaches-past-what-was-ordered` (`closes` right, `reason_kind` "ordinary delivered result" outside the accepted set) |
+| 12 | after the fold, `37a14789…` | 9 of 9 | — |
+
+Intersection: empty. No scenario is red on both, so this pair holds no finding and neither document
+was edited again. The runs on file are recording 12; recording 11 is kept whole under
+`recordings/2026-09-06-pair-6/`.
+
+Recording 11 is the same recurring scenario reddening in a new way. The producer held the row open,
+which the fixture expects, but labelled its reason "ordinary delivered result" — reading the work as
+simply undelivered rather than as a fork the person owns, and then repairing the overreach itself
+before closing. Across twelve recordings that scenario has now gone red five times and never on
+both runs of a pair. What the day's runs actually disagree about is whether the eval's own written
+cost model settles the wider case; the fixture holds it open and half the producers read it as
+settled. That is a fixture question, and it is now old enough to be worth answering rather than
+recording again.
+
+### 2026-09-06 (the trusted closure kernel) — two pairs, one fold between them
+
+The closure rule landed in code and in both documents. The skill gained one short section: the
+definition of done is fixed at admission, changing it is its own operation that keeps the previous
+text and hash, the executor hands over evidence and never issues the acceptance verdict itself, and
+close is a state transition against a receipt rather than a sentence an agent writes
+(`skills/build-pipeline/SKILL.md`: 6,974 → 8,077 bytes). The reference gained the ten clauses in
+full and the commands behind them — `correct --done --source --reason`, `verify --by --command
+--surface`, and what `close` refuses (`references/accepted-work-execution.md`: 14,027 → 16,850
+bytes). Both documents moved, so both were re-recorded under the same protocol, opaque labels
+reissued for every recording.
+
+| recording | text | score | red |
+|---|---|---|---|
+| 13 | after the kernel, `6a1821bd…` | 9 of 9 | — |
+| 14 | after the kernel, `6a1821bd…` | 9 of 9 | — |
+
+Intersection: empty. Symmetric difference: empty. The pair held no finding.
+
+**The finding came from the review beside it, and both cold readers found it separately.** The
+body's new section did not summarize the reference's ten clauses — it restated four of them almost
+word for word, the exact command and its flags included ("The definition of done is fixed when the
+row is admitted" against "The definition of done (DOD) is fixed at admission"; "The executor hands
+over evidence and never issues the acceptance verdict itself" against "The executor may provide
+evidence but may not issue the final acceptance verdict itself"). That is the two-homes-for-one-fact
+shape this pack forbids, and the same shape the pair-five review folded. The body was cut back to
+the law plus the three commands a body-only session must be able to run — `correct`, `verify`,
+`close` — with the clauses' one home named as the reference (`SKILL.md`: 8,077 → 8,002 bytes; the
+reference unchanged at 16,850).
+
+| recording | text | score | red |
+|---|---|---|---|
+| 15 | after the fold, `b7dec6d7…` | 9 of 9 | — |
+| 16 | after the fold, `b7dec6d7…` | 8 of 9 | `ask-when-the-change-reaches-past-what-was-ordered` (closes=True, expected False) |
+
+Intersection: empty. Symmetric difference: `ask-when-the-change-reaches-past-what-was-ordered`. No
+scenario is red on both, so this pair holds no finding and neither document was edited again. The
+runs on file are recording 16; recordings 13 and 15 are kept whole under
+`recordings/2026-09-06-pair-7/` and `recordings/2026-09-06-pair-8/`.
+
+Recording 16's one red is the shape that has recurred all day, in its usual form: the producer read
+the eval's own written cost model as settling the wider case, split the shared branch itself,
+re-verified and closed. Across sixteen recordings that scenario has gone red six times and never on
+both runs of a pair. Recording 15's producer read the same case the fixture's way and reached for
+the new kernel to say why — no threshold or scoring rule invented after start that was not in the
+admitted done. Half the producers read the cost model as settling the wider case and half as leaving
+it open; that is a fixture question, and it is now well past the age where recording it again adds
+anything.

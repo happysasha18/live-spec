@@ -1,5 +1,5 @@
 {
-  "id": "WF",
+  "id": "BH",
   "acts": [
     "decision"
   ],
@@ -12,10 +12,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person grants standing authority: push, run commands, and so on, from here on. That is a decision in the skill's sense - a standing rule and a grant of authority whose force reaches past the message that carried it, so it is recorded as a rule that survives whatever work item is open now. It is not an instruction: no particular push or command is demanded in this breath, unlike the skill's 'always deploy without asking, and deploy this one', where the second half asks for today's deploy. The grant answers the habit of stopping to ask rather than changing any task's goal, so no work already in flight has its goal or constraints replanned - nothing attaches, and no ticket changes state, which is the 'standing rule remembered' line of the operation ladder. The turn accepts no work, so by the rule that a turn accepting no work names no dimension and calls no specialist, both lists stay empty and work_items is zero. No idea half was voiced, so nothing was raised as a question about queueing.",
+  "reasoning": "The person settles something with force beyond this one message: 'даю разрешение на все пуши, команды и так далее' is a grant of authority covering every push and command from here on, which the skill names explicitly — 'A decision is a standing rule, not only a single choice... a standing rule, a grant of authority, a division of responsibility.' It is recorded separately so the rule survives, and it is not scoped to this one time ('for this session', 'just this once'), so it does not fall back to being an instruction. No second act rides with it: nothing new is reported about the product, and no particular push is demanded now. The skill's paired case — 'always deploy without asking, and deploy this one' — is the one where a demand for today would also have to be answered; here only the standing half was said, so reading a concrete push out of it would be inventing a request the person did not make. Nothing is in flight that this changes: the situation describes a habit of stopping to ask, not a named task whose goal or constraints move, so the decision is remembered as a standing rule rather than applied to running work — 'everything else runs [none] — ... a standing rule remembered.' Since no work was accepted, no dimension is named and no specialist is called: 'A turn that accepted no work names no dimension and calls no specialist. This holds for the standing rule that will shape everything built afterwards.' The Director creates nothing: 'Decision — record the decision and apply it to the work already running; must not open a second task.' What the person hears is that the permission is noted and pushes now go without asking.",
   "scenario": "decision-granting-authority",
-  "label": "WF",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "BH",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

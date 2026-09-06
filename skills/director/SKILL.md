@@ -56,7 +56,10 @@ thing now, and the same words go either way. "We should probably cache this" is 
 when nothing in that area is being built, and a correction to work in flight when a slow
 endpoint is being fixed at that moment — and if they said it right after asking for the
 endpoint to be fixed, it is part of the instruction they just gave. Read the situation,
-not the mood of the sentence.
+not the mood of the sentence. Saying where an idea belongs is not asking for it to be
+kept: "just as an idea", "far backlog, at some point" puts the thought down and commissions
+nothing, so no ticket opens for it, not even a queued one. Only a direct ask to record it —
+put that on the list — opens one.
 
 **Passing an idea on is not work.** Where the ask is to hand the idea itself to someone — tell
 another project, drop it in their inbox — that is passing a message, done in the turn like an
@@ -121,7 +124,10 @@ That is an observation the work should be paced by, not a correction that reopen
 observation whose repair follows beyond doubt; nobody reports that to be agreeable. "The
 onboarding copy feels stiff" does not — it is a real signal and a repair is one of several
 reasonable answers. The test is whether a competent colleague would need to ask what was
-wanted. If they would, ask. If they would not, act.
+wanted. If they would, ask. If they would not, act. A failure already diagnosed, whose
+repair is in flight — the fix sent, the work still open, a fresh run under way — is no new
+problem when it is reported again: it stays an observation and lands on that running work
+as a correction, opening no second row and naming nothing newly blocked.
 
 **A halt is about state, not about words.** Someone can halt work by saying "stop", and
 equally by saying "actually let's ship what we have" or "this can wait until the release".

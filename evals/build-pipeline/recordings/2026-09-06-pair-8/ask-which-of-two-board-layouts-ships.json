@@ -1,0 +1,12 @@
+{
+  "id": "PS",
+  "closes": false,
+  "reason_kind": "taste call",
+  "reasoning": "The procedure's admission step says the pipeline derives everything it can from the project and asks the person only for a product choice no artifact settles. Here the delivered state is two correct alternatives: both render from the same PLAN.md, both pass tests/test_board_matches_the_canon.py, both show every row the plan declares, and only one can ship. The definition of done — 'easier to scan' — is not decided by any command, test, artifact read, or independent verifier in the tree, and no earlier decision settles it, so the verifier has nothing to check the choice against; picking one would be the pipeline inventing an acceptance criterion after start, which the trusted closure kernel forbids ('no numeric threshold may be invented after start that was not in the admitted DOD', and 'a task cannot close while its accepted scope still holds todo/target/not-built'). The rule that a shown result closes the work and the person's eye is never the gate applies to an ordinary buildable result a command, a test, or a plain read already confirms; it explicitly carves out the cases rule 12/27 reserve for him, and 'both are correct and they look different' is the taste call among those three. So the row stays open with the two layouts shown side by side and the choice put to him; his verdict is then the movement end for the judged artifact and is written into the board row in the same minute it lands. Note also that this is not 'blocked' — the kernel says needing the owner's choice is not blocked.",
+  "scenario": "ask-which-of-two-board-layouts-ships",
+  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "PS"
+}

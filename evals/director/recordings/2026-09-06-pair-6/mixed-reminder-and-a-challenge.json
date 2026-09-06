@@ -1,0 +1,30 @@
+{
+  "id": "TE",
+  "acts": [
+    "decision",
+    "idea",
+    "instruction",
+    "question"
+  ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "Read to the end, the turn carries four acts and no act absorbs another. (1) «напоминаю: у нас в плане были цели» reaffirms goals already on the plan — 'Reminding that a goal already in the plan still stands is the same kind of act — a decision reaffirmed, not a new idea.' (2) «(посмотришь может в след. сессии)» names a possibility not asked for now and says where it belongs — 'Saying where an idea belongs is not asking for it to be kept… commissions nothing, so no ticket opens for it, not even a queued one'; it is judged as an idea, hence shelves_idea true and no row for it. (3) «эти параметры необходимо мониторить в статусе в файле плана» is a standing rule about how something is kept and shown, and by 'No act absorbs another' the rule does not swallow the demand for today: 'a rule about how something is kept, reported or shown also asks for that thing, and where it does not exist yet — the plan to be kept, the status line to be watched — making it is what they want today.' That is the one instruction, one result someone could want on its own, so work_items is 1 and creates_work is true even though the standing-rule half is recorded separately so it survives the work item. (4) «согласен или поспорь со мной» is an invitation to disagree — 'An invitation to disagree closing out a decision or an instruction is still its own act too… answering only the decision leaves the invitation unanswered' — a question, answered in the turn, creating nothing. Nothing was in flight that this changes, so it is not a correction and attaches_to_existing_work is false. operation follows the first line that fits: creates_work true runs [\"T1\",\"T2\"], admitting the ticket and taking it in hand in one call. Dimensions name only what the accepted work must change — the status section of the plan file, documentation and communication; the goals of compactness and optimization themselves belong to work nobody has taken on, and 'A turn that accepted no work names no dimension'. Specialists stay minimal: something must be built (Developer). Not the communicator — 'When someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other — routing it to the communicator instead of doing it is how a plain request disappears.'",
+  "scenario": "mixed-reminder-and-a-challenge",
+  "label": "TE",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

@@ -1,5 +1,10 @@
 {
   "about": "Real messages, anonymised, from this project's own transcripts, plus a few written ones for classes the transcripts held no example of. Each says what was going on when it arrived, because the Director is required to read the situation and not the wording.",
+  "recorded_pair": {
+    "kept": "traces",
+    "partner": "recordings/2026-09-06-pair-6",
+    "recorded": "2026-09-06"
+  },
   "verdict_shape": {
     "acts": "zero or more of: question, idea, observation, decision, correction, instruction, halt",
     "operation": "the state operations this turn runs on the plan's own tickets, as a list. Derive it from the rest of your own verdict, taking the first line below that fits: creates_work true — a piece of work is accepted now — runs [\"T1\",\"T2\"], because admitting the ticket and taking it in hand happen in one call (an idea the person explicitly asks to keep for later is the exception: [\"T1\"] alone, queued with nobody holding it); a correction, or a decision applied to work already running, runs [\"T3\"]; a halt that clears the holder and leaves the work to resume later runs [\"T6\"]; a halt that drops the work for good and archives it runs [\"T9\"]; a report that a named blocker is verifiably gone runs [\"T5\"]; a newly named blocker — a failing command, a missing dependency, an action only the person can take — runs [\"T4\"]; a done that turned out false runs [\"T8\"]; everything else runs [\"none\"] — a question, a thank-you, an idea discussed and let go, an observation kept as evidence, a standing rule remembered, a conditional whose condition has not fired.",
@@ -455,13 +460,13 @@
           "observation"
         ],
         "operation": [
-          "T6"
+          "T9"
         ],
         "creates_work": false,
         "attaches_to_existing_work": true,
         "work_items": 0
       },
-      "why": "The halt is obvious. The reason — that the machinery is pointless — is a judgment about the product that must survive the stop, or it will be rebuilt next week."
+      "why": "The halt is obvious. The reason — that the machinery is pointless — is a judgment about the product that must survive the stop, or it will be rebuilt next week. Ordering needless machinery stopped drops that work for good; it is not parked to be resumed, so the operation is the abandon, not the park."
     },
     {
       "id": "halt-until-tomorrow",

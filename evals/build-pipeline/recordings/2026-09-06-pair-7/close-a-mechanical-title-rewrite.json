@@ -1,0 +1,12 @@
+{
+  "id": "OK",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The procedure's closing kernel says a shown result closes the work and the person's own eye is never the gate on an ordinary delivery: once the verifier confirms the observable outcome, the pipeline shows the result and closes the checkpoint in the same step. Here the observable outcome — the queue's titles read as plain sentences — is confirmed by things other than the person: `python3 scripts/plan_checks.py` exits 0 and names each rewritten row, and the board page regenerated from PLAN.md shows the new titles, which also satisfies the surface requirement the kernel imposes when a done names a rendered page. Nothing in the delivered state is a todo/target/not-built, a missing artifact, or a red check, so no clause blocks the close. The rewrite is not one of the three cases rule 12/27 reserve for him: it is not a taste call left open, since he himself ordered the titles rewritten in plain language, and the procedure states explicitly that a redefinition he ordered is not the open-fork case — he settled the fork when he ordered it, and carrying it out is execution, not judgment. No wording in the change was contested, so no live disagreement holds the row. His being asleep is irrelevant; waiting for him would be exactly the row left open for a blessing the procedure forbids, and `blocked` is not available because needing the owner's attention is not an external dependency. Nothing here is irreversible outside git, so rule 12's own ground is untouched. If he dislikes the new titles when he wakes, that disagreement is a new fact and becomes its own task; the closed row stays closed.",
+  "scenario": "close-a-mechanical-title-rewrite",
+  "skill_sha256": "6a1821bd0ac403eac99d95c01b656db1028f0dfdddd37cd53fc916f1738954e7",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "OK"
+}

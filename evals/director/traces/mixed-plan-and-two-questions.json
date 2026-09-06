@@ -1,9 +1,8 @@
 {
-  "id": "GO",
+  "id": "IE",
   "acts": [
     "instruction",
-    "question",
-    "observation"
+    "question"
   ],
   "operation": [
     "T1",
@@ -17,10 +16,10 @@
     "documentation and communication"
   ],
   "specialists": [],
-  "reasoning": "Three acts, read to the end of the turn. First, a request for a plain-text session plan in this window, 5-10 lines with emoticon statuses: asking for a plan or status is asking for something to be made, so it is work like any other, and its scope to this session means it states no standing rule. Second, questions about the worker: is it doing the whole plan or only part, and what comes out at the end. Those are answered, not turned into tickets, and answering them may take reading, which is not work. Third, a reported fact that everything was copied to the worker and it was launched, kept as evidence; a fact reported alongside a request is still its own act and does not dissolve into the request. One new result is accepted, so the ticket is admitted and taken in hand in the same call. Nothing already in flight has its goal changed, so nothing attaches. The accepted work only produces a written status list for a person, so it touches documentation and communication alone, and needs no specialist: routing a plain request for a plan to the communicator is how the request disappears.",
+  "reasoning": "Read to the end, the turn carries two acts. First, «план на эту сессию текстовый простой в этом окне (5-10 строчек с эмотиконами как статус)» asks for something to be made: «When someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other — routing it to the communicator instead of doing it is how a plain request disappears.» The phrasing looks close to a standing rule about how status is shown, but it is scoped: «A request scoped to this one time — 'for this session', 'just this once' — names no standing rule at all, however close it sounds to one, and stays an instruction.» So it is an instruction, not a decision, and it produces exactly one new result — one plan in this window — since «One instruction stays one piece of work even when it will touch six files» and the format details (five to ten lines, emoticons as status) are constraints on that one result, not separate results anyone could want on its own. creates_work true with work_items 1 gives operation [\"T1\",\"T2\"]: the ticket is admitted and taken in hand in the same call. Second, «что делает воркер на текущем запросе… он весь этот твой план делает или сейчас только часть?… что получим на выходе» is a question — the person «wants to know something». Per the act table, the Director answers it and must not «write a roadmap row, open a spec, start work». Answering may need facts about what the worker was handed: «a good answer often needs facts, and fetching facts is reading, not work… What it may not do is turn the question into a task because answering it took effort.» So the question adds no work item. It is one questioning act even though it is voiced in three sentences: they all seek the same understanding of what the running worker covers and yields. «я ему все скопировал и запустил» is grounds for that question, not a third act. «Grounds stated with an act carry their own act only when they say something new… when it only restates why the neighbouring act wants what it wants, it is not a second act.» The situation already records that a worker was launched a moment ago with a copied plan, so the clause tells nothing the question's own goal does not already carry, and it makes no judgment about the product that would be worth keeping after the act closes. Nothing here is a correction or a halt: the worker's goal is not changed and nothing running is asked to stop, so attaches_to_existing_work is false and the running worker keeps its own row untouched. There is no idea half — nothing is named as a possibility for later — so shelves_idea is false. Dimensions are named only for the accepted work, and the accepted work is a human-facing plan and status line, which is documentation and communication and nothing else; «Naming a dimension claims something in it must change; if nothing in it changes, do not name it.» No specialist is needed: «None is mandatory», the text is written in the turn, and the skill warns that handing a plain plan request to the communicator is exactly how such a request disappears.",
   "scenario": "mixed-plan-and-two-questions",
-  "label": "GO",
-  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "label": "IE",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
   "producer_model": "opus"

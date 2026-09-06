@@ -1,0 +1,22 @@
+{
+  "id": "OF",
+  "acts": [
+    "idea"
+  ],
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The situation is that a feature has just shipped and nothing related is being built, so by the skill's own test — 'the same sentence, word for word, is an idea when nothing related is being built and a correction when something related is' — this cannot be a correction; there is no work in flight for it to attach to. The wording 'думаю еще можно сделать дату' names a possibility without asking for it now, which is exactly the Idea for later row: 'names a possibility they are not asking for now'. Per 'An idea is not an instruction', the difference is whether the person is asking for the thing now, and they are not; they are turning over what could also be added after the shipped feature. The Director's response is to judge it: it is a concrete, plausible addition, so it is worth raising as one live question about whether to queue it, and it 'becomes a row only on the person's own word' — so nothing durable is created here and shelves_idea is true. The trailing clause 'потому что в те же каналы будет много раз по времени' is the grounds for the idea, not a second act: under 'Grounds stated with an act carry their own act only when they say something new', a clause that 'only restates why the neighbouring act wants what it wants' is 'that act's goal in other words'. It says the same posting will recur into the same channels over time, which is precisely why a date would be useful — it is not a judgment that something is broken, wasteful or invented, so it earns no observation of its own. One act, therefore. Since no work was accepted, the rule 'A turn that accepted no work names no dimension and calls no specialist' leaves dimensions and specialists empty, and work_items is zero. For operation, no ticket state changes: the person did not explicitly ask to keep it for later, so not even the queued-only exception applies, and this falls under 'everything else runs [\"none\"] — ... an idea discussed and let go'.",
+  "scenario": "idea-add-a-date",
+  "label": "OF",
+  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}
