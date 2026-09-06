@@ -16,11 +16,14 @@ session is standing in.
 
 WHAT IT DOES NOT REFUSE, said rather than left to be discovered:
 
-  - A spawn outside a live-spec tree.  No PLAN.md under `cwd`, no board to judge against, and this
-    hook says nothing.  A host attaches the board first, then this gate means something.
+  - A spawn outside a live-spec tree.  No PLAN.md at `cwd` or above it, no board to judge against,
+    and this hook says nothing.  A host attaches the board first, then this gate means something.
   - A prompt that names an admitted row and then asks the worker for something else entirely.  The
     hook reads the board, not the worker's conscience.  What it guarantees is that work has a row,
     a done, and a check before anybody starts — never that the worker obeys the row.
+  - Whether the recorded acceptance command is a MEANINGFUL check.  It reads that the row has one,
+    never what it tests: a key reading `true` clears this gate and every gate after it, and the
+    only reader of that is a person looking at the diff.
   - A spawn from a session that does not run this hook.  It is wired in `.claude/settings.json`
     beside the tree it guards, so it binds the sessions that open this project.  An agent started
     by another program, or by a session with the hook removed, is outside its reach; that is the
@@ -67,10 +70,14 @@ def decide(payload):
     """The refusal reason for this spawn, or None to say nothing."""
     if payload.get("tool_name") not in SPAWN_TOOLS:
         return None
-    root = Path(payload.get("cwd") or os.getcwd())
-    plan = root / "PLAN.md"
-    if not plan.exists():
+    # The board is looked for at the cwd and above it: a session standing in `scripts/` is in the
+    # same tree as one standing at its root, and reading only the cwd stood the guard down for
+    # every spawn from a subdirectory (the adversarial read of 2026-09-06).
+    here = Path(payload.get("cwd") or os.getcwd()).resolve()
+    root = next((d for d in (here, *here.parents) if (d / "PLAN.md").exists()), None)
+    if root is None:
         return None  # not a live-spec tree: no board to judge against
+    plan = root / "PLAN.md"
     admission = _admission(root)
     if admission is None:
         return None

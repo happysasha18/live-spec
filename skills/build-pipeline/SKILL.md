@@ -88,8 +88,11 @@ No worker starts before all of this exists. `guardrails/worker-admission-guard.p
 subagent tool in this repository's `.claude/settings.json`, denies a spawn whose prompt names no
 admitted row with a definition of done and a recorded acceptance command. Admission writes the
 row's `**Verification:**` prose and no key, so the key goes into `scripts/plan_checks.py` under the
-row's id by hand, before the first spawn — that is what clears the denial. Then hand the worker
-`python3 scripts/task-admission.py brief <id>` and name that id in the prompt.
+row's id by hand, before the first spawn — that is what clears the denial. The same key is what
+`verify` runs, so a row without one cannot be closed either: on a freshly attached host, whose
+`scripts/plan_checks.py` ships empty, the first row's key is written before its first close.
+Then hand the worker `python3 scripts/task-admission.py brief <id>` and name that id in the
+prompt. A closed row is finished work: naming one does not clear the guard.
 
 The ten clauses this rule stands on — who may change a done and what that keeps, what the verifier
 receives, what voids the evidence, what `blocked` may mean, and why the presence of a test is not a

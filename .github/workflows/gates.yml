@@ -105,8 +105,12 @@ jobs:
         if: ${{ !cancelled() }}
         # The base the local chain reads. On a push it is the sha the remote already held, so
         # "this row became done in what is being published" means the same thing here as it
-        # does on the pusher's machine; on a pull request it is empty and the script falls
-        # back to origin/main, which the fetch-depth-0 checkout above carries.
+        # does on the pusher's machine. On a pull request the expression is EMPTY and on a
+        # branch's first push it is forty zeros; the script resolves both to origin/main, which
+        # the fetch-depth-0 checkout above carries, and refuses to read the index instead —
+        # `git show :PLAN.md` exits 0, which is how an empty base once stood this arm down on
+        # every PR run in silence. Its second arm, every done row with a checkpoint, runs
+        # whatever the base says.
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: python3 guardrails/check-close-receipt.py

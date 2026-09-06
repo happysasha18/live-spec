@@ -255,6 +255,64 @@ def test_the_board_does_not_publish_a_done_over_a_failed_receipt(tmp_path):
     assert "marked done in the plan, but its acceptance receipt is a failed verdict" in card
 
 
+# --------------------------------------------- what the adversarial read of the fix itself found
+
+def test_a_closed_row_does_not_clear_the_spawn_guard(tmp_path):
+    """Naming any finished row in a prompt is admission in name and nothing else."""
+    plan, checkpoints = host(tmp_path, key="true")
+    admission.admit(route(), plan, checkpoints)
+    admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    admission.close(plan, checkpoints, "q-1")
+    denied = spawn(tmp_path, "Take q-1 and rewrite all of scripts/ while you are there.")
+    assert denied is not None
+    assert "closed work" in denied["hookSpecificOutput"]["permissionDecisionReason"]
+
+
+def test_the_guard_finds_the_board_from_a_subdirectory(tmp_path):
+    """A session standing in scripts/ is in the same tree as one standing at its root."""
+    host(tmp_path)
+    denied = spawn(tmp_path / "scripts", "Go and rewrite the renderer.")
+    assert denied is not None
+    assert denied["hookSpecificOutput"]["permissionDecision"] == "deny"
+
+
+def test_deleting_the_hash_after_the_close_is_caught_before_publication(tmp_path):
+    """`verify` never runs again on a closed row, so the gate is the only reader left of the
+    anchor. Without this arm the row published green against a done nobody verified."""
+    plan, checkpoints = host(tmp_path, key="true")
+    admission.admit(route(), plan, checkpoints)
+    admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    admission.close(plan, checkpoints, "q-1")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-qm", "closed"], cwd=tmp_path, check=True,
+                   capture_output=True)
+    plan.write_text("\n".join(line for line in plan.read_text(encoding="utf-8").splitlines()
+                              if not line.startswith("**DOD hash.**")) + "\n", encoding="utf-8")
+    got = gate(plan, checkpoints)
+    assert got.returncode == 1
+    assert "removing the hash is not a new contract" in got.stdout
+
+
+def test_an_empty_or_zero_base_does_not_stand_the_new_done_arm_down(tmp_path):
+    """`LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}` is EMPTY on a pull request, and forty
+    zeros on a branch's first push. An empty base left `git show :PLAN.md` reading the index and
+    exiting 0, so the base marks equalled the current marks and no row was ever newly done."""
+    plan, checkpoints = host(tmp_path)
+    admission.admit(route(), plan, checkpoints)
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-qm", "admit"], cwd=tmp_path, check=True,
+                   capture_output=True)
+    subprocess.run(["git", "update-ref", "refs/remotes/origin/main", "HEAD"], cwd=tmp_path,
+                   check=True, capture_output=True)
+    (checkpoints / "q-1.md").unlink()
+    plan.write_text(plan.read_text(encoding="utf-8").replace("### ⬜", "### ✅"),
+                    encoding="utf-8")
+    for base in ("", "0" * 40):
+        got = gate(plan, checkpoints, base=base)
+        assert got.returncode == 1, "base %r stood the newly-done arm down: %s" % (base, got.stdout)
+        assert "has no checkpoint" in got.stdout
+
+
 # ---------------------------------------------------------------- the ordinary road still runs
 
 def test_a_task_that_is_really_finished_still_closes(tmp_path):

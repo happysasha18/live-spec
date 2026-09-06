@@ -57,3 +57,29 @@ checkpoint so deleting the row's hash line cannot mint a fresh contract.
 
 Nothing false was found in the three new claims themselves, and no coined term is used before it
 is defined.
+
+## Second pass — what the adversarial push review sent back to these documents
+
+The adversarial read of the range (`docs/prover/2026-09-06-the-three-guarantees-and-their-own-holes.md`)
+found three blocking defects in the code and, with them, two sentences here that the repaired code
+no longer matched and two that were never true:
+
+- the reference claimed a done row with a checkpoint must carry a receipt "whose frozen done is the
+  done the row now reads" — true only once the gate reads the checkpoint's anchor, which it now
+  does, so the sentence names the anchor;
+- neither document said what the kernel does NOT hold. Both ceilings are now written down: no gate
+  judges what an acceptance key TESTS, and a receipt is plain text in a directory the tree hash
+  leaves out, so a hand-written one satisfies the close. What the kernel buys is stated in the same
+  breath — forging a done now costs a forged receipt in the diff instead of one typed character;
+- the body said the recorded key clears the spawn denial and did not say the same key is what
+  `verify` runs, so a freshly attached host would meet the refusal at its first close with nothing
+  in the body to explain it. The body now says both, and says that naming a closed row does not
+  clear the guard.
+
+```
+$ python3 ~/.claude/skills/skill-creator/scripts/quick_validate.py skills/build-pipeline
+Skill is valid!
+(exit 0)
+```
+
+Run again against the documents' final state, after these folds.

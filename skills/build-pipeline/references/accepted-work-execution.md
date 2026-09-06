@@ -240,12 +240,22 @@ commands that run them.
 - close is a controlled state transition, never a textual claim by an agent.
 
 A done mark typed straight onto `PLAN.md` skips every one of those. `guardrails/check-close-receipt.py`
-(push gate u) refuses to let such a row out: a row that became done in what is about to be
-published must carry a checkpoint, and any done row that has a checkpoint must carry a passed
-receipt whose frozen done is the done the row now reads. The published board reads the same
-receipt — `scripts/render-board.sh` draws a done over a FAILED receipt as reopened, which holds on
-the Pages runner, where no acceptance command runs at all and every mark is otherwise taken at its
-word.
+(push gate u, and a step in the CI gates workflow) refuses to let such a row out: a row that became
+done in what is about to be published must carry a checkpoint, and any done row that has a
+checkpoint must carry a passed receipt whose verified done is the one the row and its anchor both
+still read. The anchor is read here as well as at `verify`, because `verify` never runs again on a
+closed row — without that, deleting the hash line one step later published the same contract swap.
+The published board reads the same receipt: `scripts/render-board.sh` draws a done over a FAILED
+receipt as reopened, which holds on the Pages runner, where no acceptance command runs at all and
+every mark is otherwise taken at its word.
+
+**What none of this holds, said rather than left to be discovered.** Whether a recorded acceptance
+is a meaningful check: a key reading `true` clears every gate here, and the only reader of that is
+a person looking at the diff. And a receipt is plain text in the checkpoint, which the tree hash
+deliberately leaves out of the tree it pins, so a hand-written RECEIPT line satisfies both `close`
+and the gate. What the kernel buys is that forging a done now takes a forged receipt naming a
+verifier, a verdict and the admitted done's own digest, sitting in the diff — instead of one typed
+character.
 
 `admit` writes the DOD's own sha256 onto the row beside the text it hashes. `correct <id> --done
 "<new>" --source "<who asked>" --reason "<why>"` is the only door through it: it records the

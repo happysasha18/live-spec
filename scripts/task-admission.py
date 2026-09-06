@@ -995,8 +995,12 @@ def correct(plan_path: Path, checkpoints_dir: Path, task_id: str,
         edits.append((DOD_HISTORY, (prior + " " + entry).strip(), DOD_HASH))
         # The one door through a fixed done moves the checkpoint's anchor with it. Without this
         # the anchor would refuse every later verification of a legitimately corrected row.
+        # Only while the sheet is open: `abandon` leaves the row queued with its checkpoint
+        # closed, and writing to a closed one raises out of the checkpoint format rather than
+        # refusing in this module's own words. The row's next take-up reopens the sheet, and the
+        # row itself carries the corrected hash either way.
         cp = _checkpoint_path(checkpoints_dir, task_id) if checkpoints_dir else None
-        if cp and cp.exists():
+        if cp and cp.exists() and checkpoint.read_checkpoint(cp)["status"] == "open":
             _write_dod_anchor(cp, dod_digest(done))
     if statement is not None:
         # Criterion 61: a revision before take-up runs statement validation again, so the record
@@ -1323,6 +1327,15 @@ def pre_spawn_check(plan_path, checkpoints_dir, task_id: str):
     cp = _checkpoint_path(checkpoints_dir, task_id)
     if not cp.exists():
         raise AdmissionError("%s has no checkpoint to brief from" % task_id)
+    # A row whose sheet is closed is finished work, not admitted work. Reading only "a checkpoint
+    # exists" let any long-closed row id in a prompt clear the spawn guard, which is admission in
+    # name and nothing else (the adversarial read of 2026-09-06). A closed row comes back through
+    # `reopen`, which opens the sheet again.
+    if checkpoint.read_checkpoint(cp)["status"] != "open":
+        raise AdmissionError(
+            "%s is closed work: its checkpoint is not open, so no worker starts on it. Reopen it "
+            "(`reopen %s --false-condition ... --evidence ...`) or admit the new work as its own "
+            "row: %s" % (task_id, task_id, PRE_SPAWN))
     return start, end
 
 
