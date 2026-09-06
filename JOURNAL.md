@@ -3795,3 +3795,5 @@ and the plan fell from 74,000 tokens to 11,000.
 installed skills failed it: the shared rulebook every session loads, the reports skill, the external
 prover, and another project's skill. Three are fixed here, the fourth reported. Eleven skills have
 their first review record; the two edited tonight are being re-recorded against their final text.
+
+**2026-09-06 — where the forward-map duty went.** The duty the owner set on 2026-07-19 (a landing that ships a movement refreshes the forward map in the same breath) left the resume file with Requirement 257's rewrite and lives in Requirement 309 criterion 88, the work board's update inside the landing's own commit. The spec states the move without the date; the date is here.

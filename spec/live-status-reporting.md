@@ -355,7 +355,7 @@
 
 ## Requirement 257: The resume file never becomes a second board
 
-**Context:** Requiring every landing to refresh `NEXT_STEPS.md` turned the resume file into a duplicate queue. The board is the durable source for tasks, their state, priority and order. The resume file exists only for execution state that cannot be reconstructed from the board, checkpoint and repository. What this requirement replaced was the owner's own dated duty of 2026-07-19 — a landing that ships a movement refreshes the forward map in the same breath — and that duty is not dropped here, it moves to the surface that now holds the forward map: `Requirement 309` criterion 88 carries the work board's update inside the landing's own commit. Only the resume file's part in it goes.
+**Context:** Requiring every landing to refresh `NEXT_STEPS.md` turned the resume file into a duplicate queue. The board is the durable source for tasks, their state, priority and order. The resume file exists only for execution state that cannot be reconstructed from the board, checkpoint and repository. What this requirement replaced was the owner's own standing duty — a landing that ships a movement refreshes the forward map in the same breath — and that duty is not dropped here, it moves to the surface that now holds the forward map: `Requirement 309` criterion 88 carries the work board's update inside the landing's own commit. Only the resume file's part in it goes.
 
 **User Story:** As a person returning after interruption, I want one task board and a small transient resume note, so that two files never disagree about what work exists or runs next.
 
