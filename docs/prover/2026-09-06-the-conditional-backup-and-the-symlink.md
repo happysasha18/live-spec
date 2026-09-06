@@ -6,7 +6,8 @@ Prover skill version: product-prover (installed under `skills/product-prover/`),
 `skills/product-prover-pack/SKILL.md` (pack bindings). This pass was run from a seat that authored
 none of the work below, briefed to find reasons to refuse it.
 
-Range: 5928738a..43038fb0
+Range: 5928738a..a60c72dc
+- 92e37638 The installer's own test names the conditional backup, not the old unconditional one — a CI-only red (a fresh, unchanged second run of install.sh, which the local suite does not repeat inside the same test twice the way this one does); fixed and re-proved with a third run that forces real drift
 - 5928738 The review record names its landing commit — the base this range is measured from
 - 86e9cb5 The installer backs up an installed skill only where its bytes are not in git
 - c51a279 The Cyrillic quote behind the backup rule moves to JOURNAL.md
