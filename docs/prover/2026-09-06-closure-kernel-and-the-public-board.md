@@ -7,7 +7,10 @@ Prover skill version: product-prover (installed under `skills/product-prover/`),
 This pass was run from a seat that authored none of the two commits below, briefed to find reasons
 to refuse them.
 
-Range: aa361dea..796b092c
+Range: aa361dea..6a7acac5
+- 6a7acac5 The spec states the forward-map duty without its date; the date moves to the journal (INV-253) —
+  the one sentence this record's own landing wrote into Requirement 257 with a date, which INV-253
+  sends to JOURNAL.md; the fact stays, the date moved, nothing else in that commit
 - 796b092c Skill review of the push-review edit, and the converse clause its eval pair forced —
   the skill-creator record gate s demanded for `9edf7c25`, and the closing pair re-recorded
 - 9edf7c25 Adversarial push review of aa361dea..7993fa9b: the closure kernel's bypass and the
