@@ -1,12 +1,12 @@
 {
-  "id": "UA",
+  "id": "MR",
   "closes": true,
   "reason_kind": "ordinary delivered result",
-  "reasoning": "The procedure's rule that 'a shown result closes the work; the human's own eye is never the gate on an ordinary delivery' governs this case directly. It states that a row whose own definition of done names his eye as the check is describing one of the three cases rule 12/27 reserve for him — a taste call, a trade-off no artifact settles, or a change to the definition of correct still an open fork — never an ordinary buildable result that a command, a test, or a plain read already confirms was delivered. Here the delivered state is exactly that ordinary result: `scripts/render-board.sh` regenerates the page, every row the plan declares appears under its own state, `tests/test_board_matches_the_canon.py` passes against the generated page, and the page renders as described on a plain read. Nothing in the result is a matter of preference, so the acceptance line written weeks ago does not fall into any of the three reserved cases and cannot hold the row open. The closing kernel is satisfiable on its own terms: the definition of done is decidable without making the person the checker, a verifier other than the holder can run the check command, and because the outcome names a rendered page the receipt carries `--surface` pointing at `board.html`, which the verify command requires for page/board.html/rendered surfaces. The pipeline therefore verifies without the producer's self-report, closes the checkpoint and the row in the same step, shows the result, and continues without waiting for his attention; if he later disagrees with what was shown, that disagreement is a new fact and becomes its own task rather than reopening this row. Rule 12's irreversibility ground is untouched — regenerating a page is reversible and needs no prior word.",
+  "reasoning": "A shown result closes the work; the human's own eye is never the gate on an ordinary delivery. A row whose definition of done names his eye as the check is only describing one of the three cases rule 12/27 reserve for him — a taste call, a trade-off no artifact settles, or a still-open fork on the definition of correct. This delivery is none of those: no part of the result is a matter of preference, the page shows what the plan holds and nothing else, tests/test_board_matches_the_canon.py passes against the generated page, and the rendered surface was opened and read. That is an ordinary buildable result a command, a test and a plain read already confirm was delivered, so the eye-of-the-person line does not survive as a gate. The observable outcome — every row the plan declares appearing on the standing board page under its own state — is verified against the DOD it was admitted on, the receipt can carry the rendered surface the DOD's 'page'/'board.html' wording requires, and nothing here is irreversible outside git. The pipeline shows the result, closes the checkpoint and row in the same step, and continues without waiting for his attention. If he disagrees after looking, that is a new fact and its own task; the closed row stays closed.",
   "scenario": "close-a-row-whose-own-line-names-his-eye",
-  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "label": "MR",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus",
-  "label": "UA"
+  "producer_model": "opus"
 }

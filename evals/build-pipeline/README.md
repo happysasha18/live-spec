@@ -231,3 +231,56 @@ the new kernel to say why — no threshold or scoring rule invented after start 
 admitted done. Half the producers read the cost model as settling the wider case and half as leaving
 it open; that is a fixture question, and it is now well past the age where recording it again adds
 anything.
+
+### 2026-09-06 (the reference after the push review) — a shared red, and the pair that cleared it
+
+The adversarial push review of `aa361dea..7993fa9b` (commit `9edf7c25`) edited the reference in
+three places: `hold --lanes <n>` gained the lane-cap bound and the board's in-work column split
+behind it, take-up gained a refusal for a row whose checkpoint stands closed, and `close` gained
+the clause that it reads the receipt whatever the checkpoint's own status. The skill-creator review
+run beside this pair folded two more (`docs/skill-review/2026-09-06-build-pipeline.md`): the body's
+"Director is the only first reader" against its own setup entry, and the lane cap restated thirty
+lines above the sentence saying the lane law is not repeated in that file. Both documents therefore
+moved, and both were re-recorded under the same protocol, opaque labels reissued for every
+recording.
+
+| recording | text | score | red |
+|---|---|---|---|
+| 17 | after the push review and the fold, `f434d330…` | 8 of 9 | `ask-when-the-change-reaches-past-what-was-ordered` (`closes` right, `reason_kind` "ordinary delivered result" outside the accepted set) |
+| 18 | after the push review and the fold, `f434d330…` | 8 of 9 | `ask-when-the-change-reaches-past-what-was-ordered` (the same, on the same field) |
+
+Intersection: `ask-when-the-change-reaches-past-what-was-ordered`. **The first shared red this set
+has produced.** Across sixteen earlier recordings that scenario had gone red six times and never on
+both runs of a pair, and every write-up of it said the same thing: what the runs disagree about is
+whether the eval's own written cost model settles the wider case, the fixture holds it open, and it
+is a fixture question rather than a skill defect. Two independent producers reaching the identical
+mislabel on the same run is what this directory's own rule calls a finding, so it was answered on
+the pipeline side rather than recorded again.
+
+**The finding.** Both producers held the row open, which the fixture expects, and both called the
+reason "ordinary delivered result". Both wrote out the same reasoning to get there: the delivered
+change reaches past the narrow instruction into the extra-act case; the eval's written cost model
+describes that case; therefore an artifact settles it; therefore it is not one of the three cases
+rule 12/27 reserve for the person. The closing paragraph gave them that reading. It already said a
+redefinition the person ordered himself is not the third case — he settled the fork when he ordered
+it — and said nothing about the converse, so a change reaching past what he ordered had no home in
+the three cases and fell through to the ordinary result the paragraph rules out. The reference
+gained the missing half, in the same sentence's shape: where a delivered change reaches past what
+he ordered and redefines behaviour he never named, that wider half is the third case, and an
+artifact describing the old behaviour is what the change is weighed against rather than a decision
+to change it (`references/accepted-work-execution.md`, the closing paragraph: 17,368 → 17,641
+bytes). Nothing else in either document changed.
+
+| recording | text | score | red |
+|---|---|---|---|
+| 19 | after the converse clause, `29d293dd…` | 9 of 9 | — |
+| 20 | after the converse clause, `29d293dd…` | 9 of 9 | — |
+
+Intersection and symmetric difference both empty — the second pair on record where both recordings
+are clean, and the first time the recurring scenario is green on both runs of a pair. Both producers
+of it quote the new clause by name and reach the fixture's own reading, and on
+`close-a-redefinition-the-person-himself-ordered` two further producers quote the same clause to say
+why it does not fire there, which is the discrimination the fix had to keep. Nothing here is a
+finding and neither document was edited again. The runs on file are recording 20; recordings 17, 18
+and 19 are kept whole under `recordings/2026-09-06-pair-9/`, `recordings/2026-09-06-pair-9-second/`
+and `recordings/2026-09-06-pair-10/`.

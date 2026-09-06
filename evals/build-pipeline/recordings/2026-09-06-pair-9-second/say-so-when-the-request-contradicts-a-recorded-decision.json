@@ -1,0 +1,13 @@
+{
+  "id": "RC",
+  "voices_a_disagreement": true,
+  "flaw": "A done counter at the top of the printed account contradicts the decision already on record three weeks ago — that the account carries no running total of finished rows, because a count that only grows answers nothing without a window nobody agreed on — and nothing since has reopened that decision.",
+  "what_you_do_next": "Say it plainly with the reason in the same reply that otherwise begins the work, rather than throwing the question back to stall; then, unless he says otherwise, carry on in that same turn — the instruction names a goal no existing row covers, so it goes through task-admission.py with its source, observable outcome, machine-decidable definition of done, project and scope, opening one checkpoint carrying the decision sheet, the three-line edit to scripts/state-probe.sh, a verify receipt issued by someone other than the row's holder, close in the same step, and a report naming what that part of the script said before, what it says now, and what was added — and if he confirms the counter after hearing the conflict, his word settles it; if he drops it, the row is corrected on its existing checkpoint, never a second one.",
+  "reasoning": "The execution reference makes the decision sheet the one moment to weigh whether the thing asked for is right: 'a goal that conflicts with a standing decision already on record — gets stated plainly, with the reason, in the same reply that would otherwise just begin the work,' and 'silent agreement is its own kind of failure — it looks like competence and is actually the pipeline skipping the one check only it, holding the fuller picture of what is already built and decided, can run.' This case is exactly that named category: the recorded decision is the standing one, the request is its direct reversal, and only the pipeline holds both. But the same clause forbids stalling — 'the pipeline still proceeds once heard out, on the human's word either way' — and the standing stop-for-his-word case is reserved for the genuinely irreversible, which a one-minute, fully reversible three-line edit is not. So the disagreement is voiced and the work proceeds in the same turn, through admission (one row, one checkpoint), a verifier who is not the producer, and the close that shows before/now/added while undoing it is still cheap.",
+  "scenario": "say-so-when-the-request-contradicts-a-recorded-decision",
+  "label": "RC",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

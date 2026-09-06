@@ -1,0 +1,12 @@
+{
+  "id": "TH",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The definition of done for this row is decidable by an artifact read, which the pipeline lists beside a command, a test and an independent verifier as an acceptable check that does not make the person the checker. The paragraph's claims are facts about files on disk, and the read confirmed the observable outcome: the README now names the second eval, its layer and where its runs live. The check was not the producer's self-report — Director, not the row's holder, read the text back against the artifacts it describes, which is what the verifier clause requires. None of the three cases reserved for him is present: the README's own voice was not changed, so there is no taste call; nothing about the wording is a trade-off no artifact settles, since every sentence is checkable against the files; and the definition of correct was not redefined, the instruction was carried out as given. A shown result closes the work, and a row is never left open to wait for his eye on an ordinary delivery. If he later disagrees with the wording, that disagreement is a new fact and its own task, not a reopening of this one.",
+  "scenario": "close-on-a-plain-read-with-no-command",
+  "label": "TH",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

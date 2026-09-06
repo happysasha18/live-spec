@@ -1,0 +1,12 @@
+{
+  "id": "NP",
+  "closes": false,
+  "reason_kind": "taste call",
+  "reasoning": "Both layouts meet the definition of done: same PLAN.md source, same passing test, every declared row shown. What separates them is only how they look, and the goal word - easier to scan - has no command, test or artifact read that decides it, so the pipeline cannot verify one over the other without making the person the checker. That is exactly the first of the three cases rule 12/27 reserve for him: a taste call, where his eye is the legitimate gate rather than the forbidden blessing of an ordinary delivered result. The pipeline shows both, and his verdict - approval or rejection - is itself the movement end, written into the row in the same minute it lands. Only one can ship, so choosing is a product choice no artifact settles, the one thing admission says to ask him for; it is not blocked, because blocked means a real external dependency, and it is not a change to the definition of correct, since both renderings are already correct.",
+  "scenario": "ask-which-of-two-board-layouts-ships",
+  "label": "NP",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

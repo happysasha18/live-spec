@@ -1,12 +1,12 @@
 {
-  "id": "SV",
+  "id": "CT",
   "closes": false,
-  "reason_kind": "trade-off no artifact settles",
-  "reasoning": "The procedure lets the pipeline close on its own only when a verifier confirms the admitted observable outcome against the frozen definition of done, and the closing kernel refuses a receipt whose commands do not actually decide the claim. Here both layouts pass `tests/test_board_matches_the_canon.py` and both render every row the canon declares, so the check that exists discriminates nothing: it proves correctness, not which layout is easier to scan, and the presence of a passing test is not success against a done the test cannot decide. Only one can ship, so shipping requires picking, and the pick is exactly what admission reserves: derive what you can from the project, and ask the person only for a product choice no artifact settles. Nothing in the tree measures scannability and no earlier decision settles it, so this is not an ordinary buildable result a command, a test, or a plain read already confirms was delivered — it is the second of the three cases rule 12/27 keeps for him, a trade-off between two correct alternatives that no artifact settles. Inventing a scannability threshold now to break the tie is forbidden: no numeric threshold may be introduced after start that was not in the admitted DOD. The row therefore stays open with the fork put to him plainly, both layouts shown side by side, and his verdict is itself the movement end for the judged artifact — written into the board row in the same minute it lands, amending the row in place rather than appending to it.",
+  "reason_kind": "taste call",
+  "reasoning": "Both layouts meet the admitted definition of done identically: same PLAN.md source, same passing test, every declared row shown. The only remaining question is which one is easier to scan, and the document says a definition of done must be decidable by a command, test, artifact read, or independent verifier without making the person the checker. Nothing in the tree measures scannability and no earlier decision settles it, so no verifier can pick between them; the two candidates differ only in look. That is exactly the first of the three cases rule 12/27 reserves for him — a taste call — and for those the pipeline asks the person for the product choice no artifact settles rather than closing. This is not the ordinary-delivery clause where a shown result closes the work: there the outcome is confirmed and his eye would only bless what a check already decided, whereas here his verdict is the deciding act, and it lands on the row in the same minute it arrives.",
   "scenario": "ask-which-of-two-board-layouts-ships",
-  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "label": "CT",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus",
-  "label": "SV"
+  "producer_model": "opus"
 }

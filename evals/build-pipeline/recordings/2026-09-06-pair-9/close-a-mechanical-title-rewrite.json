@@ -1,0 +1,12 @@
+{
+  "id": "LF",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The person's own instruction was accepted and carries its own checkpoint, so the fork on how titles should read was settled when he ordered the rewrite; carrying it out is executing his decision, not making it. The delivery is confirmed without his eye: plan_checks.py exits 0 naming each rewritten row, and the board page regenerated from PLAN.md shows the new titles, which is the rendered surface the receipt requires. Nothing here is a taste call, a trade-off no artifact settles, or a still-open change to the definition of correct, so rule 12/27 reserve nothing for him, and the pipeline never leaves a row open waiting for him to look at what was already shown. His being asleep is not a gate. If he disagrees with the wording later, that is a new fact and becomes its own task; the closed row stays closed.",
+  "scenario": "close-a-mechanical-title-rewrite",
+  "label": "LF",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

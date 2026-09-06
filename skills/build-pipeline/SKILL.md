@@ -12,10 +12,11 @@ metadata:
 > glossary live in `live-spec-base` (v6.1.0). This skill does not restate them. Loaded alone, every
 > section below still runs.
 
-Director is the only first reader. It classifies every act, says whether the turn proposes new work
-or changes existing work, and returns a route contract. This skill never reclassifies the message.
-It begins only after that contract exists, and owns everything from a candidate's observable
-outcome and definition of done through verification and close.
+Director is the first reader of every message but the setup entry below. It classifies every act,
+says whether the turn proposes new work or changes existing work, and returns a route contract.
+This skill never reclassifies the message. It begins only after that contract exists, and owns
+everything from a candidate's observable outcome and definition of done through verification and
+close.
 
 ## Accepted-work pipeline
 

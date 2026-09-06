@@ -1,0 +1,12 @@
+{
+  "id": "JP",
+  "closes": false,
+  "reason_kind": "trade-off no artifact settles",
+  "reasoning": "The work asked whether the Director skill could be made shorter without costing anything, and the evidence came back unable to answer: the eval's own record puts producer variance at about two scenarios, so 30/35 against 29/35 is inside the noise and says nothing either way. Nothing left on disk decides which version the pack keeps — one is 3.7 KB smaller at the pack's front door, the other is the incumbent, and no command, test, artifact read or independent verifier can prefer one over the other. That is not an ordinary delivered result a plain read confirms; it is exactly the second of the three cases rule 12/27 reserves for the person, a trade-off no artifact settles, so the pipeline does not close it on its own. Neither version is committed, so nothing irreversible has run and the row is not blocked either — needing the owner's choice is not an external dependency. The pipeline reports the measurement and the fork, and his verdict is itself the movement end, written onto the row in the minute it lands.",
+  "scenario": "ask-whether-the-shorter-skill-ships",
+  "label": "JP",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

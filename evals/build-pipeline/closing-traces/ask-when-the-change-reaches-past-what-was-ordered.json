@@ -1,12 +1,12 @@
 {
-  "id": "LH",
-  "closes": true,
-  "reason_kind": "ordinary delivered result",
-  "reasoning": "The row was admitted on a narrow definition of done — a run naming an act on a no-act scenario must fail — and a row is closed against the DOD it was admitted on. That DOD is met and its unit test passes. What is not finished is the delivery: the shared branch the fix landed in also governs the extra-act case, and the verifier's closing check reaches the product on real data — the 35 recorded runs — where it reads 26 instead of 30, four of them red on every-other-field-right runs. That is a red check inside what this change touched, so the pipeline does not close over it; it splits the two cases apart, which the situation says is possible, and re-verifies. But the repair needs no word from the person: the eval's written cost model already states what the wider case should do — print a note, not a failure — so this is not a product choice no artifact settles, not taste, and not an open fork in the definition of correct; the artifact settles it, and the pipeline reads it rather than asking. The over-reach is exactly the flaw the pipeline is obliged to state plainly (the delivered code contradicts a standing decision already on record) and then handle, not a reason to stall, and the class-hunt duty makes sweeping the sibling case part of the same piece of work rather than a new question. Nothing here is irreversible outside git, and the person's eye is never the gate on an ordinary buildable result a command already confirms. So the pipeline finishes the split, verifies the 35 runs back to 30 with a receipt not from the row's holder, shows the result and closes in the same step; if he later disagrees with the split, that is a new fact and a new row, not a reopening.",
+  "id": "FW",
+  "closes": false,
+  "reason_kind": "change to the definition of correct",
+  "reasoning": "The narrow instruction he gave is delivered and its own check passes, and on that half alone a shown result would close without his eye. But the delivered change reaches past what he ordered: the same branch now fails the extra-act-beside-a-real-one case, which he never named. The skill's converse clause covers exactly this — where a delivered change redefines behaviour he never named, that wider half is the third case rule 12/27 reserve for him, and the artifact describing the old behaviour is what it is weighed against rather than a decision to change it. Here that artifact is the eval's written cost model, which deliberately prints the extra act as a note, not a failure; the code now contradicts it, and nobody has said which behaviour the wider case should have, so the fork is open, not settled by him in advance. The closure kernel blocks the close independently: the accepted scope still holds a red check — four recorded runs whose every other field is right went red, 30 to 26 — and a task cannot close over a red check inside its scope. This is not 'blocked' either: needing his choice is not an external dependency, so the row stays in hand while the split (which is possible and was not asked for) is put to him with the cost model quoted.",
   "scenario": "ask-when-the-change-reaches-past-what-was-ordered",
-  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "label": "FW",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus",
-  "label": "LH"
+  "producer_model": "opus"
 }

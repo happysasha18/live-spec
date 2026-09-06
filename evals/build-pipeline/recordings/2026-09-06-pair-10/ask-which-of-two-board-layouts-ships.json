@@ -1,0 +1,12 @@
+{
+  "id": "VQ",
+  "closes": false,
+  "reason_kind": "taste call",
+  "reasoning": "Both layouts meet the admitted definition of done: same PLAN.md source, the same passing test, every declared row shown. Nothing separates them but how they look, and only one can ship, so the remaining question is which reads as easier to scan. No command, test, artifact read or independent verifier can decide that, and no earlier decision settles it, so the pipeline cannot derive the choice by continuing to read the project. This is exactly the first of the three cases rule 12/27 reserve for the person, where his eye is legitimately the gate rather than a stand-in for an ordinary delivered result a check already confirms. Needing his choice is not `blocked` either, so the row stays open and in hand while it is put to him; the pipeline shows both and asks for the product choice, and only after his verdict does the winner close, with that verdict written onto the row in the same minute it lands.",
+  "scenario": "ask-which-of-two-board-layouts-ships",
+  "label": "VQ",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "LX",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The pipeline's rule is that a shown result closes the work and the human's own eye is never the gate on an ordinary delivery. A row whose definition of done names his eye is only describing one of the three cases rule 12/27 reserve for him — a taste call, a trade-off no artifact settles, or a still-open change to the definition of correct. None of those holds: no part of the result is a matter of preference, the page shows what the plan holds and nothing else, so nothing is left for him to decide. It is an ordinary buildable result that a command, a test and a plain read already confirm was delivered — the board page regenerates from PLAN.md, every declared row appears under its own state, tests/test_board_matches_the_canon.py passes against the generated page, and the rendered surface itself was opened and renders as described, which is the surface the receipt owes for a done naming a page. The verification is not the producer's self-report alone but the artifact read on the real page, so the checkpoint closes in the same step the result is shown. If he disagrees after looking, that disagreement is a new fact and its own task; the closed row stays closed.",
+  "scenario": "close-a-row-whose-own-line-names-his-eye",
+  "label": "LX",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

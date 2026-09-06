@@ -1,0 +1,12 @@
+{
+  "id": "NM",
+  "closes": false,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The narrow done is met and its unit test passes, but the closing check is not the producer's own test alone: it reaches the product on real data, and on the 35 recorded runs the delivered code scores 26 where the graded behaviour is 30, with four runs newly red whose every other field is right. A task cannot close while its accepted scope still holds a red check, and the presence of a passing test is not success. This is not a case rule 12/27 reserves for him: an artifact already settles the wider case, because the eval's written cost model says an extra act named beside a real one prints as a note rather than a failure, so the delivered code contradicts a written artifact rather than posing an open fork, a taste call, or a trade-off no artifact settles. Nothing here is irreversible and the definition of correct was not changed. The pipeline therefore does not wait on the person and does not ask which behaviour the wider case should have: it splits the two cases apart, which is possible, so the asked-for branch fails and the noted branch stays a note, then verifies again on the real runs and closes against the done it was admitted on.",
+  "scenario": "ask-when-the-change-reaches-past-what-was-ordered",
+  "label": "NM",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

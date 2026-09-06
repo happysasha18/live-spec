@@ -1,0 +1,12 @@
+{
+  "id": "QV",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The accepted work was exactly this redefinition of correct: make the grader treat an extra act beside an expected one as a failure. The document settles this case directly — 'A redefinition he ordered himself is not that third case: he settled the fork when he ordered it, and carrying out his decision is executing it, not making it.' The four runs that now read red are that ordered rule applied, not a wider half reaching past what he named; nothing here redefines behaviour he never ordered, so the converse clause does not fire. The score moving 30 to 26 is not a red check against the admitted definition of done — 30 was never an admitted number, and 'no numeric threshold may be invented after start that was not in the admitted DOD' forbids treating it as one now. The change is written, its own checks pass, and nothing is broken, so the accepted scope holds no todo, missing artifact or red check. The close runs the ordinary way: verify by a checker who is not the row's holder, handed the observable outcome and the paths touched, then close checkpoint and row in the same step. A shown result closes the work; his eye is never the gate on an ordinary delivery, and if he disagrees with the new grading afterward that disagreement is a new fact carrying its own task, not a reopening of this row.",
+  "scenario": "close-a-redefinition-the-person-himself-ordered",
+  "label": "QV",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

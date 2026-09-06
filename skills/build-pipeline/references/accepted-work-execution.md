@@ -81,12 +81,13 @@ three questions — what is to be done, why, and how long — plus the short nam
 work. A failed floor or a failed reader leaves the row out of work until the statement is rewritten
 and validated again. `hold --lanes <n>` then takes the row up: it freezes the wording, and it writes the plan's own
 expectation of what runs side by side against the lane decision `<n>` actually makes, naming any
-divergence on the checkpoint's `LANES` line. `<n>` is bounded by the profile's lane cap, and so
-is the number of rows standing in hand at once — the board splits the in-work column into exactly
-that many lanes, so a row past the cap is a row with no lane to stand in. A row whose checkpoint
-stands closed is refused a take-up: it is finished or abandoned, and T8 `reopen` is the door back. From that freeze on the task is spoken in those words
+divergence on the checkpoint's `LANES` line. From that freeze on the task is spoken in those words
 letter for letter — in the chat, in a worker's brief, at the close — and the close carries the
-estimate beside the actual and that divergence into the delivery trail.
+estimate beside the actual and that divergence into the delivery trail. The number of rows standing
+in hand at once is bounded by the same profile cap rule 7 carries: the board splits the in-work
+column into exactly that many lanes, so a row past the cap is a row with no lane to stand in. A row
+whose checkpoint stands closed is refused a take-up: it is finished or abandoned, and T8 `reopen`
+is the door back.
 
 **New work opens a checkpoint before the first specialist is called; work already in
 flight updates the one it already has — never a second `new` on the same work.** An
@@ -163,7 +164,10 @@ rule 12/27 already reserve for him — a taste call, a trade-off no artifact set
 to the definition of correct that is still an open fork — never an ordinary buildable result a
 command, a test, or a plain read already confirms was delivered. A redefinition he ordered
 himself is not that third case: he settled the fork when he ordered it, and carrying out his
-decision is executing it, not making it. If he disagrees with a shown result afterward, that
+decision is executing it, not making it. The converse holds too: where a delivered change reaches
+past what he ordered and redefines behaviour he never named, that wider half is the third case, and
+an artifact describing the old behaviour is what the change is weighed against rather than a
+decision to change it. If he disagrees with a shown result afterward, that
 disagreement is a new fact, not a reopening of the one that shipped: it becomes its own task
 carrying his correction, and the closed row stays closed. This changes nothing about rule 12's
 own ground — an action that is genuinely irreversible outside git still stops for his word

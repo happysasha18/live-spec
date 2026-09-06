@@ -1,12 +1,12 @@
 {
-  "id": "LP",
+  "id": "HD",
   "closes": false,
   "reason_kind": "trade-off no artifact settles",
-  "reasoning": "The definition of done this work was admitted on is that the cut costs nothing, and the closing kernel says a row is closed against that admitted DOD, decided by a check that actually passes rather than by an agent's sentence. The eval is the only artifact that could decide it, and by its own record a one-scenario gap (30 vs 29) sits inside about two scenarios of producer variance, so the run returns no verdict either way — it neither confirms nor refuses the DOD. Reading that indecisive run as a pass would mean inventing an after-the-fact tolerance ('a one-scenario drop is acceptable'), which the kernel forbids: no numeric threshold may be introduced after start that was not in the admitted DOD, and correcting the DOD to something the evidence can meet is a separate explicit operation requiring a source and a reason, i.e. his word. What remains open is therefore not a buildable result awaiting his glance — the rule that his eye is never the gate on an ordinary delivery does not apply — but a genuine fork the artifacts cannot settle: whether 3.7 KB off the pack's front door is worth an unmeasurable and possibly real cost in Director's behaviour. That is one of the three cases rule 12/27 reserves for him. Nothing is committed, so the row stays open with both versions on disk, and the question put to him is which trade he wants; his answer then rides in as the source of a corrected DOD or a decision on the existing row, creating no new work.",
+  "reasoning": "The work's own question was whether the Director skill could be cut without costing anything, and the check built to answer it cannot answer it: the eval's record puts about two scenarios of producer variance on a single run, so the 30-vs-29 gap is inside its own noise and decides nothing either way. That leaves no command, test, artifact read, or independent verifier able to decide the definition of done without making the person the checker — the remaining question is whether 3.7 KB off the pack's front door is worth an unmeasurable capability difference, which is a weighing of two goods, not a buildable result. That is exactly the second of the three cases rule 12/27 reserve for him, so the row's done may name his eye here without breaking the rule that an ordinary delivered result never waits on him. Nothing irreversible is pending — both versions sit on disk, neither committed, so the fork is still open and cheap. The pipeline shows the measurement and the fork as the delivered evidence and keeps the row open for his word on which version stands; it does not close it, and it does not invent a threshold after the start that the admitted done never carried.",
   "scenario": "ask-whether-the-shorter-skill-ships",
-  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "label": "HD",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus",
-  "label": "LP"
+  "producer_model": "opus"
 }

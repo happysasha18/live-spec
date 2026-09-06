@@ -1,12 +1,12 @@
 {
-  "id": "KL",
+  "id": "YO",
   "closes": true,
   "reason_kind": "ordinary delivered result",
-  "reasoning": "The procedure states that a shown result closes the work and the human's own eye is never the gate on an ordinary delivery: once the verifier confirms the observable outcome, the pipeline shows the result and closes the checkpoint in the same step, continuing without waiting for the person's attention. Here the definition of done is decidable without making the person the checker — `python3 scripts/plan_checks.py` exits 0 and names each rewritten row, and the regenerated board page is the rendered surface the receipt can carry via `--surface`. Nothing in the delivered state trips the closing kernel's refusals: no red check, no missing artifact, no scope still marked todo, no DOD edited after admission. The rewrite is not a taste call: the person himself ordered the redefinition of the titles into plain language, and the procedure says explicitly that a redefinition he ordered himself is not the third reserved case — he settled the fork when he ordered it, so carrying it out is executing his decision, not making it. The change is reversible text in PLAN.md under git, so rule 12's irreversible-action stop does not apply, and his being asleep is irrelevant since attention is never the gate. If he later dislikes any wording, that disagreement is a new fact that becomes its own task; the closed row stays closed.",
+  "reasoning": "The pipeline's rule is that a shown result closes the work and the human's own eye is never the gate on an ordinary delivery. The rewrite carries out an instruction he gave himself, so it is executing his decision, not making one: 'A redefinition he ordered himself is not that third case: he settled the fork when he ordered it.' The change also stays inside what he ordered — eleven queue titles, no behaviour he never named — so the wider-half exception does not apply, and no wording was contested. The observable outcome is confirmed without him: plan_checks.py exits 0 naming each rewritten row, and the board page regenerated from PLAN.md shows the new titles, which is the rendered surface the receipt requires. Nothing here is a taste call, a trade-off no artifact settles, or a change to the definition of correct still open as a fork, and nothing is irreversible outside git. Waiting on his attention would leave the row open only for him to bless what was already shown, which the rule forbids; if he disagrees later, that is a new fact and its own task, not a reopening.",
   "scenario": "close-a-mechanical-title-rewrite",
-  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "label": "YO",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus",
-  "label": "KL"
+  "producer_model": "opus"
 }

@@ -1,0 +1,12 @@
+{
+  "id": "KY",
+  "closes": false,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "Nothing here is reserved for the person. The wider case is not an open fork: the eval's written cost model already says an extra act beside a real one prints a note, not a failure, so an artifact settles the behaviour and the pipeline derives the answer by reading the project rather than asking for a product choice. It is not a taste call and not a change to the definition of correct he still has to make. But the piece cannot close in its delivered state: the narrow fix's own unit test passing is not the check that counts, and the closing check on real data — the 35 recorded runs as the grader actually reads them — comes back red on four runs whose every other field is right, red only because the shared branch now contradicts the written cost model. A task cannot close while its accepted scope holds a red check, and that collateral is inside this change's scope, not outside it. The confirmed defect also owes the class sweep: the branch governs two cases, the instruction named one, and splitting them apart is possible. So the pipeline states plainly that the delivered branch overshot what was asked, splits the two cases so the extra-act case prints its note again, re-grades to 30, has that verified by someone other than the holder, and then closes — all without waiting on the person's attention.",
+  "scenario": "ask-when-the-change-reaches-past-what-was-ordered",
+  "label": "KY",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

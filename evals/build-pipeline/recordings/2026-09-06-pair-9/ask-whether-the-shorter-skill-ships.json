@@ -1,0 +1,12 @@
+{
+  "id": "YL",
+  "closes": false,
+  "reason_kind": "trade-off no artifact settles",
+  "reasoning": "The pipeline closes a row against the definition of done it was admitted on, and closes without the person's eye only for an ordinary buildable result a command, test, artifact read or independent verifier can decide. Here no such check exists: the eval is the only artifact, and by its own record a single run carries about two scenarios of producer variance, so 30 versus 29 of 35 is inside the noise and distinguishes nothing. The evidence therefore cannot say whether the cut costs anything, which is what the work was admitted to find out. What is actually left to decide is 3.7 KB off the pack's front door weighed against a quality risk the measurement is too coarse to see, and neither version is committed. That is a trade-off no artifact settles - the second of the three cases rules 12/27 reserve for the person - not a delivered result awaiting a blessing. Running the eval harder is barred as well: no numeric threshold may be invented after start that was not in the admitted DOD. The row stays open on his word about which version stands.",
+  "scenario": "ask-whether-the-shorter-skill-ships",
+  "label": "YL",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}

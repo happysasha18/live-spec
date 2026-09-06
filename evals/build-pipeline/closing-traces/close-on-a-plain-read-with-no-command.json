@@ -1,12 +1,12 @@
 {
-  "id": "YV",
+  "id": "SL",
   "closes": true,
   "reason_kind": "ordinary delivered result",
-  "reasoning": "The procedure's rule that a shown result closes the work states the person's own eye is never the gate on an ordinary delivery: once the verifier confirms the observable outcome, the pipeline shows the result — the changed document among the named surfaces — and closes the checkpoint in the same step. Here the observable outcome (the README paragraph naming the second eval, its layer, and where its runs live) is present, and the verifier detail's fallback applies: where no fresh checker command exists, the pipeline's own re-check against the decision sheet's observable outcome is enough, and that re-check was done against the files the paragraph describes, not against the producer's self-report. That the absence of a judging command means no test result is not a gap — 'the presence of a test is not success' constrains claims of passing, it does not require a command where a plain read of the artifact decides the done. The three cases rule 12/27 reserve for the person do not fit: the wording is factual, not a taste call; nothing here is a trade-off no artifact settles, since the files on disk settle every fact asserted; and the definition of correct was not changed — he ordered this paragraph himself. Editing a README is reversible in git, so rule 12's irreversible-action ground does not stop it either. If he later dislikes the wording, that disagreement is a new fact and becomes its own row; the closed row stays closed.",
+  "reasoning": "The instruction named a goal a plain read settles: the paragraph either states truly what the second eval is, which layer it covers, and where its runs live, or it does not. The pipeline's rule that a shown result closes the work says the human's own eye is never the gate on an ordinary delivery — a result a command, a test, or a plain read already confirms was delivered. Here the check that did not produce the work, the Director, was handed the observable outcome and the files the paragraph describes and confirmed every fact against them directly, which is the verifier protocol's own 'plain read' form, not the producer's self-report. Nothing in the delivery reaches past what was asked: the README's voice was untouched, so no behaviour or definition of correct was redefined beyond the instruction. Nobody has raised a question about the wording, so there is no taste call, no trade-off an artifact fails to settle, and no open fork. The edit is a reversible document change in git, so rule 12's irreversible-action stop does not apply. Verify with a fresh checker, close the checkpoint and the row in the same step, and show the paragraph with what that part said before, what it says now, and what was added — if he disagrees afterward, that is a new fact and its own task, not a reopening.",
   "scenario": "close-on-a-plain-read-with-no-command",
-  "skill_sha256": "b7dec6d7d44792ce6cfefa6edda78fd56868407b953d63b53d70bda5733f4acb",
+  "label": "SL",
+  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus",
-  "label": "YV"
+  "producer_model": "opus"
 }

@@ -1,0 +1,12 @@
+{
+  "id": "TS",
+  "closes": false,
+  "reason_kind": "taste call",
+  "reasoning": "Both layouts meet the definition of done the row was admitted on — same PLAN.md source, the same passing tests/test_board_matches_the_canon.py, every declared row shown — so no command, test, artifact read or independent verifier can pick between them. The pipeline may only ask the person for a product choice no artifact settles, and 'easier to scan' with two correct-but-different renderings and nothing in the tree measuring scannability is exactly that: one of the three cases rule 12/27 reserve for him, a taste call. Shipping one behind the flag would be the pipeline making his choice, not executing a fork he already settled — no earlier decision settles it. The row stays open on his verdict, and it is not marked blocked: needing the owner's choice is not an external dependency. When his verdict lands it is itself the movement end, written into the board row in the same minute, amending the row in place rather than appending.",
+  "scenario": "ask-which-of-two-board-layouts-ships",
+  "label": "TS",
+  "skill_sha256": "f434d330bf36eef4bd6943fa57f6d41969c741727a70339cdd0311e68e95d425",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
+}
