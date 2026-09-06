@@ -7,16 +7,30 @@ Prover skill version: product-prover (installed under `skills/product-prover/`),
 This pass was run from a seat that authored none of the two commits below, briefed to find reasons
 to refuse them.
 
-Range: aa361dea..9edf7c25
+Range: aa361dea..796b092c
+- 796b092c Skill review of the push-review edit, and the converse clause its eval pair forced —
+  the skill-creator record gate s demanded for `9edf7c25`, and the closing pair re-recorded
 - 9edf7c25 Adversarial push review of aa361dea..7993fa9b: the closure kernel's bypass and the
   board's public lie, both closed — this pass's own fixes, tests and this record
 - 7993fa9b Trusted closure kernel, statement validation, a truthful board, and its public link
 - 4a1579d0 Director reads and routes; build-pipeline owns accepted work (q-822, q-823, q-816, q-385)
 
-The two commits under review are the first two. `9edf7c25` is this record's own landing: the
-repairs the findings below name, their tests, the re-pinned q-816 row and this file. It is read
-here the way any commit in the range is — the fixes were each proved red first against 7993fa9b,
-and nothing in it changes behaviour the findings do not describe.
+The two commits under review are the third and fourth. `9edf7c25` is this record's own landing:
+the repairs the findings below name, their tests, the re-pinned q-816 row and this file. It is
+read here the way any commit in the range is — the fixes were each proved red first against
+7993fa9b, and nothing in it changes behaviour the findings do not describe. `796b092c` is the
+skill-creator review `9edf7c25` owed and the eval re-recording that review's own edits forced;
+it changes two skill documents, the closing fixture's pins and its run log, and nothing else.
+Its own findings are recorded at `docs/skill-review/2026-09-06-build-pipeline.md` and in
+`evals/build-pipeline/README.md`, which is where a skill edit's review belongs.
+
+Two suite failures stand on this range and are not repaired here, because repairing them is a
+spec edit this record cannot then review: `tests/test_no_history.py` and
+`tests/test_guardrails.py::TestGateB_Tests::test_real_content_passes` red on the dated
+provenance sentence `9edf7c25` wrote into `spec/live-status-reporting.md` Requirement 257 —
+"the owner's own dated duty of 2026-07-19" — which INV-253 sends to `JOURNAL.md` rather than the
+spec. The escort-inventory half of the same fix carries the date legitimately; only the spec
+half reds.
 
 Files read: `spec/work-board.md` (Requirement 309, whole), `spec/live-status-reporting.md`
 (Requirement 257, both versions), `spec/public-contract.md`, `.live-spec/turnkey-contract-composed.md`
