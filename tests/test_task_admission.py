@@ -1,6 +1,7 @@
 """Accepted-work admission: source + outcome + DOD decide whether the board may change."""
 
 import importlib.util
+import os
 import json
 import subprocess
 import sys
@@ -669,3 +670,80 @@ def test_every_refusal_prints_a_plain_reason_exits_two_and_leaves_the_mark(tmp_p
     assert run.returncode == 2, run.stdout + run.stderr
     assert "receipt" in run.stdout
     assert row_of(plan, task_id).startswith("### 🔄 ")
+
+
+# --- the closure kernel holds past the checkpoint's own status ----------------------------
+
+def test_an_abandoned_ticket_is_not_taken_back_up_while_its_checkpoint_stands_closed(tmp_path):
+    """T9 closes the checkpoint and T2 must not walk the row back into work over it.
+
+    Red-proved 2026-09-06 against `scripts/task-admission.py` at 7993fa9b: `abandon` left the
+    row marked ⬜ with a closed checkpoint, and `hold` — which read only the mark — took it up
+    again under a new holder, onto a checkpoint with nothing left to resume. T8 `reopen` is the
+    one door back.
+    """
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    admission.hold(plan, task_id, "the session", checkpoints_dir=checkpoints)
+    admission.abandon(plan, checkpoints, task_id, "the channel it fed was retired")
+    before = plan.read_bytes()
+    message = refused(admission.hold, plan, task_id, "a second session",
+                      checkpoints_dir=checkpoints)
+    assert "closed" in message and "reopen" in message
+    assert plan.read_bytes() == before
+
+
+def test_a_close_over_a_closed_checkpoint_that_carries_no_receipt_is_refused(tmp_path):
+    """`close` is a transition against a receipt, whatever the checkpoint's status.
+
+    Red-proved 2026-09-06 against `scripts/task-admission.py` at 7993fa9b: the whole receipt
+    kernel — the receipt's presence, its verdict, the frozen done, the tree — sat inside `if the
+    checkpoint is open`, so a row whose checkpoint had already been closed by any other
+    transition took the ✅ mark with no evidence of any kind.
+    """
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    admission.hold(plan, task_id, "the session", checkpoints_dir=checkpoints)
+    checkpoint.update_checkpoint(cp, in_progress="(nothing)", next="(nothing)")
+    checkpoint.close_checkpoint(cp)
+    message = refused(admission.close, plan, checkpoints, task_id)
+    assert "receipt" in message
+    assert row_of(plan, task_id).startswith("### 🔄 ")
+
+
+def test_a_take_up_past_the_lane_cap_is_refused(tmp_path):
+    """T2's own stated code requirement — "lane cap not exceeded" — and Requirement 309
+    criterion 47, which bounds the steps running together by the same cap.
+
+    Red-proved 2026-09-06 against `scripts/task-admission.py` at 7993fa9b, which read no cap at
+    all: `hold --lanes 9` was accepted and wrote "lane decision runs 9" onto the trail, and a
+    fourth row went in hand under a cap of three — more in-work rows than the board has lanes.
+    """
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    profile = tmp_path / "profile.md"
+    profile.write_text("lanes.cap: 2\n", encoding="utf-8")
+    os.environ["LIVE_SPEC_PROFILE"] = str(profile)
+    try:
+        before = plan.read_bytes()
+        message = refused(admission.hold, plan, task_id, "the session",
+                          checkpoints_dir=checkpoints, lanes=9)
+        assert "cap" in message and "2" in message
+        assert plan.read_bytes() == before
+
+        admission.hold(plan, task_id, "the session", checkpoints_dir=checkpoints, lanes=2)
+        second = admission.admit(new_route(title="Send the monthly digest"), plan, checkpoints)
+        third = admission.admit(new_route(title="Send the daily digest"), plan, checkpoints)
+        for row in (second["task_id"], third["task_id"]):
+            echo = admission.read_statement(row_of(plan, row))["echo"]
+            reader = tmp_path / ("reader-%s.txt" % row)
+            reader.write_text(
+                "What is to be done: a digest reaches the test inbox\n"
+                "Why: the people on the list get the news without asking\n"
+                "How long: between two and four hours\n"
+                "Echo-name placed: %s\n" % echo, encoding="utf-8")
+            admission.validate(plan, row, reader=reader)
+        admission.hold(plan, second["task_id"], "a second lane", checkpoints_dir=checkpoints)
+        message = refused(admission.hold, plan, third["task_id"], "a third lane",
+                          checkpoints_dir=checkpoints)
+        assert "cap" in message
+        assert row_of(plan, third["task_id"]).startswith("### ⬜ ")
+    finally:
+        os.environ.pop("LIVE_SPEC_PROFILE", None)

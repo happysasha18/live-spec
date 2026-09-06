@@ -81,7 +81,10 @@ three questions — what is to be done, why, and how long — plus the short nam
 work. A failed floor or a failed reader leaves the row out of work until the statement is rewritten
 and validated again. `hold --lanes <n>` then takes the row up: it freezes the wording, and it writes the plan's own
 expectation of what runs side by side against the lane decision `<n>` actually makes, naming any
-divergence on the checkpoint's `LANES` line. From that freeze on the task is spoken in those words
+divergence on the checkpoint's `LANES` line. `<n>` is bounded by the profile's lane cap, and so
+is the number of rows standing in hand at once — the board splits the in-work column into exactly
+that many lanes, so a row past the cap is a row with no lane to stand in. A row whose checkpoint
+stands closed is refused a take-up: it is finished or abandoned, and T8 `reopen` is the door back. From that freeze on the task is spoken in those words
 letter for letter — in the chat, in a worker's brief, at the close — and the close carries the
 estimate beside the actual and that divergence into the delivery trail.
 
@@ -216,7 +219,9 @@ means in code. Where the DOD names a rendered or published surface — the words
 `link`, `published`, `rendered`, `url` — a receipt with no `--surface` is refused, because a fixture
 passing is not the surface rendering.
 
-`close` reads that receipt rather than any agent's sentence. It refuses when there is none, when
+`close` reads that receipt rather than any agent's sentence, whatever the checkpoint's own status
+— a checkpoint closed by some other route carries no receipt, and closing over it would be the
+textual claim this kernel exists to refuse. It refuses when there is none, when
 its verdict failed, when the DOD's hash has moved since it was written, or when the tree hash no
 longer matches the tree as it stands — a change after verification voids the evidence and the work
 is verified again. Every refusal prints one plain reason, exits 2, and leaves the row's mark exactly

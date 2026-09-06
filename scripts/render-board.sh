@@ -363,6 +363,18 @@ def closed_line_date(task):
 # ---------------------------------------------------------------- read the plan
 text = read_text("PLAN.md") or ""
 tasks = parse_tasks(text)
+# Criterion 22 reads an open row's column off "the status its queue row records". Running each
+# row's acceptance command on top of that is a second reading, and it is only worth anything on
+# the machine that owns the state the commands reach for. On a foreign runner it is worse than
+# nothing: the Pages job draws this page in a checkout with no installed pack and no test
+# dependencies, and 29 landed rows published as 🔁 "was done and is not", standing in the in-work
+# column of the project's one public link (the adversarial read of 2026-09-06). So the published
+# render reads the recorded marks and says so; the probe on the owner's own machine keeps the
+# live verdict, which is where a reopened row is a fact rather than a guess.
+RECHECK = os.environ.get("LIVE_SPEC_BOARD_CHECKS", "on").strip().lower() != "off"
+if not RECHECK:
+    for t in tasks:
+        t["check"] = None
 evaluate(tasks)
 
 # ---------------------------------------------------------------- split each row's body
@@ -1144,7 +1156,7 @@ page = """<!DOCTYPE html>
 
 <h1>{project} — the work board</h1>
 <div class="stamp">{needle} · {needs} · built {now} · {busy} of {cap} lanes busy
- · branch {branch} · {sha} &ldquo;{subj}&rdquo;{dirty}</div>
+ · branch {branch} · {sha} &ldquo;{subj}&rdquo;{dirty} · {recheck}</div>
 
 <div class="board">{columns}</div>
 
@@ -1182,6 +1194,9 @@ not reload itself: draw it again when something changes.
     columns=columns_html, waiting=waiting_html, waiting_file="WAITING.md", feed=feed_html,
     crafts=craft_html, unnamed=CRAFT_UNNAMED, cpdir=esc(CHECKPOINTS), archive=esc(ARCHIVE),
     anchors=esc(ANCHORS or "no registry row"),
+    recheck=("every row's own acceptance command re-run here" if RECHECK else
+             "each row shown as the plan records it; the acceptance commands are re-run "
+             "on the machine that holds the work, not here"),
 )
 
 with open(out_path, "w", encoding="utf-8") as f:

@@ -107,6 +107,20 @@ ASSUMED = re.compile(r"(?i)\b(assum\w+|probabl\w+|presumabl\w+|should be|likely|
 ROW_HEADER = "### %s %s \u2014 id: %s"
 
 
+def lane_cap() -> int:
+    """The build-lane cap, read from the profile line `scripts/open-lane.sh` reads: no second
+    number. The package default of three is the settings ladder's own (SPEC T-18, E-13)."""
+    text = ""
+    path = os.environ.get("LIVE_SPEC_PROFILE",
+                          os.path.expanduser("~/.claude/live-spec/profile.md"))
+    try:
+        text = Path(path).read_text(encoding="utf-8")
+    except OSError:
+        pass
+    m = re.search(r"lanes\.cap:\s*(\d+)", text)
+    return int(m.group(1)) if m else 3
+
+
 def _row_span(plan: str, task_id: str):
     """(start, end, mark, title) of one ticket's block in PLAN.md, or a refusal."""
     m = re.search(r"(?m)^### (\S+) (.+?) \u2014 id: %s$" % re.escape(task_id), plan)
@@ -716,16 +730,42 @@ def hold(plan_path: Path, task_id: str, holder: str, checkpoints_dir=None, lanes
             "%s has not passed statement validation: run `validate` (and rewrite the statement "
             "where it failed) before taking it up" % task_id)
 
+    # T2's mirror of "no checkpoint already open": a CLOSED checkpoint means this ticket is
+    # finished or abandoned, and taking it up again puts a holder on a sheet with nothing left
+    # to resume — and then walks past the whole receipt kernel at the close. T8 `reopen` is the
+    # one door back.
+    cp = _checkpoint_path(checkpoints_dir, task_id) if checkpoints_dir else None
+    if cp and cp.exists() and checkpoint.read_checkpoint(cp)["status"] != "open":
+        raise AdmissionError(
+            "%s has a closed checkpoint: reopen it before taking it in hand" % task_id)
+
+    # T2's other stated requirement — "lane cap not exceeded" — and Requirement 309 criterion 47,
+    # which bounds the steps running together inside one task by the same cap. The board splits
+    # the in-work column into exactly that many lanes (criterion 27), so a row past the cap is a
+    # row with no lane to stand in.
+    cap = lane_cap()
+    if lanes and int(lanes) > cap:
+        raise AdmissionError(
+            "the lane decision runs %d steps side by side, past the lane cap of %d (lanes.cap)"
+            % (int(lanes), cap))
+    if mark != IN_HAND:
+        in_hand = len(re.findall(r"(?m)^### %s " % re.escape(IN_HAND), plan))
+        if in_hand >= cap:
+            raise AdmissionError(
+                "%d row(s) already in hand and the lane cap is %d (lanes.cap): park one before "
+                "taking %s up" % (in_hand, cap, task_id))
+
     edits = [("**Holder:**", holder)]
     if not _paragraph(block, FROZEN):
         edits.append((FROZEN, "%s.**" % datetime.date.today().isoformat(), VALIDATION))
     _rewrite_row(plan_path, task_id, mark=IN_HAND, edits=edits)
 
     statement = read_statement(block)
-    cp = _checkpoint_path(checkpoints_dir, task_id) if checkpoints_dir else None
     if statement and cp and cp.exists() and checkpoint.read_checkpoint(cp)["status"] == "open":
         expects = parallel_expectation(statement["steps"])
-        runs = int(lanes) if lanes else expects
+        # With no lane decision named, the cap makes it: criterion 47 bounds what actually runs
+        # together, and the divergence line below then says the plan expected more.
+        runs = int(lanes) if lanes else min(expects, cap)
         line = ("LANES: plan expects %d steps side by side; lane decision runs %d; divergence: %s"
                 % (expects, runs, "none" if runs == expects else
                    "the plan expected %d side by side and the lane decision runs %d"
@@ -873,14 +913,22 @@ def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
     The order is the whole crash-recovery rule. A crash between the two leaves a closed
     checkpoint on a ticket still marked in hand, and running this again finishes it: a
     checkpoint already closed is a no-op that only (re)writes the mark. The other way round —
-    mark first — a crash would leave a ticket marked done with its work still open.
+    mark first — a crash would leave a ticket marked done with its work still open. That no-op
+    still reads the receipt: the evidence that closed the checkpoint the first time is still in
+    it, and a checkpoint closed by any other route carries none.
     """
     plan = Path(plan_path).read_text(encoding="utf-8")
     start, end, mark, _ = _row_span(plan, task_id)
     if mark == BLOCKED:
         raise AdmissionError("%s is blocked: clear the block before closing" % task_id)
     cp = _checkpoint_path(checkpoints_dir, task_id)
-    if cp.exists() and checkpoint.read_checkpoint(cp)["status"] == "open":
+    # The receipt kernel runs against the checkpoint's CONTENT, never against its status. It
+    # sat inside `status == "open"` until 2026-09-06, so any row whose checkpoint had already
+    # been closed by another transition — T9 `abandon`, then a take-up — took the ✅ mark with
+    # no receipt, no verdict, no frozen done and no tree. The crash-recovery re-run of T7 keeps
+    # working: the receipt that closed the checkpoint the first time is still in it, and the
+    # writes that recovery repeats all land in the checkpoint directory, which the tree leaves out.
+    if cp.exists():
         dod, recorded = read_dod(plan[start:end])
         now = dod_digest(dod)
         if recorded and now != recorded:
@@ -907,11 +955,12 @@ def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
             raise AdmissionError(
                 "the tree changed after it was verified: the evidence is void, and %s is "
                 "verified again against the tree as it now stands" % task_id)
-        _write_delivery_trail(plan, task_id, cp)
-        try:
-            checkpoint.close_checkpoint(cp)
-        except ValueError as exc:
-            raise AdmissionError(str(exc))
+        if checkpoint.read_checkpoint(cp)["status"] == "open":
+            _write_delivery_trail(plan, task_id, cp)
+            try:
+                checkpoint.close_checkpoint(cp)
+            except ValueError as exc:
+                raise AdmissionError(str(exc))
     # The holder stays on the row. T8's fork reads it — a done that turns out false comes back
     # in hand where somebody still holds it, and queued where nobody does.
     _rewrite_row(plan_path, task_id, mark=DONE)

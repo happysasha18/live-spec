@@ -347,3 +347,23 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()
+
+
+def test_a_key_that_reaches_outside_the_tree_never_reopens_a_landed_row():
+    """A machine that does not carry the state cannot judge the row, and unknown is not "false".
+
+    Red-proved 2026-09-06 against `scripts/plan_checks_core.py` at 7993fa9b: `evaluate` flipped a
+    ✅ row to 🔁 on any failing key, including one reaching under `$HOME`. `.github/workflows/
+    pages.yml` runs the same reader on a fresh runner with no such state, so the board published
+    at the project's one stable link showed 29 landed rows as "was done and is not" and stood
+    them in the in-work column. The note still says why no verdict came.
+    """
+    rows = [
+        {"id": "q-1", "mark": "✅", "blocked_by": "",
+         "check": 'test -f "$HOME/.claude/skills/nothing-is-here/SKILL.md"'},
+        {"id": "q-2", "mark": "✅", "blocked_by": "", "check": "false"},
+    ]
+    outside, inside = core.evaluate(rows)
+    assert outside["icon"] == "✅", "a key reaching past the tree reopened a landed row"
+    assert outside["note"], "the row kept its mark and said nothing about why no verdict came"
+    assert inside["icon"] == "🔁", "a key that fails inside the tree must still reopen the row"

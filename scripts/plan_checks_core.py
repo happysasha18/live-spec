@@ -370,6 +370,14 @@ def evaluate(tasks):
             t["failing_key"] = t["mark"] == "✅" and not ok
             if t["failing_key"] and t["blocked_by"]:
                 t["icon"] = "⛔"
+            elif t["failing_key"] and reads_outside_the_tree(t["check"]):
+                # The key reaches past what git carries, so a machine that is not the owner's
+                # cannot judge this row at all — and unknown is not "false". The row keeps its
+                # recorded mark and the note below says why no verdict came. Flipping it to
+                # reopened published 29 landed rows as "was done and is not", in the in-work
+                # column of the board's own public link, every time the Pages runner drew it
+                # (the adversarial read of 2026-09-06).
+                t["icon"] = t["mark"]
             elif t["failing_key"]:
                 t["icon"] = "🔁"
             else:

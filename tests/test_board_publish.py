@@ -99,3 +99,32 @@ def test_one_canonical_url_in_the_registry_and_in_the_rendered_page(tmp_path):
         "the identifier line the page leads with does not carry the canonical link (criterion 10) "
         "— it prints the registry needle, so the needle is where the link belongs")
     assert page.count(URL) == 1, "the link stands once on the page, not repeated into a second home"
+
+
+def test_the_published_render_reads_the_recorded_marks_and_says_so(workflow, tmp_path):
+    """The runner that draws the public page cannot judge a row, so it must not try.
+
+    Criterion 22 reads an open row's column off the status its queue row records. The renderer
+    also re-runs each row's acceptance command, which is worth something only on the machine that
+    owns the state those commands reach for. RED-PROVED 2026-09-06 against HEAD 7993fa9b: rendered
+    in a checkout without this machine's installed pack or test dependencies — the shape of the
+    Pages runner — 29 rows the plan records as landed drew as 🔁 "was done and is not" and stood
+    in the in-work column of the page published at the project's one public link.
+    """
+    step = [s for s in _steps(workflow)["steps"] if "render-board.sh" in (s.get("run") or "")]
+    assert len(step) == 1, "the publishing workflow renders once"
+    assert (step[0].get("env") or {}).get("LIVE_SPEC_BOARD_CHECKS") == "off", (
+        "the Pages job re-runs every row's acceptance command on a machine that carries neither "
+        "the installed pack nor the suite — a verdict about the runner published as a verdict "
+        "about the work")
+
+    out = os.path.join(str(tmp_path), "board.html")
+    env = dict(os.environ, LIVE_SPEC_BOARD_CHECKS="off")
+    r = subprocess.run(["bash", os.path.join(ROOT, "scripts", "render-board.sh"), out],
+                       capture_output=True, text=True, env=env)
+    assert r.returncode == 0, r.stderr
+    with open(out, encoding="utf-8") as fh:
+        page = fh.read()
+    head = page[page.index('class="stamp"'):page.index("</div>", page.index('class="stamp"'))]
+    assert "as the plan records it" in head, (
+        "the page shows recorded marks and does not tell its reader that is what they are")

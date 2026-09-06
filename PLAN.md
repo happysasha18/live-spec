@@ -897,6 +897,22 @@ it. The deferral ended there, and nothing on this row waits on another row any m
 
 **Holder:** Builder (opus) — board lead
 
+**Carried onto this row by the adversarial read of 2026-09-06**
+(`docs/prover/2026-09-06-closure-kernel-and-the-public-board.md`), three items that pass found real
+and did not fix, each with the reason it was left:
+- The producer bar on an acceptance receipt reads the row's `**Holder:**` paragraph, and T6 `park`
+  deletes that paragraph — so hold, park, then verify under the producer's own name is accepted.
+  Closing it means the checkpoint keeping the holders a row has had, a new field written by three
+  transitions, which is build work rather than a review's repair.
+- `guardrails/check-pin-drift.sh` does not reach `path:line` citations written inline in this file's
+  row prose, which is where a resuming session's first pointers live. Nine such pins on this very
+  row addressed a draft the file had outgrown; they are corrected above, and the class has no
+  mechanical reach yet.
+- Requirement 309 criteria 44 and 45 — an activity that carries value only alongside others stays
+  out of a plan's deliverables, and a plan keeps its deliverables to five — have no implementation
+  in the statement's mechanical floor. No matrix row claims either, so this is work still owed under
+  this row's own acceptance rather than a green that is false.
+
 **Where package 2 actually stands, read piece by piece on 2026-09-06.** The read went through the
 contract's own sections 2, 4 and 7 rather than through the phrase "package 2", because the phrase
 is defined nowhere in the live tree — the contract's own scope line says the rollout packages are
@@ -918,9 +934,12 @@ itself, which no script set; T3's queued half — a correction to a ticket nobod
 no code either; and a ticket carried no context pointers, admission having no pointer field and
 validating none, though the contract's section 2 makes pointers part of what a ticket holds. Every
 one of those is code now, each with its own refusal case in `tests/test_task_admission.py`:
-`scripts/task-admission.py:305` (`block`), `:342` (`unblock`), `:367` (`park`), `:385` (`close`),
-`:408` (`reopen`), `:431` (`abandon`), `:285` (`correct`), the mark written by `_rewrite_row` at
-`:135`, and the pointer refusal at `:151`. Two of the eight state-machine facts the contract's
+`scripts/task-admission.py:830` (`block`), `:867` (`unblock`), `:892` (`park`), `:910` (`close`),
+`:1002` (`reopen`), `:1025` (`abandon`), `:783` (`correct`), the mark written by `_rewrite_row` at
+`:165`, and the pointer refusal at `:181`. (Every one of these nine pins was short by four
+hundred lines or more when this row was written — they addressed a draft the file outgrew, and
+the resume point of the one open row landed a reader in the wrong function. Re-pinned against
+the file as it stands, 2026-09-06, by the adversarial read of this push.) Two of the eight state-machine facts the contract's
 section 7B calls for had neither a TEST_MATRIX row nor a test — a worker gets the exact text, and a
 real blocker names its cause. And section 7A's own additions to the live evals were unlanded: no
 fixture carried the `operation` field beside its acts, and no trace carried the `model` field

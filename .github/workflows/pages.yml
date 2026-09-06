@@ -44,6 +44,12 @@ jobs:
         with:
           python-version: "3.12"
       - name: "render the board from this tree (scripts/render-board.sh, stdlib only)"
+        # The rows are drawn as PLAN.md records them (criterion 22). This runner carries neither
+        # the installed pack nor the suite's dependencies, so re-running each row's acceptance
+        # command here would publish landed work as reopened — a verdict about this machine
+        # dressed as a verdict about the work.
+        env:
+          LIVE_SPEC_BOARD_CHECKS: "off"
         run: |
           mkdir -p _site
           bash scripts/render-board.sh _site/board.html
