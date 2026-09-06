@@ -7,9 +7,16 @@ Prover skill version: product-prover (installed under `skills/product-prover/`),
 This pass was run from a seat that authored none of the two commits below, briefed to find reasons
 to refuse them.
 
-Range: aa361dea..7993fa9b
+Range: aa361dea..9edf7c25
+- 9edf7c25 Adversarial push review of aa361dea..7993fa9b: the closure kernel's bypass and the
+  board's public lie, both closed — this pass's own fixes, tests and this record
 - 7993fa9b Trusted closure kernel, statement validation, a truthful board, and its public link
 - 4a1579d0 Director reads and routes; build-pipeline owns accepted work (q-822, q-823, q-816, q-385)
+
+The two commits under review are the first two. `9edf7c25` is this record's own landing: the
+repairs the findings below name, their tests, the re-pinned q-816 row and this file. It is read
+here the way any commit in the range is — the fixes were each proved red first against 7993fa9b,
+and nothing in it changes behaviour the findings do not describe.
 
 Files read: `spec/work-board.md` (Requirement 309, whole), `spec/live-status-reporting.md`
 (Requirement 257, both versions), `spec/public-contract.md`, `.live-spec/turnkey-contract-composed.md`
@@ -26,7 +33,7 @@ Files read: `spec/work-board.md` (Requirement 309, whole), `spec/live-status-rep
 `tests/test_statement_validation.py`, `tests/test_board_publish.py`, `tests/test_work_board.py`,
 `tests/test_priority_order.py`.
 
-Checks run:
+Checks run: four targeted pytest runs (392 passed, 2 skipped), the board rendered four ways and diffed, the pin-drift and spec-style gates, the three index builders, and the acceptance command of every row this pass edited code for — each with its result below.
 - `python3 -m pytest -q tests/test_task_admission.py tests/test_statement_validation.py` — 68 passed
   (the three new refusal tests among them, each red first against 7993fa9b).
 - `python3 -m pytest -q tests/test_task_admission.py tests/test_statement_validation.py
@@ -232,7 +239,7 @@ Blocking: two, both closed.
   receipt, verdict, done-hash and tree arms now run against the checkpoint's content rather than its
   status (`scripts/task-admission.py:931`), and `hold` refuses a ticket whose checkpoint stands
   closed (`:738`); two tests, both red against 7993fa9b first.
-- F2 the board published at the project's one public link shows 29 landed rows as reopened —
-  closed: the published render reads the recorded marks and says so on the page
+- F2 the public board shows 29 landed rows as reopened — closed: the published render reads the
+  recorded marks and says so on the page
   (`scripts/render-board.sh`, `.github/workflows/pages.yml`), and a key reaching outside the tree no
   longer reopens a landed row (`scripts/plan_checks_core.py`); two tests, both red first.
