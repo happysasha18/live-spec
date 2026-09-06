@@ -910,10 +910,14 @@ class TestRealTree:
                            for c in cells[1:]):
                         expected.add(cells[0] if cells[0].startswith("q-") else "q-" + cells[0])
         expected &= set(model["cards"])
-        assert expected, "nothing in the tree closed today — this test has nothing to prove"
-        # q-822 closed today and records it on its own row rather than in a checkpoint stamp; it
-        # is the case the old count dropped, so it is named here rather than left to the set.
-        assert "q-822" in expected, sorted(expected)
+        # Whatever the tree closed today, including nothing. This arm used to demand a non-empty
+        # set and to name q-822, a row closed on 2026-09-06 — so it reddened at every midnight
+        # after that day, on a wall clock rather than on a defect (the run of 2026-09-07 00:5x).
+        # The mechanism it guards — a row counted off its checkpoint's stamp, and a row counted
+        # off its own `**Closed <date>**` line where no checkpoint carries stamps — is proved on
+        # fixtures by test_m536_the_row_carries_the_time_it_was_given_beside_the_time_it_took,
+        # which closes two rows of both kinds and asserts "2 today". What this arm adds is that
+        # the live page agrees with the live tree, and that holds on a day nothing closed.
         assert set(model["closed_today_rows"]) == expected, (
             sorted(model["closed_today_rows"]), sorted(expected))
         assert model["closed_today"] == len(expected)
