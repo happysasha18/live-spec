@@ -566,6 +566,8 @@ to load unless it is needed, and the rest to come on request. Asked the same hou
 number as a direction rather than a bound — whether it lands at 18 or 25 is worth discussing, and it
 is not written into any rule.
 
+**Holder:** the pipeline
+
 **What it is, measured today.** Every session opens by loading 83,596 bytes: the boot file 5,386,
 the person's own profile 10,859, the shared rulebook 34,057, the director 33,294. The probe prints
 the same figure at every start.
@@ -616,6 +618,8 @@ meets; `NEXT_STEPS.md` contains no task, task status, priority or ordering; the 
 the probe prints has come down toward the owner's direction; and the Director's real scenarios hold
 after the cut. The figure a session reads at its start is printed by `bash scripts/state-probe.sh`.
 
+**DOD hash.** 6c23b2082ea38b6d77f14f756b6f720fc7a5d99b695a24a9373fbcef414eec26 — recorded at first verification 2026-09-06; the row predates the kernel
+
 **Closed 2026-09-06 01:52.** Every arm of the Done-when below is proven by a command. Thirty-one
 tests across `tests/test_front_door_boundaries.py`, `tests/test_next_steps_boundary.py`,
 `tests/test_task_admission.py` and `tests/test_director_scenarios.py` carry the full proof and run
@@ -659,6 +663,12 @@ exactly. This row's key no longer reads a score at all; it reads
 `check.py --pair … | grep -q '^shared reds: 0'`. The pipeline's own closing set holds 8 of 9, 9 of 9
 in the twin. Every recording is hash-pinned to the skill file it was produced against, so a later
 edit to either skill turns the number into a declared replay rather than a claim.
+
+**Statement.** Echo-name: A session starts light. Description: a session opens with the boot file, the person's profile, the shared rulebook and a Director that only reads the message and routes it; everything after a piece of work is accepted lives in a separate pipeline loaded on demand, so a session starts with less to read and a plain question loads nothing more — so that the person's direction of about 20 kilobytes of required context is approached without cutting behaviour the Director's own scenarios protect. Plan: 1) the Director is cut to the first read and the route contract 2) the accepted-work pipeline owns admission, the checkpoint, verification and close ∥ 3) the resume file holds no task 4) the Director's scenarios are re-recorded against the cut and hold. Estimate: 8–14 hours — basis: no comparable history in this tree; the range is read off the plan's steps, four of them with two run side by side.
+
+**Validation.** 2026-09-06 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-06.**
 
 **Links:** `skills/live-spec-base/SKILL.md`, `skills/director/SKILL.md`,
 `~/.claude/live-spec/profile.md`, `~/.claude/CLAUDE.md`, `evals/director/README.md`.
@@ -871,7 +881,7 @@ Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 ### ✅ The front page is rewritten to be fully accurate — id: q-501
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
-### 🔄 The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
+### ✅ The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
 **Group:** Board & visibility · **Priority:** normal
 **Source:** restored 2026-09-03, correcting q-813 — `spec/work-board.md` Requirement 309 was
 retired that same evening past what the owner had already settled the morning before:
@@ -909,9 +919,10 @@ and did not fix, each with the reason it was left:
   row addressed a draft the file had outgrown; they are corrected above, and the class has no
   mechanical reach yet.
 - Requirement 309 criteria 44 and 45 — an activity that carries value only alongside others stays
-  out of a plan's deliverables, and a plan keeps its deliverables to five — have no implementation
-  in the statement's mechanical floor. No matrix row claims either, so this is work still owed under
-  this row's own acceptance rather than a green that is false.
+  out of a plan's deliverables, and a plan keeps its deliverables to five — had no implementation
+  in the statement's mechanical floor and no matrix row claiming either. Both stand in
+  `floor_issues` since 2026-09-06, with M-649 and M-650 naming their tests in
+  `matrix/work-board.md`; the five is read from criterion 45's own sub-item, not chosen by the code.
 
 **Where package 2 actually stands, read piece by piece on 2026-09-06.** The read went through the
 contract's own sections 2, 4 and 7 rather than through the phrase "package 2", because the phrase
@@ -934,12 +945,15 @@ itself, which no script set; T3's queued half — a correction to a ticket nobod
 no code either; and a ticket carried no context pointers, admission having no pointer field and
 validating none, though the contract's section 2 makes pointers part of what a ticket holds. Every
 one of those is code now, each with its own refusal case in `tests/test_task_admission.py`:
-`scripts/task-admission.py:830` (`block`), `:867` (`unblock`), `:892` (`park`), `:910` (`close`),
-`:1002` (`reopen`), `:1025` (`abandon`), `:783` (`correct`), the mark written by `_rewrite_row` at
+`scripts/task-admission.py:903` (`block`), `:940` (`unblock`), `:965` (`park`), `:1001` (`close`),
+`:1121` (`reopen`), `:1152` (`abandon`), `:856` (`correct`), the mark written by `_rewrite_row` at
 `:165`, and the pointer refusal at `:181`. (Every one of these nine pins was short by four
 hundred lines or more when this row was written — they addressed a draft the file outgrew, and
 the resume point of the one open row landed a reader in the wrong function. Re-pinned against
-the file as it stands, 2026-09-06, by the adversarial read of this push.) Two of the eight state-machine facts the contract's
+the file as it stands, 2026-09-06, by the adversarial read of this push, and re-pinned again the
+same evening after the review's own edits moved seven of them — `check-pin-drift.sh` reads the
+pins in ARCHITECTURE.md and reaches none written in a plan row's prose, so this shape drifts
+silently and is corrected by hand each time.) Two of the eight state-machine facts the contract's
 section 7B calls for had neither a TEST_MATRIX row nor a test — a worker gets the exact text, and a
 real blocker names its cause. And section 7A's own additions to the live evals were unlanded: no
 fixture carried the `operation` field beside its acts, and no trace carried the `model` field
@@ -964,19 +978,25 @@ whose every other detail sits behind a fold, the craft and tier of whoever holds
 read from the row's Holder line and its checkpoint, the time each row took read off its
 checkpoint's own stamps, the waiting region rendering `WAITING.md` and keeping no list of its own,
 the done column reading this month's `docs/queue-archive/` beside the plan's own closed rows, and a
-refusal to render at all until `SURFACES.md` carries the board's registry row. Twenty-one facts of
-`matrix/work-board.md` read *built* against `tests/test_work_board.py`, each red-proved against the
-renderer as it stood this morning.
+refusal to render at all until `SURFACES.md` carries the board's registry row. Every fact of
+`matrix/work-board.md` reads *built* — all twenty-eight of them — against `tests/test_work_board.py`
+and `tests/test_statement_validation.py`, each red-proved against the tree as it stood before its
+own landing. The page answers at the one link `SURFACES.md` registers for the work board, published
+from this same generator by `.github/workflows/pages.yml`. (The link is not written out here: the
+renderer prints a row's prose onto its card, so a second copy of the address on the page is exactly
+what `test_one_canonical_url_in_the_registry_and_in_the_rendered_page` refuses, and this sentence
+red that test until 2026-09-06's push review.)
 
-**What this row did NOT build, and why it is not in its acceptance.** The statement-validation check
-— M-531 to M-535, the mechanical floor plus the clean-context reader that would move a row into
-*ready* — stays unbuilt. It waits on a datum nothing in this tree records: a statement's own time
-estimate. No ticket field carries one (`scripts/task-admission.py`'s required set names none), no
-checkpoint line carries one, and no delivery report carries one, so criterion 49's floor has
-nothing to read and criteria 63 to 65 have no estimate to stand an actual beside. The board says so
-per card in those words rather than printing a number nobody wrote. Requirement 310 criterion 10 is
-met by the board carrying each in-work row's own plan and the stage its record names: the
-announcement home now exists on the board, which is what the criterion asks for.
+**The statement-validation check, built the same day.** M-531 to M-535 read *built*:
+`scripts/task-admission.py` derives a statement at admission, puts it through a mechanical floor
+and a clean-context reader before any take-up, writes the dated *ready* status on a pass, freezes
+the wording at take-up, and carries the estimate beside the actual and the lane divergence into the
+delivery trail. The datum this row once said nothing recorded — a statement's own time estimate —
+is now the row entry's own field, a range with the basis it rests on, and where no comparable
+closed row gives one the basis says so in those words rather than printing a number nobody wrote.
+Requirement 310 criterion 10 is met by the board carrying each in-work row's own plan and the stage
+its record names: the announcement home now exists on the board, which is what the criterion asks
+for.
 
 **Acceptance:** `spec/work-board.md` Requirement 309's own criteria, minus the retired heartbeat
 clauses above — a card per task, one lane per worker, given-vs-actual time, per-agent attribution,
@@ -986,6 +1006,8 @@ announcement home moves from the written plan page to the board's own per-task p
 2026-09-03: one row, not two, for one feature that happens to span two requirement files —
 splitting it is fragmentation with no benefit. `docs/prover/2026-09-03-work-board-restoration-review.md`
 finding F2 is closed by this widened wording, not by a second row.
+
+**DOD hash.** b3e3ca4cff8d1b01ab02b8b6d2258398dab156e66692981bf87d323c5ec5bd64 — recorded at first verification 2026-09-06; the row predates the kernel
 
 
 ### ✅ One instruction travels the whole path — ticket, worker, independent acceptance, delivery, done, and a new session continuing it — id: q-823
@@ -1003,6 +1025,8 @@ finding F2 is closed by this widened wording, not by a second row.
 **The statement above is a backfill, written 2026-09-06 after this row closed.** The statement mechanics landed with q-816, so this row ran without one; the paragraph and its validation line are the record of what the statement would have said, dated the day they were written and not the day the work was taken up. The row was not reopened for it.
 
 **Done when:** the six transitions no code runs today are run by code and refused on bad input: T4 marks blocked only with one of the three named reason kinds and refuses a reason that merely restates difficulty; T5 clears a block only against a named fact and lands in hand or queued by whether a holder is named; T6 parks by clearing the holder and leaving the checkpoint open with NEXT; T7 writes the PLAN.md mark after closing the checkpoint, in that order, and a re-run over an already-closed checkpoint only rewrites the mark; T8 reopens the same id against a named false condition and never a copy; T9 abandons by clearing IN PROGRESS and NEXT with the halt's reason as their last line and closing the checkpoint in the same step. T3's queued half rewrites a queued ticket's goal and done in place, touching no checkpoint. A ticket carries its context pointers and admission refuses one that carries none. A worker's brief equals the ticket entry plus its checkpoint's NEXT with no paraphrase. Every Director verdict fixture carries its operation beside its acts and the grader reads that field. Each of the eight state-machine facts in the contract's section 7B has one TEST_MATRIX row reading built against a real test, including the two that have neither today — a worker gets the exact text, and a real blocker names its cause.
+
+**DOD hash.** 1e44dbb01a40023cb1314e449330e6a11dad3fd4640915e7fc4106522b8a6373 — recorded at first verification 2026-09-06; the row predates the kernel
 
 **Verification:** python3 -m pytest -q tests/test_task_admission.py tests/test_checkpoint_mechanism.py tests/test_director_route_end_to_end.py tests/test_director_scenarios.py tests/test_traceability.py, green, with the eight section-7B facts each traced from a TEST_MATRIX row marked built to a test named on that row; plus the Director's operation field measured the way this project defines a defect — `python3 evals/director/check.py --pair evals/director/traces evals/director/recordings/2026-09-06-pair-6` printing `shared reds: 0`, two independent recordings of all thirty-six scenarios agreeing on no red, every verdict in both carrying its operation and the grader reading that field exactly. No score threshold: a score moves with producer variance, and this row already closed once on an arm that read the grader's own conditional line instead of a result.
 

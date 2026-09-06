@@ -85,9 +85,12 @@ divergence on the checkpoint's `LANES` line. From that freeze on the task is spo
 letter for letter — in the chat, in a worker's brief, at the close — and the close carries the
 estimate beside the actual and that divergence into the delivery trail. The number of rows standing
 in hand at once is bounded by the same profile cap rule 7 carries: the board splits the in-work
-column into exactly that many lanes, so a row past the cap is a row with no lane to stand in. A row
-whose checkpoint stands closed is refused a take-up: it is finished or abandoned, and T8 `reopen`
-is the door back.
+column into exactly that many lanes, so a row past the cap is a row with no lane to stand in. A done row
+is refused a take-up and comes back through T8 `reopen`, which is where the false condition and its
+evidence are recorded. A row the halt abandoned is the other closed shape, and taking it up again
+reopens the sheet the halt left, with a line saying the work resumes rather than starts fresh —
+refusing it there sent it to `reopen`, which takes only a done row, and left an abandoned row that
+no transition could move at all.
 
 **New work opens a checkpoint before the first specialist is called; work already in
 flight updates the one it already has — never a second `new` on the same work.** An
@@ -125,6 +128,18 @@ dependent; every write to a shared document goes through one integration owner (
 pipeline itself, or whichever specialist currently holds the pen) one lane at a time, so
 the document stays a convergence point, not a lock two lanes wait on.
 
+**Anything the pipeline starts — a worker, a test run, a render — has an expected duration, and the
+seat looks at what is still running at every wake-up and between stages (`ps` with elapsed time)
+instead of waiting for a notification.** A process past its expected time with no output is
+inspected, and one that does nothing is ended and named in the report; a check is never left
+running unlooked-at.
+
+**When the same thing has gone round twice — a cascade restarted, a red that came back, a fix
+applied again — the seat monitors every round of every spawn from then on and intervenes at once.**
+The same rule binds a lead over its own spawns, and their spawns. Past the second or third round,
+nobody fiddles further: the cause is fixed at the root or an alternative is taken, and the report
+names which.
+
 **A new fact can change the remaining graph.** Read a specialist's answer, a failed check,
 or a fact the human adds mid-work against the plan just made — not filed for later. When
 it changes what remains, run `python3 scripts/checkpoint.py update <path> --next "<...>"`
@@ -160,7 +175,7 @@ outcome, the pipeline shows the result — the changed document, the passing che
 page, whatever the decision sheet named — and closes the checkpoint in the same step. It never
 leaves a row open to wait for the human to look at what was already shown and bless it: a row's
 own definition of done that names his eye as the check is describing one of the three cases
-rule 12/27 already reserve for him — a taste call, a trade-off no artifact settles, or a change
+base rule 12/27 already reserve for him — a taste call, a trade-off no artifact settles, or a change
 to the definition of correct that is still an open fork — never an ordinary buildable result a
 command, a test, or a plain read already confirms was delivered. A redefinition he ordered
 himself is not that third case: he settled the fork when he ordered it, and carrying out his
@@ -187,6 +202,17 @@ board state in place, and the old text moves to history; appending an addendum o
 the verdict has already made stale is the failure that produced that incident.
 
 ## The trusted closure kernel
+
+**An estimate's basis is either comparable rows or a plain admission.** The basis names the closed rows whose recorded durations the range rests on, or it says the range is the author's reading of the plan with no history behind it. A sentence shaped like a derivation ("read off the plan's steps") in front of a number nobody derived is refused by the reader of the statement, since three rows with the same sentence and unrelated numbers were found on 2026-09-06.
+
+**Nothing is spawned before admission.** A worker or a subagent starts only from the brief the
+pipeline hands it (`brief <id>`), and the brief is refused without an admitted row on the one
+board carrying a definition of done and an acceptance command. A report or a row written after
+the work was done is not admission; the gate refuses without a task id, mechanically (the
+tlvphotos defect, 2026-09-06). The acceptance command it looks for is the row's own key in
+`scripts/plan_checks.py` — admission writes the row's `**Verification:**` text but no key, so the
+key is written before the first worker starts, not after the work comes back.
+
 
 The skill body carries the rule in short. These are the ten clauses it defers here, and the
 commands that run them.
@@ -228,8 +254,17 @@ passing is not the surface rendering.
 textual claim this kernel exists to refuse. It refuses when there is none, when
 its verdict failed, when the DOD's hash has moved since it was written, or when the tree hash no
 longer matches the tree as it stands — a change after verification voids the evidence and the work
-is verified again. Every refusal prints one plain reason, exits 2, and leaves the row's mark exactly
+is verified again. It also refuses a row whose checkpoint is gone, because no checkpoint means no
+receipt to read, and a row closed once re-enters through `reopen` rather than through a missing
+file. Every refusal prints one plain reason, exits 2, and leaves the row's mark exactly
 as it was.
+
+A row admitted before this kernel existed carries its frozen scope under `**Acceptance:**` and no
+hash at all. That acceptance IS its done, read as one; its first `verify` records the hash on the
+row, dated and marked as predating the kernel, so every comparison after that is real; and `close`
+refuses such a row until one is recorded. `reopen` on a row that predates checkpoints opens the
+minimal one it never had, headed with the day it was opened, so the row has a door back into the
+kernel at all.
 
 **Landing a change owes its own law, regardless of which specialist performed the work.** See
 [the landing law](landing-law.md) for the bug-door tripwire, the
@@ -240,8 +275,9 @@ judgment, and the skill-review gate.
 ## The specialist brief
 
 A specialist gets a brief naming the goal and the primary sources to read — never a pasted copy of
-what the pipeline already read. What comes back is a short answer with pointers. The pipeline
-re-reads only the lines a decision rests on.
+what the pipeline already read. A brief to a lead also says that the lead watches its own spawns by
+the rule above and never lets a cascade run to a fourth round. What comes back is a short answer
+with pointers. The pipeline re-reads only the lines a decision rests on.
 
 ## Reporting a closed piece of work
 

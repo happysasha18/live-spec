@@ -1,12 +1,12 @@
 {
-  "id": "CT",
+  "id": "DP",
   "closes": false,
   "reason_kind": "taste call",
-  "reasoning": "Both layouts meet the admitted definition of done identically: same PLAN.md source, same passing test, every declared row shown. The only remaining question is which one is easier to scan, and the document says a definition of done must be decidable by a command, test, artifact read, or independent verifier without making the person the checker. Nothing in the tree measures scannability and no earlier decision settles it, so no verifier can pick between them; the two candidates differ only in look. That is exactly the first of the three cases rule 12/27 reserves for him — a taste call — and for those the pipeline asks the person for the product choice no artifact settles rather than closing. This is not the ordinary-delivery clause where a shown result closes the work: there the outcome is confirmed and his eye would only bless what a check already decided, whereas here his verdict is the deciding act, and it lands on the row in the same minute it arrives.",
-  "scenario": "ask-which-of-two-board-layouts-ships",
-  "label": "CT",
-  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
+  "reasoning": "This is one of the three cases the document reserves for the person, not an ordinary delivery. The closing rule says a row's done may name his eye only where it is 'a taste call, a trade-off no artifact settles, or a change to the definition of correct that is still an open fork — never an ordinary buildable result a command, a test, or a plain read already confirms was delivered.' Here the delivered result is confirmed: both layouts 'render from the same PLAN.md, both pass tests/test_board_matches_the_canon.py, both show every row the plan declares.' So the verification the document demands — 'the verifier receives the frozen DOD, the real diff/artifact, the check commands' — is satisfied by either branch, and the passing check cannot discriminate between them. What remains open is which one ships, and 'easier to scan' is judged by eye: nothing in the tree measures it and no earlier decision settles it, so no command, test or plain read can decide it. Admission's own bar makes that the person's call rather than the pipeline's: a definition of done must be one 'a command, test, artifact read, or independent verifier can decide without making the person the checker,' and the pipeline is told to 'ask the person only for a product choice no artifact settles.' A single ranked column versus four columns by state is exactly that product choice. It is also not the pipeline's to settle silently in the other direction: 'no numeric threshold may be invented after start that was not in the admitted DOD' — inventing a scan-ability criterion now to pick a winner would be the same move. His answer here is the taste verdict the document treats as itself a movement end: 'for the taste calls rule 12/27 reserve for him, his verdict — approval or rejection — is itself the movement end for the judged artifact, written into the task's board row or project charter in the same minute it lands.' Until that verdict lands the row does not close; when it does, the row closes on the verdict, with the losing layout and its flag removed.",
+  "label": "DP",
+  "skill_sha256": "1495ce735adf14d87dc28c0196ce9b154bfafa650a0a2568ff580c007b9c1c57",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus"
+  "producer_model": "opus",
+  "scenario": "ask-which-of-two-board-layouts-ships"
 }

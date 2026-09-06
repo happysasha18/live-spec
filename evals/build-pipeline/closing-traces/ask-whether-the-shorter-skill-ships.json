@@ -1,12 +1,12 @@
 {
-  "id": "HD",
+  "id": "RK",
   "closes": false,
   "reason_kind": "trade-off no artifact settles",
-  "reasoning": "The work's own question was whether the Director skill could be cut without costing anything, and the check built to answer it cannot answer it: the eval's record puts about two scenarios of producer variance on a single run, so the 30-vs-29 gap is inside its own noise and decides nothing either way. That leaves no command, test, artifact read, or independent verifier able to decide the definition of done without making the person the checker — the remaining question is whether 3.7 KB off the pack's front door is worth an unmeasurable capability difference, which is a weighing of two goods, not a buildable result. That is exactly the second of the three cases rule 12/27 reserve for him, so the row's done may name his eye here without breaking the rule that an ordinary delivered result never waits on him. Nothing irreversible is pending — both versions sit on disk, neither committed, so the fork is still open and cheap. The pipeline shows the measurement and the fork as the delivered evidence and keeps the row open for his word on which version stands; it does not close it, and it does not invent a threshold after the start that the admitted done never carried.",
-  "scenario": "ask-whether-the-shorter-skill-ships",
-  "label": "HD",
-  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
+  "reasoning": "The row's whole point was to decide whether the cut costs anything, and the artifact built to decide it explicitly does not: the eval's own record states that a single run carries about two scenarios of producer variance, so 30 vs 29 says nothing either way. That leaves the live question — take 3.7 KB off the pack's front door against a quality difference no measurement can resolve — as one the document names for him: 'a row's own definition of done that names his eye as the check is describing one of the three cases base rule 12/27 already reserve for him — a taste call, a trade-off no artifact settles, or a change to the definition of correct that is still an open fork'. This is the middle one. It is not the exception the same sentence guards against — 'never an ordinary buildable result a command, a test, or a plain read already confirms was delivered' — because no command, test or read confirms the outcome here; the one command run returned a result inside its own noise floor. The closing kernel bars closing on it too: 'A task cannot close while its accepted scope still holds todo/target/not-built, a missing artifact, or a red check', and the verifier's evidence must reach 'the goal', which was 'without costing anything' and remains undecided. Both versions sit on disk uncommitted, so nothing irreversible has happened and nothing has been shown as shipped; what gets shown is the measurement and the fork it leaves open. Note also that no adoption may quietly become the answer: 'No numeric threshold may be invented after start that was not in the admitted DOD' — treating a one-scenario gap as a pass or a fail would be exactly that.",
+  "label": "RK",
+  "skill_sha256": "1495ce735adf14d87dc28c0196ce9b154bfafa650a0a2568ff580c007b9c1c57",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus"
+  "producer_model": "opus",
+  "scenario": "ask-whether-the-shorter-skill-ships"
 }

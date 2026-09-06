@@ -383,8 +383,17 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         #: inside that directory. The second imports `scripts/task-admission.py`, reads `PLAN.md`
         #: and asserts on q-816's own statement and validation record — `read_text` and two
         #: asserts, no write of any kind.
-        "q-166": "317060f6aa782410460f38d4234ecfc8d196075e44454d06a0878c3330fe805e",
-        "q-816": "0e54bfcba469465447411670798eaf91683af0b6e1c08c9caa5c3bf8a22cab04",
+        #: Both re-read and re-pinned again 2026-09-06, after the render-inside-a-render fix.
+        #: q-166's render now runs with `LIVE_SPEC_BOARD_CHECKS=off` in front of it — an
+        #: assignment on the command, no new act. q-816's grew only a comment saying why it
+        #: cannot carry the same flag (that flag also switches off the lane judging its M-525
+        #: arm proves). Nothing either command does was added, moved or widened.
+        #: Re-read 2026-09-06 16:56 after the key stopped rendering a tree inside the probe (the
+        #: re-entry incident): four greps over the renderer and the test file, read-only.
+        "q-166": "4e0e10899e4daa694207bcefc83e5a556bdbcbb4480b08fb910da92d77a53cca",
+        #: Re-read 2026-09-06 16:58: greps over the renderer, SURFACES.md, the spec, the matrix and the
+        #: statement tests, one `test -f`; nothing runs, nothing renders (the re-entry incident).
+        "q-816": "0b7371e92e361481c411a3ca5d3b12ce9e299b1e90e03c0f9a62fc88483aaf71",
     }
 
     def setUp(self):

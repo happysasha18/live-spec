@@ -1,0 +1,12 @@
+{
+  "id": "MB",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The request was an instruction with a buildable result, and the delivered paragraph matches it. The document says: \"A shown result closes the work; the human's own eye is never the gate on an ordinary delivery.\" It expressly covers the case where no command exists, because the closing check may be \"an ordinary buildable result a command, a test, or a plain read already confirms was delivered\" — here the plain read against the files the paragraph describes confirms every fact in it is true of what is on disk. That read was not the producer's self-report: \"The verifier gets the goal and the artifacts, never the executor's self-report\" is satisfied by a check handed \"the observable outcome and the paths the work actually touched\" — the Director read the paragraph back against the files it names. None of the three reserved cases applies: it is not a taste call, not a trade-off no artifact settles, and not \"a change to the definition of correct that is still an open fork\" — the README's own voice was not changed and nobody has raised a question about the wording. Nor does the widening clause bite: the paragraph documents what already exists, so it does not \"reach past what he ordered and redefine behaviour he never named.\" Nothing here is irreversible outside git, so rule 12's stop does not apply. The pipeline therefore shows the paragraph and \"closes the checkpoint in the same step\"; if he later disagrees with the wording, \"that disagreement is a new fact, not a reopening of the one that shipped.\"",
+  "label": "MB",
+  "skill_sha256": "1495ce735adf14d87dc28c0196ce9b154bfafa650a0a2568ff580c007b9c1c57",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "scenario": "close-on-a-plain-read-with-no-command"
+}

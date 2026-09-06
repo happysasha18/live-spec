@@ -70,8 +70,9 @@ Three commands carry that, and a session holding only this page can run them:
 
 - `python3 scripts/task-admission.py correct <id> --done "<new>" --source "<who asked>" --reason
   "<why>"` — the only door through a done already fixed;
-- `python3 scripts/task-admission.py verify <id> --by <name> --command "<cmd>" [--surface <path>]`
-  — the acceptance receipt, refused when `--by` names the row's own holder;
+- `python3 scripts/task-admission.py verify <id> --by <name> --command "<cmd>" [--command ...]
+  [--surface <path-or-url>]` — the acceptance receipt, refused when `--by` names the row's own
+  holder;
 - `python3 scripts/task-admission.py close <id>` — which reads that receipt.
 
 Every refusal prints one reason, exits 2, and leaves the row's mark where it was.

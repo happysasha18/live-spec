@@ -34,7 +34,9 @@ saved.
 """
 
 import re
+import os
 import subprocess
+import sys
 
 # The variation selectors an emoji may carry. `✅` and `✅️` are one mark on the screen and two
 # different strings to a comparison, and a plan may write one mark with the selector and another
@@ -70,8 +72,13 @@ def normalize_mark(mark):
     return _CANONICAL_MARKS.get(stripped, mark)
 
 
-def run_key(command):
+def run_key(command, mark=True):
     """Run one acceptance key and hand back the completed process.
+
+    `mark` sets LIVE_SPEC_EVALUATING on the child, the re-entry breaker's signal: an acceptance
+    key runs inside a reader and may not start another. The verifier's own checks run with
+    mark=False — they are not inside a reader, and a test that legitimately spawns the probe
+    must be able to stand in a receipt; the probe it spawns still marks its own keys.
 
     Under `set -o pipefail`, so a command that fails inside a pipe cannot be hidden by a trailing
     stage that succeeds anyway. Without it, `<a grader that prints its line and then exits 1> |
@@ -79,8 +86,31 @@ def run_key(command):
     how q-823 closed once on its Director arm (2026-09-06). One home, because both the plan
     readers and the acceptance receipt run their commands through it.
     """
+    env = dict(os.environ)
+    if mark:
+        env["LIVE_SPEC_EVALUATING"] = "1"
+    else:
+        env.pop("LIVE_SPEC_EVALUATING", None)
     return subprocess.run("set -o pipefail; " + command, shell=True,
-                          executable="/bin/bash", capture_output=True)
+                          executable="/bin/bash", capture_output=True, env=env)
+
+
+REENTRY = ("an acceptance check tried to run the probe or the renderer inside a check: "
+           "evaluate() refuses to re-enter itself (depth one, always)")
+
+
+def refuse_reentry():
+    """Circuit breaker: the plan readers never run inside an acceptance check.
+
+    evaluate() runs every row's key; a key that runs the probe or the renderer runs evaluate()
+    again, and each level plants a copy of the tree — on 2026-09-06 that fanned out to hundreds
+    of renderers four levels deep and a load average past 160. run_key() marks every child with
+    LIVE_SPEC_EVALUATING, and a reader started under that mark stops here before it reads a
+    single row: exit 3, one line, no child of its own.
+    """
+    if os.environ.get("LIVE_SPEC_EVALUATING"):
+        sys.stderr.write(REENTRY + "\n")
+        sys.exit(3)
 
 
 def reads_outside_the_tree(command):
@@ -345,6 +375,8 @@ def parse_tasks(text, checks=None):
 def evaluate(tasks):
     """Run each row's acceptance command and record what it says, in place.
 
+    Refuses to run under LIVE_SPEC_EVALUATING — see refuse_reentry().
+
     Every reader of a plan needs this and none of them may decide it differently, which is why it
     is here and not in any one of them. Sets, per row: `ok` (the command passed, or — with no
     command — the mark says done), `verified` (a command decided it), `failing_key` (the mark says
@@ -356,6 +388,10 @@ def evaluate(tasks):
     distinction: a row with no command at all is DECLARED, while a row marked in hand whose command
     fails is genuinely in hand and genuinely unfinished.
 
+    A row that is not marked done keeps its own mark whatever its command says, and carries the
+    annotation "acceptance passes" or "acceptance fails" beside it. The command is evidence about
+    the work, and only the close moves a row to done.
+
     A done mark is the one exception, and it is why the commands were written at all: a ✅ whose
     command fails printed itself back as ✅ and was counted among the done, so the command could
     never contradict the mark it was there to test. Such a row is REOPENED (🔁) — it was done and
@@ -363,6 +399,7 @@ def evaluate(tasks):
     A row shaped like both — done-marked, command failing, and carrying a real `Blocked by:` cause
     — draws as blocked, because the row names an obstacle outside the work and reopened names none.
     """
+    refuse_reentry()
     for t in tasks:
         if t["check"]:
             r = run_key(t["check"])
@@ -381,8 +418,18 @@ def evaluate(tasks):
             elif t["failing_key"]:
                 t["icon"] = "🔁"
             else:
-                t["icon"] = "✅" if ok else t["mark"]
-            t["note"] = key_failure_note(t["check"], r) if t["failing_key"] else ""
+                # The MARK governs. A row leaves the open list through the state machine's own
+                # close, never because its acceptance command started to pass: the command says
+                # whether the work would pass acceptance today, and passing acceptance is not
+                # the same act as closing. Drawing ✅ here printed "0 open · every row is
+                # finished" over q-816 standing 🔄 with a holder on it, and filed that row's
+                # card under the board's Done column as *landed* (the read of 2026-09-06).
+                t["icon"] = t["mark"]
+            # What the command said stands beside the mark rather than replacing it, so a reader
+            # can still tell a row whose work is ready to accept from one whose work is not.
+            t["note"] = (key_failure_note(t["check"], r) if t["failing_key"]
+                         else "" if t["mark"] == "✅"
+                         else "acceptance passes" if ok else "acceptance fails")
             t["verified"] = True
         else:
             ok = t["mark"] == "✅"

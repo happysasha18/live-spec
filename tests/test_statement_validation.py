@@ -344,3 +344,100 @@ def test_taking_up_with_no_lane_decision_records_none(tmp_path):
     plan, checkpoints, task_id, cp = ready(tmp_path)
     admission.hold(plan, task_id, "the session", checkpoints_dir=checkpoints)
     assert "lane decision runs 1" in cp.read_text(encoding="utf-8")
+
+
+# --- M-649, M-650: what a plan's deliverables may be, and how many ------------------------
+
+def _statement(plan_text):
+    return ("Echo-name: Send the weekly digest. Description: a digest reaches the test inbox. "
+            "Plan: %s. Estimate: 2–4 hours — basis: no comparable history in this tree; the "
+            "range is read off the plan's steps." % plan_text)
+
+
+def test_m649_an_activity_that_only_carries_value_alongside_others_is_not_a_deliverable(tmp_path):
+    """Criterion 44: writing the tests is the criterion's own example — it carries value only
+    beside the deliverable it tests, so it is not a slice that shows value on its own."""
+    plan, checkpoints, task_id, _ = admitted(tmp_path)
+    admission._rewrite_row(plan, task_id, edits=[
+        ("**Statement.**", _statement("1) build the digest 2) write the tests for it"))])
+    result = admission.validate(plan, task_id)
+    assert result["status"] == "rewritten"
+    assert ("an activity that carries value only alongside others — writing the tests, say — "
+            "stays outside a plan's deliverables") in result["floor"]
+
+
+def test_m649_a_plan_whose_every_deliverable_stands_on_its_own_passes_the_floor(tmp_path):
+    plan, checkpoints, task_id, _ = admitted(tmp_path)
+    admission._rewrite_row(plan, task_id, edits=[
+        ("**Statement.**", _statement("1) build the digest 2) send it to the list"))])
+    assert admission.floor_issues(row_of(plan, task_id)) == []
+
+
+def test_m650_a_plans_deliverables_stay_a_handful(tmp_path):
+    """Criterion 45 and its own sub-item: the most deliverables one plan holds stands at five.
+    The number is the spec's, not this file's."""
+    plan, checkpoints, task_id, _ = admitted(tmp_path)
+    five = " ".join("%d) slice %d" % (n, n) for n in range(1, 6))
+    admission._rewrite_row(plan, task_id, edits=[("**Statement.**", _statement(five))])
+    assert admission.floor_issues(row_of(plan, task_id)) == []
+    six = " ".join("%d) slice %d" % (n, n) for n in range(1, 7))
+    admission._rewrite_row(plan, task_id, edits=[("**Statement.**", _statement(six))])
+    result = admission.validate(plan, task_id)
+    assert result["status"] == "rewritten"
+    assert "a plan's deliverables stay a handful: at most five" in result["floor"]
+
+
+def test_the_readers_answers_are_kept_in_the_checkpoint_as_evidence(tmp_path):
+    """A Validation line says a reader passed; the four answers themselves are the evidence."""
+    from test_task_admission import repo, admission, checkpoint
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    reader = tmp_path / "reader.txt"
+    reader.write_text("What is to be done: send the weekly digest\nWhy: the readers asked for one\n"
+                      "How long: 2-4 hours\nEcho-name placed: %s\n" % admission.read_statement(
+                          admission.row_of(plan, task_id) if hasattr(admission, "row_of") else
+                          __import__("test_task_admission").row_of(plan, task_id))["echo"],
+                      encoding="utf-8")
+    admission.validate(plan, task_id, reader=str(reader), checkpoints_dir=checkpoints)
+    done = checkpoint.read_checkpoint(cp)["sections"]["DONE"]
+    assert "READER " in done and "Why: the readers asked for one" in done
+
+
+# --- criteria 63-65: the actual is a recorded datum, not a filesystem stamp ----------------
+
+def test_the_close_reads_the_actual_off_the_recorded_open_time(tmp_path):
+    """Every checkpoint write goes through `write_atomic`, which renames a fresh file over the
+    old one — so the file's creation stamp is the stamp of the LAST write, and the span between
+    it and the modification stamp is zero however long the work took. Read that way the close
+    settled `actual 0.0 hours` against every estimate, and the three rows closed on 2026-09-06
+    each shipped that number. The open time is recorded when the ticket is admitted and read
+    back here."""
+    plan, checkpoints, task_id, cp = ready(tmp_path)
+    opened = [ln for ln in checkpoint.read_checkpoint(cp)["sections"]["DONE"].splitlines()
+              if ln.startswith("OPENED: ")]
+    assert opened, "admission recorded no open time on the checkpoint"
+    # Two hours ago, written the way any transition writes it — through the atomic replace.
+    was = (datetime.datetime.now() - datetime.timedelta(hours=2)).isoformat(timespec="seconds")
+    body = checkpoint.read_checkpoint(cp)["sections"]["DONE"].replace(
+        opened[0], "OPENED: " + was)
+    checkpoint.update_checkpoint(cp, done=body)
+    st = cp.stat()
+    assert abs(st.st_mtime - getattr(st, "st_birthtime", st.st_ctime)) < 1.0, \
+        "the file's own stamps span a duration, so this test is not measuring what it claims"
+    accepted_close(plan, checkpoints, task_id)
+    trail = [ln for ln in checkpoint.read_checkpoint(cp)["sections"]["DONE"].splitlines()
+             if ln.startswith("estimate ")]
+    assert trail and "actual 2.0 hours" in trail[0], trail
+
+
+def test_a_close_with_no_recorded_open_time_says_so_instead_of_printing_zero(tmp_path):
+    """A row whose checkpoint predates the recording — q-822's, opened by `reopen` — has no
+    duration to read, and the pack's own rule is to say so rather than print a number nobody
+    wrote."""
+    plan, checkpoints, task_id, cp = ready(tmp_path)
+    body = "\n".join(ln for ln in checkpoint.read_checkpoint(cp)["sections"]["DONE"].splitlines()
+                     if not ln.startswith("OPENED: "))
+    checkpoint.update_checkpoint(cp, done=body or "(nothing yet)")
+    accepted_close(plan, checkpoints, task_id)
+    trail = [ln for ln in checkpoint.read_checkpoint(cp)["sections"]["DONE"].splitlines()
+             if ln.startswith("estimate ")]
+    assert trail and "actual not recorded" in trail[0], trail

@@ -33,6 +33,27 @@
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
 
+# A render never runs inside a render. An acceptance key may render the board — q-816's and q-166's
+# both do, against a throwaway tree — and that tree's own keys could render again, each level
+# spawning another scratch copy; a fourteen-deep chain of this script sat running for six hours on
+# 2026-09-06. The marker travels to everything this script starts, and a render that finds it
+# already set reads the plan's recorded marks instead of re-running the acceptance table, which is
+# the same records-only path LIVE_SPEC_BOARD_CHECKS=off takes. The chain therefore ends one level in.
+LIVE_SPEC_BOARD_CHECKS="${LIVE_SPEC_BOARD_CHECKS:-on}"
+LIVE_SPEC_BOARD_NESTED=""
+# Either mark says the same thing — this render was started from inside a reader. run_key sets
+# LIVE_SPEC_EVALUATING on every acceptance command, so a render a key starts arrives carrying it,
+# and reading only LIVE_SPEC_BOARD_RENDERING left the branch below unreachable in exactly that
+# case: evaluate() refused on the mark (exit 3) and no page came out at all.
+if [ -n "${LIVE_SPEC_BOARD_RENDERING:-}" ] || [ -n "${LIVE_SPEC_EVALUATING:-}" ]; then
+  LIVE_SPEC_BOARD_CHECKS=off
+  LIVE_SPEC_BOARD_NESTED=1
+fi
+export LIVE_SPEC_BOARD_RENDERING=1 LIVE_SPEC_BOARD_CHECKS LIVE_SPEC_BOARD_NESTED
+# A records-only render runs no acceptance command, so it starts nothing that needs the mark, and
+# carrying it further would only stop this render's own reader before it read a row.
+if [ -n "$LIVE_SPEC_BOARD_NESTED" ]; then unset LIVE_SPEC_EVALUATING; fi
+
 python3 - "$@" <<'PYEOF'
 import html
 import json
@@ -122,6 +143,10 @@ ZONE = NOW.astimezone().strftime("%Z")
 # work. Two things are true only on that machine: a row's acceptance command can be run, and a
 # filesystem stamp was written by the work rather than by a checkout. Both are read from here.
 RECHECK = os.environ.get("LIVE_SPEC_BOARD_CHECKS", "on").strip().lower() != "off"
+# Set by the wrapper above when this render was started from inside another one. Records-only
+# either way; the stamp says which of the two reasons it is, so a reader is not left guessing
+# why the acceptance commands did not run.
+NESTED = bool(os.environ.get("LIVE_SPEC_BOARD_NESTED", "").strip())
 
 
 def git_stamps(path):
@@ -166,6 +191,17 @@ def span(minutes):
 
 
 # ---------------------------------------------------------------- the checkpoints
+def recorded_open(cp):
+    """The open time `task-admission.py` wrote into DONE at admission, or None."""
+    for line in cp["sections"].get("DONE", "").splitlines():
+        if line.startswith("OPENED: "):
+            try:
+                return datetime.fromisoformat(line[len("OPENED: "):].strip())
+            except ValueError:
+                return None
+    return None
+
+
 def read_checkpoints():
     out = {}
     if checkpoint is None or not os.path.isdir(CHECKPOINTS):
@@ -180,7 +216,12 @@ def read_checkpoints():
             continue
         born, changed = stamps(path)
         cp["path"] = path
-        cp["opened"] = born
+        # The open time the checkpoint RECORDS wins over any stamp. `write_atomic` renames a
+        # fresh file over the old one at every write, so the creation stamp is the stamp of the
+        # last write and the span it yields is zero however long the row ran — "took 0 min" on
+        # every closed card and "standing since" five minutes ago on a row held for days
+        # (2026-09-06). A checkpoint opened before the line existed still reads its stamps.
+        cp["opened"] = recorded_open(cp) or born
         cp["changed"] = changed
         out[name[:-3]] = cp
     return out
@@ -944,9 +985,9 @@ def time_pair(card):
     """Criteria 63-67 — the time the task was given beside the time it took.
 
     The actual is the one the delivery trail settled against the estimate where it has settled one
-    (`estimate <low>–<high> <unit> → actual <n> <unit>`), and otherwise the checkpoint's own
-    stamps, which are written when the ticket is admitted and again at every transition through to
-    the close.
+    (`estimate <low>–<high> <unit> → actual <n> <unit>`), and otherwise the span from the open
+    time the checkpoint recorded at admission to its last write — falling back to the file's own
+    stamps only for a checkpoint opened before that line existed.
     """
     head = given(card)
     if card["settled_actual"]:
@@ -1122,7 +1163,7 @@ ready_html = ("".join(card_html(c) for c in BY_COLUMN["ready"])
 COLUMNS = [
     ("inwork", "In work",
      ("%d of %d lanes busy" % (BUSY, CAP)) if RECHECK else LANE_NOT_JUDGED,
-     "a card leaves when its acceptance command passes", lane_html),
+     "a card leaves when its row closes", lane_html),
     ("ready", "Ready", "%d" % len(BY_COLUMN["ready"]),
      "a card leaves when a free lane draws it", ready_html),
     ("validate", "Awaiting validation", "%d" % len(RUNNABLE),
@@ -1259,6 +1300,8 @@ not reload itself: draw it again when something changes.
     crafts=craft_html, unnamed=CRAFT_UNNAMED, cpdir=esc(CHECKPOINTS), archive=esc(ARCHIVE),
     anchors=esc(ANCHORS or "no registry row"),
     recheck=("every row's own acceptance command re-run here" if RECHECK else
+             "started by another render, so each row is shown as the plan records it and no "
+             "acceptance command runs here" if NESTED else
              "each row shown as the plan records it; the acceptance commands are re-run "
              "on the machine that holds the work, not here"),
 )

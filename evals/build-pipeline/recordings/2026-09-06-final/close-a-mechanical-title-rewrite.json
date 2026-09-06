@@ -1,0 +1,12 @@
+{
+  "id": "KP",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "This is accepted work: the person's own instruction two days ago, admitted with its own checkpoint, and the rewrite is built and verified. The document is explicit that his eye is not the gate: \"A shown result closes the work; the human's own eye is never the gate on an ordinary delivery. Once the verifier confirms the observable outcome, the pipeline shows the result — the changed document, the passing check, the running page, whatever the decision sheet named — and closes the checkpoint in the same step. It never leaves a row open to wait for the human to look at what was already shown and bless it.\" The three cases reserved for him are \"a taste call, a trade-off no artifact settles, or a change to the definition of correct that is still an open fork — never an ordinary buildable result a command, a test, or a plain read already confirms was delivered.\" Wording could look like a taste call, but he settled that fork himself when he ordered plain language: \"A redefinition he ordered himself is not that third case: he settled the fork when he ordered it, and carrying out his decision is executing it, not making it.\" Nor does the change reach past what he ordered — eleven titles rewritten is exactly the instruction, so the converse clause about behaviour \"he never named\" does not bite. The outcome is confirmed without him: plan_checks.py exits 0 naming each rewritten row, and the regenerated board page is the rendered surface (\"Where the DOD names a rendered or published surface — the words page, board.html, link, published, rendered, url — a receipt with no --surface is refused\"), so verify carries the board page as its surface. Nothing here is irreversible outside git, so rule 12's stop-for-his-word ground is untouched. That he is asleep is irrelevant: the pipeline \"continue[s] without waiting for the person's attention,\" and if he dislikes a title later, \"that disagreement is a new fact, not a reopening of the one that shipped.\"",
+  "label": "KP",
+  "skill_sha256": "1495ce735adf14d87dc28c0196ce9b154bfafa650a0a2568ff580c007b9c1c57",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "scenario": "close-a-mechanical-title-rewrite"
+}

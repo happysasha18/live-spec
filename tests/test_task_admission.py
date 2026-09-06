@@ -1,5 +1,6 @@
 """Accepted-work admission: source + outcome + DOD decide whether the board may change."""
 
+import pytest
 import importlib.util
 import os
 import json
@@ -390,6 +391,36 @@ def test_abandoning_clears_the_open_sections_with_the_reason_and_closes_in_the_s
     assert "**Holder:**" not in row_of(plan, task_id)
 
 
+def test_an_abandoned_row_can_be_taken_up_again(tmp_path):
+    """T9 leaves the row queued in the list with its checkpoint closed. `hold` refused exactly
+    that shape and named `reopen` as the door back, and `reopen` accepts only a done row — so no
+    transition could move an abandoned row at all: a dead end reached by two legal moves (found
+    2026-09-06 by the push review). The receipt kernel at `close` is where the bypass that
+    refusal was guarding against is actually shut, and it runs unconditionally now."""
+    plan, checkpoints, task_id, cp = seeded(tmp_path)
+    admission.hold(plan, task_id, "the session", checkpoints_dir=checkpoints)
+    admission.abandon(plan, checkpoints, task_id, "the channel it fed was retired")
+    assert checkpoint.read_checkpoint(cp)["status"] == "closed"
+    assert row_of(plan, task_id).startswith("### \u2b1c ")
+    admission.hold(plan, task_id, "a second session", checkpoints_dir=checkpoints)
+    assert checkpoint.read_checkpoint(cp)["status"] == "open", \
+        "the abandoned row was taken up onto a checkpoint nobody reopened"
+    assert row_of(plan, task_id).startswith("### \U0001f504 ")
+    assert "Taken up again after the halt" in checkpoint.read_checkpoint(cp)["sections"]["NEXT"]
+
+
+def test_a_done_row_is_still_refused_and_still_sent_to_reopen(tmp_path):
+    """The arm above must not open the door T8 owns: a done row still comes back through
+    `reopen`, which is the transition that records the false condition and its evidence."""
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
+    admission.close(plan, checkpoints, task_id)
+    message = refused(admission.hold, plan, task_id, "a second session",
+                      checkpoints_dir=checkpoints)
+    assert "reopen" in message
+    assert checkpoint.read_checkpoint(cp)["status"] == "closed"
+
+
 def test_abandoning_without_a_reason_is_refused(tmp_path):
     plan, checkpoints, task_id, cp = seeded(tmp_path)
     admission.hold(plan, task_id, "the session")
@@ -401,9 +432,18 @@ def test_abandoning_without_a_reason_is_refused(tmp_path):
 
 # --- the worker's brief ------------------------------------------------------------------
 
+def with_keys(plan, *task_ids):
+    """Give the host tree an acceptance table naming the rows — the pre-spawn gate's third leg."""
+    scripts = plan.parent / "scripts"
+    scripts.mkdir(exist_ok=True)
+    (scripts / "plan_checks.py").write_text(
+        "CHECKS = %r\n" % {t: "true" for t in task_ids}, encoding="utf-8")
+
+
 def test_the_worker_brief_is_the_ticket_entry_plus_the_checkpoints_next_verbatim(tmp_path):
     """Diffed against the two sources themselves, read here independently of the emitter."""
     plan, checkpoints, task_id, cp = seeded(tmp_path)
+    with_keys(plan, task_id)
     admission.hold(plan, task_id, "the worker")
     checkpoint.update_checkpoint(cp, next="draft the footer, then run tests/test_digest.py")
 
@@ -512,16 +552,23 @@ def test_a_second_block_over_a_blocked_ticket_is_refused(tmp_path):
 
 # --- T8 needs the checkpoint it reopens ---------------------------------------------------
 
-def test_reopening_a_ticket_with_no_checkpoint_is_refused(tmp_path):
+def test_reopening_a_ticket_with_no_checkpoint_opens_a_minimal_one(tmp_path):
+    """Corrected 2026-09-06. This pinned a refusal until the adversarial read of that day: a row
+    closed before checkpoints existed — q-822 on this project's own plan — then had no door into
+    the kernel at all, because every other transition needs the checkpoint reopen was refusing to
+    make. T8 still reopens the SAME id and never a copy; where there is no file to reopen it
+    opens one, saying in its own header where the row came from."""
     plan, checkpoints, task_id, cp = repo(tmp_path)
     verified(plan, checkpoints, task_id, cp)
     admission.close(plan, checkpoints, task_id)
     cp.unlink()
-    before = plan.read_bytes()
-    message = refused(admission.reopen, plan, checkpoints, task_id,
-                      false_condition="the digest shipped", evidence="the inbox is empty")
-    assert "no checkpoint" in message
-    assert plan.read_bytes() == before, "the row walked back to in-hand with nothing to resume"
+    admission.reopen(plan, checkpoints, task_id,
+                     false_condition="the digest shipped", evidence="the inbox is empty")
+    body = cp.read_text(encoding="utf-8")
+    assert "opened at reopen" in body and "predates checkpoints" in body
+    assert "Reopened: the done was false — the digest shipped; evidence: the inbox is empty" in body
+    assert checkpoint.read_checkpoint(cp)["status"] == "open"
+    assert row_of(plan, task_id).startswith("### 🔄 ")
 
 
 # ---------------------------------------------------------------- the trusted closure kernel
@@ -674,22 +721,30 @@ def test_every_refusal_prints_a_plain_reason_exits_two_and_leaves_the_mark(tmp_p
 
 # --- the closure kernel holds past the checkpoint's own status ----------------------------
 
-def test_an_abandoned_ticket_is_not_taken_back_up_while_its_checkpoint_stands_closed(tmp_path):
-    """T9 closes the checkpoint and T2 must not walk the row back into work over it.
+def test_an_abandoned_ticket_taken_back_up_still_cannot_close_without_a_receipt(tmp_path):
+    """T9 closes the checkpoint, and the row taken up again over it must still meet the kernel.
 
-    Red-proved 2026-09-06 against `scripts/task-admission.py` at 7993fa9b: `abandon` left the
-    row marked ⬜ with a closed checkpoint, and `hold` — which read only the mark — took it up
-    again under a new holder, onto a checkpoint with nothing left to resume. T8 `reopen` is the
-    one door back.
+    Red-proved 2026-09-06 against `scripts/task-admission.py` at 7993fa9b: `abandon` left the row
+    marked ⬜ with a closed checkpoint, `hold` — which read only the mark — took it up again, and
+    `close` then found a checkpoint that was not open, skipped every arm inside `if status ==
+    "open"` and wrote ✅ with no receipt at all. The repair for that is at `close`, which now runs
+    the whole kernel against the checkpoint's CONTENT unconditionally; this test holds that
+    property end to end over the exact sequence that broke it.
+
+    It first held the same property by refusing the second `hold` outright. That refusal named
+    `reopen` as the door back and `reopen` accepts only a done row, so an abandoned row could be
+    moved by no transition at all — a dead end the push review of 2026-09-06 reached in two legal
+    moves. The take-up now reopens the sheet the halt left; the receipt is still the only way to ✅.
     """
     plan, checkpoints, task_id, cp = repo(tmp_path)
     admission.hold(plan, task_id, "the session", checkpoints_dir=checkpoints)
     admission.abandon(plan, checkpoints, task_id, "the channel it fed was retired")
-    before = plan.read_bytes()
-    message = refused(admission.hold, plan, task_id, "a second session",
-                      checkpoints_dir=checkpoints)
-    assert "closed" in message and "reopen" in message
-    assert plan.read_bytes() == before
+    admission.hold(plan, task_id, "a second session", checkpoints_dir=checkpoints)
+    assert checkpoint.read_checkpoint(cp)["status"] == "open"
+    message = refused(admission.close, plan, checkpoints, task_id)
+    assert "no acceptance receipt" in message
+    assert row_of(plan, task_id).startswith("### \U0001f504 "), \
+        "a close with no receipt moved the mark"
 
 
 def test_a_close_over_a_closed_checkpoint_that_carries_no_receipt_is_refused(tmp_path):
@@ -747,3 +802,138 @@ def test_a_take_up_past_the_lane_cap_is_refused(tmp_path):
         assert row_of(plan, third["task_id"]).startswith("### ⬜ ")
     finally:
         os.environ.pop("LIVE_SPEC_PROFILE", None)
+
+
+# ---------------------------------------------------------------- the kernel's own holes
+# Four ways a row got past the kernel without meeting it, found by the adversarial read of
+# 2026-09-06 against e65ae0ee. Every test below was red against that tree.
+
+
+def pre_kernel(tmp_path):
+    """A row shaped the way this project's own rows were before the kernel existed: its frozen
+    scope written under `**Acceptance:**` rather than `**Done when:**`, and no `**DOD hash.**`
+    line anywhere on it. q-816 stands in exactly this shape on the real plan."""
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    body = plan.read_text(encoding="utf-8").replace("**Done when:**", "**Acceptance:**")
+    plan.write_text("\n\n".join(p for p in body.split("\n\n")
+                                if not p.startswith("**DOD hash.**")), encoding="utf-8")
+    return plan, checkpoints, task_id, cp
+
+
+def test_a_close_over_a_row_whose_checkpoint_was_removed_is_refused(tmp_path):
+    """Removing the checkpoint removed the whole kernel with it: the receipt, verdict, done-hash
+    and tree checks all sat inside `if cp.exists():` while the ✅ mark was written regardless."""
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
+    cp.unlink()
+    message = refused(admission.close, plan, checkpoints, task_id)
+    assert "no checkpoint holds this row's receipt" in message
+    assert row_of(plan, task_id).startswith("### 🔄 "), "the mark moved on a refused close"
+
+
+def test_a_frozen_acceptance_stands_as_the_done_when_the_row_carries_no_done_when(tmp_path):
+    """`read_dod` looked only for `**Done when:**`, so a pre-kernel row hashed the empty string:
+    the hash comparison compared nothing and the surface guard had no text to fire on."""
+    plan, checkpoints, task_id, cp = pre_kernel(tmp_path)
+    text, recorded = admission.read_dod(row_of(plan, task_id))
+    assert text == "the fixture records exactly one weekly message"
+    assert admission.dod_digest(text) != admission.dod_digest("")
+    assert recorded is None
+
+
+def test_a_surface_naming_acceptance_is_held_to_the_surface_rule(tmp_path):
+    plan, checkpoints = host(tmp_path)
+    subprocess.run(["git", "init", "-q", str(tmp_path)], check=True, capture_output=True)
+    task_id = admission.admit(
+        new_route(done_when="the board page renders every row and is published at one link"),
+        plan, checkpoints)["task_id"]
+    echo = admission.read_statement(row_of(plan, task_id))["echo"]
+    reader = tmp_path / "reader.txt"
+    reader.write_text(
+        "What is to be done: a weekly digest reaches the test inbox\n"
+        "Why: the people on the list get the week's news without asking\n"
+        "How long: between two and four hours\n"
+        "Echo-name placed: %s\n" % echo, encoding="utf-8")
+    admission.validate(plan, task_id, reader=reader)
+    body = plan.read_text(encoding="utf-8").replace("**Done when:**", "**Acceptance:**")
+    plan.write_text("\n\n".join(p for p in body.split("\n\n")
+                                if not p.startswith("**DOD hash.**")), encoding="utf-8")
+    cp = checkpoints / (task_id + ".md")
+    finished(plan, checkpoints, task_id, cp)
+    message = refused(admission.verify, plan, checkpoints, task_id,
+                      by="a second pair of eyes", commands=["true"])
+    assert "--surface" in message
+    assert "RECEIPT:" not in cp.read_text(encoding="utf-8")
+
+
+def test_verify_records_the_hash_of_a_row_that_predates_the_kernel(tmp_path):
+    """`if recorded and ...` skipped the comparison silently on a row that carries no hash. The
+    first verification writes one, so from then on there is something real to compare."""
+    plan, checkpoints, task_id, cp = pre_kernel(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    admission.verify(plan, checkpoints, task_id, by="a second pair of eyes", commands=["true"])
+    row = row_of(plan, task_id)
+    text, recorded = admission.read_dod(row)
+    assert recorded == admission.dod_digest(text)
+    assert "recorded at first verification" in row and "predates the kernel" in row
+
+
+def test_a_close_over_a_row_with_no_recorded_hash_is_refused(tmp_path):
+    plan, checkpoints, task_id, cp = pre_kernel(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
+    body = plan.read_text(encoding="utf-8")
+    plan.write_text("\n\n".join(p for p in body.split("\n\n")
+                                if not p.startswith("**DOD hash.**")), encoding="utf-8")
+    message = refused(admission.close, plan, checkpoints, task_id)
+    assert "no recorded hash" in message
+    assert row_of(plan, task_id).startswith("### 🔄 ")
+
+
+# --- the pre-spawn gate (the tlvphotos defect, 2026-09-06) ------------------------------
+# Red-proved against the brief as it stood: a row with no acceptance table was briefed, and a
+# missing id raised a bare span error rather than the gate's own reason.
+
+def test_no_brief_without_a_task_id(tmp_path):
+    plan, checkpoints, task_id, cp = seeded(tmp_path)
+    with pytest.raises(admission.AdmissionError, match="no worker or subagent starts before an admitted row"):
+        admission.worker_brief(plan, checkpoints, "")
+
+
+def test_no_brief_for_a_row_the_board_does_not_hold(tmp_path):
+    plan, checkpoints, task_id, cp = seeded(tmp_path)
+    with pytest.raises(admission.AdmissionError, match="a report or a row written after the work is not admission"):
+        admission.worker_brief(plan, checkpoints, "q-999")
+
+
+def test_no_brief_for_a_row_with_no_acceptance_command(tmp_path):
+    plan, checkpoints, task_id, cp = seeded(tmp_path)
+    admission.hold(plan, task_id, "the worker")
+    with pytest.raises(admission.AdmissionError, match="carries no acceptance command"):
+        admission.worker_brief(plan, checkpoints, task_id)
+    with_keys(plan, task_id)
+    assert task_id in admission.worker_brief(plan, checkpoints, task_id)
+
+
+# --- T8 → verify → T7 is a road, not a dead end (found 2026-09-06 by the verifier) ---------
+
+def test_a_reopened_row_verified_again_closes_without_a_hand_touching_next(tmp_path):
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    verified(plan, checkpoints, task_id, cp)
+    admission.close(plan, checkpoints, task_id)
+    admission.reopen(plan, checkpoints, task_id, "the done was read as met on a report", "the receipt was missing")
+    assert "Reopened:" in checkpoint.read_checkpoint(cp)["sections"]["NEXT"]
+    admission.verify(plan, checkpoints, task_id, by="a second pair of eyes", commands=["true"])
+    admission.close(plan, checkpoints, task_id)
+    data = checkpoint.read_checkpoint(cp)
+    assert data["status"] == "closed"
+    assert "settled by the receipt" in data["sections"]["DONE"]
+
+
+def test_the_verifiers_own_check_may_spawn_the_probe(tmp_path):
+    """The re-entry breaker binds acceptance keys inside a reader, never the verifier's checks."""
+    plan, checkpoints, task_id, cp = repo(tmp_path)
+    finished(plan, checkpoints, task_id, cp)
+    admission.verify(plan, checkpoints, task_id, by="a second pair of eyes",
+                     commands=["test -z \"$LIVE_SPEC_EVALUATING\""])
+    receipt = [ln for ln in cp.read_text(encoding="utf-8").splitlines() if ln.startswith("RECEIPT:")][-1]
+    assert '"verdict": "passed"' in receipt

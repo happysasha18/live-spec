@@ -29,6 +29,7 @@ M-543's no-second-source line) had arms the old page already met, and each of th
 fails on its other arms.
 """
 import json
+import datetime
 import os
 import re
 import shutil
@@ -192,11 +193,17 @@ def _build_tree(tmp_path, plan_rows=None, waiting="an answer you have not read y
                                  "Blocked: outside dependency: the credential expired", "wait"))
         with open(os.path.join(cps, "q-5.md"), "w", encoding="utf-8") as fh:
             fh.write(_checkpoint("The closed row keeps its row", "pipeline", "closed",
+                                 "OPENED: %s\n"
                                  "Step one shipped, Builder, 40 min\n"
-                                 "Step two shipped, Checker, 20 min",
+                                 "Step two shipped, Checker, 20 min"
+                                 % (datetime.datetime.now()
+                                    - datetime.timedelta(hours=1)).isoformat(timespec="seconds"),
                                  "(nothing)", "(nothing)"))
-        # A closed checkpoint's stamps are what the actual is read from: born when the ticket was
-        # admitted, written last at the close. Set them a known hour apart.
+        # The actual is read from the open time the checkpoint RECORDS, an hour back here. It
+        # used to be read from the file's own creation stamp, which `write_atomic`'s rename
+        # resets on every write — so the span was zero however long the work ran, and this
+        # fixture's `os.utime(path, (now, now))` set both stamps to the same instant while its
+        # own comment said "a known hour apart" (found 2026-09-06).
         path = os.path.join(cps, "q-5.md")
         now = time.time()
         os.utime(path, (now, now))
@@ -566,7 +573,8 @@ def test_m536_the_row_carries_the_time_it_was_given_beside_the_time_it_took(boar
     # The actual off the stamps, where no trail settled one.
     closed = model["cards"]["q-5"]
     assert closed["estimate"] is None, "an estimate was invented for a row that records none"
-    assert closed["actual"], "no actual was read from the closed checkpoint's stamps"
+    assert closed["actual"] == "1h 00m", \
+        "the actual is not the hour the checkpoint records: %r" % closed["actual"]
     assert closed["opened"] and closed["closed"], "the end-to-end stamps are missing"
     assert "took %s" % closed["actual"] in page
     live = model["cards"]["q-2"]
@@ -1143,3 +1151,77 @@ class TestFreshClone:
             "the page still points a reader at a tree that is not there"
         assert "Published from:" in page and "GitHub Actions" in page, \
             "the page names no publisher in the worktree line's place"
+
+
+# ---------------------------------------------------------------- a render inside a render
+# An acceptance key may render the board — q-816's and q-166's both do, against a throwaway tree —
+# and that tree's own keys can render again. Each level spawns another scratch copy, and on
+# 2026-09-06 a fourteen-deep chain of render-board.sh sat running for six hours. The renderer marks
+# everything it starts, and a render that finds the marker already set reads the recorded marks
+# instead of re-running the acceptance table, which is the LIVE_SPEC_BOARD_CHECKS=off path.
+
+_BAIT = """#!/bin/sh
+d="$(cd "$(dirname "$0")" && pwd)"
+echo x >> "$d/depth.txt"
+n=$(wc -l < "$d/depth.txt" | tr -d ' ')
+mkdir -p "$d/nested-$n"
+if [ "$n" -lt 3 ]; then
+  bash "$d/scripts/render-board.sh" "$d/nested-$n/board.html" >/dev/null 2>&1
+fi
+exit 0
+"""
+
+
+def _recursion_tree(tmp_path):
+    tree = _build_tree(tmp_path)
+    with open(os.path.join(tree, "bait.sh"), "w", encoding="utf-8") as fh:
+        fh.write(_BAIT)
+    with open(os.path.join(tree, "scripts", "plan_checks.py"), "a", encoding="utf-8") as fh:
+        fh.write('\nCHECKS["q-2"] = "bash %s"\n' % os.path.join(tree, "bait.sh"))
+    return tree
+
+
+def _nested(tree):
+    return sorted(n for n in os.listdir(tree) if n.startswith("nested-"))
+
+
+def test_a_render_started_by_a_render_runs_no_acceptance_command(tmp_path):
+    """The marker's own arm: with it already set, the render reads records only, runs no key,
+    starts no scratch tree of its own, and the stamp says which mode it is in."""
+    tree = _recursion_tree(tmp_path)
+    started = time.time()
+    r = _run(tree, env={"LIVE_SPEC_BOARD_RENDERING": "1"})
+    assert r.returncode == 0, r.stderr
+    assert time.time() - started < 30, "a records-only render took longer than a render should"
+    assert not os.path.exists(os.path.join(tree, "depth.txt")), \
+        "the nested render ran an acceptance command"
+    assert _nested(tree) == [], "the nested render spawned a scratch tree of its own"
+    with open(os.path.join(tree, "board.html"), encoding="utf-8") as fh:
+        page = fh.read()
+    assert "started by another render" in page, \
+        "the stamp does not say this page was drawn inside another render"
+
+
+def test_a_key_that_renders_the_board_cannot_recurse(tmp_path):
+    """The chain itself, one level deep and no further: the outer render runs the key, the key
+    renders again, and that inner render finds the marker and runs no key — so the bait fires
+    once. Against the renderer as it stood on 2026-09-06 it fired three times."""
+    tree = _recursion_tree(tmp_path)
+    started = time.time()
+    r = _run(tree)
+    assert r.returncode == 0, r.stderr
+    assert time.time() - started < 60, "the render chain did not terminate promptly"
+    with open(os.path.join(tree, "depth.txt"), encoding="utf-8") as fh:
+        depth = len(fh.read().split())
+    assert depth == 1, "the acceptance key ran %d times: a render is rendering itself" % depth
+    assert _nested(tree) == ["nested-1"], "more than one nested render ran: %s" % _nested(tree)
+    # The inner render draws a records-only page rather than dying. Until 2026-09-06 the two
+    # breakers disagreed: the inner render arrived carrying run_key's own LIVE_SPEC_EVALUATING
+    # mark, so evaluate() refused before a row was read (exit 3) and no page came out at all,
+    # which left the records-only branch above and the stamp it writes unreachable in the one
+    # case they exist for.
+    inner = os.path.join(tree, "nested-1", "board.html")
+    assert os.path.exists(inner), "the render started inside a key produced no page"
+    with open(inner, encoding="utf-8") as fh:
+        assert "started by another render" in fh.read(), \
+            "the nested page does not say it was drawn inside another render"

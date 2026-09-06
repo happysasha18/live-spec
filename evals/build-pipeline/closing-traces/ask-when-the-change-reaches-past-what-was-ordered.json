@@ -1,12 +1,12 @@
 {
-  "id": "FW",
+  "id": "JT",
   "closes": false,
   "reason_kind": "change to the definition of correct",
-  "reasoning": "The narrow instruction he gave is delivered and its own check passes, and on that half alone a shown result would close without his eye. But the delivered change reaches past what he ordered: the same branch now fails the extra-act-beside-a-real-one case, which he never named. The skill's converse clause covers exactly this — where a delivered change redefines behaviour he never named, that wider half is the third case rule 12/27 reserve for him, and the artifact describing the old behaviour is what it is weighed against rather than a decision to change it. Here that artifact is the eval's written cost model, which deliberately prints the extra act as a note, not a failure; the code now contradicts it, and nobody has said which behaviour the wider case should have, so the fork is open, not settled by him in advance. The closure kernel blocks the close independently: the accepted scope still holds a red check — four recorded runs whose every other field is right went red, 30 to 26 — and a task cannot close over a red check inside its scope. This is not 'blocked' either: needing his choice is not an external dependency, so the row stays in hand while the split (which is possible and was not asked for) is put to him with the cost model quoted.",
-  "scenario": "ask-when-the-change-reaches-past-what-was-ordered",
-  "label": "FW",
-  "skill_sha256": "29d293dd486c546f4839a01390ea71c443dc50ede0868f07311a4022b61e8366",
+  "reasoning": "This is the converse clause hitting exactly: \"where a delivered change reaches past what he ordered and redefines behaviour he never named, that wider half is the third case, and an artifact describing the old behaviour is what the change is weighed against rather than a decision to change it.\" He ordered one lenient branch closed — a named act on a no-act scenario must fail. The delivered code also closes the extra-act case, which he never named, and the eval's written cost model is the artifact describing the old behaviour: it deliberately prints that case as a note rather than a failure. The change contradicts that artifact, and per the same sentence the artifact is what the change is weighed against, not a decision to change it. So the wider half is 'a change to the definition of correct that is still an open fork' — one of the three cases base rule 12/27 reserve for him — and the exemption for a redefinition he ordered himself does not apply: \"A redefinition he ordered himself is not that third case: he settled the fork when he ordered it\" — he settled nothing here, and the case states nobody has said which behaviour the wider case should have. The closing kernel blocks it independently: \"A task cannot close while its accepted scope still holds todo/target/not-built, a missing artifact, or a red check\" — four of the 35 recorded runs are newly red, 26 against 30, and \"The presence of a test, a field or a report is not success: the command must actually pass\", so the passing unit test on the narrow fix is not the acceptance. Splitting the two cases apart is possible and was not asked for, so the pipeline does not decide the wider half on its own; the narrow half is real delivered work, but it cannot be shown and closed while carrying an unordered redefinition and a red re-grade with it.",
+  "label": "JT",
+  "skill_sha256": "1495ce735adf14d87dc28c0196ce9b154bfafa650a0a2568ff580c007b9c1c57",
   "recorded": "2026-09-06",
   "skill_version": "6.1.0",
-  "producer_model": "opus"
+  "producer_model": "opus",
+  "scenario": "ask-when-the-change-reaches-past-what-was-ordered"
 }

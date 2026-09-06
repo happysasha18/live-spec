@@ -276,6 +276,10 @@ for t in shown:
     elif t["icon"] == "⛔" and t["blocked_by"]:
         r = t["blocked_by"].strip()
         reason = f" {D}— {r[:39].rstrip() + '…' if len(r) > 40 else r}{X}"
+    elif t["note"]:
+        # An open row whose acceptance command already passes: the row stays open, because only
+        # its close closes it, and the line says the command's own verdict beside the mark.
+        reason = f" {D}— {t['note']}{X}"
     print(f"  {D}{t['id'].ljust(id_width)}{X} {t['icon']} {colour}{t['title']}{X}  {verified}{reason}{tag}")
 
 shown_ids = {t["id"] for t in shown}

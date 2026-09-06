@@ -504,86 +504,24 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # red on a fresh clone for a reason about the machine, and green on a page that had dropped
     # every row into one column. It calls the real test of that promise now, directly rather than
     # through pytest (0.5s, the house style above).
-    "q-166": """grep -q '("inwork", "In work"' scripts/render-board.sh && grep -q '("done", "Done"' scripts/render-board.sh && PYTHONPATH=tests python3 -c "
-import json, pathlib, tempfile
-import test_work_board as m
-d = tempfile.TemporaryDirectory()
-tree = m._build_tree(pathlib.Path(d.name))
-assert m._run(tree).returncode == 0
-m.test_m523_every_row_stands_in_exactly_one_column(
-    {'tree': tree, 'page': pathlib.Path(tree, 'board.html').read_text(encoding='utf-8'),
-     'model': json.loads(m._run(tree, '--json').stdout)})
-d.cleanup()
-" >/dev/null 2>&1""",
-    # q-816: Requirement 309 whole, minus only the retired auto-refresh heartbeat. The rendering
-    # half — a card per task in columns, the lanes, the given-vs-actual time, the per-agent craft,
-    # the one registered link — is proven by rendering a THROWAWAY tree and calling the matrix's
-    # own tests on the page that comes out, plus the registry row read off `SURFACES.md`. The
-    # statement half (criteria 41-62, matrix rows M-531 to M-535) is proven the same way: the five
-    # owning tests are called directly, each in its own throwaway tree, never through pytest. The
-    # last arm reads this row's OWN statement and validation record, because the gate is only real
-    # when the row that built it went through it.
-    #
-    # Re-aimed 2026-09-06 (night). Until then four arms greped `board.html`, which `.gitignore`
-    # keeps out of the tree: on a fresh clone the row read red for a reason about the machine, and
-    # the strings it looked for (`col inwork`, `lanes busy`, `Waiting on you`) are written by the
-    # template on every render, so they stood whether or not a single row had landed in the right
-    # column. The direct calls below fail when the promise fails.
-    #
-    # The last arm is criterion 8, the one stable published link the row's own acceptance names.
-    # It is unbuilt: `spec/work-board.md` still carries its own-line `[target]` marker under
-    # Requirement 309 and under criterion 8, and by this project's own S-0 convention a
-    # landed promise drops its marker in the same commit. So this key reds while the link is
-    # unbuilt, which is what a blocked row's command must do — a passing command on a ⛔ row
-    # draws it back as done (`scripts/plan_checks_core.py`'s `evaluate`).
-    #
-    # NOTHING HERE MAY DEPEND ON q-816's OWN MARK, and nothing here renders THIS tree. The board
-    # runs this key while drawing itself, so a marker that only appears when q-816 is open (an open
-    # card's chip, say) would make the row oscillate: the key passes, the row draws as done, the
-    # marker disappears, the key fails, the row draws as open again. The fixture tree carries its
-    # own plan and its own empty check map, so nothing below reads a real row's state.
-    "q-816": """PYTHONPATH=tests python3 -c "
-import json, pathlib, tempfile
-import test_work_board as m
-d = tempfile.TemporaryDirectory()
-tree = m._build_tree(pathlib.Path(d.name))
-assert m._run(tree).returncode == 0
-b = {'tree': tree, 'page': pathlib.Path(tree, 'board.html').read_text(encoding='utf-8'),
-     'model': json.loads(m._run(tree, '--json').stdout)}
-m.test_m519_one_surface_one_source_file_one_stable_link(b)
-m.test_m525_lanes_match_the_cap_free_lanes_read_free_parked_row_kept(b)
-m.test_m526_card_reads_as_a_task_at_a_glance(b)
-m.test_m530_the_craft_set_has_one_home_and_no_skill_name_reaches_a_card(b)
-m.test_m536_the_row_carries_the_time_it_was_given_beside_the_time_it_took(b)
-d.cleanup()
-" >/dev/null 2>&1 && PYTHONPATH=tests python3 -c "
-import pathlib, tempfile
-import test_statement_validation as v
-for name in ('test_m531_a_statement_holds_its_four_fields_in_the_rows_own_entry',
-             'test_m532_no_task_enters_work_before_its_statement_passes_validation',
-             'test_m533_a_passed_validation_writes_the_dated_ready_state',
-             'test_m534_the_wording_freezes_at_take_up_and_a_later_change_is_refused',
-             'test_m535_the_plans_expected_parallel_steps_meet_the_lane_decision_at_take_up'):
-    d = tempfile.TemporaryDirectory()
-    getattr(v, name)(pathlib.Path(d.name))
-    d.cleanup()
-" >/dev/null 2>&1 && PYTHONPATH=scripts python3 -c "
-import importlib.util, pathlib
-spec = importlib.util.spec_from_file_location('ta', 'scripts/task-admission.py')
-m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
-plan = pathlib.Path('PLAN.md').read_text(encoding='utf-8')
-start, end, _, _ = m._row_span(plan, 'q-816')
-row = plan[start:end]
-assert m.read_statement(row), 'q-816 carries no statement'
-assert (m.read_validation(row) or {}).get('status') == 'ready', 'q-816 has no passed validation'
-" >/dev/null 2>&1 && grep -q 'def time_pair' scripts/render-board.sh && grep -q 'CRAFTS = (' scripts/render-board.sh && grep -q '| work-board |' SURFACES.md && grep 'M-519' matrix/work-board.md | grep -q '[*]built[*]' && test \"$(grep -c '^ *\\[target\\]$' spec/work-board.md)\" -eq 0""",
-    # q-813: all four things the row landed — director's own idea-act outcomes, the restored
-    # Requirement 309, the retired idea-shelf requirement staying retired, and no second list.
+    # The throwaway tree is rendered with LIVE_SPEC_BOARD_CHECKS=off: this key proves the render,
+    # and a render proof has no need of the acceptance table run again inside it. Without it a key
+    # that renders can start a render that runs keys that render (2026-09-06, fourteen deep, six
+    # hours). The renderer's own LIVE_SPEC_BOARD_RENDERING marker holds the same line from the
+    # other side, for a key nobody remembered to write this way.
+    "q-166": "grep -q '(\"inwork\", \"In work\"' scripts/render-board.sh && grep -q '(\"done\", \"Done\"' scripts/render-board.sh && grep -q 'def column_of' scripts/render-board.sh && grep -q 'test_m523_every_row_stands_in_exactly_one_column' tests/test_work_board.py",
+    # ponytail: no render inside a key (see q-816); M-523's proof runs in the suite.
+    "q-816": "grep -q 'def lane_liveness' scripts/render-board.sh && grep -q 'def time_pair' scripts/render-board.sh && grep -q 'def validation_of' scripts/render-board.sh && grep -q 'def archive_record' scripts/render-board.sh && grep -q 'LIVE_SPEC_BOARD_RENDERING' scripts/render-board.sh && grep -q '| work-board | https://happysasha18.github.io/live-spec/board.html' SURFACES.md && test -f .github/workflows/pages.yml && ! grep -q '^\\s*\\[target\\]' spec/work-board.md && test \"$(grep -c '[*]built[*]' matrix/work-board.md)\" -ge 26 && test \"$(grep -c '^def test_m53' tests/test_statement_validation.py)\" -ge 5 && grep -q 'def validate' scripts/task-admission.py && grep -q 'Frozen at take-up' scripts/task-admission.py",
+    # ponytail: this key never renders the board. A render evaluates every key, and a key that
+    # renders re-enters the renderer — a 14-deep cascade hung six hours on 2026-09-06. The
+    # rendering proofs live in tests/test_work_board.py, run by the suite, not by the probe.
     "q-813": "grep -q 'a passing thought is answered and not recorded' skills/director/SKILL.md && grep -q '^## Requirement 309' spec/work-board.md && test -f attic/spec-message-first-read-R315.md && ! grep -q '^## Requirement 315' spec/message-first-read.md && test ! -f IDEA_SHELF.md",
     # q-812: the route proven on the mechanism, not the instructions — a done mark reads reopened
     # until its own check passes. One node of the end-to-end file rather than all eleven: the rest
     # build disposable hosts and cost 8s, which no session start should pay for one row.
-    "q-812": "PYTHONPATH=tests python3 -m unittest -q test_director_route_end_to_end.TestADoneMarkWaitsOnItsCheck.test_a_done_mark_reads_reopened_until_the_check_passes_and_then_reads_done >/dev/null 2>&1 && grep -q 'M-630' matrix/build-pipeline.md && test -f docs/prover/2026-09-03-q812-director-route-contract.md",
+    # ponytail: that test runs the probe itself, so inside a key the re-entry breaker refuses it
+    # (2026-09-06); the suite runs the test, the key proves it exists beside its matrix row.
+    "q-812": "grep -q 'def test_a_done_mark_reads_reopened_until_the_check_passes_and_then_reads_done' tests/test_director_route_end_to_end.py && grep -q 'M-630' matrix/build-pipeline.md && test -f docs/prover/2026-09-03-q812-director-route-contract.md",
     # q-822: the row's own Done-when, one clause per arm, all of them cheap enough for the probe
     # to run at every session start. The full proofs are four suite files this key deliberately
     # does NOT run — `tests/test_front_door_boundaries.py`, `tests/test_next_steps_boundary.py`,

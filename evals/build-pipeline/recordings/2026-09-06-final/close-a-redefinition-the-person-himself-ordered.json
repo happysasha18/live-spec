@@ -1,0 +1,12 @@
+{
+  "id": "TQ",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The work was accepted, built and verified, so the closing clause governs: \"A shown result closes the work; the human's own eye is never the gate on an ordinary delivery.\" The only ground for holding it would be one of the three cases the document reserves for him, and the tempting one here is \"a change to the definition of correct that is still an open fork.\" It is not open: he ordered exactly this redefinition — that the grader treat an extra act as a failure rather than a note — and the document settles that case directly: \"A redefinition he ordered himself is not that third case: he settled the fork when he ordered it, and carrying out his decision is executing it, not making it.\" Nor does the converse clause apply, which reserves for him the case \"where a delivered change reaches past what he ordered and redefines behaviour he never named\": the four runs that now read red are runs with an extra act beside an expected one, which is precisely and only the behaviour he named; the score moving 30 to 26 is that instruction taking effect, not a wider half he never ordered. Nothing here is a taste call, a trade-off no artifact settles, or an irreversible action — \"an action that is genuinely irreversible outside git\" is the carve-out, and a grader change is not that. So the row closes with the result shown: \"It never leaves a row open to wait for the human to look at what was already shown and bless it.\" If he disagrees with the new scoring once he sees it, the document routes that too: \"that disagreement is a new fact, not a reopening of the one that shipped.\"",
+  "label": "TQ",
+  "skill_sha256": "1495ce735adf14d87dc28c0196ce9b154bfafa650a0a2568ff580c007b9c1c57",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "scenario": "close-a-redefinition-the-person-himself-ordered"
+}

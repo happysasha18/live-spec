@@ -281,8 +281,17 @@ def _register_hits(text: str):
     return _REGISTER.scan(text) if _REGISTER else []
 
 
+# Criterion 44's own example, and the only activity it names: writing the tests carries value
+# only beside the deliverable it tests, so it is not a slice that shows value on its own.
+NOT_A_DELIVERABLE = re.compile(r"(?i)^\W*(writ\w*|add\w*|cover\w*)\b[^.]*\btests?\b")
+# Criterion 45's own number, read from its sub-item in spec/work-board.md: "the retunable value
+# is the most deliverables one plan holds, standing at five". Nothing here invents one.
+MOST_DELIVERABLES = 5
+
+
 def floor_issues(block: str) -> list:
-    """The mechanical floor: the four fields present, the register clean, the steps in order."""
+    """The mechanical floor: the four fields present, the register clean, the steps in order,
+    every deliverable one that shows value on its own, and no more than a handful of them."""
     statement = read_statement(block)
     if not statement:
         return ["the row carries no statement with an echo-name, a description, "
@@ -297,6 +306,11 @@ def floor_issues(block: str) -> list:
         issues.append("the plan names no step")
     elif [n for n, _, _ in statement["steps"]] != list(range(1, len(statement["steps"]) + 1)):
         issues.append("the plan's steps are not numbered in the order they run")
+    if [text for _, _, text in statement["steps"] if NOT_A_DELIVERABLE.match(text)]:
+        issues.append("an activity that carries value only alongside others \u2014 writing the "
+                      "tests, say \u2014 stays outside a plan's deliverables")
+    if len(statement["steps"]) > MOST_DELIVERABLES:
+        issues.append("a plan's deliverables stay a handful: at most five")
     if not statement["basis"].strip():
         issues.append("the estimate names no basis")
     hits = _register_hits(_paragraph(block, STATEMENT) or "")
@@ -335,7 +349,7 @@ def _same_name(one: str, two: str) -> bool:
     return norm(one) == norm(two)
 
 
-def validate(plan_path, task_id: str, reader=None) -> dict:
+def validate(plan_path, task_id: str, reader=None, checkpoints_dir=None) -> dict:
     """Run the statement's validation and write its record onto the row.
 
     A failed floor or a failed reader leaves the record at `status: rewritten`, which is what
@@ -349,6 +363,7 @@ def validate(plan_path, task_id: str, reader=None) -> dict:
     floor = "passed" if not issues else "failed (%s)" % issues[0]
 
     placed, reader_note = "no", "not run"
+    record = None
     if not issues:
         if reader is None:
             reader_note = "not run"
@@ -368,7 +383,29 @@ def validate(plan_path, task_id: str, reader=None) -> dict:
     line = "%s \u00b7 floor: %s \u00b7 reader: %s \u00b7 echo-name placed: %s \u00b7 status: %s" % (
         datetime.date.today().isoformat(), floor, reader_note, placed, status)
     _rewrite_row(plan_path, task_id, edits=[(VALIDATION, line, STATEMENT)])
+    _keep_reader_record(plan_path, task_id, checkpoints_dir, record, reader_note)
     return {"status": status, "floor": issues, "reader": reader_note, "placed": placed}
+
+
+def _keep_reader_record(plan_path, task_id, checkpoints_dir, record, reader_note) -> None:
+    """The reader's four answers are evidence, so they land in the checkpoint's DONE section.
+
+    A Validation line alone says a reader passed; nobody could check what it answered (the
+    verifier's finding, 2026-09-06). The answers are copied verbatim, dated, beside the receipt.
+    """
+    if not record:
+        return
+    cp = _checkpoint_path(checkpoints_dir or Path(plan_path).parent / ".live-spec" / "checkpoints", task_id)
+    if not cp.exists():
+        return
+    data = checkpoint.read_checkpoint(cp)
+    if data["status"] != "open":
+        return
+    done = data["sections"].get("DONE", "").rstrip("\n")
+    entry = "READER %s (%s): %s" % (
+        datetime.date.today().isoformat(), reader_note,
+        " | ".join("%s: %s" % (k, record[k]) for k in READER_FIELDS))
+    checkpoint.update_checkpoint(cp, done=(done + "\n" + entry).strip() + "\n")
 
 
 # ------------------------------------------------------------------ deriving one at admission
@@ -546,6 +583,14 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
     with tempfile.TemporaryDirectory(prefix="live-spec-admission-") as tmp:
         staged = Path(tmp) / cp_path.name
         checkpoint.new_checkpoint(staged, route["title"].strip(), "pipeline", decision_sheet(route))
+        # The open time is RECORDED, never inferred from the file. Every checkpoint write goes
+        # through `write_atomic`, which renames a fresh file over the old one, so the creation
+        # stamp is the stamp of the last write and the span between the two stamps is zero
+        # however long the work ran. Read that way the close settled "actual 0.0 hours" against
+        # every estimate (2026-09-06, three rows). One line, written once, beside the trail that
+        # reads it.
+        checkpoint.update_checkpoint(staged, done=OPENED + datetime.datetime.now().isoformat(
+            timespec="seconds"))
         issues = checkpoint.validate_checkpoint(staged)
         if issues:
             raise AdmissionError("invalid staged checkpoint: %s" % "; ".join(issues))
@@ -564,9 +609,15 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
 # row parser already reads, so there is no second store.
 
 DONE_WHEN = "**Done when:**"
+# A row admitted before this kernel existed carries its frozen scope under `**Acceptance:**`
+# instead. That text IS the done it was admitted with, so it is read as one: reading only
+# `**Done when:**` hashed the empty string on such a row, which made the hash comparison compare
+# nothing and left the surface guard with no text to fire on (q-816, 2026-09-06).
+ACCEPTANCE = "**Acceptance:**"
 DOD_HASH = "**DOD hash.**"
 DOD_HISTORY = "**DOD changed.**"
 RECEIPT = "RECEIPT: "
+OPENED = "OPENED: "
 # The heuristic, said plainly here and in `verify --surface`'s own help: a done written in these
 # words promises something rendered or published, and a fixture passing is not that thing.
 SURFACE_WORDS = re.compile(
@@ -580,11 +631,22 @@ def dod_digest(text: str) -> str:
 
 
 def read_dod(block: str):
-    """(the row's definition of done, the hash recorded beside it or None)."""
-    para = _paragraph(block, DONE_WHEN)
-    text = " ".join(para[len(DONE_WHEN):].split()) if para else ""
-    recorded = _paragraph(block, DOD_HASH)
-    return text, (recorded[len(DOD_HASH):].strip() if recorded else None)
+    """(the row's definition of done, the hash recorded beside it or None).
+
+    The done is `**Done when:**` where the row carries one and the frozen `**Acceptance:**` where
+    it does not — never a new done written onto a row in hand, which would be the silent change
+    this kernel exists to refuse.
+    """
+    text = ""
+    for prefix in (DONE_WHEN, ACCEPTANCE):
+        para = _paragraph(block, prefix)
+        if para:
+            text = " ".join(para[len(prefix):].split())
+            break
+    # The hash is the paragraph's first word: a hash written at a first verification carries the
+    # date and the reason beside it, and both spellings compare the same.
+    recorded = (_paragraph(block, DOD_HASH) or "")[len(DOD_HASH):].split()
+    return text, (recorded[0] if recorded else None)
 
 
 def tree_hash(root, exclude=None):
@@ -673,7 +735,18 @@ def verify(plan_path: Path, checkpoints_dir: Path, task_id: str, by: str,
     if not cp.exists() or checkpoint.read_checkpoint(cp)["status"] != "open":
         raise AdmissionError("%s has no open checkpoint to accept" % task_id)
 
-    checks = [[cmd, plan_checks_core.run_key(cmd).returncode] for cmd in commands]
+    if not recorded:
+        # A row that predates the kernel has no hash, so the comparison above had nothing to
+        # compare and passed in silence. The first verification writes one — before the tree is
+        # read, so the receipt pins the tree that carries it — and every comparison after this
+        # one is real.
+        _rewrite_row(plan_path, task_id, edits=[(
+            DOD_HASH,
+            "%s \u2014 recorded at first verification %s; the row predates the kernel"
+            % (dod_digest(dod), datetime.date.today().isoformat()),
+            DONE_WHEN if _paragraph(block, DONE_WHEN) else ACCEPTANCE)])
+
+    checks = [[cmd, plan_checks_core.run_key(cmd, mark=False).returncode] for cmd in commands]
     tree, head = tree_hash(Path(plan_path).resolve().parent, checkpoints_dir)
     receipt = {
         "by": by,
@@ -730,14 +803,22 @@ def hold(plan_path: Path, task_id: str, holder: str, checkpoints_dir=None, lanes
             "%s has not passed statement validation: run `validate` (and rewrite the statement "
             "where it failed) before taking it up" % task_id)
 
-    # T2's mirror of "no checkpoint already open": a CLOSED checkpoint means this ticket is
-    # finished or abandoned, and taking it up again puts a holder on a sheet with nothing left
-    # to resume — and then walks past the whole receipt kernel at the close. T8 `reopen` is the
-    # one door back.
+    # T2's mirror of "no checkpoint already open". A DONE row was already refused above and comes
+    # back through T8, which is where the false condition and its evidence get recorded. What
+    # reaches here is the other closed shape: T9 `abandon` leaves the row queued in the list with
+    # its checkpoint closed. This arm refused that too and named `reopen` as the door, and
+    # `reopen` takes only a done row — so an abandoned row could be moved by no transition at
+    # all, a dead end two legal moves reach (the push review of 2026-09-06). The halt is a halt,
+    # not a deletion, so taking the row up again reopens the sheet it already has, with the line
+    # saying the work is resuming after a halt rather than starting fresh. Nothing is bypassed:
+    # the receipt kernel at `close` runs unconditionally, which is where the walk-past this arm
+    # was written for is actually shut.
     cp = _checkpoint_path(checkpoints_dir, task_id) if checkpoints_dir else None
     if cp and cp.exists() and checkpoint.read_checkpoint(cp)["status"] != "open":
-        raise AdmissionError(
-            "%s has a closed checkpoint: reopen it before taking it in hand" % task_id)
+        checkpoint.reopen_checkpoint(cp)
+        checkpoint.update_checkpoint(
+            cp, next="Taken up again after the halt, by %s: the sheet below is what the halt "
+                     "left; what remains is written here before any worker is briefed." % holder)
 
     # T2's other stated requirement — "lane cap not exceeded" — and Requirement 309 criterion 47,
     # which bounds the steps running together inside one task by the same cap. The board splits
@@ -907,6 +988,24 @@ def park(plan_path: Path, checkpoints_dir: Path, task_id: str, next_: str) -> No
     _rewrite_row(plan_path, task_id, mark=QUEUED, edits=[("**Holder:**", None)])
 
 
+
+def _settle_reopen_line(cp: Path, receipt: dict) -> None:
+    """T8's NEXT line is settled by the receipt that follows it, never by a hand.
+
+    `reopen` writes the false condition into NEXT so the row cannot close over it unread. A
+    passed receipt written after the reopen is the evidence it asked for, so `close` moves that
+    line into DONE naming the receipt and leaves NEXT empty. A NEXT holding anything else still
+    refuses the close, as before (the dead end T8 → verify → T7 was found on 2026-09-06).
+    """
+    data = checkpoint.read_checkpoint(cp)
+    nxt = data["sections"].get("NEXT", "").strip()
+    lines = [ln for ln in nxt.splitlines() if ln.strip()]
+    if lines and all(ln.strip().startswith("Reopened:") for ln in lines):
+        done = data["sections"].get("DONE", "").rstrip("\n")
+        settled = "\n".join("%s — settled by the receipt at %s" % (ln.strip(), receipt.get("at", "?"))
+                            for ln in lines)
+        checkpoint.update_checkpoint(cp, done=(done + "\n" + settled).strip() + "\n", next="")
+
 def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
     """T7: the checkpoint closes, and THEN the mark is written. Two writes, in that order.
 
@@ -928,66 +1027,94 @@ def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
     # no receipt, no verdict, no frozen done and no tree. The crash-recovery re-run of T7 keeps
     # working: the receipt that closed the checkpoint the first time is still in it, and the
     # writes that recovery repeats all land in the checkpoint directory, which the tree leaves out.
-    if cp.exists():
-        dod, recorded = read_dod(plan[start:end])
-        now = dod_digest(dod)
-        if recorded and now != recorded:
-            raise AdmissionError(
-                "the definition of done changed since it was admitted: rewrite it through "
-                "`correct %s --done ... --source ... --reason ...`, never at closing" % task_id)
-        receipt = read_receipt(cp)
-        if not receipt:
-            raise AdmissionError(
-                "%s carries no acceptance receipt: close is a state transition against one, not "
-                "a claim \u2014 run `verify %s --by <someone who did not hold the row>` first"
-                % (task_id, task_id))
-        if receipt.get("verdict") != "passed":
-            failed = [cmd for cmd, code in receipt.get("checks", []) if code != 0]
-            raise AdmissionError(
-                "the acceptance receipt is a failed verdict: %s did not pass. The presence of a "
-                "check is not success" % ", ".join(failed))
-        if receipt.get("dod_hash") != now:
-            raise AdmissionError(
-                "the definition of done changed after it was verified: the evidence is void, "
-                "and %s is verified again against the done as it now reads" % task_id)
-        if receipt.get("tree") != tree_hash(Path(plan_path).resolve().parent,
-                                           checkpoints_dir)[0]:
-            raise AdmissionError(
-                "the tree changed after it was verified: the evidence is void, and %s is "
-                "verified again against the tree as it now stands" % task_id)
-        if checkpoint.read_checkpoint(cp)["status"] == "open":
-            _write_delivery_trail(plan, task_id, cp)
-            try:
-                checkpoint.close_checkpoint(cp)
-            except ValueError as exc:
-                raise AdmissionError(str(exc))
+    #
+    # And it runs unconditionally. It sat inside `if cp.exists():` until the same day, so
+    # deleting one file skipped every check below while the ✅ mark was written regardless —
+    # the whole kernel with one `rm`.
+    if not cp.exists():
+        raise AdmissionError(
+            "no checkpoint holds this row's receipt; a row closes through verify and close, "
+            "never by removing its checkpoint")
+    dod, recorded = read_dod(plan[start:end])
+    now = dod_digest(dod)
+    if not recorded:
+        raise AdmissionError(
+            "%s carries no recorded hash of its definition of done, so nothing can tell the "
+            "done it was verified against from the done it now reads: run `verify %s --by "
+            "<someone who did not hold the row>`, which records the hash on the row"
+            % (task_id, task_id))
+    if now != recorded:
+        raise AdmissionError(
+            "the definition of done changed since it was admitted: rewrite it through "
+            "`correct %s --done ... --source ... --reason ...`, never at closing" % task_id)
+    receipt = read_receipt(cp)
+    if not receipt:
+        raise AdmissionError(
+            "%s carries no acceptance receipt: close is a state transition against one, not "
+            "a claim \u2014 run `verify %s --by <someone who did not hold the row>` first"
+            % (task_id, task_id))
+    if receipt.get("verdict") != "passed":
+        failed = [cmd for cmd, code in receipt.get("checks", []) if code != 0]
+        raise AdmissionError(
+            "the acceptance receipt is a failed verdict: %s did not pass. The presence of a "
+            "check is not success" % ", ".join(failed))
+    if receipt.get("dod_hash") != now:
+        raise AdmissionError(
+            "the definition of done changed after it was verified: the evidence is void, "
+            "and %s is verified again against the done as it now reads" % task_id)
+    if receipt.get("tree") != tree_hash(Path(plan_path).resolve().parent, checkpoints_dir)[0]:
+        raise AdmissionError(
+            "the tree changed after it was verified: the evidence is void, and %s is "
+            "verified again against the tree as it now stands" % task_id)
+    if checkpoint.read_checkpoint(cp)["status"] == "open":
+        _settle_reopen_line(cp, receipt)
+        _write_delivery_trail(plan, task_id, cp)
+        try:
+            checkpoint.close_checkpoint(cp)
+        except ValueError as exc:
+            raise AdmissionError(str(exc))
     # The holder stays on the row. T8's fork reads it — a done that turns out false comes back
     # in hand where somebody still holds it, and queued where nobody does.
     _rewrite_row(plan_path, task_id, mark=DONE)
+
+
+def _elapsed(done_body: str, unit: str) -> str:
+    """The time the work took, off the open time the checkpoint recorded, or "not recorded".
+
+    A checkpoint opened before this line existed — `reopen`'s minimal one for a row that predates
+    checkpoints, or any row admitted earlier — carries no open time, and the pack's own rule is to
+    say so rather than print a number nobody wrote.
+    """
+    opened = [ln for ln in done_body.splitlines() if ln.startswith(OPENED)]
+    if not opened:
+        return "not recorded"
+    try:
+        born = datetime.datetime.fromisoformat(opened[0][len(OPENED):].strip())
+    except ValueError:
+        return "not recorded"
+    minutes = max(0.0, (datetime.datetime.now() - born).total_seconds() / 60.0)
+    if unit.lower().startswith("hour"):
+        return "%.1f %s" % (minutes / 60.0, unit)
+    if unit.lower().startswith("day"):
+        return "%.1f %s" % (minutes / 1440.0, unit)
+    return "%d %s" % (round(minutes), unit)
 
 
 def _write_delivery_trail(plan: str, task_id: str, cp: Path) -> None:
     """Criteria 46 and 63-65: the close writes the time the task was given beside the time it
     took, and the lane divergence take-up recorded, into the trail the delivery report draws on.
 
-    The actual is read off the checkpoint's own stamps — the file is created when the ticket is
-    admitted and written again at every transition, the last of which is this close.
+    The actual is read off the open time the checkpoint recorded at admission, never off the
+    file's own stamps: every write renames a fresh file over the old one, so the creation stamp
+    is the stamp of the last write and the span it yields is zero however long the work ran.
     """
     start, end, _, _ = _row_span(plan, task_id)
     statement = read_statement(plan[start:end])
     if not statement:
         return
-    st = cp.stat()
-    born = getattr(st, "st_birthtime", st.st_ctime)
-    minutes = max(0.0, (st.st_mtime - born) / 60.0)
-    unit = statement["unit"]
-    if unit.lower().startswith("hour"):
-        actual = "%.1f %s" % (minutes / 60.0, unit)
-    elif unit.lower().startswith("day"):
-        actual = "%.1f %s" % (minutes / 1440.0, unit)
-    else:
-        actual = "%d %s" % (round(minutes), unit)
     body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    unit = statement["unit"]
+    actual = _elapsed(body, unit)
     lanes = [ln for ln in body.splitlines() if ln.startswith("LANES:")]
     divergence = lanes[0].split("divergence:")[-1].strip() if lanes \
         else "no lane decision was recorded at take-up"
@@ -1006,19 +1133,27 @@ def reopen(plan_path: Path, checkpoints_dir: Path, task_id: str,
     if not false_condition or not evidence:
         raise AdmissionError("reopening names the false condition and the evidence for it")
     plan = Path(plan_path).read_text(encoding="utf-8")
-    start, end, mark, _ = _row_span(plan, task_id)
+    start, end, mark, title = _row_span(plan, task_id)
     if mark != DONE:
         raise AdmissionError("only a done ticket reopens: %s is marked %s" % (task_id, mark))
 
     cp = _checkpoint_path(checkpoints_dir, task_id)
-    # T8 reopens the SAME checkpoint, never a copy — so with no checkpoint there is nothing to
-    # reopen, and proceeding would leave a row marked in hand with no record of what the work is.
+    # T8 reopens the SAME checkpoint, never a copy. Where the row closed before checkpoints
+    # existed there is no file to reopen, and refusing here left such a row with no door into
+    # the kernel at all — every other transition needs the checkpoint this one was refusing to
+    # make (q-822, the adversarial read of 2026-09-06). So it opens one, saying in its own
+    # header where the row came from, and the NEXT below is the false condition that reopened it.
     if not cp.exists():
-        raise AdmissionError("%s has no checkpoint to reopen" % task_id)
+        checkpoint.new_checkpoint(
+            cp, title="%s \u2014 opened at reopen %s; the row predates checkpoints"
+                      % (title, datetime.date.today().isoformat()),
+            owner="pipeline",
+            decision_sheet="Goal: %s. The row closed before checkpoints existed, so this sheet "
+                           "carries the row's own goal and nothing the closed work recorded." % title)
     if checkpoint.read_checkpoint(cp)["status"] == "closed":
         checkpoint.reopen_checkpoint(cp)
     checkpoint.update_checkpoint(
-        cp, next="Reopened: %s was not true — %s" % (false_condition, evidence))
+        cp, next="Reopened: the done was false — %s; evidence: %s" % (false_condition, evidence))
     _rewrite_row(plan_path, task_id, mark=IN_HAND if _holder(plan[start:end]) else QUEUED)
 
 
@@ -1051,12 +1186,48 @@ def worker_brief(plan_path: Path, checkpoints_dir: Path, task_id: str) -> str:
     the one that turns out to be wrong.
     """
     plan = Path(plan_path).read_text(encoding="utf-8")
-    start, end, _, _ = _row_span(plan, task_id)
+    if not (task_id or "").strip():
+        raise AdmissionError(PRE_SPAWN)
+    try:
+        start, end, _, _ = _row_span(plan, task_id)
+    except AdmissionError:
+        raise AdmissionError("%s: %s" % (task_id, PRE_SPAWN))
+    row = plan[start:end]
+    if not read_dod(row)[0].strip():
+        raise AdmissionError("%s carries no definition of done: %s" % (task_id, PRE_SPAWN))
+    if not _has_acceptance_key(Path(plan_path).parent, task_id):
+        raise AdmissionError(
+            "%s carries no acceptance command — write the row's key into scripts/plan_checks.py, "
+            "which is where this gate reads them from: %s" % (task_id, PRE_SPAWN))
     cp = _checkpoint_path(checkpoints_dir, task_id)
     if not cp.exists():
         raise AdmissionError("%s has no checkpoint to brief from" % task_id)
     nxt = checkpoint.read_checkpoint(cp)["sections"].get("NEXT", "").strip()
     return plan[start:end].strip() + "\n\n## NEXT\n\n" + nxt + "\n"
+
+
+PRE_SPAWN = ("no worker or subagent starts before an admitted row on the one board with a "
+             "definition of done and an acceptance command; a report or a row written after the "
+             "work is not admission (the tlvphotos defect, 2026-09-06)")
+
+
+def _has_acceptance_key(tree: Path, task_id: str) -> bool:
+    """True when the tree's own scripts/plan_checks.py names a key for the row.
+
+    The pre-spawn gate's third leg reads the keys of the tree that holds the plan, so a test
+    host and the real repository are each judged by their own table.
+    """
+    keys = Path(tree) / "scripts" / "plan_checks.py"
+    if not keys.exists():
+        return False
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("host_plan_checks", keys)
+    mod = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(mod)
+    except Exception:  # noqa: BLE001 — a table that does not load names no key
+        return False
+    return bool(getattr(mod, "CHECKS", {}).get(task_id))
 
 
 def main() -> int:
@@ -1126,7 +1297,7 @@ def main() -> int:
         if args.op == "hold":
             hold(plan, args.id, args.holder, checkpoints_dir=cps, lanes=args.lanes)
         elif args.op == "validate":
-            print(json.dumps({"status": "ok", **validate(plan, args.id, reader=args.reader)},
+            print(json.dumps({"status": "ok", **validate(plan, args.id, reader=args.reader, checkpoints_dir=args.checkpoints)},
                              ensure_ascii=False))
             return 0
         elif args.op == "correct":

@@ -1,0 +1,12 @@
+{
+  "id": "FJ",
+  "closes": false,
+  "reason_kind": "taste call",
+  "reasoning": "The delivered state has two artifacts that both meet everything a machine can decide — same PLAN.md source, the same passing `tests/test_board_matches_the_canon.py`, every declared row shown — so nothing left to settle is a buildable fact. What remains is which of two correct-looking layouts is 'easier to scan', and the case states that nothing in the tree measures it and no earlier decision settles it. The document's closing rule is that 'A shown result closes the work; the human's own eye is never the gate on an ordinary delivery', but it carves out exactly this: naming his eye as the check is legitimate when the row 'is describing one of the three cases base rule 12/27 already reserve for him — a taste call, a trade-off no artifact settles, or a change to the definition of correct that is still an open fork — never an ordinary buildable result a command, a test, or a plain read already confirms was delivered.' A command and a test already confirm both layouts, and confirm them equally; they cannot pick between them, so this is not the ordinary delivered result the rule closes over. It is his taste call: 'ask the person only for a product choice no artifact settles.' The pipeline shows both and takes his word, and per the verdict rule his 'verdict — approval or rejection — is itself the movement end for the judged artifact, written into the task's board row or project charter in the same minute it lands.'",
+  "label": "FJ",
+  "skill_sha256": "1495ce735adf14d87dc28c0196ce9b154bfafa650a0a2568ff580c007b9c1c57",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "scenario": "ask-which-of-two-board-layouts-ships"
+}

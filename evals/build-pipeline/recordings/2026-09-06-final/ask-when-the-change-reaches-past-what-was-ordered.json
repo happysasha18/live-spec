@@ -1,0 +1,12 @@
+{
+  "id": "NX",
+  "closes": false,
+  "reason_kind": "change to the definition of correct",
+  "reasoning": "The narrow half — an act named on a scenario expecting no act must fail — is an ordinary delivered result and would close on its own. But the same branch also changed the wider case nobody asked about: an extra act named beside a real one, which the eval's written cost model deliberately prints as a note rather than a failure, now fails, turning four runs red that are right in every other field. The procedure names exactly this: 'The converse holds too: where a delivered change reaches past what he ordered and redefines behaviour he never named, that wider half is the third case, and an artifact describing the old behaviour is what the change is weighed against rather than a decision to change it.' The third case is 'a change to the definition of correct that is still an open fork' — one of the three that base rule 12/27 reserve for him. The cost model is the artifact describing the old behaviour, and nobody has said which behaviour the wider case should have, so the fork is open rather than settled. The exemption does not apply: 'A redefinition he ordered himself is not that third case' — he ordered only the narrow branch, and 'Splitting the two cases apart is possible and was not asked for.' Nor is this a row parked on his eye against 'A shown result closes the work; the human's own eye is never the gate on an ordinary delivery' — that sentence exempts only 'an ordinary buildable result a command, a test, or a plain read already confirms was delivered', and here a plain read of the 35 recorded runs shows the delivered code disagreeing with the written cost model, which is the fork itself, not confirmation of delivery. 'Needing the owner's choice is not blocked', so the row stands open on the fork, and the case gets shown to him with the two behaviours the wider branch could have.",
+  "label": "NX",
+  "skill_sha256": "1495ce735adf14d87dc28c0196ce9b154bfafa650a0a2568ff580c007b9c1c57",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "scenario": "ask-when-the-change-reaches-past-what-was-ordered"
+}

@@ -19,6 +19,7 @@ import pathlib
 import re
 import shutil
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -293,3 +294,127 @@ class TestAKeyCannotHideAFailureInsideAPipe(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestAPassingCommandDoesNotCloseARow(unittest.TestCase):
+    """The mark governs. A row leaves the open list through `verify` and `close`, never because
+    its acceptance command started to pass.
+
+    `evaluate` drew ✅ on any passing command whatever the row's own mark said. So on 2026-09-06
+    the probe printed "0 open" and "every row is finished" while q-816 stood 🔄 with a holder on
+    it, and the board filed that row's card under Done as *landed*. The command tells whether the
+    work would pass acceptance today; it does not perform the close.
+    """
+
+    PLAN = (
+        "# Plan\n\n## Tasks\n\n"
+        "### 🔄 A task in hand whose key already passes — id: plan-0\n"
+        "**Group:** Machinery · **Priority:** normal\n"
+        "**Source:** the test.\n\n"
+        "Its acceptance command is `true`, and nobody has closed it.\n\n"
+        "## Blockers\n\n- none\n"
+    )
+
+    def _run(self, reader):
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, str(tmp), True)
+        for rel in NEEDED:
+            dst = tmp / rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / rel, dst)
+        (tmp / "PLAN.md").write_text(self.PLAN, encoding="utf-8")
+        checks = tmp / "scripts" / "plan_checks.py"
+        checks.write_text(
+            checks.read_text(encoding="utf-8") + '\nCHECKS.clear()\nCHECKS["plan-0"] = "true"\n',
+            encoding="utf-8",
+        )
+        r = subprocess.run(
+            ["bash", str(tmp / reader)], cwd=str(tmp), capture_output=True, text=True,
+            env={**os.environ, "HOME": str(tmp)},
+        )
+        return tmp, r
+
+    def test_the_probe_keeps_the_rows_own_mark_and_counts_it_open(self):
+        _, r = self._run("scripts/state-probe.sh")
+        line = [ln for ln in r.stdout.splitlines() if "plan-0" in ln]
+        self.assertTrue(line, "the probe printed no line for the task:\n%s" % r.stdout)
+        self.assertIn("🔄", line[0], "a row in hand was promoted by its own command: %r" % line[0])
+        self.assertNotIn("✅", line[0])
+        self.assertIn("acceptance passes", line[0],
+                      "the row keeps its mark but says nothing about its command: %r" % line[0])
+        summary = [ln for ln in r.stdout.splitlines() if "more below ·" in ln]
+        self.assertTrue(summary, "the probe printed no summary line:\n%s" % r.stdout)
+        self.assertIn("1 open", summary[0],
+                      "work in hand is counted as finished: %r" % summary[0])
+        self.assertNotIn("every row is finished", r.stdout,
+                         "the probe called the plan finished over a row in hand:\n%s" % r.stdout)
+
+    def test_the_board_stands_the_row_in_work_and_not_in_done(self):
+        tmp, r = self._run("scripts/render-board.sh")
+        page = (tmp / "board.html").read_text(encoding="utf-8")
+        inwork = page.split("col inwork", 1)[-1].split("col ready", 1)[0]
+        self.assertIn("card-plan-0", inwork,
+                      "the row in hand left the in-work column:\n%s" % r.stdout)
+        self.assertNotIn("landed", page.split("<h2>Done</h2>", 1)[-1].split("</div>", 1)[0])
+        self.assertIn("a card leaves when its row closes", page,
+                      "the in-work column still says a passing command empties it")
+
+class TestAReaderNeverRunsInsideACheck(unittest.TestCase):
+    """The circuit breaker: an acceptance command can never re-enter the probe or the renderer.
+
+    evaluate() runs every key; a key that runs a reader runs evaluate() again, and each level
+    plants a copy of the tree. On 2026-09-06 two board keys did exactly that, and the fan-out
+    reached hundreds of renderers four levels deep and a load average past 160 before it was
+    killed by hand. The breaker lives in the one home every reader shares, plan_checks_core:
+    run_key() marks each child with LIVE_SPEC_EVALUATING and evaluate() refuses to start under
+    that mark — exit 3, one line, no child of its own. So the depth is one, whatever a key says.
+    """
+
+    PLAN = (
+        "# Plan\n\n## Tasks\n\n"
+        "### ✅ A key that runs the probe — id: plan-0\n"
+        "**Group:** Machinery · **Priority:** normal\n"
+        "**Source:** the test.\n\n"
+        "Its acceptance command runs the probe itself.\n\n"
+        "## Blockers\n\n- none\n"
+    )
+
+    def _plant(self):
+        tmp = pathlib.Path(tempfile.mkdtemp())
+        self.addCleanup(shutil.rmtree, str(tmp), True)
+        for rel in NEEDED:
+            dst = tmp / rel
+            dst.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(ROOT / rel, dst)
+        (tmp / "PLAN.md").write_text(self.PLAN, encoding="utf-8")
+        checks = tmp / "scripts" / "plan_checks.py"
+        # The key counts its own entries, then runs the probe: without the breaker every level
+        # appends a line and starts another level; with it the inner probe refuses at once. The
+        # key stops itself at three lines, so the red-proof against a core with no breaker is
+        # bounded by construction and can never fan out.
+        checks.write_text(
+            checks.read_text(encoding="utf-8")
+            + '\nCHECKS.clear()\nCHECKS["plan-0"] = "echo x >> depth.txt && test $(wc -l < depth.txt) -lt 3 && bash scripts/state-probe.sh >/dev/null 2>depth.err; test $? -eq 3"\n',
+            encoding="utf-8",
+        )
+        return tmp
+
+    def test_a_key_that_runs_the_probe_stops_at_depth_one(self):
+        tmp = self._plant()
+        env = {k: v for k, v in os.environ.items() if k != "LIVE_SPEC_EVALUATING"}
+        env["HOME"] = str(tmp)
+        r = subprocess.run(["bash", str(tmp / "scripts" / "state-probe.sh")], cwd=str(tmp),
+                           capture_output=True, text=True, env=env, timeout=120)
+        depth = (tmp / "depth.txt").read_text(encoding="utf-8").count("x") if (tmp / "depth.txt").exists() else 0
+        self.assertEqual(depth, 1, "the probe re-entered itself %d level(s) deep" % depth)
+        err = (tmp / "depth.err").read_text(encoding="utf-8") if (tmp / "depth.err").exists() else ""
+        self.assertIn("refuses to re-enter", err, "the inner probe did not refuse with the breaker's line: %r" % err)
+        self.assertEqual(r.returncode, 0, r.stderr[-800:])
+
+    def test_evaluate_refuses_under_the_mark_before_reading_a_row(self):
+        r = subprocess.run([sys.executable, "-c",
+                            "import sys; sys.path.insert(0, 'scripts'); import plan_checks_core as c; c.evaluate([])"],
+                           cwd=str(ROOT), capture_output=True, text=True,
+                           env={**os.environ, "LIVE_SPEC_EVALUATING": "1"})
+        self.assertEqual(r.returncode, 3, r.stderr)
+        self.assertIn("refuses to re-enter", r.stderr)

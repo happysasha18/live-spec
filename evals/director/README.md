@@ -655,3 +655,13 @@ score line itself keeps its exact shape, because `scripts/state-probe.sh` and
 `scripts/plan_checks.py` read it with `tail -1`, and the variance reds stay printed rather than
 swallowed: a scenario that oscillates is worth seeing even when it is not a defect. With no
 `recorded_pair` on file the exit falls back to the clean sweep and says so on its own line.
+
+## When a recording is owed (rule from 2026-09-06 15:34)
+
+A recording pair is owed once per push, after the last edit to the skill under test, never per
+edit. On 2026-09-06 the pack re-recorded after every one-sentence fold — eight full Director
+recordings and twenty of the closing set in one day, about 550 producers — and the method gained
+nothing from the intermediate pairs: the verdict that matters is the pair against the text that
+ships. So: edit, review, edit again if the review says so, and record the pair last, against the
+final bytes; the hash pin proves which text it was. An intermediate pair is run only when a
+change is suspected of moving behaviour and the answer decides the next edit.

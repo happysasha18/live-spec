@@ -284,3 +284,103 @@ why it does not fire there, which is the discrimination the fix had to keep. Not
 finding and neither document was edited again. The runs on file are recording 20; recordings 17, 18
 and 19 are kept whole under `recordings/2026-09-06-pair-9/`, `recordings/2026-09-06-pair-9-second/`
 and `recordings/2026-09-06-pair-10/`.
+
+### 2026-09-06 (the kernel's four holes) — three pairs, two folds between them
+
+An adversarial read of `e65ae0ee` found four ways a row got past the closure kernel without meeting
+it, and all four were closed in `scripts/task-admission.py`: `close` skipped the whole kernel when
+the row's checkpoint was gone (every check sat inside `if cp.exists():` while the ✅ mark was
+written anyway); a row that predates the kernel carries no recorded hash of its done, so the
+comparison passed in silence; `read_dod` looked only for `**Done when:**`, so such a row hashed the
+empty string and the surface guard had nothing to fire on; and `reopen` refused a row with no
+checkpoint, leaving a row closed before checkpoints existed with no door back in. The reference
+gained the fewest sentences that state them — close refuses a missing checkpoint, a closed row
+re-enters through `reopen`, and a pre-kernel row's frozen `**Acceptance:**` is its done and gets its
+hash at its first verification (17,641 → 18,326 bytes; the body unchanged).
+
+| recording | text | score | red |
+|---|---|---|---|
+| 21 | after the kernel repair, `acc9575e…` | 9 of 9 | — |
+| 22 | after the kernel repair, `acc9575e…` | 9 of 9 | — |
+
+Intersection and symmetric difference both empty. **The finding came from the review beside it.**
+The reference's cold reader compared the body's `verify` line against the reference's and found two
+different specifications of one CLI: the body showed a single `--command` where the reference has
+`[--command ...]`, and `--surface <path>` where the reference has `<path-or-url>`. The body is the
+one place that promises a session holding only it can run these three commands, so a body-only
+session would have written a receipt naming one check and no URL. The signature was corrected in the
+body (`SKILL.md`: 8,040 → 8,065 bytes; the reference unchanged).
+
+| recording | text | score | red |
+|---|---|---|---|
+| 23 | after the signature fold, `e22d4c41…` | 9 of 9 | — |
+| 24 | after the signature fold, `e22d4c41…` | 9 of 9 | — |
+
+Intersection and symmetric difference again empty, no finding, no further edit from this pair. The
+text then moved once more for the owner's own word of 15:24, which the reference took in his
+sentences: anything the pipeline starts — a worker, a test run, a render — has an expected duration,
+the seat looks at what is still running at every wake-up and between stages rather than waiting for
+a notification, and a process past its time with no output is inspected, ended and named in the
+report (18,326 → 18,734 bytes). The body has no lane-rule home for a matching line, so the reference
+holds it alone.
+
+| recording | text | score | red |
+|---|---|---|---|
+| 25 | after the wake-up rule, `4c2ba5df…` | 9 of 9 | — |
+| 26 | after the wake-up rule, `4c2ba5df…` | 9 of 9 | — |
+
+Intersection and symmetric difference empty. The runs on file are recording 26. Recordings 21 to
+25 were never committed and were removed with the rest of `recordings/` at 17:00, so this run log
+is the only record of them; the four pair directories an earlier draft of this paragraph named are
+in neither the tree nor git history.
+
+Four clean pairs now stand in a row. `ask-when-the-change-reaches-past-what-was-ordered`, red six
+times before the converse clause landed and the source of this set's only shared finding, has been
+green on all ten recordings since.
+
+**A note on the cost, and the standing rule it changes.** Three pairs in one afternoon is
+fifty-four producer runs for two document edits, and the pairs after the first told us nothing the
+first had not. Re-recording per edit is what this directory's rule literally asks for, and the day
+proved the rule too eager: the recording belongs after the last edit of a working session, not after
+each one. From 2026-09-06 the pair and the skill-creative review run once, at the end of a session's
+edits to these two documents.
+
+### 2026-09-06 (the session's final pass) — the pair on file
+
+The first pair recorded under the cadence the note above adopted: once, after the last edit these
+two documents take in a session. Between recording 26 and this pair the reference took the prover
+pass's four paragraphs — the round-two monitoring rule, the brief's line about a lead watching its
+own spawns, the estimate-basis rule and the pre-spawn paragraph — plus the reopen/abandon repairs,
+and the skill-creator review run beside this pair folded one more: the reference cited the rules
+reserving the three human cases as bare "rule 12/27" while giving rule 7 its file in the same
+document, so the first mention now names the ladder — "base rule 12/27" — in the pack's own form
+(`references/accepted-work-execution.md`: 20,702 → 20,707 bytes; `SKILL.md` unchanged at 8,065).
+The full review is the second section of `docs/skill-review/2026-09-06-build-pipeline.md`. The pair
+was recorded against those final bytes, opaque labels reissued for each recording, the nine
+producers of a recording running side by side and the two recordings one after the other.
+
+| recording | text | score | red |
+|---|---|---|---|
+| 27 | the session's final bytes, `1495ce73…` | 9 of 9 | — |
+| 28 | the session's final bytes, `1495ce73…` | 9 of 9 | — |
+
+Intersection and symmetric difference both empty. The third clean pair on record and the fifth in a
+row, so the pair holds no finding and neither document was edited after it. The runs on file are
+recording 28; recording 27 is kept whole under `recordings/2026-09-06-final/` — the one pair kept
+in the tree, committed with the push it covers.
+
+`ask-when-the-change-reaches-past-what-was-ordered` was green on both runs again. Both producers
+quote the converse clause by name to hold the row open on the wider half, and the two producers of
+`close-a-redefinition-the-person-himself-ordered` quote the same clause to say why it does not fire
+there — the discrimination the fix had to keep, now standing on four independent readings. Across
+twenty-eight recordings that scenario has gone red six times, all of them before the clause landed,
+and none since.
+
+## Recordings kept in the tree (2026-09-06 17:00)
+
+`recordings/` holds one directory, `2026-09-06-final/` — the first recording of the pair this push
+carries; the whole directory was emptied at 17:00 and that pair is what has been put back into it. Pairs 5 to 10 stay in git
+history (commit e65ae0ee and before) and can be read back from there; pairs 11 to 13 were never
+committed and are gone, so the run log above is all that records them. Their scores are what that
+log says. From here a pair is recorded once per push, after the last edit to the skill under test,
+and the pair that push carries is committed.
