@@ -1543,8 +1543,12 @@ class TestTargetOwnership(unittest.TestCase):
         # it to build after package 2. Requirement 309 is restored, and its two `[target]` anchors
         # are re-pointed to `q-816` — a fresh row carrying a real, checkable trigger (package 2
         # closing) rather than q-811's "a real ask for it".
-        "INV-308": "q-816",  # the work board surface, kept and deferred until after package 2
-        "INV-67": "q-816",   # the board's one-stable-link published page
+        # INV-308 and INV-67 dropped 2026-09-06 with criterion 8's own `[target]` marker, in
+        # the same commit, per SPEC S-0 (a satisfied promise leaves both the tag and its map
+        # entry). The board is published: `.github/workflows/pages.yml` renders it with this
+        # repository's own `scripts/render-board.sh` on every push to main and serves that one
+        # file at https://happysasha18.github.io/live-spec/board.html — verified live at that
+        # URL before this edit. There is no second board store and no committed page.
         # Requirement 315 (the idea shelf) stays retired: the owner's correction forbids the
         # mechanism itself, unrelated to the R309/turnkey-contract collision above. Its only
         # `[target]` sat on the requirement's own heading line, which carries no trailing anchor

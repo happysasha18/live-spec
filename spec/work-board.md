@@ -1,5 +1,4 @@
 ## Requirement 309: The work board shows the whole queue in columns — the work in hand, the work done, and what each took
-   [target]
 
 **Context:** The person leads several windows and asks at any moment what the agent is doing. The work board holds that answer on a page, open whenever the person looks. It is the rendered status page the pack already promises, grown up, so one surface keeps one name. That page is one source file in the host's tree, published at one stable link the person opens from any device. A task reaches the work board when its wish is captured, before its statement is validated: validation gates entry into work, never entry onto the page. A row stays after the task closes, so the page carries what is being done and what was done, each with its time. The chat's departures board keeps its own job. The page carries the whole queue in columns, the work in hand among them. Every row the page shows stands in one column: an open row by the state its queue row records, a closed row in the done column read from the queue archive. The far tier stays off the page under its own request law, and the queued rows standing below the runnable head collapse into a stated count. A card reads as a task at a glance — its echo-name first, then what the change does, then its chips — and the technical detail sits behind the card. Each running step names the worker on it by a craft name and an icon, so which worker runs which task reads at one glance. The work board's form follows the sketch the person already approved, frozen as a norm copy under `docs/norms/` and cited by the form clause's norm pointer.
 
@@ -20,7 +19,6 @@
 6. The system *shall* read the work board as the rendered status page the pack already promises, one rendered surface under one name. [INV-308, INV-71]
 7. The system *shall* hold the work board as one source file in the host's tree. [INV-308]
 8. The system *shall* publish that source file at one stable link, updated from it, so the person opens the work board from any device. [INV-308, INV-67]
-   [target]
 9. The system *shall* register the work board in the host's surface registry `SURFACES.md`, with the marker text the completeness check reads in the rendered page and the spec anchors it answers to, before it renders. [E-10]
 10. The system *shall* lead the work board with the one-line identifier every opened artifact carries — its project, and what it needs of the person. [INV-51]
 11. The system *shall* keep one work board per host project and *shall* name the session on every row. [INV-308]

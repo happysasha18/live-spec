@@ -706,8 +706,8 @@ def test_m542_an_empty_board_says_so_and_every_board_carries_its_stamp(board, tm
     The page's own five-second re-read this fact once also carried is retired (owner, 2026-09-02
     12:46), and M-540 above proves its absence.
     """
-    assert re.search(r"built \d{2}:\d{2}, \d{2}\.\d{2}\.\d{4}", board["page"]), \
-        "the page carries no freshness stamp"
+    assert re.search(r"built \d{2}:\d{2} \S+, \d{2}\.\d{2}\.\d{4}", board["page"]), \
+        "the page carries no freshness stamp, or none naming the zone it was read in"
     empty = _build_tree(tmp_path, plan_rows=[
         _row(QUEUED, "The head of an idle queue", "q-70", extra="\nNothing is running.\n")],
         checkpoints=False)
@@ -716,7 +716,7 @@ def test_m542_an_empty_board_says_so_and_every_board_carries_its_stamp(board, tm
         page = fh.read()
     assert "Nothing is in hand right now" in page, "an empty board reads like a broken one"
     assert "The head of an idle queue" in page, "an empty board does not show the queue's head"
-    assert re.search(r"built \d{2}:\d{2}", page)
+    assert re.search(r"built \d{2}:\d{2} \S+, \d{2}\.\d{2}\.\d{4}", page)
 
 
 # --------------------------------------------------------------------------- M-543
@@ -984,7 +984,7 @@ class TestRealTree:
         assert "not built" not in col, "the ready column still claims its own check is unbuilt"
         assert "status: ready" in col, "the ready column does not name what puts a row in it"
         # Freshness: the stamp is this render's own minute, not an older one.
-        m = re.search(r"built (\d{2}):(\d{2}), (\d{2})\.(\d{2})\.(\d{4})", page)
+        m = re.search(r"built (\d{2}):(\d{2}) \S+, (\d{2})\.(\d{2})\.(\d{4})", page)
         assert m, "the page carries no freshness stamp"
         stamped = time.mktime(time.strptime(
             "%s-%s-%s %s:%s" % (m.group(5), m.group(4), m.group(3), m.group(1), m.group(2)),
@@ -996,3 +996,150 @@ class TestRealTree:
         assert window_start < stamped < window_end, (
             "the stamp is %ds before the render window and %ds after it" % (
                 window_start - stamped, stamped - window_end))
+
+
+# =========================================================================== a fresh clone
+# The page a stranger opens is not rendered on the machine that holds the work. It is rendered by
+# the Pages job, in a checkout minutes old, with `LIVE_SPEC_BOARD_CHECKS=off`. In that tree every
+# file's birth time and modification time is the checkout instant and no lane branch exists
+# locally, so every filesystem stamp the renderer used to trust said the same false thing: opened
+# now, moving now. Verified live at https://happysasha18.github.io/live-spec/board.html, built from
+# de542335 — "1 of 3 lanes busy" with q-816 in Lane 1, "running 0 min so far (opened 2026-09-06
+# 10:29)", every feed line stamped 10:29, "built 10:29" with no zone beside a UTC clock, and
+# "main in /home/runner/work/live-spec/live-spec" on a public page.
+#
+# This class reproduces that tree rather than describing it: a real `git clone` of this repository,
+# rendered in records-only mode. RED-PROVED 2026-09-06 against HEAD de542335's renderer —
+#   git show HEAD:scripts/render-board.sh > /tmp/redproof-board.sh
+#   LIVE_SPEC_BOARD_RENDERER=/tmp/redproof-board.sh python3 -m pytest -q \
+#       tests/test_work_board.py -k TestFreshClone
+# — where all four tests fail: the lane line, the clone-minute stamps, the zoneless build stamp and
+# the checkout path on the page.
+CLONE_SOURCE = ROOT
+
+
+@pytest.fixture(scope="module")
+def clone(tmp_path_factory):
+    """A real clone of this tree at HEAD, rendered the way the Pages job renders it.
+
+    The renderer under test is copied in over the clone's own copy, so the fixture proves the
+    working tree's renderer against a checkout's filesystem — and the red-proof override still
+    points at any earlier renderer.
+    """
+    if subprocess.run(["git", "rev-parse", "--verify", "HEAD"], cwd=ROOT,
+                      capture_output=True).returncode != 0:
+        pytest.skip("this tree carries no git history to clone (a nested gate copy); the fresh-clone "
+                    "proof runs on the real repository")
+    tree = str(tmp_path_factory.mktemp("freshclone") / "live-spec")
+    start = time.time()
+    r = subprocess.run(["git", "clone", "--quiet", CLONE_SOURCE, tree],
+                       capture_output=True, text=True)
+    assert r.returncode == 0, r.stderr
+    end = time.time()
+    shutil.copy(RENDERER, os.path.join(tree, "scripts", "render-board.sh"))
+    # What the runner has: no lane branch checked out locally, and no owner profile to read a cap
+    # from. The profile path is pointed at nothing so a developer's own ~/.claude cannot leak in.
+    assert not subprocess.run(["git", "branch", "--list", "lane/*"], cwd=tree,
+                              capture_output=True, text=True).stdout.strip(), \
+        "the clone carries a local lane branch — it is not the shape of the runner's checkout"
+    env = dict(os.environ, LIVE_SPEC_BOARD_CHECKS="off",
+               LIVE_SPEC_PROFILE=os.path.join(tree, "no-such-profile.md"))
+    out = os.path.join(tree, "published.html")
+    h = subprocess.run(["bash", os.path.join(tree, "scripts", "render-board.sh"), out],
+                       capture_output=True, text=True, cwd=tree, env=env)
+    assert h.returncode == 0, h.stderr
+    j = subprocess.run(["bash", os.path.join(tree, "scripts", "render-board.sh"), "--json"],
+                       capture_output=True, text=True, cwd=tree, env=env)
+    assert j.returncode == 0, j.stderr
+    with open(out, encoding="utf-8") as fh:
+        page = fh.read()
+    return {"tree": tree, "page": page, "model": json.loads(j.stdout),
+            "clone_start": start, "clone_end": end}
+
+
+def _git_recorded(tree, path):
+    """(first appearance, last write) of a file in a tree's git history, as the renderer reads it."""
+    def run(*a):
+        return subprocess.run(["git", *a], cwd=tree, capture_output=True, text=True).stdout.strip()
+    added = run("log", "--format=%ct", "--diff-filter=A", "--", path).splitlines()
+    last = run("log", "-1", "--format=%ct", "--", path)
+    return (int(added[-1]) if added else None, int(last) if last else None)
+
+
+class TestFreshClone:
+    """The published page, checked in the tree it is actually published from."""
+
+    def test_no_lane_is_judged_where_the_heartbeats_and_the_cap_do_not_live(self, clone):
+        """A busy lane is decided by a lane branch or by a heartbeat, and a checkout carries
+        neither: no local lane branch, and every mtime the checkout's own instant. The published
+        page counted q-816 into Lane 1 off exactly that, under a cap read from an owner profile
+        the runner does not have. "0 of 3 lanes busy" would be no better — the runner cannot see
+        the machine's lanes at all, so it says so instead of printing a figure."""
+        page = clone["page"]
+        assert "lanes busy" not in page, \
+            "the published page still prints a lane figure it has no way to know"
+        assert "lanes: not judged here" in page, "the page does not say the lanes are unjudged"
+        assert page.count("lanes: not judged here") >= 2, \
+            "the line stands on the identifying stamp and over the in-work column, not one of them"
+        assert clone["model"]["lanes_busy"] == 0 and \
+            not [l for l in clone["model"]["lane_rows"] if l["id"]], \
+            "a row is still seated in a numbered lane on a machine that holds no lane"
+        assert not re.search(r"<div class='lanelbl'>Lane \d", page), \
+            "an in-hand row still carries a lane number here"
+        # The rows in flight are still shown — unjudged is not dropped.
+        for row_id in clone["model"]["columns"]["inwork"]:
+            assert 'id="card-%s"' % row_id in page, "%s vanished with its lane" % row_id
+
+    def test_every_time_on_the_page_is_a_recorded_one_not_the_checkout_instant(self, clone):
+        """`git clone` stamps every file with the checkout instant, as birth time and as mtime
+        alike, so q-816 published as "running 0 min so far (opened 2026-09-06 10:29)" and every
+        line of the feed carried that same minute. Times here come from git — the record — and a
+        file git has no record of reads as not recorded."""
+        model, page = clone["model"], clone["page"]
+        assert "running 0 min" not in page, "a row still opens at the moment of the checkout"
+        # No card carries a time inside the minutes the clone itself ran.
+        minutes = {time.strftime("%Y-%m-%d %H:%M", time.localtime(t))
+                   for t in (clone["clone_start"], clone["clone_end"])}
+        for minute in minutes:
+            assert minute not in page, \
+                "the page prints %s, which is when the checkout happened, not when work did" % minute
+        # And each recorded time is the one git holds for that row's own checkpoint.
+        checked = 0
+        for row_id, card in model["cards"].items():
+            if not card["opened"]:
+                continue
+            born, _ = _git_recorded(clone["tree"],
+                                    os.path.join(".live-spec", "checkpoints", "%s.md" % row_id))
+            assert born, "%s carries an opened time with no record behind it" % row_id
+            expected = time.strftime("%Y-%m-%dT%H:%M", time.localtime(born))
+            assert card["opened"] == expected, (row_id, card["opened"], expected)
+            checked += 1
+        assert checked, "no row carries a recorded opened time — this test proved nothing"
+        # q-816 by name: the row the published page said had just opened.
+        card = model["cards"]["q-816"]
+        born, _ = _git_recorded(clone["tree"], ".live-spec/checkpoints/q-816.md")
+        assert card["opened"] == time.strftime("%Y-%m-%dT%H:%M", time.localtime(born))
+        assert card["opened"] not in ("".join(m.replace(" ", "T")) for m in minutes)
+        # A row whose checkpoint git never saw says so rather than borrowing a time.
+        assert "opened: not recorded" in page
+
+    def test_the_build_stamp_names_the_zone_it_was_read_in(self, clone):
+        """The runner's clock is UTC and the reader's is not. "built 10:29" told a reader whose
+        watch said 13:29 that the page was four hours stale."""
+        m = re.search(r"built \d{2}:\d{2} (\S+), \d{2}\.\d{2}\.\d{4}", clone["page"])
+        assert m, "the build stamp carries no zone name"
+        assert re.match(r"^[A-Za-z][A-Za-z0-9+\-]{1,6}$", m.group(1)), \
+            "the zone token is not a zone name: %r" % m.group(1)
+
+    def test_the_page_names_no_path_on_the_machine_that_rendered_it(self, clone):
+        """"Branch and worktree: main in /home/runner/work/live-spec/live-spec" stood on the
+        project's one public link. A checkout path on the rendering machine says nothing true to a
+        reader about where the work lives."""
+        page = clone["page"]
+        assert clone["tree"] not in page, \
+            "the page prints the path of the checkout it was rendered in"
+        assert "/home/runner" not in page and "/Users/" not in page
+        assert "Branch and worktree" not in page, \
+            "the page still points a reader at a tree that is not there"
+        assert "Published from:" in page and "GitHub Actions" in page, \
+            "the page names no publisher in the worktree line's place"

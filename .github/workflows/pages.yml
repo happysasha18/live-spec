@@ -39,7 +39,11 @@ jobs:
     steps:
       - uses: actions/checkout@v5
         with:
-          fetch-depth: 0    # the renderer reads git — HEAD's subject, the lane branches, the worktrees
+          # The renderer reads git for HEAD's subject and the lane branches, and — in
+          # records-only mode — for every time on the page: a checkout's own file stamps are all
+          # the checkout instant, so the commit history is the only record of when a row opened.
+          # Shallow this and every row reads "opened: not recorded".
+          fetch-depth: 0
       - uses: actions/setup-python@v6
         with:
           python-version: "3.12"

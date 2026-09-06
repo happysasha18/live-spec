@@ -375,6 +375,10 @@ def _judged_status():
         path = line[3:].strip().strip('"')
         if line.startswith("??") and (path.endswith("__pycache__/") or path.endswith(".pyc")):
             continue
+        # Gate B records the suite's own green in this one checkpoint by design (the meta
+        # suite-green checkpoint); the guard reads it as the suite's record, not as a mutation.
+        if path == ".live-spec/checkpoints/meta-suite-green.json":
+            continue
         keep.append(line)
     return "\n".join(keep)
 

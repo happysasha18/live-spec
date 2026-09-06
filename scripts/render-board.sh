@@ -20,6 +20,13 @@
 # (`.live-spec/turnkey-contract-composed.md:304`). This page does not reload itself, polls nothing,
 # and runs no timer. It is static HTML, drawn again when something changes.
 #
+# It renders in one of two modes. On the machine that holds the work it re-runs each row's own
+# acceptance command and reads the checkpoint mtimes the resume protocol already treats as
+# heartbeats. With LIVE_SPEC_BOARD_CHECKS=off — the mode the Pages job publishes in — it does
+# neither: a checkout is not the machine that wrote these files, so a row is shown as the plan
+# records it, every time comes from git rather than from a filesystem stamp, and the lanes are not
+# judged at all, since neither the heartbeats nor the lane cap exist off that machine.
+#
 # Usage: bash scripts/render-board.sh [output-file]   (default: board.html at repo root)
 #        bash scripts/render-board.sh --json          (the model the page is drawn from, no write)
 
@@ -106,9 +113,41 @@ def read_text(path):
 # estimate says so; a row that closed before statements carried estimates says THAT, because
 # "no estimate recorded" on a row nobody could have estimated reads as a defect that is not one.
 NOW = datetime.now()
+# The zone the stamp is read in. A naive datetime's %Z is the empty string, so the page printed a
+# bare "built 10:29" — the runner's UTC clock, read by a person whose own watch said 13:29 and who
+# has nothing on the page to tell the two apart.
+ZONE = NOW.astimezone().strftime("%Z")
+
+# Records-only mode, the one flag that says this render is happening off the machine that holds the
+# work. Two things are true only on that machine: a row's acceptance command can be run, and a
+# filesystem stamp was written by the work rather than by a checkout. Both are read from here.
+RECHECK = os.environ.get("LIVE_SPEC_BOARD_CHECKS", "on").strip().lower() != "off"
+
+
+def git_stamps(path):
+    """(first recorded write, last recorded write) for a file, read from git.
+
+    The only history a clone actually carries. A path git has no record of returns (None, None),
+    which the page prints as *not recorded* rather than as a time it made up.
+    """
+    added = git("log", "--format=%ct", "--diff-filter=A", "--", path).splitlines()
+    last = git("log", "-1", "--format=%ct", "--", path)
+    return (datetime.fromtimestamp(int(added[-1])) if added else None,
+            datetime.fromtimestamp(int(last)) if last else None)
 
 
 def stamps(path):
+    """(opened, last written) for a record file.
+
+    A filesystem stamp is not evidence on a clone: `git clone` gives every file the checkout
+    instant as both its birth time and its modification time. That is how the published page came
+    to say q-816 was "running 0 min so far (opened 2026-09-06 10:29)" and to count a busy lane off
+    a heartbeat that was really the checkout. In records-only mode the times come from git alone.
+    On the owner's own machine the mtime IS the heartbeat the resume protocol reads
+    (docs/worker-liveness.md), so there it stands as it did.
+    """
+    if not RECHECK:
+        return git_stamps(path)
     try:
         st = os.stat(path)
     except OSError:
@@ -234,6 +273,13 @@ def liveness_window():
                   read_text(os.path.join("docs", "worker-liveness.md")) or "")
     return int(m.group(1)) if m else 2
 
+
+# What the in-work column says instead of a lane count when neither half of one can be known here:
+# the heartbeats that decide a busy lane are filesystem stamps a clone does not carry, and the cap
+# is read from the owner's own profile, which is not on the runner at all. "0 lanes busy" would be
+# as false as the "1 of 3" the page printed.
+LANE_NOT_JUDGED = ("lanes: not judged here — the heartbeats and the lane cap live on the machine "
+                   "that holds the work")
 
 CAP = lane_cap()
 CLAIMS = lane_claims()
@@ -371,7 +417,6 @@ tasks = parse_tasks(text)
 # column of the project's one public link (the adversarial read of 2026-09-06). So the published
 # render reads the recorded marks and says so; the probe on the owner's own machine keeps the
 # live verdict, which is where a reopened row is a fact rather than a guess.
-RECHECK = os.environ.get("LIVE_SPEC_BOARD_CHECKS", "on").strip().lower() != "off"
 if not RECHECK:
     for t in tasks:
         t["check"] = None
@@ -679,6 +724,11 @@ def lane_liveness(card):
     claim = CLAIMS.get(card["id"])
     if claim:
         return True, "its lane %s is open" % claim["branch"]
+    if not RECHECK:
+        # A lane branch git holds is a record and reads the same anywhere. A heartbeat is not:
+        # off the holder's machine there is nothing to read one from, and reading the checkout's
+        # own mtimes as one is what published a busy lane over an idle row.
+        return False, LANE_NOT_JUDGED
     cp = CPS.get(card["id"])
     if not (cp and cp.get("changed")):
         return False, "no open lane, and no record of this holder to read a heartbeat from"
@@ -755,7 +805,7 @@ project = os.path.basename(os.path.abspath("."))
 head_sha = git("log", "-1", "--format=%h")
 head_subj = git("log", "-1", "--format=%s")
 dirty = len([l for l in git("status", "--porcelain").splitlines() if l.strip()])
-now_h = NOW.strftime("%H:%M, %d.%m.%Y")
+now_h = "%s %s, %s" % (NOW.strftime("%H:%M"), ZONE, NOW.strftime("%d.%m.%Y"))
 
 # What the board needs of the person, on the one identifying line every opened artifact carries
 # (criterion 10) — read from the waiting list, which is where an item waiting on him actually is.
@@ -913,7 +963,7 @@ def time_pair(card):
     if card["closed_date"]:
         return "%s → closed %s, with no stamps to read a duration from" % (head,
                                                                            card["closed_date"])
-    return "%s, and no checkpoint stamps to read a time from" % head
+    return "%s → opened: not recorded" % head
 
 
 def bullet_html(b):
@@ -929,7 +979,13 @@ def details_html(card):
         d += "<p class='st'><b>Stage the record names:</b> %s</p>" % render_inline_md(card["stage"])
     else:
         d += "<p class='st'><b>Stage:</b> not recorded on this row's checkpoint</p>"
-    if card["branch"]:
+    if not RECHECK and card["branch"]:
+        # The branch and the worktree are this machine's, and this machine is a runner: a public
+        # page printed "main in /home/runner/work/live-spec/live-spec", which tells a reader
+        # nothing about the work and something untrue about where it lives.
+        d += "<p class='st'><b>Published from:</b> GitHub Actions — the branch and worktree this " \
+             "row rides live on the machine that holds the work</p>"
+    elif card["branch"]:
         d += ("<p class='st'><b>Branch and worktree:</b> <code>%s</code> in <code>%s</code></p>"
               % (esc(card["branch"]), esc(card["worktree"] or "not checked out")))
     if card["bullets"]:
@@ -996,11 +1052,16 @@ def done_line(card):
 
 # ---------------------------------------------------------------- the in-work column
 lane_html = ""
-for lane in lanes:
+if not RECHECK:
+    lane_html = "<p class='freebox'>%s</p>%s" % (
+        LANE_NOT_JUDGED,
+        "".join(card_html(c) for c in BY_COLUMN["inwork"])
+        or "<p class='empty'>No row stands in hand in the plan as recorded.</p>")
+for lane in (lanes if RECHECK else []):
     if lane["card"]:
         lane_html += ("<div class='lane'><div class='lanelbl'>Lane %d</div>%s</div>"
                       % (lane["n"], card_html(lane["card"])))
-free_lanes = [l["n"] for l in lanes if not l["card"]]
+free_lanes = [l["n"] for l in lanes if not l["card"]] if RECHECK else []
 if free_lanes:
     lane_html += ("<div class='lane free'><div class='lanelbl'>Lane%s %s — free</div>"
                   "<p class='freebox'>%s. A free lane draws the head ready task the moment one "
@@ -1009,14 +1070,14 @@ if free_lanes:
                      ", ".join(str(n) for n in free_lanes),
                      "Holding no row" if len(free_lanes) == 1
                      else "%d of the %d lanes the cap allows hold no row" % (len(free_lanes), CAP)))
-if IDLE:
+if IDLE and RECHECK:
     # Still in this column — each of these rows is work begun and not finished — but none of them
     # is a running worker, so none of them counts against the lanes. Each says which it is.
     lane_html += ("<div class='lane'><div class='lanelbl'>Holding no lane</div>%s</div>"
                   % "".join("<p class='freebox'>%s — %s</p>%s"
                             % (esc(c["echo"]), esc(c["lane_note"] or "no lane"), card_html(c))
                             for c in IDLE))
-if not RUNNING:
+if not RUNNING and RECHECK:
     head = ("The head of the queue is: %s." % esc(RUNNABLE[0]["echo"])) if RUNNABLE \
         else "The queue behind it is empty too."
     lane_html = ("<p class='empty'>Nothing is in hand right now: no lane holds a row a worker is "
@@ -1059,7 +1120,8 @@ ready_html = ("".join(card_html(c) for c in BY_COLUMN["ready"])
                  "still awaiting that.</p>")
 
 COLUMNS = [
-    ("inwork", "In work", "%d of %d lanes busy" % (BUSY, CAP),
+    ("inwork", "In work",
+     ("%d of %d lanes busy" % (BUSY, CAP)) if RECHECK else LANE_NOT_JUDGED,
      "a card leaves when its acceptance command passes", lane_html),
     ("ready", "Ready", "%d" % len(BY_COLUMN["ready"]),
      "a card leaves when a free lane draws it", ready_html),
@@ -1155,7 +1217,7 @@ page = """<!DOCTYPE html>
 <body>
 
 <h1>{project} — the work board</h1>
-<div class="stamp">{needle} · {needs} · built {now} · {busy} of {cap} lanes busy
+<div class="stamp">{needle} · {needs} · built {now} · {lanes}
  · branch {branch} · {sha} &ldquo;{subj}&rdquo;{dirty} · {recheck}</div>
 
 <div class="board">{columns}</div>
@@ -1189,7 +1251,9 @@ not reload itself: draw it again when something changes.
 </html>
 """.format(
     project=esc(project), needle=esc(NEEDLE or "the work board"), needs=esc(NEEDS),
-    now=esc(now_h), busy=BUSY, cap=CAP, branch=esc(PRIMARY_BRANCH), sha=esc(head_sha),
+    now=esc(now_h),
+    lanes=esc(("%d of %d lanes busy" % (BUSY, CAP)) if RECHECK else LANE_NOT_JUDGED),
+    branch=esc(PRIMARY_BRANCH), sha=esc(head_sha),
     subj=esc(head_subj), dirty=(" · uncommitted files: %d" % dirty) if dirty else " · tree clean",
     columns=columns_html, waiting=waiting_html, waiting_file="WAITING.md", feed=feed_html,
     crafts=craft_html, unnamed=CRAFT_UNNAMED, cpdir=esc(CHECKPOINTS), archive=esc(ARCHIVE),
