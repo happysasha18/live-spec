@@ -760,15 +760,15 @@
 
 ## Requirement 321: Admission reads the record before it writes a row
 
-**Context:** A project's record is what it already settled: the rows on the live plan, the rows rotated into the queue archive, the decisions on record, and the commits that landed them. Admission read almost none of it. It compared a new title against the live plan alone, so a closed row whose full record had rotated into the archive was invisible, a decision already taken was invisible whatever it said, and the log was never opened. Work already done could be admitted again, and an approach already ruled out could come back, with nothing in the way. The read moves into the door itself: the route carries what it read and what it found, every reference it names has to resolve to something a reader can open, and a title the record already carries lifts only against a written record of what is new.
+**Context:** A project's record is what it already settled: the rows on the live plan, the rows rotated into the queue archive, the decisions on record, and the commits that landed them. Admission read almost none of it. It compared a new title against the live plan alone, so a closed row whose full record had rotated into the archive was invisible, a decision already taken was invisible whatever it said, and the log was never opened. Work already done could be admitted again, and an approach already ruled out could come back, with nothing in the way. The door now reads the live plan and the queue archive directly, and the route carries what it read elsewhere — the decision record, the commit log — and what it found there: every reference it names has to resolve to something a reader can open, and a title the record already carries lifts only against a written record of what is new.
 
-**User Story:** As a person whose project has a long record, I want admission to read that record before it writes a row, so that finished work stays finished and a settled decision stays settled without me holding it all in my head.
+**User Story:** As a person whose project has a long record, I want admission to check against that record before it writes a row, so that finished work stays finished and a settled decision stays settled without me holding it all in my head.
 
 ### Acceptance Criteria
 
 **Case: the read happens at the door**
 
-1. *when* new work is admitted, the system *shall* read the record — the live plan's rows, the queue archive's rows, the decision record, and the commit log — before the row is written. [INV-327]
+1. *when* new work is admitted, the system *shall* read the live plan's rows and the queue archive's rows, and *shall* resolve any decision-record or commit-log reference the route names, before the row is written. [INV-327]
 2. The system *shall* carry that read on the route as the references consulted and the finding they produced, and *shall* write both onto the row it admits, so the next session reads them where it already looks. [INV-327, INV-43]
 3. The system *shall* refuse a reference that resolves to no row on the record, no commit in the tree, and no dated entry in the decision record. [INV-327]
 

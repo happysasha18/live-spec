@@ -724,11 +724,14 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
     supersedes = read_supersedes(route, tree_root)
 
     normalized_title = " ".join(route["title"].lower().split())
+    # Runs to the end rather than stopping at the first match: a title standing on two rows
+    # must have both checked, or superseding one silently admits the row past the other
+    # (prover review, docs/prover/2026-09-07-the-door-reads-the-record-and-where-that-read-goes-soft.md, F8).
     for title, on_record, where in record_rows(tree_root):
         if title != normalized_title:
             continue
         if supersedes and supersedes["names"] == on_record:
-            break
+            continue
         raise AdmissionError(
             "%s already carries this title (%s). Saying it again is admitted only against a "
             "supersedes record naming that row, what is new in this request, and why the "

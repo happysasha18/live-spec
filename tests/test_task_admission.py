@@ -1049,6 +1049,31 @@ def test_m654_a_written_record_of_what_is_new_lifts_that_refusal_and_lands_on_th
     assert "**Read before admission.**" in row
 
 
+def test_m654_a_second_colliding_row_still_refuses_when_supersedes_names_only_the_first(tmp_path):
+    """M-654: superseding one colliding row must not wave through a second one left unnamed.
+
+    Prover review 2026-09-07 (F8): the scan used to `break` on the first row the supersedes
+    named, so a title standing on two rows was admitted without the second ever being checked.
+    """
+    plan, checkpoints = host(tmp_path)
+    archive = tmp_path / "docs" / "queue-archive"
+    archive.mkdir(parents=True)
+    (archive / "2026-01-01-closed.md").write_text(
+        "### ✅ Send the weekly digest — id: q-31\nClosed. Landed.\n", encoding="utf-8")
+    (archive / "2026-01-02-closed.md").write_text(
+        "### ✅ Send the weekly digest — id: q-77\nClosed. Landed.\n", encoding="utf-8")
+
+    message = refused(
+        admission.admit,
+        new_route(supersedes={"names": "q-31",
+                              "new": "the digest now reaches a second inbox",
+                              "why": "q-31 settled one inbox and named no second one"}),
+        plan, checkpoints)
+    assert "q-77" in message
+    assert "docs/queue-archive/2026-01-02-closed.md" in message
+    assert plan.read_text(encoding="utf-8").count("— id: q-1") == 0
+
+
 def test_m655_the_prior_command_prints_the_record_and_judges_nothing(tmp_path):
     """M-655: one command prints what the record holds, with no score and no cutoff."""
     plan, checkpoints = host(tmp_path)
