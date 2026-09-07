@@ -1077,6 +1077,41 @@ def _git_recorded(tree, path):
     return (int(added[-1]) if added else None, int(last) if last else None)
 
 
+def _checkpoint_opened_line(tree, row_id):
+    """The OPENED line committed onto a row's own checkpoint, scoped to DONE as `recorded_open`
+    in `render-board.sh` reads it, and read through git so the value read is what git holds at
+    HEAD — not whatever a clone's plain filesystem happens to show.
+
+    `task-admission.py` writes this line the moment a row is admitted — before anything about the
+    row lands in a commit at all. Re-reading it through `git show HEAD:<path>` (the same
+    subprocess shape `_git_recorded` uses for its own git call) proves the page's value traces to
+    what the row recorded at admission, not to whichever later commit happened to carry that
+    checkpoint's content into history, and not to an uncommitted file a plain `open()` cannot
+    tell apart from HEAD's.
+
+    A row only reaches this call with a checkpoint the renderer used: `card["opened"]` is never
+    set without one (`render-board.sh`: `opened = cp["opened"] if cp else None`). So a `git show`
+    that cannot read this path is never the real "no checkpoint" case — that case never sets
+    `opened` in the first place — it is this helper's own path having drifted from the
+    renderer's, and it fails loudly instead of falling back in silence. A checkpoint git reads
+    fine but whose DONE section carries no OPENED line is the real, older-row case, and returns
+    None so the caller's git-stamp fallback stands.
+    """
+    path = ".live-spec/checkpoints/%s.md" % row_id
+    r = subprocess.run(["git", "show", "HEAD:%s" % path], cwd=tree, capture_output=True, text=True)
+    assert r.returncode == 0, (
+        "%s carries a checkpoint the renderer used, but `git show HEAD:%s` could not read it: %s"
+        % (row_id, path, r.stderr.strip()))
+    in_done = False
+    for line in r.stdout.splitlines():
+        if line.startswith("## "):
+            in_done = line[3:].strip() == "DONE"
+            continue
+        if in_done and line.startswith("OPENED: "):
+            return line[len("OPENED: "):].strip()
+    return None
+
+
 class TestFreshClone:
     """The published page, checked in the tree it is actually published from."""
 
@@ -1114,15 +1149,20 @@ class TestFreshClone:
         for minute in minutes:
             assert minute not in page, \
                 "the page prints %s, which is when the checkout happened, not when work did" % minute
-        # And each recorded time is the one git holds for that row's own checkpoint.
+        # And each recorded time is the one the row itself carries — its own OPENED line where
+        # admission wrote one, and git's first sight of the checkpoint where it did not.
         checked = 0
         for row_id, card in model["cards"].items():
             if not card["opened"]:
                 continue
-            born, _ = _git_recorded(clone["tree"],
-                                    os.path.join(".live-spec", "checkpoints", "%s.md" % row_id))
-            assert born, "%s carries an opened time with no record behind it" % row_id
-            expected = time.strftime("%Y-%m-%dT%H:%M", time.localtime(born))
+            recorded = _checkpoint_opened_line(clone["tree"], row_id)
+            if recorded:
+                expected = recorded[:16]
+            else:
+                born, _ = _git_recorded(clone["tree"],
+                                        os.path.join(".live-spec", "checkpoints", "%s.md" % row_id))
+                assert born, "%s carries an opened time with no record behind it" % row_id
+                expected = time.strftime("%Y-%m-%dT%H:%M", time.localtime(born))
             assert card["opened"] == expected, (row_id, card["opened"], expected)
             checked += 1
         assert checked, "no row carries a recorded opened time — this test proved nothing"
