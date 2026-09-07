@@ -10,8 +10,10 @@ and to hold them defective until evidence said otherwise. The third commit repai
 editing the test, so it was judged by planting the regression the test exists for, twice, rather
 than by reading the commit message's own claim about it.
 
-Range: 186dc4a..e30ad7a2 — the base the remote holds, then the three commits this push sends,
-18f41e17 through e30ad7a2.
+Range: 186dc4a..cdae2e34 — the base the remote holds, then the four commits this push sends,
+18f41e17 through cdae2e34. The fourth, cdae2e3, carries this record's first version along with
+other work, and is reviewed in F5 and F6 below. The commit that ships this extension carries only
+`docs/prover/`, so the gate's record-only exemption covers it and it needs no naming of its own.
 
 - 18f41e17 Admission reads the record before it writes a row — Requirement 321 under INV-327, matrix
   rows M-651 to M-656, and the record-reading block in `scripts/task-admission.py`. Reviewed in full
@@ -24,11 +26,25 @@ Range: 186dc4a..e30ad7a2 — the base the remote holds, then the three commits t
   added; the 2026-09-07 record committed. This commit closes findings F3 and F8 of that record, and
   the updated record it carries states both closures.
 
+- cdae2e34 The day's reviews: the spec, the two skills, and rule 43's origin — this record's own
+  first version, the two skill-creator review records under `docs/skill-review/` for
+  `build-pipeline` and `live-spec-base`, a new origin entry for rule 43 in
+  `skills/live-spec-base/references/rule-origins.md`, and a rewrap of rule 43's paragraph in
+  `skills/live-spec-base/SKILL.md`. Reviewed in F5 and F6 below. This commit touches
+  `docs/skill-review/` and `skills/`, both outside `docs/prover/`, so the gate's record-only
+  exemption does not reach it and naming it here is owed rather than optional.
+
 - e30ad7a2 The board's time oracle reads a committed record and says when it cannot —
   `tests/test_work_board.py` only, 45 lines added and 5 removed. `_checkpoint_opened_line` is new.
   `TestFreshClone::test_every_time_on_the_page_is_a_recorded_one_not_the_checkout_instant` now
   prefers a row's own recorded `OPENED:` line over git's first-commit time for that row's
   checkpoint.
+
+Files read (second pass, over cdae2e3): `skills/live-spec-base/references/rule-origins.md`
+(the new rule 43 entry), `skills/live-spec-base/SKILL.md` (rule 43's paragraph either side of the
+rewrap), `DECISIONS.md` (the entries at 2026-09-07 22:32 and 22:33),
+`docs/skill-review/2026-09-08-live-spec-base.md`, `docs/skill-review/2026-09-08-build-pipeline.md`,
+`skills/build-pipeline/SKILL.md`, and the diff `git diff 186dc4a2..cdae2e34 -- skills/`.
 
 Files read: `tests/test_work_board.py` (the `clone` fixture, `_git_recorded`,
 `_checkpoint_opened_line`, and both tests of `TestFreshClone`), `scripts/render-board.sh`
@@ -66,6 +82,33 @@ OK — committed index equals the fresh build; 404 codes agree body-to-table
 (exit 0)
 ```
 
+Second pass, over cdae2e3:
+
+```
+$ bash guardrails/check-shipped-language.sh
+OK (shipped-language): no Cyrillic, owner-name, or project-name offences in the shipped set.
+(exit 0)
+```
+
+```
+$ python3 scripts/task-admission.py prior weekly digest
+rows on the record: 0 / DECISIONS.md: 0 / commits: 0
+(exit 0 — the command the build-pipeline body now tells a session to run does run)
+```
+
+The rewrap check, run as a token comparison rather than by eye.
+`git show <rev>:skills/live-spec-base/SKILL.md` either side of cdae2e3, rule 43's paragraph sliced
+from its number to the next heading, and both slices split on whitespace:
+
+```
+word count before/after: 120 120
+token streams identical: True
+```
+
+So the paragraph's words and their order are unchanged and only the line breaks moved. A
+whitespace-insensitive comparison is the right instrument here: a rewrap is by definition a
+whitespace change, and a line diff cannot tell one from an edit.
+
 The three planted regressions, each a copy of `scripts/render-board.sh` pointed at through
 `LIVE_SPEC_BOARD_RENDERER`, the override the test file already carries for this purpose. The
 repository's own renderer was not touched.
@@ -86,8 +129,8 @@ plant 3 — `git_stamps` returns git's LAST write where it should return the fir
 FAILED — AssertionError: ('q-816', '2026-09-06T17:58', '2026-09-06T07:17')  at line 1166
 ```
 
-Findings: four new, of which none blocks, and four carried forward from 2026-09-07 that still
-stand. The verdict on the third commit is F1 below.
+Findings: six new, of which none blocks, and four carried forward from 2026-09-07 that still
+stand. The verdict on the third commit is F1 below; the fourth commit is F5 and F6.
 
 F1 — The oracle change is right, and the guarantee it gives is not the guarantee it gave.
 
@@ -191,6 +234,79 @@ the situation itself, and it is the concurrent session's to keep.
 
 `recommendation · now · hard-to-operate (ops-ux)`
 
+F5 — Rule 43's origin entry cites a real, dated source, and its worked example rests on two
+numbers with no home.
+
+> "earlier that same evening this seat had proposed 600 and 1800 seconds as an acceptance and a
+> release budget for a run-mode contract, derived from two full-suite runs measured on one machine
+> that day — 843 seconds and 1393 seconds." — `skills/live-spec-base/references/rule-origins.md`,
+> "## Rule 43"
+
+The citation holds. `DECISIONS.md` carries an entry at 2026-09-07 22:32 and 22:33, exactly as the
+origin names it, with the owner's words in the original and an English rendering beside them. The
+origin's paraphrase is faithful to that rendering on every clause I checked: no budget derived from
+a measurement, two local full runs are no policy, a budget fixes composition and volume — named
+targets, the count of cases and samples, no N-squared sweep and no historical sweep — and a timeout
+stays an emergency stop on a process the run owns, never derived from this machine's speed, taking
+no part in a green verdict, calling for no baseline, load or quiet-machine comparison. Nothing is
+added and nothing is softened.
+
+The language bar holds. The entry is English throughout: a character scan of
+`skills/live-spec-base/references/rule-origins.md` finds zero Cyrillic in the file and zero in the
+rule 43 section, and `guardrails/check-shipped-language.sh` reads OK. The owner's own words stay in
+`DECISIONS.md`, where the quoted original belongs, and the origin cites that entry by date and time
+rather than reproducing it.
+
+The worked example is where it goes soft. The two measurements it rests on, 843 seconds and 1393
+seconds, appear nowhere else in this tree — not in `JOURNAL.md`, not in `DECISIONS.md`, not in any
+file. The entry explains why the proposed 600 and 1800 are absent, since the draft was killed before
+they landed, and that explanation does not reach the two runs the proposal was derived from. So the
+one paragraph in the pack that illustrates "a clock never certifies a budget" carries two unsourced
+durations of its own. Nothing reads them and no threshold turns on them, so this is a recommendation
+rather than a defect, and the irony is the reason to fix it rather than the finding itself.
+
+Either name where the two runs were measured — a journal line, a commit, a transcript — or drop the
+two figures. The example works without them: two full runs on one machine is the whole point, and
+their durations add nothing the sentence needs.
+
+`recommendation · now · unenforceable-promise (discharge)`
+
+F6 — The two skill reviews found real things; one repaired a class pointwise, the other proved prose
+against prose.
+
+> "rule 42, landed earlier, has the same gap, so this is not new to rule 43 alone." —
+> `docs/skill-review/2026-09-08-live-spec-base.md`, finding 1
+
+The live-spec-base review earned its place. It found rule 43 standing with no origin entry and no
+inline incident, and it found rule 43's paragraph wrapped narrower than every neighbour. Both were
+repaired in the same commit, which is the right shape: a finding lands with its fix rather than
+becoming a row. Its count check is right too — the body carries 29 numbered rules and the
+frontmatter now reads "twenty-nine".
+
+The repair is pointwise, and the review's own sentence says why that is wrong. It names rule 42 as
+carrying the same gap and points at the rule-40 and rule-41 records for the same class. The origins
+file still runs "## Rule 41" and then "## Rule 43", with no rule 42 entry, so a class the review
+identified in writing was answered for one member. The pack's own rule of thinking is that an
+incoming item is a symptom and the answer owed is a rule about its class. Add rule 42's origin in
+the same pass, and say in the origins file which rules deliberately carry none, so the next reader
+can tell a gap from a decision.
+
+The build-pipeline review is five findings, every one of them "No finding", and its method is why.
+Findings 3 and 4 check the skill's new stop-and-ask text against Requirement 321 criteria 7 and 8,
+word against word — "near-verbatim", "same content". That proves the skill paraphrases the criteria
+correctly. It does not ask the question a reader most needs answered, which is whether anything
+makes the pipeline behave that way. Nothing does: criteria 7 and 8 carry no matrix row, and their
+only backing in the tree is one `grep -q` for the sentence "One case waits for the answer" in the
+very file the review was reading. A review comparing a skill's prose to a spec's prose, where the
+spec clause is itself unbacked, closes a loop that never touched behaviour. That is the finding my
+2026-09-07 record filed as F9, reached here from the other side.
+
+Have a skill review state, for each clause it clears, whether the behaviour behind it is held by a
+test, by a gate, or by nobody. The third answer is the useful one, and it is the one this review
+owed three times.
+
+`recommendation · now · unenforceable-promise (discharge)`
+
 Carried forward from 2026-09-07, still standing against this tree. Each was verified present at
 HEAD today rather than assumed; the detail, the evidence and the proposed repair for each live in
 `docs/prover/2026-09-07-the-door-reads-the-record-and-where-that-read-goes-soft.md`.
@@ -222,6 +338,8 @@ Spec and architecture re-check: `PRODUCT_SPEC.md` is unchanged in this range; th
 `spec/queue-intake-priority.md`, which the freshness arm reads as part of the same document, and
 07544d0e is its only touch. `ARCHITECTURE.md` and everything under `architecture/` are unchanged in
 this range. e30ad7a2 touches one test file and no product code, so it moves neither document.
+cdae2e34 touches no product code either: two skill files gain an origin entry and a rewrap,
+and everything else in it is records.
 
 Blocking: two, both standing, and both carried from the record of 2026-09-07 rather than raised by
 this range. Nothing in these three commits blocks.
