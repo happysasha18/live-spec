@@ -211,3 +211,24 @@ on another — the measurement that opened this entry.
 
 — prose-only, no dedicated check: a check here would be a session marking its own homework, which
 is the failure this rule replaces.
+
+## Rule 43 — a budget is a named, finite set of work, and a clock never certifies one
+
+Entered 2026-09-07, on the owner's own word in chat at 22:32 and 22:33, recorded in `DECISIONS.md`
+under that date and time: no acceptance or release budget is derived from a measurement, and two
+local full runs are no policy; a new contract fixes the composition and the volume of work — named
+targets, the number of cases and samples, no N-squared sweep, no historical sweep; a runtime
+timeout stays only as an emergency stop on a process the run owns, never derived from this
+machine's speed, taking no part in a green verdict, and calling for no baseline, load, or
+quiet-machine comparison.
+
+The incident behind it, and its worked example: earlier that same evening this seat had proposed
+600 and 1800 seconds as an acceptance and a release budget for a run-mode contract, derived from
+two full-suite runs measured on one machine that day — 843 seconds and 1393 seconds. The owner
+stopped it before either figure reached a file. Two local runs are no policy. The draft was killed
+and the file deleted before either number could be cited anywhere.
+
+Justification, in the pack's own terms: a number read off one machine's speed decides a verdict
+that has nothing to do with whether the product is correct, and the number moves the moment the
+machine does. What a budget fixes instead is the composition and the volume of the work — the
+named targets, the count of cases, the count of samples — never a duration measured off a run.

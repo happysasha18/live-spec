@@ -427,15 +427,14 @@ its own manifest line. Every other rule below keeps the number it already carrie
     — backed by the close in `scripts/task-admission.py`, which recomputes the done's own hash and
     refuses a close over a mismatch (matrix M-640, M-641).
 
-43. **A budget is a named, finite set of work, and a clock never certifies one.** An
-    acceptance budget or a release budget is never read off how long a local run took,
-    off host load, off a quiet-machine comparison, off p50/p95 figures, or off any
-    single measurement. A fixed budget means the composition is named in advance and is
-    finite: which targets run, how many cases, how many samples. A timeout is an
-    emergency stop on a process the run owns, and it says nothing about whether a result
-    is right. A performance measurement belongs to a stated product performance
-    requirement, taken in the controlled environment that requirement declares; anywhere
-    else it is diagnostic and it settles no verdict.
+43. **A budget is a named, finite set of work, and a clock never certifies one.** An acceptance
+    budget or a release budget is never read off how long a local run took, off host load, off a
+    quiet-machine comparison, off p50/p95 figures, or off any single measurement. A fixed budget
+    means the composition is named in advance and is finite: which targets run, how many cases,
+    how many samples. A timeout is an emergency stop on a process the run owns, and it says
+    nothing about whether a result is right. A performance measurement belongs to a stated
+    product performance requirement, taken in the controlled environment that requirement
+    declares; anywhere else it is diagnostic and it settles no verdict.
 
 ## Work that belongs elsewhere
 
