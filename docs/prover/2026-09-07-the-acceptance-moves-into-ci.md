@@ -8,7 +8,9 @@ read was run by a fresh seat that authored none of the change, briefed to find r
 it and holding it defective until evidence said otherwise. Its verdict was **refuse**, with five
 blocking findings. All five are closed in the commit below, which this record is committed after.
 
-Range: 1d413c42..HEAD
+Range: 26958245..HEAD, measured from what the remote holds. The two commits below it —
+9246e86e and its own record — landed on origin under that measure already; the third is
+what this push sends.
 
 - 9246e86e The acceptance is fixed at admission, and the run that decides happens in CI —
   guardrails/check-acceptance-rerun.py as CI gate v, the board's workflow moved behind a green
@@ -16,8 +18,21 @@ Range: 1d413c42..HEAD
   on the checkpoint, both anchors compared against the copy the remote holds, and the pre-spawn
   guard moved from a row id to a spawn token the brief cuts
 
-This record ships in its own commit after it, which the gate exempts because a record cannot name
-the commit that first carries it.
+- 56a9369c The board comes off its public address and is drawn when somebody asks — the owner's
+  word of this evening, and the removal it asks for: the publishing workflow deleted, the address
+  gone from the registry row, the README, the architecture pin, the matrix row and q-816's
+  acceptance command, and Requirement 309 criterion 8 rewritten from "publish that source file at
+  one stable link" to "drawn from its source file whenever the person asks, kept current whether
+  or not anybody looks, standing at no published address"
+
+This record ships in its own commit after those, which the gate exempts because a record cannot
+name the commit that first carries it.
+
+The last commit above carries no adversarial read of its own: the owner asked for no further
+agents and no second review document, so it was judged by the suite, by the local gate chain, and
+by the three reds the nested full run turned up and their repairs. What it does is remove a
+published surface; nothing in it can make a done row easier to reach. Recorded here rather than
+left as a silent gap.
 
 Files read: `guardrails/check-acceptance-rerun.py`, `guardrails/check-close-receipt.py`,
 `guardrails/worker-admission-guard.py`, `scripts/task-admission.py`, `scripts/plan_checks.py`,
@@ -31,9 +46,15 @@ check table and of every key's reach. Each with its result below.
 
 ```
 $ python3 -m pytest -q                      (on this range's final code)
-2999 passed, 5 skipped, 1 xfailed in 1560.16s (0:26:00)
+3000 passed, 4 skipped, 1 xfailed in 1788.13s (0:29:48)
 (exit 0)
 ```
+
+An earlier full run on 9246e86e's tree read 2999 passed, 5 skipped, 1 xfailed, exit 0. The run
+between them, on the board removal before its repairs, turned up three reds and each is closed in
+56a9369c: a date written into the spec, which INV-253 sends to JOURNAL.md; the new enumerating
+test missing from the reach map's always-scoped block; and q-816's hand-judged payload pin, which
+has to be re-read whenever that command is edited by hand.
 
 ```
 $ bash guardrails/pre-push                  (local chain, this tree)
