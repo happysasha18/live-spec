@@ -24,6 +24,7 @@ import importlib.util
 import json
 import os
 import re
+import secrets
 import subprocess
 import sys
 import tempfile
@@ -571,6 +572,22 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
     task_id = str(route.get("task_id") or next_task_id(plan)).strip()
     if not re.fullmatch(r"[a-z]+-\d+", task_id):
         raise AdmissionError("task_id must look like q-12")
+    # The acceptance command is a condition of admission. A row admitted without one could be
+    # worked on, and the check that would have judged it was then written after the work came
+    # back — by whoever wanted it to pass. `next-id` prints the id this call will mint, so the
+    # key goes into the tree's own check table before the row exists.
+    tree_root = Path(plan_path).resolve().parent
+    key = acceptance_key(tree_root, task_id)
+    if not key:
+        raise AdmissionError(
+            "%s has no acceptance command, and a row is admitted with one or not at all: write "
+            "its key into scripts/plan_checks.py keyed by %s, then admit. `next-id` prints the id "
+            "this call will mint." % (task_id, task_id))
+    if plan_checks_core.reads_outside_the_tree(key):
+        raise AdmissionError(
+            "%s's acceptance command reaches outside the tree (it names $HOME or ~/), so no CI "
+            "run on a commit can judge it and the only place it could ever pass is this machine. "
+            "Write a check the tree carries" % task_id)
     if re.search(r"(?m)—\s+id:\s*%s\s*$" % re.escape(task_id), plan):
         raise AdmissionError("task id already exists: %s" % task_id)
     cp_path = checkpoints_dir / (task_id + ".md")
@@ -594,7 +611,10 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
             # The anchor: the digest of the done this row is admitted with, on the one surface
             # `close` already refuses to work without. It makes the row's own `**DOD hash.**`
             # line tamper-evident — see DOD_ANCHOR.
-            DOD_ANCHOR + dod_digest(route["done_when"]))))
+            DOD_ANCHOR + dod_digest(route["done_when"]),
+            # The acceptance's own anchor: `verify`, `close` and the CI re-run all compare the
+            # command the tree records now against this.
+            ACCEPT_ANCHOR + dod_digest(key))))
         issues = checkpoint.validate_checkpoint(staged)
         if issues:
             raise AdmissionError("invalid staged checkpoint: %s" % "; ".join(issues))
@@ -629,6 +649,17 @@ OPENED = "OPENED: "
 # the kernel, so it wrote a fresh hash over whatever the done now said and `close` then
 # compared that new contract against itself (the read of 2026-09-06).
 DOD_ANCHOR = "DOD: "
+# The digest of the ACCEPTANCE COMMAND the row was admitted with, written onto the checkpoint at
+# admission beside the done's own anchor. The command itself lives in the tree's check table, one
+# home; this is the anchor that makes changing it after admission visible to `verify`, to `close`
+# and to the CI re-run. Without it the acceptance was an ordinary tracked file anybody could
+# rewrite between admission and the close (the owner's word, 2026-09-07).
+ACCEPT_ANCHOR = "ACCEPT: "
+# A brief hands the worker a one-time token, recorded here with the two digests it was issued
+# against. The pre-spawn guard accepts a spawn only against a live token whose digests still
+# match, so a spawn cannot ride an id somebody typed, and a brief goes stale the moment the done
+# or the acceptance it was cut against moves.
+BRIEF_TOKEN = "BRIEF-TOKEN: "
 # The heuristic, said plainly here and in `verify --surface`'s own help: a done written in these
 # words promises something rendered or published, and a fixture passing is not that thing.
 SURFACE_WORDS = re.compile(
@@ -696,21 +727,34 @@ def tree_hash(root, exclude=None):
 
 def read_dod_anchor(cp):
     """The digest of the done this row was admitted with, off its checkpoint, or None."""
-    if not Path(cp).exists():
-        return None
-    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
-    for line in reversed(body.splitlines()):
-        if line.startswith(DOD_ANCHOR):
-            return line[len(DOD_ANCHOR):].strip() or None
-    return None
+    return _read_anchor(cp, DOD_ANCHOR)
 
 
 def _write_dod_anchor(cp, digest: str) -> None:
     """Record (or re-record) the admitted done's digest on the checkpoint."""
+    _write_anchor(cp, DOD_ANCHOR, digest)
+
+
+def _write_anchor(cp, prefix: str, value: str) -> None:
     body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
     kept = [ln for ln in body.splitlines()
-            if not ln.startswith(DOD_ANCHOR) and not checkpoint._is_empty_body(ln)]
-    checkpoint.update_checkpoint(cp, done="\n".join(kept + [DOD_ANCHOR + digest]).strip())
+            if not ln.startswith(prefix) and not checkpoint._is_empty_body(ln)]
+    checkpoint.update_checkpoint(cp, done="\n".join(kept + [prefix + value]).strip())
+
+
+def _read_anchor(cp, prefix: str):
+    if not Path(cp).exists():
+        return None
+    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    for line in reversed(body.splitlines()):
+        if line.startswith(prefix):
+            return line[len(prefix):].strip() or None
+    return None
+
+
+def read_accept_anchor(cp):
+    """The digest of the acceptance command this row was admitted with, or None."""
+    return _read_anchor(cp, ACCEPT_ANCHOR)
 
 
 def acceptance_key(tree, task_id: str):
@@ -807,6 +851,16 @@ def verify(plan_path: Path, checkpoints_dir: Path, task_id: str, by: str,
     # line was deleted, and a row whose done and hash were rewritten together, both reach here
     # looking consistent with themselves; the anchor is the only thing that still remembers what
     # was admitted.
+    # The acceptance against the one this row was admitted with. Rewriting the key between
+    # admission and the close was the whole of the `--command true` hole moved one file over.
+    admitted_key = read_accept_anchor(cp)
+    if admitted_key and admitted_key != dod_digest(key):
+        raise AdmissionError(
+            "%s's acceptance command is not the one it was admitted with: the row was admitted "
+            "against a check whose digest is %s and scripts/plan_checks.py now records a "
+            "different one. Put the admitted check back, or admit the new work as its own row"
+            % (task_id, admitted_key))
+
     anchor = read_dod_anchor(cp)
     if anchor and not recorded:
         raise AdmissionError(
@@ -1165,6 +1219,12 @@ def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
             "the definition of done changed after it was verified: the evidence is void, "
             "and %s is verified again against the done as it now reads" % task_id)
     key = acceptance_key(Path(plan_path).resolve().parent, task_id)
+    admitted_key = read_accept_anchor(cp)
+    if admitted_key and admitted_key != dod_digest(key or ""):
+        raise AdmissionError(
+            "%s's acceptance command is not the one it was admitted with (the checkpoint holds "
+            "%s): a close reads the check the row was admitted against, never one written since"
+            % (task_id, admitted_key))
     if receipt.get("acceptance") != key:
         raise AdmissionError(
             "the acceptance command changed since the receipt was written (it ran %r, the row "
@@ -1296,8 +1356,78 @@ def worker_brief(plan_path: Path, checkpoints_dir: Path, task_id: str) -> str:
     start, end = pre_spawn_check(plan_path, checkpoints_dir, task_id)
     plan = Path(plan_path).read_text(encoding="utf-8")
     cp = _checkpoint_path(checkpoints_dir, task_id)
+    token = mint_brief_token(plan_path, checkpoints_dir, task_id)
     nxt = checkpoint.read_checkpoint(cp)["sections"].get("NEXT", "").strip()
-    return plan[start:end].strip() + "\n\n## NEXT\n\n" + nxt + "\n"
+    return ("## SPAWN TOKEN\n\n%s\n\nPaste that line into the worker's own prompt. The guard on "
+            "the subagent tool accepts a spawn only against a live token, and this one dies the "
+            "moment this row's done or acceptance moves.\n\n" % token
+            + plan[start:end].strip() + "\n\n## NEXT\n\n" + nxt + "\n")
+
+
+def mint_brief_token(plan_path, checkpoints_dir, task_id: str) -> str:
+    """Issue this row's spawn token and record it with the two digests it is cut against.
+
+    An id is something anybody can type. A token is thirty-two random hex characters recorded on
+    the row's checkpoint beside what the brief was cut against — this row's frozen done and its
+    admitted acceptance — so a spawn is bound to one open row in one state, and a brief taken
+    before either moved is refused (the owner's word, 2026-09-07). It stands for every spawn on
+    that row until the row closes or a digest moves; it is not single-use.
+
+    Writing it is a write: `brief` changes the checkpoint, which it did not before.
+    """
+    plan = Path(plan_path).read_text(encoding="utf-8")
+    start, end, _, _ = _row_span(plan, task_id)
+    dod, _ = read_dod(plan[start:end])
+    key = acceptance_key(Path(plan_path).resolve().parent, task_id) or ""
+    cp = _checkpoint_path(checkpoints_dir, task_id)
+    token = secrets.token_hex(16)
+    _write_anchor(cp, BRIEF_TOKEN, "%s dod=%s accept=%s issued=%s"
+                  % (token, dod_digest(dod), dod_digest(key),
+                     datetime.datetime.now().isoformat(timespec="seconds")))
+    return token
+
+
+def read_brief_token(cp):
+    """(token, dod digest, acceptance digest) the last brief was cut against, or None."""
+    line = _read_anchor(cp, BRIEF_TOKEN)
+    if not line:
+        return None
+    parts = line.split()
+    fields = dict(p.split("=", 1) for p in parts[1:] if "=" in p)
+    return parts[0], fields.get("dod"), fields.get("accept")
+
+
+def token_row(plan_path, checkpoints_dir, token: str):
+    """The row whose live brief token this is, or None.
+
+    Live means three things at once: the token was issued by `brief`, its row's checkpoint is
+    still open, and the done and the acceptance it was cut against are the ones the row and the
+    tree read now. Any of the three moving retires every token cut before it.
+    """
+    token = (token or "").strip()
+    if not token:
+        return None
+    plan = Path(plan_path).read_text(encoding="utf-8")
+    cps = Path(checkpoints_dir)
+    if not cps.is_dir():
+        return None
+    for cp in sorted(cps.glob("*.md")):
+        held = read_brief_token(cp)
+        if not held or held[0] != token:
+            continue
+        task_id = cp.stem
+        try:
+            start, end, _, _ = _row_span(plan, task_id)
+        except AdmissionError:
+            return None
+        if checkpoint.read_checkpoint(cp)["status"] != "open":
+            return None
+        dod, _ = read_dod(plan[start:end])
+        key = acceptance_key(Path(plan_path).resolve().parent, task_id) or ""
+        if held[1] != dod_digest(dod) or held[2] != dod_digest(key):
+            return None
+        return task_id
+    return None
 
 
 def pre_spawn_check(plan_path, checkpoints_dir, task_id: str):
@@ -1407,7 +1537,12 @@ def main() -> int:
     op("reopen", ("--false-condition", True), ("--evidence", True),
        help="T8 — reopen the same id against a named false condition")
     op("abandon", ("--reason", True), help="T9 — clear and close the checkpoint with the reason")
-    op("brief", help="hand a worker the ticket entry plus its checkpoint's NEXT, verbatim")
+    op("brief", help="hand a worker the ticket entry plus its checkpoint's NEXT, verbatim, "
+       "headed by the one-time spawn token the guard on the subagent tool reads")
+    nid = sub.add_parser("next-id", help="print the id the next admission will mint, so the "
+                                         "row's acceptance command can be written before it")
+    nid.add_argument("--plan", default="PLAN.md", type=Path)
+    nid.add_argument("--checkpoints", default=".live-spec/checkpoints", type=Path)
 
     args = parser.parse_args(argv)
     plan, cps = args.plan, args.checkpoints
@@ -1416,6 +1551,9 @@ def main() -> int:
             route = json.loads(args.route.read_text(encoding="utf-8"))
             result = admit(route, plan, cps)
             print(json.dumps({"status": "ok", **result}, ensure_ascii=False))
+            return 0
+        if args.op == "next-id":
+            print(next_task_id(plan.read_text(encoding="utf-8")))
             return 0
         if args.op == "brief":
             print(worker_brief(plan, cps, args.id), end="")
@@ -1446,9 +1584,11 @@ def main() -> int:
             reopen(plan, cps, args.id, args.false_condition, args.evidence)
         elif args.op == "abandon":
             abandon(plan, cps, args.id, args.reason)
-    except (OSError, json.JSONDecodeError, AdmissionError, ValueError) as exc:
-        # Every refusal: one plain reason, exit 2, and the row's mark exactly where it was.
-        print(json.dumps({"status": "red", "error": str(exc)}, ensure_ascii=False))
+    except (OSError, json.JSONDecodeError, AdmissionError, ValueError, KeyError, TypeError) as exc:
+        # Every refusal: one plain reason, exit 2, and the row's mark exactly where it was. A
+        # route missing a field used to raise KeyError past this and print a traceback.
+        reason = ("the route names no %s" % exc if isinstance(exc, KeyError) else str(exc))
+        print(json.dumps({"status": "red", "error": reason}, ensure_ascii=False))
         return 2
     print("%s: %s" % (args.op, args.id))
     return 0

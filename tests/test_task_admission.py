@@ -4,6 +4,7 @@ import pytest
 import importlib.util
 import os
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -29,7 +30,8 @@ def host(tmp_path):
     # a passing one, and each test adds the failing or spawning command it is actually about.
     (tmp_path / "scripts").mkdir(exist_ok=True)
     (tmp_path / "scripts" / "plan_checks.py").write_text(
-        "CHECKS = {'q-%d' % n: 'true' for n in range(1, 40)}\n", encoding="utf-8")
+        "CHECKS = {'q-%d' % n: 'true' for n in range(1, 40)}\n"
+        "CHECKS.update({'plan-%d' % n: 'true' for n in range(0, 40)})\n", encoding="utf-8")
     return plan, tmp_path / ".live-spec" / "checkpoints"
 
 
@@ -68,7 +70,7 @@ def test_the_row_lands_inside_tasks_when_the_plan_has_no_blockers_section(tmp_pa
     carries no `## Blockers` section: q-823 was written past the end of `## Tasks`, so the parser
     every reader shares never saw it — no probe line, no board column, no next-action candidate.
     """
-    plan = tmp_path / "PLAN.md"
+    plan, _ = host(tmp_path)
     plan.write_text(
         "# Host plan\n\n## Tasks\n\n### \u2705 Done thing \u2014 id: q-4\n\n"
         "## Environment\n\nnotes.\n",
@@ -469,7 +471,11 @@ def test_the_worker_brief_is_the_ticket_entry_plus_the_checkpoints_next_verbatim
     sheet_next = cp.read_text(encoding="utf-8").split("## NEXT\n")[1].split("\n## ")[0].strip()
 
     brief = admission.worker_brief(plan, checkpoints, task_id)
-    assert brief == entry + "\n\n## NEXT\n\n" + sheet_next + "\n"
+    # The brief opens with the one-time spawn token the guard on the subagent tool reads; the two
+    # halves below it are still the two files' own words, letter for letter.
+    token, body = brief.split("\n\n", 1)[1].split("\n\n", 1)
+    assert re.fullmatch(r"[0-9a-f]{32}", token.strip())
+    assert body.split("\n\n", 1)[1] == entry + "\n\n## NEXT\n\n" + sheet_next + "\n"
     assert sheet_next in brief and entry in brief
 
 

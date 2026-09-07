@@ -258,6 +258,55 @@ def close_receipt_passes_the_fix():
         return result.returncode == 0 and "stands on a passed acceptance receipt" in result.stdout
 
 
+def _acceptance_rerun_tree(tmp, command):
+    """A done row carrying a FORGED passed receipt, whose real acceptance command is `command`.
+
+    The forgery is the point: this gate reads no receipt at all, it runs the command itself.
+    """
+    _write(tmp, "PLAN.md",
+           "# Plan\n\n## Tasks\n\n### \u2705 Ship the thing \u2014 id: q-1\n"
+           "**Group:** Core \u00b7 **Priority:** normal\n\n"
+           "**Done when:** the deliverable says v2\n\n**DOD hash.** deadbeef\n")
+    _write(tmp, os.path.join("scripts", "plan_checks.py"), "CHECKS = {'q-1': %r}\n" % command)
+    import hashlib
+    accept = hashlib.sha256(" ".join(command.split()).encode("utf-8")).hexdigest()
+    _write(tmp, os.path.join(".live-spec", "checkpoints", "q-1.md"),
+           "# Ship the thing\n\nOwner: pipeline\nStatus: closed\n\n"
+           "## DECISION SHEET\n\nGoal: ship it.\n\n## DONE\n\n"
+           "ACCEPT: %s\n"
+           'RECEIPT: {"by": "a name anybody can type", "dod_hash": "deadbeef", '
+           '"checks": [["%s", 0]], "verdict": "passed"}\n\n'
+           "## IN PROGRESS\n\n(nothing)\n\n## NEXT\n\n(nothing)\n" % (accept, command))
+    return tmp
+
+
+def _run_acceptance_rerun(tmp):
+    return subprocess.run(
+        ["python3", os.path.join(GUARDRAILS, "check-acceptance-rerun.py"),
+         "--plan", os.path.join(tmp, "PLAN.md"),
+         "--checkpoints", os.path.join(tmp, ".live-spec", "checkpoints")],
+        cwd=ROOT, capture_output=True, text=True, timeout=120,
+    )
+
+
+def acceptance_rerun_reds_the_bug():
+    """The bug: a done row standing on a receipt somebody wrote, whose own acceptance command
+    does not pass. Returns True when the gate reds it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _acceptance_rerun_tree(tmp, "false")
+        result = _run_acceptance_rerun(tmp)
+        return result.returncode != 0 and "its acceptance command failed here" in result.stdout
+
+
+def acceptance_rerun_passes_the_fix():
+    """The same fixture, fixed: the row's acceptance command actually passes at this commit.
+    Returns True when the gate passes it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _acceptance_rerun_tree(tmp, "true")
+        result = _run_acceptance_rerun(tmp)
+        return result.returncode == 0 and "every done row's acceptance passes here" in result.stdout
+
+
 #: Checks that own a live fixture proof, run by this suite — the shape q-489 asks every check to
 #: carry eventually. check-prototype-fence.sh is the one check that completes the walk end to end;
 #: check-merge-base.sh and check-worktree-line.sh (PLAN q-804) are the next two, shipped with the
@@ -268,6 +317,7 @@ PROVEN = {
     "check-worktree-line.sh": (worktree_line_reds_the_bug, worktree_line_passes_the_fix),
     "check-status-view-drift.py": (status_view_drift_reds_the_bug, status_view_drift_passes_the_fix),
     "check-close-receipt.py": (close_receipt_reds_the_bug, close_receipt_passes_the_fix),
+    "check-acceptance-rerun.py": (acceptance_rerun_reds_the_bug, acceptance_rerun_passes_the_fix),
 }
 
 #: Every other check-*.py / check-*.sh shipping in guardrails/ on 2026-08-31, when this row's

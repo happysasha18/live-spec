@@ -115,6 +115,16 @@ jobs:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: python3 guardrails/check-close-receipt.py
 
+      - name: "draw the board once (a checkout carries no board.html — it is gitignored — and a row whose acceptance reads the drawn page cannot be judged without one)"
+        if: ${{ !cancelled() }}
+        env:
+          LIVE_SPEC_BOARD_CHECKS: "off"
+        run: bash scripts/render-board.sh board.html
+
+      - name: "gate v — every done row's own acceptance command RUNS here, at this commit (the source of a passing acceptance is this run, never a receipt anybody can type)"
+        if: ${{ !cancelled() }}
+        run: python3 guardrails/check-acceptance-rerun.py
+
       - name: "gate r — authority anchor (a decision recorded as the person's names its exchange, SPEC INV-207)"
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-authority-anchor.py

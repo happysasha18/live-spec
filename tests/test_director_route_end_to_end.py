@@ -147,7 +147,9 @@ class RouteHost(unittest.TestCase):
         shutil.copy(os.path.join(ROOT, "scripts", "task-admission.py"), self.admission)
         self.checkpoints_dir = os.path.join(self.host, ".live-spec", "checkpoints")
         os.makedirs(self.checkpoints_dir)
-        self.set_checks()
+        # route-3's acceptance command, before route-3 exists: `admit` refuses a route whose id
+        # names no key, so the key is part of the host's setup rather than part of the turn.
+        self.set_checks(**{"route-3": "true"})
 
     # -- the host's own surfaces ---------------------------------------------------------------
 
@@ -172,7 +174,12 @@ class RouteHost(unittest.TestCase):
         write(os.path.join(self.host, "PLAN.md"), text)
 
     def accept_the_turn(self):
-        """The pipeline admission door turns one accepted route into one row and checkpoint."""
+        """The pipeline admission door turns one accepted route into one row and checkpoint.
+
+        The row's acceptance command is already in the host's own check table, written at setup:
+        it is a condition of admission, so a route whose id names no key is refused before it
+        writes anything.
+        """
         route = {
             "action": "new", "creates_work": True, "existing_task": None,
             "task_id": "route-3", "title": "Send the weekly digest",

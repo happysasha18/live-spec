@@ -68,9 +68,29 @@ def test_it_deploys_only_board_html(workflow):
     assert any("deploy-pages" in (s.get("uses") or "") for s in job["steps"])
 
 
-def test_it_runs_on_main_and_pins_every_action(workflow):
-    assert workflow["on"]["push"]["branches"] == ["main"]
-    assert "workflow_dispatch" in workflow["on"], "a hand-run redraws the page without a push"
+def test_it_publishes_only_behind_a_green_gates_run_and_pins_every_action(workflow):
+    """The board is published by the workflow that runs AFTER gates, never on the push itself.
+
+    gates is where every done row's own acceptance command is executed at that commit (gate v)
+    and where a done standing on no passed receipt is refused (gate u); publishing on the push
+    would put a done on the public page before either had run. `workflow_dispatch` left with the
+    same change — a hand-run carried no gates verdict and published whatever `github.ref` named,
+    which was the one door around this rule (the adversarial read of 2026-09-07).
+    """
+    trigger = workflow["on"]["workflow_run"]
+    assert trigger["workflows"] == ["gates"]
+    assert trigger["types"] == ["completed"]
+    assert trigger["branches"] == ["main"]
+    assert "workflow_dispatch" not in workflow["on"], (
+        "a hand-run publishes with no gates verdict to read")
+    guard = _steps(workflow)["if"]
+    for condition in ("workflow_run.conclusion == 'success'",
+                      "workflow_run.event == 'push'",
+                      "workflow_run.head_repository.full_name == github.repository"):
+        assert condition in guard, "the publish is not conditioned on %s" % condition
+    checkout = next(s for s in _steps(workflow)["steps"] if "checkout" in (s.get("uses") or ""))
+    assert checkout["with"]["ref"] == "${{ github.event.workflow_run.head_sha }}", (
+        "the page must be drawn from the commit gates actually judged")
     perms = workflow["permissions"]
     assert perms["pages"] == "write" and perms["id-token"] == "write"
     assert _steps(workflow)["environment"]["name"] == "github-pages"

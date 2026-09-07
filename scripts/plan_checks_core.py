@@ -72,7 +72,7 @@ def normalize_mark(mark):
     return _CANONICAL_MARKS.get(stripped, mark)
 
 
-def run_key(command, mark=True, cwd=None):
+def run_key(command, mark=True, cwd=None, timeout=None):
     """Run one acceptance key and hand back the completed process.
 
     `cwd` is the tree the key is judged in. An acceptance command is written against the tree
@@ -96,9 +96,11 @@ def run_key(command, mark=True, cwd=None):
         env["LIVE_SPEC_EVALUATING"] = "1"
     else:
         env.pop("LIVE_SPEC_EVALUATING", None)
+    # `timeout` kills the child when it is given: a key that hangs must end by name rather than
+    # hold the caller open. The plan readers pass none and behave exactly as they always did.
     return subprocess.run("set -o pipefail; " + command, shell=True,
                           executable="/bin/bash", capture_output=True, env=env,
-                          cwd=str(cwd) if cwd else None)
+                          cwd=str(cwd) if cwd else None, timeout=timeout)
 
 
 REENTRY = ("an acceptance check tried to run the probe or the renderer inside a check: "

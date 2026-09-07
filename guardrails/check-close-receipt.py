@@ -96,6 +96,28 @@ def recorded_hash(block):
     return None
 
 
+def anchors_at(tree, base, task_id):
+    """The DOD and ACCEPT anchors this row's checkpoint carried at the diff base, or None."""
+    resolved = resolve_base(tree, base)
+    if resolved is None:
+        return None
+    rel = ".live-spec/checkpoints/%s.md" % task_id
+    got = subprocess.run(["git", "show", "%s:%s" % (resolved, rel)], cwd=str(tree),
+                         capture_output=True, text=True)
+    if got.returncode != 0:
+        return None
+    return _anchors_of(got.stdout)
+
+
+def _anchors_of(text):
+    out = {}
+    for line in text.splitlines():
+        for prefix in ("DOD: ", "ACCEPT: "):
+            if line.startswith(prefix):
+                out[prefix.strip(": ")] = line[len(prefix):].strip()
+    return out
+
+
 def read_dod_anchor(path):
     """The digest of the done the row was admitted with, off its checkpoint, or None."""
     body = checkpoint.read_checkpoint(path)["sections"].get("DONE", "")
@@ -132,6 +154,21 @@ def faults(plan_path, checkpoints_dir, base):
                            "and `close`, which open one at admission. A done typed onto the plan "
                            "is not a close." % task["id"])
             continue
+        # The anchors are append-only across a push. They live in the same file as the receipt,
+        # which a hand can write, so rewriting the acceptance AND its anchor together satisfied
+        # every reader that compares the two against each other. What no local hand can rewrite
+        # is what the remote already holds: a row whose checkpoint existed at the base and whose
+        # anchors have moved since is a contract changed under the work (the adversarial read of
+        # 2026-09-07).
+        before = anchors_at(Path(plan_path).resolve().parent, base, task["id"])
+        now = _anchors_of(Path(cp).read_text(encoding="utf-8"))
+        for name in ("DOD", "ACCEPT"):
+            was = (before or {}).get(name)
+            if was and was != now.get(name):
+                out.append("%s's %s anchor has moved since the base (%s → %s): what a row was "
+                           "admitted against does not change under the work — admit the new work "
+                           "as its own row."
+                           % (task["id"], name, was, now.get(name) or "gone"))
         receipt = last_receipt(cp)
         if not receipt:
             out.append("%s reads done and its checkpoint holds no acceptance receipt: run "

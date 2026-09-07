@@ -24,6 +24,8 @@ _spec = importlib.util.spec_from_file_location("task_admission", SCRIPTS / "task
 admission = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(admission)
 
+import checkpoint  # noqa: E402 — the checkpoint half of the same state machine
+
 GUARD = Path(ROOT) / "guardrails" / "worker-admission-guard.py"
 RECEIPT_GATE = Path(ROOT) / "guardrails" / "check-close-receipt.py"
 
@@ -75,6 +77,12 @@ def gate(plan, checkpoints, base="HEAD"):
         capture_output=True, text=True, timeout=60)
 
 
+def token_for(tmp_path, checkpoints, task_id="q-1"):
+    """The spawn token `brief` prints — the only thing that opens the guard."""
+    brief = admission.worker_brief(tmp_path / "PLAN.md", checkpoints, task_id)
+    return brief.splitlines()[2].strip()
+
+
 def spawn(cwd, prompt, tool="Task"):
     payload = {"tool_name": tool, "cwd": str(cwd), "tool_input": {"prompt": prompt}}
     got = subprocess.run([sys.executable, str(GUARD)], input=json.dumps(payload),
@@ -85,37 +93,59 @@ def spawn(cwd, prompt, tool="Task"):
 
 # ---------------------------------------------------------------- 1. the spawn path itself
 
-def test_a_spawn_naming_no_row_is_denied_on_the_tool_path(tmp_path):
+def test_a_spawn_carrying_no_token_is_denied_on_the_tool_path(tmp_path):
     """The guard sits on the subagent tool, so it fires whether or not anybody calls `brief`."""
     host(tmp_path)
     denied = spawn(tmp_path, "Go and rewrite the renderer, then report back.")
     assert denied is not None
     decision = denied["hookSpecificOutput"]
     assert decision["permissionDecision"] == "deny"
-    assert "no worker or subagent starts before an admitted row" in decision[
-        "permissionDecisionReason"]
+    assert "no live brief token" in decision["permissionDecisionReason"]
 
 
-def test_a_spawn_naming_a_row_that_is_not_on_the_board_is_denied(tmp_path):
-    host(tmp_path)
-    denied = spawn(tmp_path, "Take q-77 and finish it.")
-    assert denied["hookSpecificOutput"]["permissionDecision"] == "deny"
-    assert "q-77" in denied["hookSpecificOutput"]["permissionDecisionReason"]
-
-
-def test_a_spawn_on_a_row_with_no_acceptance_command_is_denied(tmp_path):
+def test_a_row_id_typed_into_the_prompt_is_not_a_token(tmp_path):
+    """An id is something anybody can type. Naming a real, open, admitted row is not admission."""
     plan, checkpoints = host(tmp_path)
     admission.admit(route(), plan, checkpoints)
-    (tmp_path / "scripts" / "plan_checks.py").write_text("CHECKS = {}\n", encoding="utf-8")
     denied = spawn(tmp_path, "Take q-1 and finish it.")
-    assert "no acceptance command" in denied["hookSpecificOutput"]["permissionDecisionReason"]
+    assert denied is not None
+    assert "no live brief token" in denied["hookSpecificOutput"]["permissionDecisionReason"]
 
 
-def test_a_spawn_on_an_admitted_row_passes(tmp_path):
+def test_a_token_cut_for_another_row_does_not_open_this_one(tmp_path):
+    plan, checkpoints = host(tmp_path)
+    admission.admit(route(), plan, checkpoints)
+    real = token_for(tmp_path, checkpoints)
+    forged = "0" * 32
+    assert spawn(tmp_path, "Work on this: %s" % forged) is not None
+    assert spawn(tmp_path, "Work on this: %s" % real) is None
+
+
+def test_a_brief_token_dies_when_the_done_it_was_cut_against_moves(tmp_path):
+    plan, checkpoints = host(tmp_path)
+    admission.admit(route(), plan, checkpoints)
+    token = token_for(tmp_path, checkpoints)
+    assert spawn(tmp_path, "Work on this: %s" % token) is None
+    admission.correct(plan, checkpoints, "q-1", done="deliverable.txt contains v9",
+                      source="the person, this turn", reason="the target moved")
+    denied = spawn(tmp_path, "Work on this: %s" % token)
+    assert denied is not None
+    assert "no live brief token" in denied["hookSpecificOutput"]["permissionDecisionReason"]
+
+
+def test_a_brief_token_dies_when_the_acceptance_it_was_cut_against_moves(tmp_path):
+    plan, checkpoints = host(tmp_path)
+    admission.admit(route(), plan, checkpoints)
+    token = token_for(tmp_path, checkpoints)
+    write_keys(tmp_path, "grep -q something-else deliverable.txt")
+    assert spawn(tmp_path, "Work on this: %s" % token) is not None
+
+
+def test_a_spawn_on_an_admitted_row_with_its_own_token_passes(tmp_path):
     """The guard refuses unadmitted work and nothing else: the ordinary brief goes through."""
     plan, checkpoints = host(tmp_path)
     admission.admit(route(), plan, checkpoints)
-    assert spawn(tmp_path, "Take q-1 and finish it.") is None
+    assert spawn(tmp_path, token_for(tmp_path, checkpoints)) is None
 
 
 def test_the_guard_says_nothing_outside_a_live_spec_tree(tmp_path):
@@ -180,15 +210,82 @@ def test_a_row_with_no_recorded_acceptance_cannot_be_verified_at_all(tmp_path):
     assert "no recorded acceptance command" in str(refused.value)
 
 
-def test_rewriting_the_acceptance_after_the_receipt_voids_it(tmp_path):
-    """Changing the check the evidence was written against is a change the close must see."""
+# ------------------------------- the acceptance is fixed at admission, and re-run by a machine
+# that wrote no receipt (the owner's word, 2026-09-07)
+
+RERUN = Path(ROOT) / "guardrails" / "check-acceptance-rerun.py"
+
+
+def rerun(plan, checkpoints):
+    return subprocess.run(
+        [sys.executable, str(RERUN), "--plan", str(plan), "--checkpoints", str(checkpoints)],
+        capture_output=True, text=True, timeout=120)
+
+
+def test_a_row_cannot_be_admitted_without_an_acceptance_command(tmp_path):
+    """The check that will judge the work is named before the work, or the row is not admitted."""
+    plan, checkpoints = host(tmp_path)
+    (tmp_path / "scripts" / "plan_checks.py").write_text("CHECKS = {}\n", encoding="utf-8")
+    with pytest.raises(admission.AdmissionError) as refused:
+        admission.admit(route(), plan, checkpoints)
+    assert "admitted with one or not at all" in str(refused.value)
+    assert "— id: q-1" not in plan.read_text(encoding="utf-8")
+
+    # And a check that reads the machine rather than the tree is refused too: no run on a commit
+    # could ever judge it.
+    write_keys(tmp_path, "test -f $HOME/.claude/CLAUDE.md")
+    with pytest.raises(admission.AdmissionError) as refused:
+        admission.admit(route(), plan, checkpoints)
+    assert "reaches outside the tree" in str(refused.value)
+
+
+def test_an_acceptance_changed_after_admission_is_refused_everywhere(tmp_path):
+    """`verify`, `close` and the re-run each read the command the row was ADMITTED with."""
     plan, checkpoints = host(tmp_path, key="grep -q v1 deliverable.txt")
     admission.admit(route(), plan, checkpoints)
     admission.verify(plan, checkpoints, "q-1", by="someone")
+
     write_keys(tmp_path, "true")
-    with pytest.raises(admission.AdmissionError) as refused:
+    with pytest.raises(admission.AdmissionError) as at_verify:
+        admission.verify(plan, checkpoints, "q-1", by="someone")
+    assert "not the one it was admitted with" in str(at_verify.value)
+    with pytest.raises(admission.AdmissionError) as at_close:
         admission.close(plan, checkpoints, "q-1")
-    assert "acceptance command changed" in str(refused.value)
+    assert "not the one it was admitted with" in str(at_close.value)
+
+    plan.write_text(plan.read_text(encoding="utf-8").replace("### ⬜", "### ✅"),
+                    encoding="utf-8")
+    got = rerun(plan, checkpoints)
+    assert got.returncode == 1
+    assert "not the one it was admitted with" in got.stdout
+
+
+def test_a_forged_passed_receipt_does_not_survive_the_acceptance_rerun(tmp_path):
+    """A receipt is text in a checkpoint the tree hash leaves out, so it can be typed. The
+    machine that re-runs the row's own command reads no receipt at all."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    admission.admit(route(), plan, checkpoints)
+    cp = checkpoints / "q-1.md"
+    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    forged = ('RECEIPT: {"by": "a name anybody can type", "verdict": "passed", '
+              '"dod_hash": "%s", "acceptance": "grep -q v2 deliverable.txt", '
+              '"checks": [["grep -q v2 deliverable.txt", 0]]}'
+              % admission.dod_digest("deliverable.txt contains v2"))
+    checkpoint.update_checkpoint(cp, done=(body + "\n" + forged).strip())
+    # The whole forgery a hand can perform: the receipt, the sheet closed over it, the mark.
+    checkpoint.close_checkpoint(cp)
+    plan.write_text(plan.read_text(encoding="utf-8").replace("### ⬜", "### ✅"),
+                    encoding="utf-8")
+
+    # The receipt gate reads the receipt and is satisfied — which is the whole defect.
+    assert gate(plan, checkpoints).returncode == 0
+    # The re-run runs the deliverable's own check instead, and the deliverable still says v1.
+    got = rerun(plan, checkpoints)
+    assert got.returncode == 1
+    assert "its acceptance command failed here" in got.stdout
+
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    assert rerun(plan, checkpoints).returncode == 0
 
 
 # ---------------------------------------------------------------- 3. the contract swap
@@ -257,15 +354,16 @@ def test_the_board_does_not_publish_a_done_over_a_failed_receipt(tmp_path):
 
 # --------------------------------------------- what the adversarial read of the fix itself found
 
-def test_a_closed_row_does_not_clear_the_spawn_guard(tmp_path):
-    """Naming any finished row in a prompt is admission in name and nothing else."""
+def test_a_token_dies_with_the_row_it_was_cut_for(tmp_path):
+    """A finished row opens nothing, token or no token."""
     plan, checkpoints = host(tmp_path, key="true")
     admission.admit(route(), plan, checkpoints)
+    token = token_for(tmp_path, checkpoints)
     admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
     admission.close(plan, checkpoints, "q-1")
-    denied = spawn(tmp_path, "Take q-1 and rewrite all of scripts/ while you are there.")
+    denied = spawn(tmp_path, "%s — and rewrite all of scripts/ while you are there." % token)
     assert denied is not None
-    assert "closed work" in denied["hookSpecificOutput"]["permissionDecisionReason"]
+    assert "no live brief token" in denied["hookSpecificOutput"]["permissionDecisionReason"]
 
 
 def test_the_guard_finds_the_board_from_a_subdirectory(tmp_path):
@@ -313,12 +411,76 @@ def test_an_empty_or_zero_base_does_not_stand_the_new_done_arm_down(tmp_path):
         assert "has no checkpoint" in got.stdout
 
 
+def test_deleting_the_key_of_an_admitted_row_reds_the_rerun(tmp_path):
+    """The one deleted line that used to turn a forged done into a row this gate merely reported."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "scripts" / "plan_checks.py").write_text("CHECKS = {}\n", encoding="utf-8")
+    plan.write_text(plan.read_text(encoding="utf-8").replace("### ⬜", "### ✅"),
+                    encoding="utf-8")
+    got = rerun(plan, checkpoints)
+    assert got.returncode == 1
+    assert "A removed check is not a passed one" in got.stdout
+
+
+def test_a_check_table_that_does_not_load_reds_instead_of_passing(tmp_path):
+    """Fail-open on the one file the whole gate stands on turned every row keyless and green."""
+    plan, checkpoints = host(tmp_path)
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "scripts" / "plan_checks.py").write_text("CHECKS = {\n", encoding="utf-8")
+    plan.write_text(plan.read_text(encoding="utf-8").replace("### ⬜", "### ✅"),
+                    encoding="utf-8")
+    got = rerun(plan, checkpoints)
+    assert got.returncode == 1
+    assert "unreadable" in got.stdout
+
+
+def test_an_anchor_rewritten_since_the_base_is_caught_at_the_push(tmp_path):
+    """The anchors live in the same file as the receipt, so a hand can move them. What a hand
+    cannot move is the copy the remote already holds."""
+    plan, checkpoints = host(tmp_path, key="true")
+    admission.admit(route(), plan, checkpoints)
+    admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    admission.close(plan, checkpoints, "q-1")
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-qm", "closed"], cwd=tmp_path, check=True,
+                   capture_output=True)
+    base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=tmp_path, capture_output=True,
+                          text=True).stdout.strip()
+
+    cp = checkpoints / "q-1.md"
+    cp.write_text(cp.read_text(encoding="utf-8").replace(
+        "ACCEPT: " + admission.dod_digest("true"), "ACCEPT: " + admission.dod_digest("false")),
+        encoding="utf-8")
+    got = gate(plan, checkpoints, base=base)
+    assert got.returncode == 1
+    assert "ACCEPT anchor has moved since the base" in got.stdout
+
+
+def test_the_board_never_prints_a_spawn_token(tmp_path):
+    """A token opens the guard for as long as its row stands, and the DONE trail is drawn onto a
+    public page verbatim."""
+    plan, checkpoints = host(tmp_path, key="true")
+    admission.admit(route(), plan, checkpoints)
+    token = token_for(tmp_path, checkpoints)
+    for name in ("render-board.sh", "plan_checks_core.py", "checkpoint.py"):
+        shutil.copy(SCRIPTS / name, tmp_path / "scripts" / name)
+    env = dict(os.environ, LIVE_SPEC_BOARD_CHECKS="off")
+    env.pop("LIVE_SPEC_EVALUATING", None)
+    got = subprocess.run(["bash", "scripts/render-board.sh"], cwd=tmp_path, env=env,
+                         capture_output=True, text=True, timeout=120)
+    assert got.returncode == 0, got.stderr
+    page = (tmp_path / "board.html").read_text(encoding="utf-8")
+    assert token not in page
+    assert "BRIEF-TOKEN" not in page
+
+
 # ---------------------------------------------------------------- the ordinary road still runs
 
 def test_a_task_that_is_really_finished_still_closes(tmp_path):
     plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
     admission.admit(route(), plan, checkpoints)
-    assert spawn(tmp_path, "Take q-1 and finish it.") is None
+    assert spawn(tmp_path, token_for(tmp_path, checkpoints)) is None
 
     (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
     receipt = admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")

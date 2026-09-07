@@ -208,16 +208,19 @@ the verdict has already made stale is the failure that produced that incident.
 **Nothing is spawned before admission.** A worker or a subagent starts only from the brief the
 pipeline hands it (`brief <id>`), and the brief is refused without an admitted row on the one
 board carrying a definition of done and an acceptance command. A report or a row written after
-the work was done is not admission; the gate refuses without a task id, mechanically (the
-tlvphotos defect, 2026-09-06).
+the work was done is not admission (the tlvphotos defect, 2026-09-06). The guard reads the token
+`brief` cut, and the body says how one is got. Why a token and not an id: an id is something
+anybody can type, and reading one out of a prompt admitted every spawn whose author knew a row
+number.
 
 The rule sits on the spawn itself, not on the caller's willingness to consult it: the guard the
 body names and the brief run the same three legs through the same function, `pre_spawn_check`, so
 they cannot judge a row differently. Until that guard existed the legs lived only inside `brief`,
 a command an orchestrator was free never to call. What the guard costs, said plainly: every spawn
-from a session opened on this project names a row, read-only errands included. What it cannot
-reach: a spawn from a session that does not load this repository's settings, and a worker that
-names a real row and then does something else — it reads the board, never the worker's conduct.
+from a session opened on this project carries a token, read-only errands included. What it cannot
+reach: a spawn from a session that does not load this repository's settings, and the work itself —
+the hook is handed the prompt text and nothing about what the agent will actually do, so the
+environment gives no way to bind the two.
 
 
 The skill body carries the rule in short. These are the ten clauses it defers here, and the
@@ -249,13 +252,22 @@ The published board reads the same receipt: `scripts/render-board.sh` draws a do
 receipt as reopened, which holds on the Pages runner, where no acceptance command runs at all and
 every mark is otherwise taken at its word.
 
+**The acceptance that decides is executed, on another machine** — the body carries the mechanic.
+Why it is so: a receipt is plain text in the checkpoint, which the tree hash deliberately leaves
+out of the tree it pins, so a hand-written RECEIPT line satisfied both `close` and the receipt
+gate and the board published a done nobody had earned. When the re-run reds, nothing is published
+and the previous page stands: a board a day behind says less than a board that is wrong. Three
+conditions carry the publish — the gates run succeeded, it was a push, and it came from this
+repository — because `gates` also runs on pull requests and a fork's branch named `main` would
+otherwise publish a board its own check table had greened.
+
 **What none of this holds, said rather than left to be discovered.** Whether a recorded acceptance
-is a meaningful check: a key reading `true` clears every gate here, and the only reader of that is
-a person looking at the diff. And a receipt is plain text in the checkpoint, which the tree hash
-deliberately leaves out of the tree it pins, so a hand-written RECEIPT line satisfies both `close`
-and the gate. What the kernel buys is that forging a done now takes a forged receipt naming a
-verifier, a verdict and the admitted done's own digest, sitting in the diff — instead of one typed
-character.
+is a meaningful check: a key reading `true` passes admission and every gate after it, and the only
+reader of that is a person looking at the diff. And every anchor here — the done's, the
+acceptance's, the spawn token — is a line in a checkpoint, in the same file as the receipt, so a
+hand on this machine can write one; what cannot be written locally is the copy the remote already
+holds, which is why the receipt gate compares the two and why the acceptance that decides is
+executed in CI. Inside one machine these are costs, not walls.
 
 `admit` writes the DOD's own sha256 onto the row beside the text it hashes. `correct <id> --done
 "<new>" --source "<who asked>" --reason "<why>"` is the only door through it: it records the
@@ -268,6 +280,36 @@ acceptance receipt into the checkpoint's `DONE` section: who accepted, when, the
 write-tree` computes over a temporary index of the working tree, the HEAD commit, the frozen DOD's
 hash, the acceptance it ran, the surfaces given, and every command with the exit code it actually
 returned.
+
+**The route file admission takes.** The body names `admit --route <route.json>` and the facts a
+route has to carry; these are the field names, so a session holding the body and this page can
+write one:
+
+```json
+{
+  "action": "new",
+  "creates_work": true,
+  "existing_task": null,
+  "title": "Send the weekly digest",
+  "project": "live-spec",
+  "scope": "Reports",
+  "source": {"kind": "person", "detail": "the person, this turn"},
+  "observable_outcome": "a weekly digest reaches the test inbox",
+  "done_when": "the fixture records exactly one weekly message",
+  "verification": "python3 tests/test_digest.py",
+  "context_pointers": ["`scripts/digest.py`", "R-104"],
+  "estimate": "2–4 hours"
+}
+```
+
+A missing field is refused with one reason and exit 2, like every other refusal here.
+
+**The acceptance is fixed at admission, like the done** — the body carries the mechanic and the
+commands. Why it is so: closing the `--command true` hole at the command line only moved it one
+file over, into the check table anybody could rewrite between admission and the close. The anchor
+`admit` records is what the three readers compare against, and the receipt gate compares that
+anchor against the one the remote already holds, so a rewrite that edits the table and the anchor
+together still shows up at the push.
 
 **The verifier runs the acceptance the row already recorded** — the body carries the mechanic and
 the command shape. Why it is so: until 2026-09-06 the receipt was made of whatever the command

@@ -231,7 +231,12 @@ CPS = read_checkpoints()
 
 
 def section(cp, name):
-    return (cp.get("sections", {}).get(name) or "").strip() if cp else ""
+    body = (cp.get("sections", {}).get(name) or "").strip() if cp else ""
+    # A spawn token is a credential: it opens the guard on the subagent tool for as long as its
+    # row stands. The checkpoint's DONE trail is drawn verbatim onto a public page, so the token
+    # would have shipped with it (the adversarial read of 2026-09-07).
+    return "\n".join(ln for ln in body.splitlines()
+                     if not ln.startswith("BRIEF-TOKEN:")).strip()
 
 
 def is_empty_section(text):

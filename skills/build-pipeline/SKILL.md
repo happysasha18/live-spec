@@ -84,15 +84,25 @@ checkpoint as the `DOD:` anchor written at admission. Deleting the row's line is
 contract — the anchor still holds the done the row was admitted on, and the verifier refuses.
 `correct --done` moves both.
 
-No worker starts before all of this exists. `guardrails/worker-admission-guard.py`, wired onto the
-subagent tool in this repository's `.claude/settings.json`, denies a spawn whose prompt names no
-admitted row with a definition of done and a recorded acceptance command. Admission writes the
-row's `**Verification:**` prose and no key, so the key goes into `scripts/plan_checks.py` under the
-row's id by hand, before the first spawn — that is what clears the denial. The same key is what
-`verify` runs, so a row without one cannot be closed either: on a freshly attached host, whose
-`scripts/plan_checks.py` ships empty, the first row's key is written before its first close.
-Then hand the worker `python3 scripts/task-admission.py brief <id>` and name that id in the
-prompt. A closed row is finished work: naming one does not clear the guard.
+The acceptance command is a condition of admission. `next-id` prints the id the next admission
+will mint; its key goes into `scripts/plan_checks.py` under that id, and only then does `admit`
+take the route (the route file's own fields are in the reference). A key naming `$HOME` or `~/` is
+refused, since no run on a commit could judge it. `admit` records the key's digest on the
+checkpoint under `ACCEPT: `, and `verify`, `close` and the CI re-run each refuse a key that has
+moved since.
+
+No worker starts before all of this exists. Take the row up with `python3
+scripts/task-admission.py hold <id> --holder <name> [--lanes <n>]`, then run `brief <id>`: it
+prints a spawn token and records it on the row's checkpoint (so `brief` writes).
+`guardrails/worker-admission-guard.py`, wired onto the subagent tool in this repository's
+`.claude/settings.json`, denies a spawn whose prompt carries no live token. A token stays live
+while its row's checkpoint is open and the done and acceptance it was cut against still stand, so
+a brief taken before either moved is refused.
+
+The acceptance that decides is run by a machine that wrote no receipt.
+`guardrails/check-acceptance-rerun.py` takes every done row carrying an admitted key and runs that
+key at the pushed commit (CI gate v); it reads no receipt. The board's workflow runs after gates,
+and every automatic run publishes only behind a green gates run for the commit it judged.
 
 The ten clauses this rule stands on — who may change a done and what that keeps, what the verifier
 receives, what voids the evidence, what `blocked` may mean, and why the presence of a test is not a

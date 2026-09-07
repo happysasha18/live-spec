@@ -8,19 +8,29 @@ legs are the pre-spawn rule, and until this hook they lived only inside `task-ad
 chooses to consult it is a note, not a gate; the tlvphotos defect of 2026-09-06 is a night of work
 spawned first and given a row afterwards.
 
-WHERE THE ROW ID COMES FROM.  The prompt the spawn carries.  A brief written by `brief` opens with
-the row's own heading, so the id is already in the text; a prompt that names none is a spawn nobody
-can trace to the board, which is the act being refused.  The first `q-<n>` / `plan-<n>` token in
-the prompt is read as the row, and every leg is then judged against the plan of the tree the
-session is standing in.
+WHAT THE SPAWN HAS TO CARRY.  The token `task-admission.py brief <id>` issued, pasted into the
+prompt.  An id is something anybody can type, so reading one out of the prompt admitted any spawn
+whose author knew a row number.  A token is thirty-two random hex characters recorded on that
+row's checkpoint together with the two digests it was cut against — the row's frozen done and its
+admitted acceptance command — and it is live only while that checkpoint is open and both digests
+still match, so a brief taken before the done or the acceptance moved is refused.  It is not
+single-use: it stands for every spawn on that row until one of those three moves.
+
+The token is a line in a checkpoint, so a hand on this machine can write one without running
+`brief`; what it buys is that a spawn cannot ride a row number, and that a hand-written one sits
+in the diff.  The guarantee that survives a hand on this disk is the CI one — see
+`guardrails/check-acceptance-rerun.py`.
+
+Every leg is then judged against the plan of the tree the session is standing in.
 
 WHAT IT DOES NOT REFUSE, said rather than left to be discovered:
 
   - A spawn outside a live-spec tree.  No PLAN.md at `cwd` or above it, no board to judge against,
     and this hook says nothing.  A host attaches the board first, then this gate means something.
-  - A prompt that names an admitted row and then asks the worker for something else entirely.  The
-    hook reads the board, not the worker's conscience.  What it guarantees is that work has a row,
-    a done, and a check before anybody starts — never that the worker obeys the row.
+  - A prompt that carries a live token and then asks the worker for something else entirely.  The
+    hook is handed the prompt text and nothing about the work the agent will actually do, so the
+    environment offers no way to bind the two; what the token binds is the spawn to one open row
+    in one state, never the worker's conduct to that row.
   - Whether the recorded acceptance command is a MEANINGFUL check.  It reads that the row has one,
     never what it tests: a key reading `true` clears this gate and every gate after it, and the
     only reader of that is a person looking at the diff.
@@ -39,16 +49,17 @@ from pathlib import Path
 
 # The tools that start another agent. A name this list does not carry passes untouched.
 SPAWN_TOOLS = ("Task", "Agent")
-ROW_ID = re.compile(r"\b((?:q|plan)-\d+)\b")
+# What `brief` prints: thirty-two hex characters on their own. Read as a candidate wherever it
+# stands in the prompt, and worth nothing unless a checkpoint actually holds it.
+TOKEN = re.compile(r"\b([0-9a-f]{32})\b")
 
 
-def _row_id(payload):
-    """The first row id the spawn's own prompt names, or None."""
+def _tokens(payload):
+    """Every token-shaped run the spawn's own prompt carries."""
     tool_input = payload.get("tool_input") or {}
     text = " ".join(str(tool_input.get(field) or "")
                     for field in ("prompt", "description", "message"))
-    found = ROW_ID.search(text)
-    return found.group(1) if found else None
+    return TOKEN.findall(text)
 
 
 def _admission(root):
@@ -81,16 +92,29 @@ def decide(payload):
     admission = _admission(root)
     if admission is None:
         return None
-    task_id = _row_id(payload)
-    try:
-        admission.pre_spawn_check(plan, root / ".live-spec" / "checkpoints", task_id or "")
-    except Exception as exc:  # noqa: BLE001 - AdmissionError, and anything the plan read threw
+    checkpoints = root / ".live-spec" / "checkpoints"
+    task_id = None
+    for candidate in _tokens(payload):
+        try:
+            task_id = admission.token_row(plan, checkpoints, candidate)
+        except Exception:  # noqa: BLE001 - a plan this hook cannot read judges nothing
+            return None
+        if task_id:
+            break
+    if not task_id:
         return (
-            "worker-admission-guard: this spawn does not stand on an admitted row. %s\n"
-            "Admit the work first (`python3 scripts/task-admission.py admit --route <route.json>`), "
-            "write the row's acceptance command into scripts/plan_checks.py keyed by its id, then "
-            "hand the worker `python3 scripts/task-admission.py brief <id>` and name that id in "
-            "the prompt." % exc)
+            "worker-admission-guard: this spawn carries no live brief token, so nothing binds it "
+            "to work anybody admitted. A token is issued by `python3 scripts/task-admission.py "
+            "brief <id>` and dies when that row closes or when its definition of done or its "
+            "acceptance command moves; a row id typed into a prompt is not one.\n"
+            "Admit the work first (write its acceptance command into scripts/plan_checks.py under "
+            "the id `next-id` prints, then `admit --route <route.json>`), take it up with `hold`, "
+            "then run `brief <id>` and paste the token it prints into the worker's prompt.")
+    try:
+        admission.pre_spawn_check(plan, checkpoints, task_id)
+    except Exception as exc:  # noqa: BLE001 - AdmissionError, and anything the plan read threw
+        return ("worker-admission-guard: %s's token is live but the row itself does not stand up. "
+                "%s" % (task_id, exc))
     return None
 
 
