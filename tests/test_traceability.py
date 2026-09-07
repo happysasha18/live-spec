@@ -1560,10 +1560,9 @@ class TestTargetOwnership(unittest.TestCase):
         # closing) rather than q-811's "a real ask for it".
         # INV-308 and INV-67 dropped 2026-09-06 with criterion 8's own `[target]` marker, in
         # the same commit, per SPEC S-0 (a satisfied promise leaves both the tag and its map
-        # entry). The board is published: `.github/workflows/pages.yml` renders it with this
-        # repository's own `scripts/render-board.sh` on every push to main and serves that one
-        # file at https://happysasha18.github.io/live-spec/board.html — verified live at that
-        # URL before this edit. There is no second board store and no committed page.
+        # entry). The board is drawn from this tree by `scripts/render-board.sh` when somebody
+        # asks for it. It was published at a stable link from 2026-09-06 to 2026-09-07, when the
+        # owner took it off that link; there is no second board store and no committed page.
         # Requirement 315 (the idea shelf) stays retired: the owner's correction forbids the
         # mechanism itself, unrelated to the R309/turnkey-contract collision above. Its only
         # `[target]` sat on the requirement's own heading line, which carries no trailing anchor

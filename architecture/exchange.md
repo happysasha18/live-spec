@@ -32,7 +32,7 @@
 **pins** —
 - `docs/norms/work-board.html` (the frozen norm the page's form follows)
 - `scripts/render-board.sh:1` (the generator, and the one source file: it holds the craft set and reads every other field from the plan, the checkpoints, git's own lanes, the waiting list, the archive and the registry)
-- the drawn page `board.html` — generated, gitignored, published by `.github/workflows/pages.yml:1` at the one stable link the registry row names; it is an output, so no line of it is pinned
+- the drawn page `board.html` — generated, gitignored, written by `scripts/render-board.sh:1` whenever somebody asks for the board and standing at no address; it is an output, so no line of it is pinned
 - `SURFACES.md:1` (the registry row the board refuses to render without)
 - `tests/test_work_board.py:1` (one test per built fact of `matrix/work-board.md`)
 - — (the statement-validation check is specified; its code is still ahead)

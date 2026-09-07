@@ -1011,12 +1011,11 @@ class TestRealTree:
 
 
 # =========================================================================== a fresh clone
-# The page a stranger opens is not rendered on the machine that holds the work. It is rendered by
-# the Pages job, in a checkout minutes old, with `LIVE_SPEC_BOARD_CHECKS=off`. In that tree every
-# file's birth time and modification time is the checkout instant and no lane branch exists
-# locally, so every filesystem stamp the renderer used to trust said the same false thing: opened
-# now, moving now. Verified live at https://happysasha18.github.io/live-spec/board.html, built from
-# de542335 — "1 of 3 lanes busy" with q-816 in Lane 1, "running 0 min so far (opened 2026-09-06
+# A board drawn somewhere other than the machine that holds the work is drawn in a checkout minutes
+# old, with `LIVE_SPEC_BOARD_CHECKS=off`. In that tree every file's birth time and modification
+# time is the checkout instant and no lane branch exists locally, so every filesystem stamp the
+# renderer used to trust said the same false thing: opened now, moving now. Seen on the page this
+# repository published between 2026-09-06 and 2026-09-07, built from de542335 — "1 of 3 lanes busy" with q-816 in Lane 1, "running 0 min so far (opened 2026-09-06
 # 10:29)", every feed line stamped 10:29, "built 10:29" with no zone beside a UTC clock, and
 # "main in /home/runner/work/live-spec/live-spec" on a public page.
 #

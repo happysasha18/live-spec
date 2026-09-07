@@ -102,10 +102,9 @@ the gates go red and stop the push.
 
 ## Where the pack stands
 
-The pack's own work board is public: https://happysasha18.github.io/live-spec/board.html shows what
-is in hand, who runs it, and what it took. It is not a copy — `.github/workflows/pages.yml` runs
-`scripts/render-board.sh` over this repository on every push to main and publishes the one page that
-renderer wrote.
+The pack keeps its own work board: `bash scripts/render-board.sh` draws it from this tree and the
+page it writes shows what is in hand, who runs it, and what it took. It is drawn on the spot from
+the plan and the checkpoints, so there is one source and no copy to fall behind.
 
 One author, no outside adopters yet — small and early. Every gate earns its place before it ships:
 someone watched the exact mistake it now catches happen for real, on purpose, then built the gate

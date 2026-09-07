@@ -393,7 +393,12 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         "q-166": "4e0e10899e4daa694207bcefc83e5a556bdbcbb4480b08fb910da92d77a53cca",
         #: Re-read 2026-09-06 16:58: greps over the renderer, SURFACES.md, the spec, the matrix and the
         #: statement tests, one `test -f`; nothing runs, nothing renders (the re-entry incident).
-        "q-816": "0b7371e92e361481c411a3ca5d3b12ce9e299b1e90e03c0f9a62fc88483aaf71",
+        #: Re-read and re-pinned 2026-09-07, after the board left its published address: the two
+        #: clauses that read the registry for that address and asserted the publishing workflow
+        #: exists now read the registry for a row WITHOUT an address and assert the workflow is
+        #: absent. Same two files, same two acts, both still read-only; nothing was added, moved
+        #: or widened.
+        "q-816": "a6746dfeacd59bddcdef72e633815e611f54285b27d22f38e046763f465fc404",
     }
 
     def setUp(self):

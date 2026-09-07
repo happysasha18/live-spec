@@ -12,11 +12,10 @@ this registry must keep up.
 | readme-pipeline | coded until green, and committed with its documents in one change | INV-44 |
 | readme-known-issues | Known issues | INV-44 |
 | overview-map | the ideas in five minutes | INV-48 |
-| work-board | https://happysasha18.github.io/live-spec/board.html | INV-308, INV-309, INV-310, INV-311, INV-312, INV-313, INV-71, INV-67 |
+| work-board | bash scripts/render-board.sh | INV-308, INV-309, INV-310, INV-311, INV-312, INV-313, INV-71, INV-67 |
 
-The work board's needle is its own canonical link, `https://happysasha18.github.io/live-spec/board.html`,
-so the one identifying line the page leads with names the address the page is read at.
-`.github/workflows/pages.yml` is how it gets there: on every push to main it runs this repository's
-own `scripts/render-board.sh` against this repository's own checkout and publishes the single
-`board.html` that renderer wrote. The page has no second store and no hand upload — one source
-file, one link.
+The work board is drawn from this tree when somebody asks for it — `bash scripts/render-board.sh`,
+then open the file it wrote. It is registered here because it is a surface a person reads, and its
+needle is the line that page leads with. It stands at no address: the owner's word of 2026-09-07
+is that the board is kept current and shown on demand, so the source file in this tree is where it
+lives and there is nowhere else to look for it.
