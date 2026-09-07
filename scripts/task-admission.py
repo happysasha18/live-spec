@@ -50,9 +50,136 @@ HUMAN_GATE = re.compile(
 )
 TASK_HEADER = re.compile(r"(?m)^###\s+[^\n]*?—\s+id:\s*([a-z]+)-(\d+)\s*$")
 
+# ------------------------------------------------- the record admission reads before it writes
+# The record is what the project already settled: the rows on the live plan, the rows rotated
+# into the queue archive, the decisions on record, and the commits that landed them. Admission
+# read none of it. It compared the new title against the live plan alone, so a row whose full
+# record had rotated out was invisible, and a decision already taken was invisible whatever it
+# said. The three refusals below are the teeth: the scan reaches the archive, every reference a
+# route names has to resolve to something a reader can open, and a title already on the record
+# lifts only against a written record of what is new.
+ARCHIVE_DIR = "docs/queue-archive"
+DECISION_RECORD = "DECISIONS.md"
+# A row header, on the live plan and in the archive alike: the mark, then the title, then the id.
+ROW_TITLE = re.compile(r"(?m)^###\s+[^\n]*?\s+(.*?)\s+\u2014\s+id:\s*(\S+)\s*$")
+# The three shapes a reference can take, each one a thing that can be looked up: a row id, a
+# commit, or the date an entry in the decision record carries. A reference of any other shape
+# names nothing anybody can open, which is the whole point of naming one.
+REF_ROW = re.compile(r"^[a-z]+-\d+$")
+REF_SHA = re.compile(r"^[0-9a-f]{7,40}$")
+REF_DATE = re.compile(r"^\d{4}-\d\d-\d\d$")
+
 
 class AdmissionError(ValueError):
     pass
+
+
+def _tree_root(plan_path) -> Path:
+    return Path(plan_path).resolve().parent
+
+
+def record_rows(tree: Path):
+    """Every row the project's record holds — the live plan and the queue archive both.
+
+    Yields `(normalized_title, task_id, where)`. The archive is read because a closed row's full
+    record moves there and the live plan keeps only a stub; scanning the live plan alone made
+    every rotated row invisible to the duplicate refusal (the owner's word, 2026-09-07).
+    """
+    seen = set()
+    files = [tree / "PLAN.md"]
+    archive = tree / ARCHIVE_DIR
+    if archive.is_dir():
+        files.extend(sorted(archive.glob("*.md")))
+    for path in files:
+        if not path.is_file():
+            continue
+        for title, task_id in ROW_TITLE.findall(path.read_text(encoding="utf-8")):
+            key = (" ".join(title.lower().split()), task_id)
+            if key in seen:
+                continue
+            seen.add(key)
+            yield key[0], task_id, str(path.relative_to(tree))
+
+
+def _commit_exists(tree: Path, sha: str) -> bool:
+    try:
+        return subprocess.run(["git", "-C", str(tree), "cat-file", "-e", sha + "^{commit}"],
+                              stdout=subprocess.DEVNULL,
+                              stderr=subprocess.DEVNULL).returncode == 0
+    except OSError:
+        return False
+
+
+def resolve_ref(tree: Path, ref: str) -> str:
+    """Say where a reference lives, or refuse it.
+
+    A route names what it read. A name nothing resolves is the same as having read nothing, and
+    it is the cheap way to satisfy a reading duty without reading, so it is refused here rather
+    than believed.
+    """
+    ref = str(ref).strip()
+    if REF_ROW.match(ref):
+        for _, task_id, where in record_rows(tree):
+            if task_id == ref:
+                return where
+        raise AdmissionError("no row on the record is %s" % ref)
+    if REF_SHA.match(ref):
+        if _commit_exists(tree, ref):
+            return "commit %s" % ref
+        raise AdmissionError("no commit in this tree is %s" % ref)
+    if REF_DATE.match(ref):
+        decisions = tree / DECISION_RECORD
+        if decisions.is_file() and ref in decisions.read_text(encoding="utf-8"):
+            return DECISION_RECORD
+        raise AdmissionError("no entry in %s carries the date %s" % (DECISION_RECORD, ref))
+    raise AdmissionError(
+        "%s names nothing anybody can open: a reference is a row id (q-12), a commit sha, or "
+        "the date of an entry in %s" % (ref, DECISION_RECORD))
+
+
+def read_prior_record(route: dict, tree: Path) -> dict:
+    """What the route read off the record before it asked for a row, and what it found.
+
+    Two fields. `read` lists the references consulted — it may be empty, because a genuinely new
+    area has nothing on record and forcing a citation there would only buy a false one. `finding`
+    says in the route's own words what the read settled. Every reference named has to resolve,
+    which is what stops the field being filled with plausible ids nobody looked up.
+    """
+    record = route.get("prior_record")
+    if not isinstance(record, dict):
+        raise AdmissionError(
+            "new work carries a prior_record: what was read off the plan, the queue archive, "
+            "%s and the log before this row was asked for, and what it found. "
+            "`task-admission.py prior <words>` prints the record to read." % DECISION_RECORD)
+    finding = str(record.get("finding", "")).strip()
+    if not finding:
+        raise AdmissionError("prior_record.finding says what the read found")
+    raw = record.get("read")
+    if isinstance(raw, str):
+        raw = [raw]
+    refs = [str(r).strip() for r in (raw or []) if str(r).strip()]
+    return {"read": [(ref, resolve_ref(tree, ref)) for ref in refs], "finding": finding}
+
+
+def read_supersedes(route: dict, tree: Path):
+    """The written record that lifts a refusal: what is new, and why the old decision misses it.
+
+    Absent unless the route carries it. Present, all three parts are required — the thing being
+    superseded, what is new about this request, and why the decision already on record does not
+    cover it — because a supersedes with any of the three missing is the silent overwrite this
+    refusal exists to stop.
+    """
+    record = route.get("supersedes")
+    if record is None:
+        return None
+    if not isinstance(record, dict):
+        raise AdmissionError("supersedes is a record with names, new and why")
+    missing = [f for f in ("names", "new", "why") if not str(record.get(f, "")).strip()]
+    if missing:
+        raise AdmissionError("supersedes is missing: %s" % ", ".join(missing))
+    names = str(record["names"]).strip()
+    return {"names": names, "where": resolve_ref(tree, names),
+            "new": str(record["new"]).strip(), "why": str(record["why"]).strip()}
 
 
 def validate_route(route: dict) -> str:
@@ -476,9 +603,17 @@ def _estimate(route: dict, plan: str, checkpoints_dir):
         high, _unit = _span(max(m for _, m in history))
         if _unit != unit:
             low, unit = round(min(m for _, m in history) / 60.0, 1), "hours"
-        return low, high, unit, (
-            "closed rows %s in the same group, timed off their own checkpoint stamps"
-            % ", ".join(i for i, _ in history))
+        ids = [i for i, _ in history]
+        # A basis that says "rows" over one row, and a range whose two ends are the same number
+        # with nothing saying why, both read as a slip to a fresh reader (the clean-context
+        # reading of q-824, 2026-09-07). The sentence agrees with what the history actually held.
+        if len(ids) == 1:
+            basis = ("closed row %s in the same group, the only comparable one, so both ends of "
+                     "the range are its own duration, timed off its checkpoint stamps" % ids[0])
+        else:
+            basis = ("closed rows %s in the same group, timed off their own checkpoint stamps"
+                     % ", ".join(ids))
+        return low, high, unit, basis
     raw = " ".join(str(route.get("estimate") or "").split())
     m = re.fullmatch(r"([\d.]+)\s*[\u2013\u2014-]\s*([\d.]+)\s+([A-Za-z]+)", raw)
     if not m:
@@ -507,7 +642,23 @@ def next_task_id(plan: str) -> str:
     return "q-%d" % ((max(nums) if nums else 0) + 1)
 
 
-def render_task(route: dict, task_id: str, statement: str) -> str:
+def _read_paragraph(prior: dict, supersedes) -> str:
+    """The two paragraphs the record's read leaves on the row itself.
+
+    They sit on the row because the row is where the next session looks. A read that lived only
+    in the route would be gone the moment the route file was.
+    """
+    refs = ", ".join("%s (%s)" % (ref, where) for ref, where in prior["read"]) or "nothing named"
+    out = "**Read before admission.** %s. Finding: %s\n\n" % (refs, prior["finding"])
+    if supersedes:
+        out += ("**Supersedes.** %s (%s). New here: %s. Why the earlier decision does not cover "
+                "it: %s\n\n" % (supersedes["names"], supersedes["where"], supersedes["new"],
+                                 supersedes["why"]))
+    return out
+
+
+def render_task(route: dict, task_id: str, statement: str,
+                prior: dict, supersedes=None) -> str:
     source = route["source"]["detail"].strip()
     return (
         "### ⬜ {title} — id: {task_id}\n"
@@ -516,6 +667,7 @@ def render_task(route: dict, task_id: str, statement: str) -> str:
         "**Outcome:** {outcome}\n\n"
         "{statement_prefix} {statement}\n\n"
         "**Done when:** {done}\n\n"
+        "{read}"
         "{dod_hash_prefix} {dod_hash}\n\n"
         "**Verification:** {verification}\n\n"
         "**Context pointers.** {pointers}\n"
@@ -524,6 +676,7 @@ def render_task(route: dict, task_id: str, statement: str) -> str:
         source=source, outcome=route["observable_outcome"].strip(),
         statement_prefix=STATEMENT, statement=statement,
         done=route["done_when"].strip(), verification=route["verification"].strip(),
+        read=_read_paragraph(prior, supersedes),
         dod_hash_prefix=DOD_HASH, dod_hash=dod_digest(route["done_when"]),
         pointers=_pointers(route),
     )
@@ -564,10 +717,22 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
         return {"action": verdict, "writes": []}
 
     plan = plan_path.read_text(encoding="utf-8")
+    tree_root = _tree_root(plan_path)
+    # The record is read before the row is written, and the reading is part of the route rather
+    # than a habit a session may or may not have had. Both calls refuse rather than warn.
+    prior = read_prior_record(route, tree_root)
+    supersedes = read_supersedes(route, tree_root)
+
     normalized_title = " ".join(route["title"].lower().split())
-    for header in re.findall(r"(?m)^###\s+[^\n]*?\s+(.*?)\s+—\s+id:\s*\S+\s*$", plan):
-        if " ".join(header.lower().split()) == normalized_title:
-            raise AdmissionError("an existing task already has this title")
+    for title, on_record, where in record_rows(tree_root):
+        if title != normalized_title:
+            continue
+        if supersedes and supersedes["names"] == on_record:
+            break
+        raise AdmissionError(
+            "%s already carries this title (%s). Saying it again is admitted only against a "
+            "supersedes record naming that row, what is new in this request, and why the "
+            "decision already on record does not cover it" % (on_record, where))
 
     task_id = str(route.get("task_id") or next_task_id(plan)).strip()
     if not re.fullmatch(r"[a-z]+-\d+", task_id):
@@ -576,13 +741,23 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
     # worked on, and the check that would have judged it was then written after the work came
     # back — by whoever wanted it to pass. `next-id` prints the id this call will mint, so the
     # key goes into the tree's own check table before the row exists.
-    tree_root = Path(plan_path).resolve().parent
+    # tree_root is already resolved above, where the record was read.
     key = acceptance_key(tree_root, task_id)
     if not key:
         raise AdmissionError(
             "%s has no acceptance command, and a row is admitted with one or not at all: write "
             "its key into scripts/plan_checks.py keyed by %s, then admit. `next-id` prints the id "
             "this call will mint." % (task_id, task_id))
+    # The probe runs every recorded check at the start of every session, so a check that runs a
+    # test suite hangs the owner's morning command. The suite has held that rule since a hang in
+    # August; it held it only AFTER the row existed, and by then the acceptance is anchored and
+    # the row has no road out (q-824, 2026-09-07). The refusal moves to the door.
+    if "pytest" in key:
+        raise AdmissionError(
+            "%s's acceptance command runs a test suite, and the probe runs every recorded check "
+            "at the start of every session. Name the tests by their own names instead (grep the "
+            "test file for the function), or run them through a single named unittest case"
+            % task_id)
     if plan_checks_core.reads_outside_the_tree(key):
         raise AdmissionError(
             "%s's acceptance command reaches outside the tree (it names $HOME or ~/), so no CI "
@@ -593,7 +768,8 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
     cp_path = checkpoints_dir / (task_id + ".md")
     if cp_path.exists():
         raise AdmissionError("checkpoint already exists: %s" % cp_path)
-    task = render_task(route, task_id, derive_statement(route, plan, checkpoints_dir))
+    task = render_task(route, task_id, derive_statement(route, plan, checkpoints_dir),
+                       prior, supersedes)
     new_plan = insert_row(plan, task)
 
     # Validate the checkpoint completely in a temporary location before either durable write.
@@ -1484,6 +1660,48 @@ def _has_acceptance_key(tree: Path, task_id: str) -> bool:
     return bool(acceptance_key(tree, task_id))
 
 
+def prior(plan_path, words) -> str:
+    """Print what the record already holds about these words. This prints; it judges nothing.
+
+    Four places, in the order a person would look: the rows on the live plan, the rows in the
+    queue archive, the decisions on record, and the commit subjects. A line is shown when it
+    carries EVERY word given, matched without case. The caller picks the words, so there is no
+    similarity score here and no cutoff — a threshold nobody agreed on would decide silently
+    what a person is allowed to see.
+    """
+    tree = _tree_root(plan_path)
+    terms = [w.lower() for w in words if str(w).strip()]
+    if not terms:
+        raise AdmissionError("prior needs at least one word to look for")
+
+    def hits(lines):
+        return [line for line in lines if all(t in line.lower() for t in terms)]
+
+    out = []
+    rows = [("%s  %s  (%s)" % (task_id, title, where))
+            for title, task_id, where in record_rows(tree)]
+    out.append(("rows on the record", hits(rows)))
+
+    decisions = tree / DECISION_RECORD
+    out.append((DECISION_RECORD,
+                hits(decisions.read_text(encoding="utf-8").splitlines())
+                if decisions.is_file() else []))
+
+    try:
+        log = subprocess.run(["git", "-C", str(tree), "log", "--oneline", "--no-decorate"],
+                             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                             text=True).stdout.splitlines()
+    except OSError:
+        log = []
+    out.append(("commits", hits(log)))
+
+    report = []
+    for heading, found in out:
+        report.append("%s: %d" % (heading, len(found)))
+        report.extend("  " + line.strip() for line in found)
+    return "\n".join(report) + "\n"
+
+
 def main() -> int:
     """One CLI surface: `admit` for T1+T2, one subcommand per transition after it.
 
@@ -1539,6 +1757,12 @@ def main() -> int:
     op("abandon", ("--reason", True), help="T9 — clear and close the checkpoint with the reason")
     op("brief", help="hand a worker the ticket entry plus its checkpoint's NEXT, verbatim, "
        "headed by the one-time spawn token the guard on the subagent tool reads")
+    pri = sub.add_parser("prior", help="print what the plan, the queue archive, the decision "
+                                      "record and the log already hold about these words, so "
+                                      "the read a route has to carry is one command")
+    pri.add_argument("words", nargs="+")
+    pri.add_argument("--plan", default="PLAN.md", type=Path)
+    pri.add_argument("--checkpoints", default=".live-spec/checkpoints", type=Path)
     nid = sub.add_parser("next-id", help="print the id the next admission will mint, so the "
                                          "row's acceptance command can be written before it")
     nid.add_argument("--plan", default="PLAN.md", type=Path)
@@ -1551,6 +1775,9 @@ def main() -> int:
             route = json.loads(args.route.read_text(encoding="utf-8"))
             result = admit(route, plan, cps)
             print(json.dumps({"status": "ok", **result}, ensure_ascii=False))
+            return 0
+        if args.op == "prior":
+            print(prior(plan, args.words), end="")
             return 0
         if args.op == "next-id":
             print(next_task_id(plan.read_text(encoding="utf-8")))

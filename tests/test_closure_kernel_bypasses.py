@@ -65,7 +65,10 @@ def route(**over):
          "observable_outcome": "the deliverable file says v2",
          "done_when": "deliverable.txt contains v2",
          "verification": "grep v2 deliverable.txt",
-         "context_pointers": ["`deliverable.txt`"], "estimate": "2–4 hours"}
+         "context_pointers": ["`deliverable.txt`"], "estimate": "2–4 hours",
+         # Requirement 321: the route carries what was read off the record. A throwaway
+         # host has nothing on its own record, so the list is empty and the finding says so.
+         "prior_record": {"read": [], "finding": "nothing on this host's record covers it"}}
     r.update(over)
     return r
 

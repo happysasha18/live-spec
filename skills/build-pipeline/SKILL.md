@@ -31,7 +31,11 @@ For a new-work candidate, derive these facts before changing the board:
 - a definition of done that a command, test, artifact read, or independent verifier can decide
   without making the person the checker;
 - the project and scope the result belongs to;
-- the existing row that already covers it, or an explicit finding that none does.
+- the existing row that already covers it, or an explicit finding that none does;
+- what the record already holds: `python3 scripts/task-admission.py prior <words>` prints the
+  rows on the live plan, the rows in the queue archive, the decisions on record, and the commit
+  subjects carrying those words. The route carries what was read and what it found, and
+  admission refuses a reference that resolves to none of them (SPEC Requirement 321, INV-327).
 
 Missing any one means no new row. Continue reading the project to derive it; ask the person only
 for a product choice no artifact settles. A review opinion, another project's note, a mismatched
@@ -40,9 +44,12 @@ that produced it.
 
 Pass the route through `python3 scripts/task-admission.py --route <route.json>`. This is the one
 write door for a new heading-shaped PLAN: it validates source, outcome, DOD, verification, project,
-scope, context pointers and duplicate title, then writes exactly one row and its pipeline-owned
-checkpoint. A route for a question writes nothing; a correction names existing work and writes
-nothing new.
+scope, context pointers, the record's own read, and a title the record already carries — the queue
+archive counted beside the live plan — then writes exactly one row and its pipeline-owned
+checkpoint. A title already on the record refuses by the row's id and the file it stands in; the
+one road past that refusal is a `supersedes` record naming that row, what is new in this request,
+and why the decision already on record does not cover it, and all three land on the admitted row.
+A route for a question writes nothing; a correction names existing work and writes nothing new.
 
 Admission also derives the task's statement onto that row — an echo-name of two to five words, a
 description a stranger can act on, a plan whose steps stand in the order they run, and a time

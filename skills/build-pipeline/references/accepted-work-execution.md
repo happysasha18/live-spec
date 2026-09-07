@@ -67,11 +67,20 @@ work itself.** Writing the sheet is not only deciding how to build the thing ask
 also the one moment to weigh whether the thing asked for is right. A flaw the pipeline can see
 — a wrong assumption, a step that undoes an earlier one, a goal that conflicts with a standing
 decision already on record — gets stated plainly, with the reason, in the same reply that would
-otherwise just begin the work. This is not a question thrown back to stall: the pipeline still
-proceeds once heard out, on the human's word either way; what it never does is execute a request
-it believes is wrong without having said so first. Silent agreement is its own kind of failure —
-it looks like competence and is actually the pipeline skipping the one check only it, holding
-the fuller picture of what is already built and decided, can run.
+otherwise just begin the work. The pipeline then carries on, on the human's word either way; what
+it never does is execute a request it believes is wrong without having said so first. Silent
+agreement is its own kind of failure — it looks like competence and is actually the pipeline
+skipping the one check only it, holding the fuller picture of what is already built and decided,
+can run.
+
+**One case waits for the answer, and it is rare.** Where the request reads as an oversight — the
+person appears to have forgotten something already settled, or to have made a slip — the pipeline
+asks one plain question and waits, since guessing either way there gets the person something they
+did not ask for. The owner set that bar on 2026-09-07: stop very rarely, only where it really
+looks as though the person forgot something or made a typo, and then ask a simple question with
+no weight on it. So the question carries one sentence of conflict and nothing else — no
+apparatus, no options page, no ceremony. Every other disagreement takes the road above: say it in
+one sentence and keep going. This is SPEC Requirement 321 criteria 7 and 8.
 
 **A task enters work only through a validated statement.** The skill body carries the four fields
 admission derives and the command that validates them, and is not repeated here; what it defers to

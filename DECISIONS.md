@@ -50,6 +50,61 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-09-07 22:32 and 22:33 — a stop on deriving a runtime budget from a measurement, and
+  a ruling on where that stop lives. Your words in chat: «Стоп на выводе чисел из замеров.
+  Не вводи 600/1800 и не превращай два локальных прогона в policy.»; «300 секунд и 4
+  процесса — только факты старого контура, который мы разбираем, не образец для нового.»;
+  «В новом контракте фиксируются состав и объём работы: именованные targets, число
+  case/sample, отсутствие N² и исторического sweep. Runtime timeout может остаться лишь
+  аварийным предохранителем процесса; он не выводится из скорости этой машины, не
+  участвует в зелёном verdict и не требует baseline/load/quiet-machine сравнений.»; «Не
+  собирай больше замеров для выбора чисел.» In English: no acceptance or release budget is
+  derived from a measurement, and two local full runs are no policy. The 300-second
+  per-command figure and the 4-job default in `guardrails/check-acceptance-rerun.py` are
+  facts of the contour being dismantled, and no model for the new one. A budget fixes the
+  composition and the volume of work: named targets, the number of cases and samples, no
+  N-squared sweep, no historical sweep. A runtime timeout stays only as an emergency stop
+  on a process the run owns — it is never derived from this machine's speed, takes no part
+  in a green verdict, and calls for no baseline, load, or quiet-machine comparison. No
+  further measurements get collected to choose a number. Consequence: the rule is written
+  into the pack's one home for shared working rules, `skills/live-spec-base/SKILL.md`, on
+  your word at 22:33 that it is global and reusable and stands in exactly one place — no
+  hook, registry, or gate built for it.
+
+- 2026-09-07 22:10 — a row replaced by another carries no status of its own. Your words in
+  chat: «тогда они как бы друг за другом наверное или в одной строке или в описании должно
+  быть (дубликат такого то) как то так (потому что у нее не должно быть самостоятельного
+  статуса если я правильно понимаю). это в правила.» In English: a row replaced by another
+  carries no status of its own; it leaves the open list at once, and the row that replaced
+  it is what names it. Consequence: q-824 was moved out of `PLAN.md` into
+  `docs/queue-archive/rotated-PLAN-2026-09-07-q824-superseded.md`, named by q-825's own
+  `**Supersedes.** q-824` paragraph. The pack's existing law already required this move
+  (`spec/queue-intake-priority.md` Requirement 5, criterion 1); what failed was that
+  `scripts/task-admission.py abandon` closes the checkpoint and leaves the row's mark at
+  queued, so the row stood in the open list with a status of its own until it was moved by
+  hand.
+
+- 2026-09-07 20:52 and 20:59 — two rulings on what admission does before it writes a row, and on
+  when a disagreement waits for you. Your words in chat: «Перед admission любой новой или
+  продолженной работы сначала прочитай текущую строку доски, её DOD/NEXT, связанные закрытые
+  строки, записанные решения и последние относящиеся коммиты... Нельзя заводить новую задачу,
+  которая дублирует закрытую, возвращает запрещённый способ проверки или меняет уже принятый
+  функционал без явной записи: что именно новое и почему прежнее решение не покрывает запрос»;
+  and, asked whether a conflict with a standing decision now stops the work, «останавливать очень
+  редко когда реально кажется что пользователь либо что то забыл либо это описка. и тогда это
+  простой вопрос, без груза». In English: read the record before admitting work, and never open a
+  row that repeats a closed one, brings back a forbidden way of checking, or changes accepted
+  behaviour, unless a written record says what is new and why the earlier decision misses it; and
+  stop to ask only where it really looks as though the person forgot something or made a typo, in
+  which case ask a simple question with no weight on it. Consequence: (1) admission reads the live
+  plan, the queue archive, this page and the log at the door, carries that read on the route, and
+  refuses a reference nothing resolves — SPEC Requirement 321, INV-327, matrix M-651..M-655,
+  `scripts/task-admission.py`. (2) A title the record already carries refuses by the row's id and
+  its file, and lifts only against a `supersedes` record naming the row, what is new, and why the
+  earlier decision does not cover it. (3) The pipeline's standing rule that it states a conflict
+  and carries on is narrowed by the rare stop above, in
+  `skills/build-pipeline/references/accepted-work-execution.md`; the rest of that rule stands.
+
 - 2026-09-04 02:01 — four rulings on how a reply reaches him, and where they live. Your words in
   chat: «еще чтобы перестал открывать хтмл файлы... дифолт канон и все»; «"Как разговаривать:" я
   думал это ты у себя пропишешь и тогда все проекты это получат»; «если глобально известен кластер

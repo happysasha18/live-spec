@@ -48,6 +48,10 @@ def new_route(**overrides):
         # closed row in a throwaway tree there is no history to read one off, so the route
         # carries the range and the derived basis says the history is missing.
         "estimate": "2\u20134 hours",
+        # Requirement 321: admission reads the record before it writes a row, and the route
+        # carries that read. A throwaway host has nothing on its record, so the list of
+        # references is empty and the finding says so.
+        "prior_record": {"read": [], "finding": "nothing on this host's record covers a digest"},
     }
     route.update(overrides)
     return route
@@ -227,7 +231,9 @@ def test_a_second_ticket_with_the_same_goal_is_refused(tmp_path):
     plan, checkpoints, task_id, _ = seeded(tmp_path)
     before = plan.read_bytes()
     message = refused(admission.admit, new_route(), plan, checkpoints)
-    assert "already has this title" in message
+    # The refusal names the row and the file it stands in, so the next session can open it
+    # rather than go looking (the owner's word, 2026-09-07).
+    assert "q-1 already carries this title (PLAN.md)" in message
     assert plan.read_bytes() == before
     assert sorted(pth.name for pth in checkpoints.iterdir()) == [task_id + ".md"]
 
@@ -962,3 +968,109 @@ def test_the_verifiers_own_check_may_spawn_the_probe(tmp_path):
                      commands=["test -z \"$LIVE_SPEC_EVALUATING\""])
     receipt = [ln for ln in cp.read_text(encoding="utf-8").splitlines() if ln.startswith("RECEIPT:")][-1]
     assert '"verdict": "passed"' in receipt
+
+
+# ------------------------------------------------- Requirement 321: the record is read first
+# Admission compared a new title against the live plan alone. A closed row whose full record had
+# rotated into the queue archive was invisible to it, the decision record was never opened, and
+# the log was never read, so work already done or already forbidden could be admitted again with
+# nothing refusing it (the owner's word, 2026-09-07). The four tests below are that gate.
+
+
+def test_m651_a_route_that_carries_no_read_of_the_record_is_refused(tmp_path):
+    """M-651: the read is part of the route, never a habit a session may or may not have had."""
+    plan, checkpoints = host(tmp_path)
+    route = new_route()
+    del route["prior_record"]
+    message = refused(admission.admit, route, plan, checkpoints)
+    assert "prior_record" in message
+    assert plan.read_text(encoding="utf-8").count("— id: q-1") == 0
+
+
+def test_m652_a_reference_that_resolves_to_nothing_is_refused(tmp_path):
+    """M-652: a named row, commit or decision date has to be one somebody can open."""
+    plan, checkpoints = host(tmp_path)
+    for ref, expected in (("q-4004", "no row on the record is q-4004"),
+                          ("2019-01-01", "carries the date 2019-01-01"),
+                          ("read everything relevant", "names nothing anybody can open")):
+        message = refused(admission.admit,
+                          new_route(prior_record={"read": [ref], "finding": "nothing covers it"}),
+                          plan, checkpoints)
+        assert expected in message
+    # And the finding is not optional either: a list of references with no reading of them is
+    # the same as no read.
+    message = refused(admission.admit,
+                      new_route(prior_record={"read": [], "finding": "   "}),
+                      plan, checkpoints)
+    assert "finding" in message
+    assert plan.read_text(encoding="utf-8").count("— id: q-1") == 0
+
+
+def test_m653_a_title_the_queue_archive_already_carries_is_refused(tmp_path):
+    """M-653: the scan reaches the archive, and the refusal names the row and its file."""
+    plan, checkpoints = host(tmp_path)
+    archive = tmp_path / "docs" / "queue-archive"
+    archive.mkdir(parents=True)
+    (archive / "2026-01-01-closed.md").write_text(
+        "### \u2705 Send the weekly digest — id: q-31\nClosed. Landed.\n", encoding="utf-8")
+    message = refused(admission.admit, new_route(), plan, checkpoints)
+    assert "q-31" in message
+    assert "docs/queue-archive/2026-01-01-closed.md" in message
+    assert plan.read_text(encoding="utf-8").count("— id: q-1") == 0
+
+
+def test_m654_a_written_record_of_what_is_new_lifts_that_refusal_and_lands_on_the_row(tmp_path):
+    """M-654: the one road past the refusal, and it leaves its reason on the row."""
+    plan, checkpoints = host(tmp_path)
+    archive = tmp_path / "docs" / "queue-archive"
+    archive.mkdir(parents=True)
+    (archive / "2026-01-01-closed.md").write_text(
+        "### \u2705 Send the weekly digest — id: q-31\nClosed. Landed.\n", encoding="utf-8")
+
+    # Any of the three parts missing, and the refusal stands.
+    for gap in ("names", "new", "why"):
+        record = {"names": "q-31", "new": "the digest now reaches a second inbox",
+                  "why": "q-31 settled one inbox and named no second one"}
+        del record[gap]
+        message = refused(admission.admit, new_route(supersedes=record), plan, checkpoints)
+        assert gap in message
+
+    result = admission.admit(
+        new_route(supersedes={"names": "q-31",
+                              "new": "the digest now reaches a second inbox",
+                              "why": "q-31 settled one inbox and named no second one"}),
+        plan, checkpoints)
+    row = plan.read_text(encoding="utf-8")
+    assert result["task_id"] == "q-1"
+    assert "**Supersedes.** q-31" in row
+    assert "the digest now reaches a second inbox" in row
+    assert "q-31 settled one inbox and named no second one" in row
+    # The read itself lands on the row too, because the row is where the next session looks.
+    assert "**Read before admission.**" in row
+
+
+def test_m655_the_prior_command_prints_the_record_and_judges_nothing(tmp_path):
+    """M-655: one command prints what the record holds, with no score and no cutoff."""
+    plan, checkpoints = host(tmp_path)
+    admission.admit(new_route(), plan, checkpoints)
+    printed = admission.prior(plan, ["weekly", "digest"])
+    assert "rows on the record: 1" in printed
+    assert "q-1" in printed
+    # Every word has to be present, so the caller's own words are the whole filter.
+    assert "rows on the record: 0" in admission.prior(plan, ["weekly", "invoice"])
+    assert "at least one word" in refused(admission.prior, plan, [])
+
+
+def test_m656_an_acceptance_command_that_runs_a_test_suite_is_refused_at_the_door(tmp_path):
+    """M-656: the probe runs every recorded check at every session start, so none runs a suite.
+
+    The suite already held this rule, and it held it only after the row existed — by which time
+    the acceptance is anchored to the checkpoint and the row has no legitimate road out. Here the
+    refusal stands at the door, where the row can still simply not be written.
+    """
+    plan, checkpoints = host(tmp_path)
+    (tmp_path / "scripts" / "plan_checks.py").write_text(
+        "CHECKS = {'q-1': 'python3 -m pytest -q tests/test_thing.py'}\n", encoding="utf-8")
+    message = refused(admission.admit, new_route(), plan, checkpoints)
+    assert "runs a test suite" in message
+    assert plan.read_text(encoding="utf-8").count("— id: q-1") == 0

@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-eight rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
+description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-nine rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
 metadata:
   version: 6.1.0
 ---
@@ -426,6 +426,16 @@ its own manifest line. Every other rule below keeps the number it already carrie
 
     — backed by the close in `scripts/task-admission.py`, which recomputes the done's own hash and
     refuses a close over a mismatch (matrix M-640, M-641).
+
+43. **A budget is a named, finite set of work, and a clock never certifies one.** An
+    acceptance budget or a release budget is never read off how long a local run took,
+    off host load, off a quiet-machine comparison, off p50/p95 figures, or off any
+    single measurement. A fixed budget means the composition is named in advance and is
+    finite: which targets run, how many cases, how many samples. A timeout is an
+    emergency stop on a process the run owns, and it says nothing about whether a result
+    is right. A performance measurement belongs to a stated product performance
+    requirement, taken in the controlled environment that requirement declares; anywhere
+    else it is diagnostic and it settles no verdict.
 
 ## Work that belongs elsewhere
 

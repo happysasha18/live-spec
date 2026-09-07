@@ -755,3 +755,37 @@
 7. *when* a push's diff is exactly one new inbox file, the system *shall* have it owe the fence and no re-check record, more riding the full gate. [INV-11, INV-112]
 
 ---
+
+---
+
+## Requirement 321: Admission reads the record before it writes a row
+
+**Context:** A project's record is what it already settled: the rows on the live plan, the rows rotated into the queue archive, the decisions on record, and the commits that landed them. Admission read almost none of it. It compared a new title against the live plan alone, so a closed row whose full record had rotated into the archive was invisible, a decision already taken was invisible whatever it said, and the log was never opened. Work already done could be admitted again, and an approach already ruled out could come back, with nothing in the way. The read moves into the door itself: the route carries what it read and what it found, every reference it names has to resolve to something a reader can open, and a title the record already carries lifts only against a written record of what is new.
+
+**User Story:** As a person whose project has a long record, I want admission to read that record before it writes a row, so that finished work stays finished and a settled decision stays settled without me holding it all in my head.
+
+### Acceptance Criteria
+
+**Case: the read happens at the door**
+
+1. *when* new work is admitted, the system *shall* read the record — the live plan's rows, the queue archive's rows, the decision record, and the commit log — before the row is written. [INV-327]
+2. The system *shall* carry that read on the route as the references consulted and the finding they produced, and *shall* write both onto the row it admits, so the next session reads them where it already looks. [INV-327, INV-43]
+3. The system *shall* refuse a reference that resolves to no row on the record, no commit in the tree, and no dated entry in the decision record. [INV-327]
+
+**Case: a title the record already carries**
+
+4. *when* the title stands on the record already — on the live plan or in the queue archive — the system *shall* refuse the admission and *shall* name the row and the file it stands in. [INV-327, INV-276]
+5. The system *shall* lift that refusal only against a written record naming the row superseded, what is new in this request, and why the decision already on record does not cover it, and *shall* write all three onto the admitted row. [INV-327]
+
+**Case: the check a row is admitted against can actually run**
+
+6a. The system *shall* refuse at the door an acceptance command that runs a test suite, since the session-start probe runs every recorded check, so a row is never admitted against a check the suite forbids and then held to it by its own frozen acceptance. [INV-327]
+
+**Case: reading the record is one command**
+
+6. The system *shall* print, on one command, every row, decision line and commit subject carrying all the words given, ranking nothing and applying no cutoff, so the words the caller chose are the whole filter. [INV-327]
+
+**Case: a conflict with a standing decision**
+
+7. *when* the request reads as an oversight — the person appears to have forgotten something already settled, or to have made a slip — the system *shall* ask one plain question and wait for the answer. [INV-327]
+8. *when* the request conflicts with a standing decision and reads as deliberate, the system *shall* state the conflict in one sentence and *shall* carry on with the work. [INV-327, INV-121]
