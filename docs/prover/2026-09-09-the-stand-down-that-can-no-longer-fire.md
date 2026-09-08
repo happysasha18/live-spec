@@ -3,7 +3,10 @@
 PUSH-REVIEW
 
 Mode: closure
-Range: a7a5c1f..b16a871e
+Range: a7a5c1f..68fc1c84
+- 68fc1c84 The shipped set stays English; his words stay in the journal — gate i
+  caught the row's own Source line and the comment above the retired arm quoting the owner
+  in Russian; both state the same thing impersonally now
 - b16a871e The three the closure review blocked on, repaired where they stood —
   written after this read and by it; each finding below carries what closed it
 - 4234849 Gate a picks its record by what the record covers
