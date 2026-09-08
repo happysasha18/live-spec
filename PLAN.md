@@ -1127,7 +1127,7 @@ key does not read that file.
 
 **Context pointers.** INV-328; guardrails/check-acceptance-rerun.py:117; scripts/state-probe.sh:70; adopt/install-scaffold.sh:35; ed35c92e
 
-### 🔄 A push review runs in one of two named modes — id: q-827
+### ✅ A push review runs in one of two named modes — id: q-827
 **Group:** Pack quality · **Priority:** normal
 **Source:** the owner, 2026-09-08 21:25 — replace the wide prover review with two modes: a closure review reading only the definition of done, the acceptance, the row's diff and the path it changed, blocking only on material failure and sending everything else to one inbox item; and a global review that runs only on his own word for a critical scope and hunts only reproducible systemic breakage with a real affected path
 
