@@ -12,7 +12,16 @@ the shared release path (`guardrails/run_modes.py`, `guardrails.config.json`,
 `adopt/install-scaffold.sh`, `guardrails/check-acceptance-rerun.py`, `VERSION`, `MIGRATION.md`,
 `.github/workflows/gates.yml`). The row changes a critical cross-cutting surface, which is the
 second trigger a global read is owed on, so no owner's word was needed for it.
-Range: 6b7a3fc..05a6c13
+Range: 6b7a3fc..69f5e38
+- 69f5e38f The Director eval pin reads the skill's content, not its declared version — the close of
+  the one red the third repair uncovered, on the owner's word this turn. Re-read here: the arm
+  `plan-2` runs is now `evals/director/check.py --freshness`, a digest of the skill with its
+  declared-version line normalized out; the thirty-six runs are re-pinned to it and none was
+  re-run, the re-pin checking first that the text at the recording commit and the text after the
+  stamp differ by that line and nothing else. Gate v in release mode over the whole range: every
+  selected row's acceptance passes.
+- 062f4698 The global record grows to cover its own repairs, and the board is redrawn — this
+  record's own commit, and the board `plan-11` reads
 - 05a6c13b The three the global review blocked on, repaired where they stood — written after this
   read and by it, in the same landing. Each of the three findings below carries what closed it.
 - 87eb7d03 6.1.1 — two lifecycle faults, and the integration cap that named nothing
