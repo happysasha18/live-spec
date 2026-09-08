@@ -13,7 +13,9 @@ recorded-duration reader (`recorded_duration`, `comparable_durations`, `_estimat
 `history` command, and the release stamping that carries them: `VERSION`, `guardrails.config.json`'s
 `core_version`, `.claude-plugin/plugin.json`, the skill version stamps, and MIGRATION.md's 6.1.2
 chapter.
-Range: 36350f5..7dca40db
+Range: 36350f5..6427c6f0
+- 6427c6f0 The two the scoped review blocked on, repaired where they stood — written
+  after this read and by it; each finding below carries what closed it
 - 7dca40db 6.1.2 — a run that says what it is doing, and the duration a close recorded
 - 36350f5 (base) The record's range reaches the language repair
 Files read: PLAN.md (row q-831), .live-spec/checkpoints/q-831.md, .live-spec/readers/q-831-reader.md, guardrails/check-acceptance-rerun.py, guardrails/run_modes.py, guardrails/pre-push, guardrails/check-prover-record.sh, scripts/task-admission.py, scripts/plan_checks.py, scripts/plan_checks_core.py, scripts/check-pack-update.sh, adopt/install-scaffold.sh, adopt/install-style-gates.sh, tests/test_live_progress_and_recorded_history.py, tests/test_release_6_1_1.py, tests/test_acceptance_rerun_reach.py, .github/workflows/gates.yml, VERSION, guardrails.config.json, .claude-plugin/plugin.json, MIGRATION.md, JOURNAL.md, PRODUCT_SPEC.md (heading), the fourteen skill frontmatter stamps under skills/, docs/prover/README.md, skills/product-prover-pack/SKILL.md
