@@ -493,3 +493,33 @@ machinery and takes one number out of the run-mode contract.
 
 Everything else in 6.1.0 stands. The plan, the board, the spec codes and every skill interface are
 unchanged, and no host document moves.
+
+### 6.1.2 — 2026-09-09
+
+**Host action: none required, and one command worth knowing.** This patch adds output a person
+reads and closes a reader that was measuring the wrong thing. It changes no document a host writes,
+no skill interface and no gate's verdict.
+
+1. **A multi-part run now says what it is doing while it does it.** `guardrails/check-acceptance-rerun.py`
+   printed its whole report after the last target returned, so a run that took hours said nothing at
+   all and a watcher could not tell work from a hang. It now prints, as each thing happens: the mode
+   it runs in, the whole composition of targets settled before the first one starts, each target
+   when it begins and when it ends with the count still to come, and a closing line stating that the
+   composition never grew. A host that vendors this gate gets the output by pulling the pack; there
+   is nothing to configure and nothing to turn on. The output decides nothing — no duration is read,
+   no threshold is compared, nothing polls or watches, and no process is started to carry it.
+
+2. **`python3 scripts/task-admission.py history "<group>"`** prints what comparable closed work of
+   that group actually took: one line per closed row that recorded a duration, the field each number
+   came from, and the basis of comparison. Where no closed row of the group recorded one, it says
+   `unavailable`. The durations come from the `estimate ... → actual ...` line a close writes onto
+   the row's own checkpoint. Until this release the reader behind the estimate measured the
+   checkpoint FILE's birth and modification stamps, which are meaningless — every write renames a
+   fresh file over the old one, so the span they yield is zero however long the work ran. A host that
+   has been reading estimate bases from that reader should know the numbers before 6.1.2 were that
+   artefact; the rows themselves are unchanged and their recorded trails are intact.
+
+   It reports and predicts nothing: no forecast, no measure of how alike two rows are, no deadline,
+   no budget, and no ordering read off past hours.
+
+Nothing else in 6.1.1 moves.

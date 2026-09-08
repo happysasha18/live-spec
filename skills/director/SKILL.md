@@ -2,7 +2,7 @@
 name: director
 description: Read the human's message before anything acts on it. Classify every act in context, decide whether it answers now, changes existing work, proposes new work or halts work, and return a small route contract. Use for every human turn; accepted work continues in build-pipeline.
 metadata:
-  version: 6.1.1
+  version: 6.1.2
 ---
 
 # Director

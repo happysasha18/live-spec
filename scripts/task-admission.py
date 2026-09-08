@@ -569,12 +569,47 @@ def _span(minutes: float):
     return round(minutes), "minutes"
 
 
-def comparable_durations(scope: str, plan: str, checkpoints_dir) -> list:
-    """Closed rows of the same group whose own checkpoint stamps give a real duration.
+# The delivery trail's own line, written into a checkpoint's DONE section by `_write_delivery_trail`
+# at the close: `estimate 3\u20135 hours \u2192 actual 1.7 hours`. It is the only place this tree records
+# how long a piece of work actually took, and where the close could not read an open time it says
+# "actual not recorded" rather than a number.
+TRAIL = re.compile(
+    r"(?m)^estimate\s+\S+\s+(?P<eunit>[A-Za-z]+)\s+\u2192\s+actual\s+(?P<actual>.+?)\s*$")
+_ACTUAL = re.compile(r"^(?P<n>[\d.]+)\s+(?P<unit>hour|hours|minute|minutes|day|days)$")
+_PER_MINUTE = {"minute": 1.0, "minutes": 1.0, "hour": 60.0, "hours": 60.0,
+               "day": 1440.0, "days": 1440.0}
 
-    This is the only history this tree records: the checkpoint file is created when the ticket is
-    admitted and written again at every transition through the close, so its birth and its last
-    write are the two ends of the work. Nothing invents a number where there are no such rows.
+
+def recorded_duration(cp):
+    """(minutes, the text the row recorded) off a closed row's own delivery trail, or None.
+
+    Never a file stamp. `comparable_durations` read the checkpoint's birth and modification times
+    until 2026-09-09, and `_write_delivery_trail` in this same file already said in its own words
+    why those are worthless: every write renames a fresh file over the old one, so the creation
+    stamp is the stamp of the LAST write and the span it yields is zero however long the work ran.
+    The number that means something is the one the close wrote down.
+    """
+    try:
+        body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    except Exception:  # noqa: BLE001 - an unreadable sheet records no duration
+        return None
+    m = TRAIL.search(body)
+    if not m:
+        return None
+    text = m.group("actual").strip()
+    parsed = _ACTUAL.match(text)
+    if not parsed:
+        return None      # "not recorded", and anything else nobody can count
+    return float(parsed.group("n")) * _PER_MINUTE[parsed.group("unit")], text
+
+
+def comparable_durations(scope: str, plan: str, checkpoints_dir) -> list:
+    """(row id, minutes, the text it was read from) for closed rows of the same group that
+    recorded how long they took.
+
+    The comparison's basis is the row's own `**Group:**` line, written when it was admitted, and
+    the duration is the delivery trail the close wrote on its checkpoint. A row of the group whose
+    close recorded no duration contributes nothing; nothing here invents a number.
     """
     out = []
     if not checkpoints_dir:
@@ -590,29 +625,64 @@ def comparable_durations(scope: str, plan: str, checkpoints_dir) -> list:
         cp = _checkpoint_path(checkpoints_dir, m.group(2))
         if not cp.exists():
             continue
-        st = cp.stat()
-        born = getattr(st, "st_birthtime", st.st_ctime)
-        out.append((m.group(2), max(0.0, (st.st_mtime - born) / 60.0)))
+        got = recorded_duration(cp)
+        if got:
+            out.append((m.group(2), got[0], got[1]))
     return out
+
+
+def history(plan_path, checkpoints_dir, scope: str) -> str:
+    """What comparable closed work actually took, with the field each number came from.
+
+    This is the reader the estimate has drawn on since it existed, with nothing in front of it a
+    person could run. It reports and predicts nothing: no forecast, no measure of how alike two
+    rows are, no deadline, no budget and no ordering read off past hours. Where the group records
+    no duration the honest answer is the only one it gives.
+    """
+    plan = Path(plan_path).read_text(encoding="utf-8")
+    rows = comparable_durations(scope, plan, checkpoints_dir)
+    head = ("basis of comparison: the row's own **Group:** line, written when it was admitted, "
+            "matched against %r\nsource: each row's delivery trail, the `estimate ... \u2192 actual ...` "
+            "line its own close wrote into `.live-spec/checkpoints/<id>.md`\n" % scope)
+    if not rows:
+        return head + "unavailable: no closed row of this group recorded how long it took.\n"
+    lines = ["%-8s %s" % (rid, text) for rid, _minutes, text in rows]
+    body = (head + "%d closed row(s) of this group recorded a duration:\n" % len(rows)
+            + "\n".join("  " + ln for ln in lines) + "\n")
+    if len(rows) == 1:
+        # One row is its own range, and restating it in a unit the row never used reads as a
+        # second number. The line above is the whole answer.
+        return body
+    # `_span` switches to hours at ninety minutes, so a group straddling that line yields its two
+    # ends in different units. Printing both under the low end's unit read "40 to 1.7 minutes" —
+    # `_estimate` above already carries this correction, and this function shipped without it.
+    lo_minutes = min(m for _, m, _ in rows)
+    hi_minutes = max(m for _, m, _ in rows)
+    low, unit = _span(lo_minutes)
+    high, hi_unit = _span(hi_minutes)
+    if hi_unit != unit:
+        low, high, unit = round(lo_minutes / 60.0, 1), round(hi_minutes / 60.0, 1), "hours"
+    return body + "range of what they actually took: %s to %s %s\n" % (low, high, unit)
 
 
 def _estimate(route: dict, plan: str, checkpoints_dir):
     history = comparable_durations(route.get("scope", ""), plan, checkpoints_dir)
     if history:
-        low, unit = _span(min(m for _, m in history))
-        high, _unit = _span(max(m for _, m in history))
+        low, unit = _span(min(m for _, m, _t in history))
+        high, _unit = _span(max(m for _, m, _t in history))
         if _unit != unit:
-            low, unit = round(min(m for _, m in history) / 60.0, 1), "hours"
-        ids = [i for i, _ in history]
+            low, unit = round(min(m for _, m, _t in history) / 60.0, 1), "hours"
+        ids = [i for i, _m, _t in history]
         # A basis that says "rows" over one row, and a range whose two ends are the same number
         # with nothing saying why, both read as a slip to a fresh reader (the clean-context
         # reading of q-824, 2026-09-07). The sentence agrees with what the history actually held.
         if len(ids) == 1:
             basis = ("closed row %s in the same group, the only comparable one, so both ends of "
-                     "the range are its own duration, timed off its checkpoint stamps" % ids[0])
+                     "the range are its own duration, read off the delivery trail its close "
+                     "recorded" % ids[0])
         else:
-            basis = ("closed rows %s in the same group, timed off their own checkpoint stamps"
-                     % ", ".join(ids))
+            basis = ("closed rows %s in the same group, read off the delivery trail each close "
+                     "recorded" % ", ".join(ids))
         return low, high, unit, basis
     raw = " ".join(str(route.get("estimate") or "").split())
     m = re.fullmatch(r"([\d.]+)\s*[\u2013\u2014-]\s*([\d.]+)\s+([A-Za-z]+)", raw)
@@ -1822,6 +1892,12 @@ def main() -> int:
     nid.add_argument("--plan", default="PLAN.md", type=Path)
     nid.add_argument("--checkpoints", default=".live-spec/checkpoints", type=Path)
 
+    hist = sub.add_parser("history", help="print what comparable closed work of a group actually "
+                                          "took, off each row's own recorded delivery trail")
+    hist.add_argument("scope", help="the group, as a row's **Group:** line writes it")
+    hist.add_argument("--plan", default="PLAN.md", type=Path)
+    hist.add_argument("--checkpoints", default=".live-spec/checkpoints", type=Path)
+
     args = parser.parse_args(argv)
     plan, cps = args.plan, args.checkpoints
     try:
@@ -1835,6 +1911,9 @@ def main() -> int:
             return 0
         if args.op == "next-id":
             print(next_task_id(plan.read_text(encoding="utf-8")))
+            return 0
+        if args.op == "history":
+            print(history(plan, cps, args.scope), end="")
             return 0
         if args.op == "brief":
             print(worker_brief(plan, cps, args.id), end="")

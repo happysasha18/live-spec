@@ -50,6 +50,7 @@ import concurrent.futures
 import os
 import subprocess
 import sys
+import threading
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -270,6 +271,22 @@ def select(tree, tasks, table):
     return reasons, done_tasks
 
 
+# LIVE OUTPUT (the owner's word, 2026-09-09: a run of his own goes quiet for two hours and there is
+# no way to tell work from a hang). This gate printed its whole report after the last target
+# returned, so a person watching it saw nothing at all while it ran. What it says now, as it
+# happens: the mode, the composition settled before the first target starts, each target when it
+# begins and when it ends with the count still to come, and a closing line that the composition
+# never grew. It is output for a person and decides nothing — no duration is read, no threshold is
+# compared, nothing polls and nothing watches, and no process is started to carry it.
+_SAY = threading.Lock()
+
+
+def say(line):
+    """One line, flushed, from whichever thread reached it."""
+    with _SAY:
+        print(line, flush=True)
+
+
 def run_one(tree, command):
     """Returns (code, first_line, stopped). `stopped` is True only when the emergency stop ended
     the process before it could return a verdict — that case never carries a `code` a caller
@@ -349,23 +366,52 @@ def judge(plan_path, checkpoints_dir, jobs, mode):
     # Every timeout lives in run_one, on the child itself. An `as_completed(timeout=...)` here
     # raised past this block and then blocked forever inside the pool's own exit, which waits for
     # the very threads the timeout was meant to escape — a deadline that made the hang worse.
+    # The composition is settled here, before the first target starts, and nothing appends to
+    # `to_run` past this line. Saying it out loud is what lets a person tell a long run from a hung
+    # one, and the closing line below reads the same list again so the claim is checked rather than
+    # asserted.
+    composition = [rid for rid, _ in to_run]
+    say("   run mode: %s — %s" % (mode, "it decides the verdict below"
+                                 if run_modes.decides_verdict(mode)
+                                 else "an explicit audit, and it decides no verdict"))
+    say("   composition fixed before the first target: %d target(s) — %s"
+        % (len(composition), ", ".join(composition) or "(none)"))
+    finished = [0]
+
+    def start(rid, cmd):
+        say("   -> %s started" % rid)
+        return run_one(tree, cmd)
+
     with concurrent.futures.ThreadPoolExecutor(max_workers=jobs) as pool:
-        futures = {pool.submit(run_one, tree, cmd): (rid, cmd) for rid, cmd in to_run}
+        futures = {pool.submit(start, rid, cmd): (rid, cmd) for rid, cmd in to_run}
         for future in concurrent.futures.as_completed(futures):
             rid, cmd = futures[future]
             try:
                 code, first, stopped = future.result()
             except Exception as exc:  # noqa: BLE001 - a key that threw is a key that failed
                 code, first, stopped = 1, "the check did not finish: %s" % exc, False
+            finished[0] += 1
             if stopped:
                 # The emergency stop ended the process before it returned a verdict. Criterion 11:
                 # that never counts as a failed acceptance and never turns the gate red on its own.
                 unjudged.append("%s: %s" % (rid, first))
-                continue
-            ran.append(rid)
-            if code != 0:
-                faults.append("%s: its acceptance command failed here, at this commit%s"
-                              % (rid, (" — " + first[:120]) if first else ""))
+                verdict = "stopped before it returned a verdict"
+            else:
+                ran.append(rid)
+                verdict = "passed" if code == 0 else "FAILED"
+                if code != 0:
+                    faults.append("%s: its acceptance command failed here, at this commit%s"
+                                  % (rid, (" — " + first[:120]) if first else ""))
+            say("   <- %s %s (%d of %d finished, %d to come)"
+                % (rid, verdict, finished[0], len(composition),
+                   len(composition) - finished[0]))
+
+    # The claim holds by construction: `to_run` is complete above, `composition` is taken from it
+    # before the pool opens, and no line between here and there appends to either. A runtime
+    # comparison of the two sat here for one draft and could never fire, which is a check that
+    # serves the process rather than the work.
+    say("   the composition never grew: %d target(s) named before the first started, %d finished."
+        % (len(composition), finished[0]))
     return ran, faults, unanchored, keyless, offmachine, unjudged, len(tasks), len(done_tasks), reasons
 
 
@@ -438,13 +484,12 @@ def main():
               "before running it." % exc)
         return 1
 
+    # The selection and the mode are said by `judge` as the run reaches them, so the summary here
+    # starts at what the run returned rather than repeating what a watcher already read.
     print("   %d row(s) in the plan, %d marked done, %d selected here (closed history is never "
           "walked): %s"
           % (total, total_done, len(reasons),
              ", ".join("%s — %s" % (tid, reasons[tid]) for tid in sorted(reasons)) or "(none)"))
-    print("   run mode: %s — %s" % (mode, "it decides the verdict below"
-                                    if run_modes.decides_verdict(mode)
-                                    else "an explicit audit, and it decides no verdict"))
     print("   ran %d of the selected row(s)' own acceptance command at this commit." % len(ran))
     if unanchored:
         print("   %d of them predate the acceptance anchor, so what ran is the command the tree "

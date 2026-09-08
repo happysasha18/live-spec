@@ -592,6 +592,11 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # and the two arms that decide anything — freshness against the guarded documents, and the
     # record naming the range — still refuse what they always refused.
     "q-830": "PYTHONPATH=tests python3 -m unittest -q test_record_is_judged_by_reach_not_by_date >/dev/null 2>&1 && ! grep -q 'TODAY\\*.md' guardrails/check-prover-record.sh && ! grep -q 'a record dated today exists' docs/prover/README.md",
+    # q-831: a long run says what it is doing while it does it, and the history of comparable
+    # closed rows is read out of what a close actually recorded. The proofs live in the test file,
+    # which drives the real rerun gate and the real reader; the arms beside it hold the two visible
+    # facts — the release is stamped and carries its host chapter.
+    "q-831": "PYTHONPATH=tests python3 -m unittest -q test_live_progress_and_recorded_history >/dev/null 2>&1 && test \"$(cat VERSION)\" = \"6.1.2\" && grep -q '^### 6.1.2' MIGRATION.md",
     # q-609: the rule now names who enforces it, in the spec that carries it.
     "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",
 }

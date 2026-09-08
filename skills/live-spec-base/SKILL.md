@@ -2,7 +2,7 @@
 name: live-spec-base
 description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-nine rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
 metadata:
-  version: 6.1.1
+  version: 6.1.2
 ---
 
 # live-spec-base — one rulebook, twelve working skills

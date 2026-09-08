@@ -1227,6 +1227,30 @@ key does not read that file.
 
 **Context pointers.** guardrails/check-prover-record.sh:148; docs/prover/README.md:78; matrix/product-prover.md:6
 
+### ✅ A long run says what it is doing, and a closed row's real duration is readable — id: q-831
+**Group:** Guardrails · **Priority:** normal
+**Source:** the owner, 2026-09-09 00:40, on a run of his own that goes quiet for two hours with no way to tell whether it is working: give a multi-part run honest live output, and finish the comparable-history path that was promised and never reached a person
+
+**Holder:** seat
+
+**Outcome:** a person watching a multi-part run sees its mode, the composition fixed before it started, each target as it begins and as it ends, and what is left; and a person can read the real durations of comparable closed rows, with the field each came from, or the word unavailable
+
+**Statement.** Echo-name: Live output, real durations. Description: a run that takes hours says nothing until it ends, so a person watching it cannot tell work from a hang — the owner has one that goes quiet for two hours. The run already settles its whole list of targets before the first one starts, so it can say what that list is, and then say each target as it begins and as it ends. Beside it a second promise stopped half-built: the reader that shows how long comparable finished work actually took measures a file's modification stamps, which the code next to it explains are meaningless, while the real duration is written into the row at its close and nobody reads it. Plan: 1) the acceptance-rerun run prints its mode and its settled composition before the first target, then each target as it starts and as it finishes with the count still to come, and says at the end that the composition never grew; 2) the history reader takes each duration out of the line the close wrote on the row's own checkpoint, names that field and the row's recorded group, and says unavailable where no closed row of that group recorded one; 3) both proved by tests that run the real gate and the real reader; 4) the release is stamped 6.1.2 and carries the chapter a host reads. Estimate: 2–4 hours — basis: no comparable history in this tree; the range is read off the four steps, two of them a change and its proof.
+
+**Validation.** 2026-09-09 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-09.**
+
+**Done when:** the acceptance-rerun run prints, as it happens, the mode it runs in, the whole composition of targets settled before the first one starts, each target when it begins and when it ends with the count still to come, and a closing line that the composition never grew; the comparable-history reader takes each duration out of the delivery trail the close recorded on the row's own checkpoint and never off a file's modification stamp, names that field as its source and the row's recorded group as the basis of comparison, and answers unavailable where no closed row of that group recorded one; both are proved by tests that run the real gate and the real reader; VERSION reads 6.1.2 and MIGRATION.md carries a 6.1.2 chapter naming what a host runs
+
+**Read before admission.** nothing named. Finding: the plan carries no open or archived row on either half and the record's commit subjects name none; both paths already exist and stop short — the rerun gate prints its whole report after the last target returns, and comparable_durations reads a checkpoint file's birth and modification stamps, which the delivery trail's own docstring in the same file explains are meaningless because every write renames a fresh file over the old one
+
+**DOD hash.** 54d20fec6db905c92a4f6ba36959a05d37e7bcc602873a8a4f3c8aba35ff9eb2
+
+**Verification:** python3 scripts/task-admission.py verify q-831
+
+**Context pointers.** guardrails/check-acceptance-rerun.py:350; scripts/task-admission.py:572; scripts/task-admission.py:1450
+
 ## Environment — known traps
 
 - A full local `pytest` run hangs at 0% CPU and never finishes. Run it narrowly with `-k` or a
