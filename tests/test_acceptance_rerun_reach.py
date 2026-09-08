@@ -163,6 +163,41 @@ def test_a_row_untouched_by_the_range_never_runs_even_when_the_release_core_conf
     assert not sentinel(tmp_path, "core"), "the release-core config leaked into row selection: " + got.stdout
 
 
+def _load_rerun_module():
+    """A fresh import of the gate module, so a test can shrink its EMERGENCY_STOP_SECONDS without
+    touching the constant every other test relies on (300s, unshrunk, everywhere else)."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("check_acceptance_rerun_under_test", str(RERUN))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def test_a_stopped_command_is_unjudged_and_never_a_failed_verdict(tmp_path, monkeypatch):
+    """Criterion 11: a runtime timeout takes no part in the verdict. A selected row whose own
+    acceptance command outlives the emergency stop must be reported UNJUDGED, never as a failed
+    acceptance, and must never be the thing that turns the gate red."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    checks = tmp_path / "scripts" / "plan_checks.py"
+    slow_checks = {**CHECKS_HEAD, "q-contract": "sleep 5"}
+    checks.write_text(_checks_text(slow_checks), encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-qm", "the slow check")
+
+    monkeypatch.setenv("LIVE_SPEC_DIFF_BASE", base)
+    monkeypatch.delenv("LIVE_SPEC_EVALUATING", raising=False)
+
+    mod = _load_rerun_module()
+    monkeypatch.setattr(mod, "EMERGENCY_STOP_SECONDS", 1)
+
+    ran, faults, unanchored, keyless, offmachine, unjudged, total, total_done, reasons = mod.judge(
+        str(plan), str(checkpoints), 1)
+
+    assert any(line.startswith("q-contract: ") for line in unjudged), unjudged
+    assert not any("q-contract" in line for line in faults), faults
+    assert not faults, "a stopped command must never turn the gate red on its own: %r" % faults
+
+
 def test_the_summary_line_names_the_count_selected_and_the_reason_for_each(tmp_path):
     plan, checkpoints, base = build_fixture(tmp_path)
     got = run_rerun(tmp_path, plan, checkpoints, base)

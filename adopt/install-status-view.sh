@@ -16,7 +16,10 @@
 # the gate that reds when a vendored copy drifts from this pack; `scripts/check-success-measure-feed.py`,
 # the reader `state-probe.sh` calls to print a checked success-measure feed's numbers (SPEC
 # Requirement 318 clause 10) — without it vendored, a host with a real feed saw the section print
-# nothing at all; and an empty `scripts/state-probe-extras.sh` where it carries none — the hook
+# nothing at all; `scripts/task-admission.py` and `scripts/checkpoint.py`, the readers
+# `state-probe.sh` loads to tell whether a done row's recorded state still stands — without both
+# vendored, the probe's recorded-state read could not load and said nothing about why; and an
+# empty `scripts/state-probe-extras.sh` where it carries none — the hook
 # `state-probe.sh` sources for this project's own facts, printed under their own heading, so the
 # shared renderer never has to name this project by name.
 #
@@ -52,6 +55,8 @@ VENDOR=(
   "scripts/plan_checks_core.py|scripts/plan_checks_core.py"
   "guardrails/check-status-view-drift.py|guardrails/check-status-view-drift.py"
   "scripts/check-success-measure-feed.py|scripts/check-success-measure-feed.py"
+  "scripts/task-admission.py|scripts/task-admission.py"
+  "scripts/checkpoint.py|scripts/checkpoint.py"
 )
 
 for pair in "${VENDOR[@]}"; do

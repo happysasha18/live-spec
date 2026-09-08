@@ -836,7 +836,7 @@
 
 **Case: no new machinery watches a run**
 
-15. The system *shall* add no new hook, listener, daemon, or global session hook to run or to watch a check. [INV-328]
+15. The system *shall* add no new global session hook, no new listener, and no new daemon to run or to watch a check, and *shall* deliver the repo-local spawn guard the pack already carries only by wiring it into the host's own repository-local settings, writing nothing under the user's home. [INV-328]
 16. *when* a run ends, the system *shall* wait on the specific process id or process group it started, and *shall* end only the group it owns. [INV-328]
 
 **Case: the session-start read executes nothing**

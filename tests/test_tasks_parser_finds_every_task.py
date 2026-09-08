@@ -42,6 +42,26 @@ NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh",
 
 _ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 
+# The probe only ever prints a "## Tasks" row that is still open, or one this push just closed
+# (closed_since_push — unreachable here, since this copy carries no .git at all). This pack's own
+# real PLAN.md reached zero open rows once its last queued task closed (q-826), so a fixture built
+# straight from the real file no longer has anything the probe would print, no matter how sound
+# the reader is — the anti-vacuous-pass guards below started failing on the state of the plan, not
+# on a broken reader. One synthetic, always-open row keeps the mechanism provable regardless of how
+# close the real plan is to done.
+_GUARD_ROW_ID = "zzz-test-fixture-open-guard"
+_GUARD_ROW = (
+    "### ⬜ Fixture-only row so this test always has something open to show — id: %s\n"
+    "Not real project work; inserted by the test that copies PLAN.md.\n\n" % _GUARD_ROW_ID
+)
+
+
+def _add_open_guard_row(plan_path):
+    text = plan_path.read_text(encoding="utf-8")
+    marker = "\n### "
+    idx = text.index(marker)
+    plan_path.write_text(text[:idx + 1] + _GUARD_ROW + text[idx + 1:], encoding="utf-8")
+
 # A fresh, independent read of PLAN.md's own task-header shape — deliberately not importing
 # scripts/plan_checks.py's parse_tasks(), since the point is to notice if THAT parser (and so
 # both readers built on it) stops matching PLAN.md's real shape.
@@ -100,6 +120,7 @@ class TestNeitherReaderStopsFindingTheTasks(unittest.TestCase):
             dst = self.tmp / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(ROOT / rel, dst)
+        _add_open_guard_row(self.tmp / "PLAN.md")
         self.plan_text = (self.tmp / "PLAN.md").read_text(encoding="utf-8")
         self.declared = _declared_ids(self.plan_text)
 

@@ -89,6 +89,7 @@ import plan_checks_core as core
 # not load names no anchor rather than stopping the probe over an optional cross-check.
 import importlib.util
 task_admission = None
+_ta_reason = None
 _ta_path = os.path.join("scripts", "task-admission.py")
 if os.path.exists(_ta_path):
     _ta_spec = importlib.util.spec_from_file_location("task_admission", _ta_path)
@@ -96,8 +97,19 @@ if os.path.exists(_ta_path):
     try:
         _ta_spec.loader.exec_module(_ta_mod)
         task_admission = _ta_mod
-    except Exception:  # noqa: BLE001 - an unreadable module names no anchor, nothing more
+    except Exception as exc:  # noqa: BLE001 - an unreadable module names no anchor, nothing more
         task_admission = None
+        _ta_reason = "scripts/task-admission.py did not load: %s" % exc
+else:
+    _ta_reason = "scripts/task-admission.py is missing"
+
+# A module that will not load used to name no anchor AND say nothing about it — the recheck arm
+# below simply skipped, indistinguishable from a tree where every done row's recorded state
+# holds. Named instead, the same voice the feed checker below already warns a missing reader in.
+if _ta_reason:
+    print(f"  {Y}the recorded-state read did not run — {_ta_reason}; re-run "
+          f"adopt/install-status-view.sh to vendor scripts/task-admission.py and "
+          f"scripts/checkpoint.py beside it{X}")
 
 text = open("PLAN.md", encoding="utf-8").read()
 tasks = parse_tasks(text)

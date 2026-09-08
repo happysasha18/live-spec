@@ -130,6 +130,8 @@ _PACK_FILES = [
     "scripts/plan_checks_core.py",
     "guardrails/check-status-view-drift.py",
     "scripts/check-success-measure-feed.py",
+    "scripts/task-admission.py",
+    "scripts/checkpoint.py",
     "adopt/install-status-view.sh",
 ]
 

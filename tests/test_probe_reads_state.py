@@ -222,6 +222,35 @@ def test_a_row_whose_acceptance_moved_since_its_receipt_is_named(tmp_path):
     )
 
 
+def test_the_probe_names_what_it_could_not_read_instead_of_falling_silent(tmp_path):
+    """F3: a host installed through adopt/install-status-view.sh used to lose the whole
+    recheck arm with no word at all when scripts/task-admission.py or scripts/checkpoint.py was
+    not vendored beside the probe — the failure read exactly like a tree where every done row's
+    recorded state held. Proved here by building a tree that carries neither file."""
+    for rel in ("scripts/state-probe.sh", "scripts/plan_checks.py", "scripts/plan_checks_core.py"):
+        dst = tmp_path / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / rel, dst)
+    plan = (
+        "# Plan\n\n## Tasks\n\n"
+        + _row("row-1", "A done row", "hash-1")
+        + "## Blockers\n\n- none\n"
+    )
+    (tmp_path / "PLAN.md").write_text(plan, encoding="utf-8")
+    r = subprocess.run(
+        ["bash", str(tmp_path / "scripts" / "state-probe.sh")],
+        cwd=str(tmp_path),
+        capture_output=True,
+        text=True,
+        env={"HOME": str(tmp_path), "PATH": __import__("os").environ.get("PATH", "")},
+    )
+    assert "the recorded-state read did not run" in r.stdout, (
+        "the probe fell silent instead of naming what it could not read:\n%s\n%s"
+        % (r.stdout, r.stderr)
+    )
+    assert "task-admission.py" in r.stdout, r.stdout
+
+
 def test_a_row_with_no_receipt_at_all_is_named(tmp_path):
     r_drifted, _ = _run(tmp_path / "drifted")
     r_healed, _ = _run(tmp_path / "healed", heal=("row-no-receipt",))

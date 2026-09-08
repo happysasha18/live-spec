@@ -256,17 +256,22 @@ def select(tree, tasks, table):
 
 
 def run_one(tree, command):
+    """Returns (code, first_line, stopped). `stopped` is True only when the emergency stop ended
+    the process before it could return a verdict — that case never carries a `code` a caller
+    should read as pass or fail (criterion 11: a runtime timeout takes no part in the verdict)."""
     try:
         done = plan_checks_core.run_key(command, mark=True, cwd=tree, timeout=EMERGENCY_STOP_SECONDS)
     except subprocess.TimeoutExpired:
-        return 1, "the check hit the emergency stop before finishing (%ds)" % EMERGENCY_STOP_SECONDS
+        return (None,
+                "the check hit the emergency stop before finishing (%ds)" % EMERGENCY_STOP_SECONDS,
+                True)
     except Exception as exc:  # noqa: BLE001
-        return 1, str(exc)
+        return 1, str(exc), False
     text = (done.stdout or b"") if isinstance(done.stdout, bytes) else (done.stdout or "")
     if isinstance(text, bytes):
         text = text.decode("utf-8", "replace")
     first = next((ln.strip() for ln in text.splitlines() if ln.strip()), "")
-    return done.returncode, first
+    return done.returncode, first, False
 
 
 def judge(plan_path, checkpoints_dir, jobs):
@@ -274,7 +279,7 @@ def judge(plan_path, checkpoints_dir, jobs):
     tasks = plan_checks_core.parse_tasks(Path(plan_path).read_text(encoding="utf-8"))
     table = acceptance_table(tree)
     reasons, done_tasks = select(tree, tasks, table)
-    ran, faults, unanchored, keyless, offmachine = [], [], [], [], []
+    ran, faults, unanchored, keyless, offmachine, unjudged = [], [], [], [], [], []
 
     to_run = []
     for task in done_tasks:
@@ -319,14 +324,19 @@ def judge(plan_path, checkpoints_dir, jobs):
         for future in concurrent.futures.as_completed(futures):
             rid, cmd = futures[future]
             try:
-                code, first = future.result()
+                code, first, stopped = future.result()
             except Exception as exc:  # noqa: BLE001 - a key that threw is a key that failed
-                code, first = 1, "the check did not finish: %s" % exc
+                code, first, stopped = 1, "the check did not finish: %s" % exc, False
+            if stopped:
+                # The emergency stop ended the process before it returned a verdict. Criterion 11:
+                # that never counts as a failed acceptance and never turns the gate red on its own.
+                unjudged.append("%s: %s" % (rid, first))
+                continue
             ran.append(rid)
             if code != 0:
                 faults.append("%s: its acceptance command failed here, at this commit%s"
                               % (rid, (" — " + first[:120]) if first else ""))
-    return ran, faults, unanchored, keyless, offmachine, len(tasks), len(done_tasks), reasons
+    return ran, faults, unanchored, keyless, offmachine, unjudged, len(tasks), len(done_tasks), reasons
 
 
 def main():
@@ -343,7 +353,7 @@ def main():
     # re-entry breaker rather than fanning out; this process is not itself a reader.
     os.environ.pop("LIVE_SPEC_EVALUATING", None)
     try:
-        ran, faults, unanchored, keyless, offmachine, total, total_done, reasons = judge(
+        ran, faults, unanchored, keyless, offmachine, unjudged, total, total_done, reasons = judge(
             args.plan, args.checkpoints, max(1, args.jobs))
     except TableUnreadable as exc:
         print("BLOCKED — the acceptance table this gate runs from is unreadable, so nothing here "
@@ -365,6 +375,11 @@ def main():
     if keyless:
         print("   %d selected row(s) record no acceptance command and were not run (admitted "
               "before one was required): %s" % (len(keyless), ", ".join(sorted(keyless))))
+    if unjudged:
+        print("   %d selected row(s) UNJUDGED — the emergency stop ended the run before it could "
+              "decide, so it is not a verdict and never a failed acceptance:" % len(unjudged))
+        for line in unjudged:
+            print("  " + line)
     if not faults:
         print("   every selected row's acceptance passes here.")
         return 0

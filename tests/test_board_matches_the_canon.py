@@ -75,11 +75,33 @@ _BOARD_HANDLE_RE = re.compile(
     r'|<div class="doneline">\S+ <b>(.*?)</b>')
 
 
+# The probe only ever prints a "## Tasks" row that is still open, or one this push just closed
+# (closed_since_push — unreachable here, since this copy carries no .git at all). This pack's own
+# real PLAN.md reached zero open rows once its last queued task closed (q-826), so a fixture built
+# straight from the real file no longer has anything the probe would print, no matter how sound
+# the reader is — the anti-vacuous-pass guards below started failing on the state of the plan, not
+# on a broken reader. One synthetic, always-open row keeps the mechanism provable regardless of how
+# close the real plan is to done.
+_GUARD_ROW_ID = "zzz-test-fixture-open-guard"
+_GUARD_ROW = (
+    "### ⬜ Fixture-only row so this test always has something open to show — id: %s\n"
+    "Not real project work; inserted by the test that copies PLAN.md.\n\n" % _GUARD_ROW_ID
+)
+
+
+def _add_open_guard_row(plan_path):
+    text = plan_path.read_text(encoding="utf-8")
+    marker = "\n### "
+    idx = text.index(marker)
+    plan_path.write_text(text[:idx + 1] + _GUARD_ROW + text[idx + 1:], encoding="utf-8")
+
+
 def _make_repo_copy(tmp):
     for rel in NEEDED:
         dst = tmp / rel
         dst.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(ROOT / rel, dst)
+    _add_open_guard_row(tmp / "PLAN.md")
 
 
 def _probe_titles(tmp):
