@@ -829,6 +829,10 @@ ACCEPT_ANCHOR = "ACCEPT: "
 # match, so a spawn cannot ride an id somebody typed, and a brief goes stale the moment the done
 # or the acceptance it was cut against moves.
 BRIEF_TOKEN = "BRIEF-TOKEN: "
+# What the branch's upstream pointed at when this row closed. The landing window
+# (`landing_is_unpushed`) is open while that is still where the upstream points, so the
+# window shuts on the push itself rather than on anything anybody writes to the file.
+CLOSED_UPSTREAM = "CLOSED-UPSTREAM: "
 # The heuristic, said plainly here and in `verify --surface`'s own help: a done written in these
 # words promises something rendered or published, and a fixture passing is not that thing.
 SURFACE_WORDS = re.compile(
@@ -1411,6 +1415,11 @@ def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
             checkpoint.close_checkpoint(cp)
         except ValueError as exc:
             raise AdmissionError(str(exc))
+        # Where the upstream stood at the close. `landing_is_unpushed` reads this and nothing
+        # else, so the window it opens shuts on the next push and on no other event.
+        at_close = _upstream_head(Path(plan_path).resolve().parent)
+        if at_close:
+            _write_anchor(cp, CLOSED_UPSTREAM, at_close, allow_closed=True)
     # The holder stays on the row. T8's fork reads it — a done that turns out false comes back
     # in hand where somebody still holds it, and queued where nobody does.
     _rewrite_row(plan_path, task_id, mark=DONE)
@@ -1557,7 +1566,7 @@ def mint_brief_token(plan_path, checkpoints_dir, task_id: str) -> str:
                   # A row inside the landing window has a shut sheet and unpushed work, and the
                   # review the push gate is about to ask for is briefed from it. The write is the
                   # token line and nothing else.
-                  allow_closed=close_is_unlanded(plan_path, checkpoints_dir, task_id))
+                  allow_closed=landing_is_unpushed(plan_path, checkpoints_dir, task_id))
     return token
 
 
@@ -1571,7 +1580,14 @@ def read_brief_token(cp):
     return parts[0], fields.get("dod"), fields.get("accept")
 
 
-def close_is_unlanded(plan_path, checkpoints_dir, task_id: str) -> bool:
+def _upstream_head(root) -> str:
+    """The sha the branch's upstream points at, or "" where there is no upstream to read."""
+    got = subprocess.run(("git", "-C", str(root), "rev-parse", "@{u}"),
+                         capture_output=True, text=True)
+    return got.stdout.strip() if got.returncode == 0 else ""
+
+
+def landing_is_unpushed(plan_path, checkpoints_dir, task_id: str) -> bool:
     """True while a closed row's close has not yet reached the remote.
 
     The push gate asks for a review of the landing AFTER the row closed — the prover record over the
@@ -1589,21 +1605,23 @@ def close_is_unlanded(plan_path, checkpoints_dir, task_id: str) -> bool:
     machine. The window closes the moment the push lands, and a row closed and pushed refuses a spawn
     the way it always did. Where the tree has no upstream there is no push to wait for, so the window
     is shut and the answer is False.
+
+    It is measured off the upstream, and off nothing else. The first version read the checkpoint
+    file — dirty in the working tree, or touched by an unpushed commit — and `brief` writes that
+    file, so minting a token was itself what kept the window from ever shutting: the global review
+    of 2026-09-08 drove the real hook through close, commit, brief, push and got a spawn admitted
+    on the far side. `close` now records where the upstream pointed when the row closed, and this
+    reads True only while it still points there. Any push moves it, which shuts the window for
+    every row that closed behind it; a row closed long ago carries an upstream that has long since
+    moved; and nothing written to the checkpoint afterwards can reopen it. A fetch that moves the
+    upstream shuts the window early, which errs toward the refusal this guard exists to make.
     """
     root = Path(plan_path).resolve().parent
-    rel = os.path.relpath(_checkpoint_path(checkpoints_dir, task_id).resolve(), root)
-
-    def git(*args):
-        return subprocess.run(("git", "-C", str(root)) + args, capture_output=True, text=True)
-
-    upstream = git("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}")
-    if upstream.returncode != 0 or not upstream.stdout.strip():
-        return False   # nowhere to push, so nothing to wait for
-    dirty = git("status", "--porcelain", "--", rel)
-    if dirty.returncode == 0 and dirty.stdout.strip():
-        return True    # the close is not even committed yet
-    ahead = git("log", "--oneline", "%s..HEAD" % upstream.stdout.strip(), "--", rel)
-    return ahead.returncode == 0 and bool(ahead.stdout.strip())
+    at_close = _read_anchor(_checkpoint_path(checkpoints_dir, task_id), CLOSED_UPSTREAM)
+    if not at_close:
+        return False
+    now = _upstream_head(root)
+    return bool(now) and now == at_close
 
 
 def token_row(plan_path, checkpoints_dir, token: str):
@@ -1611,7 +1629,7 @@ def token_row(plan_path, checkpoints_dir, token: str):
 
     Live means three things at once: the token was issued by `brief`, its row is still in hand —
     the checkpoint open, or closed with the landing that carries the close not yet pushed (see
-    `close_is_unlanded`) — and the done and the acceptance it was cut against are the ones the row
+    `landing_is_unpushed`) — and the done and the acceptance it was cut against are the ones the row
     and the tree read now. Any of the three moving retires every token cut before it.
     """
     token = (token or "").strip()
@@ -1631,7 +1649,7 @@ def token_row(plan_path, checkpoints_dir, token: str):
         except AdmissionError:
             return None
         if (checkpoint.read_checkpoint(cp)["status"] != "open"
-                and not close_is_unlanded(plan_path, checkpoints_dir, task_id)):
+                and not landing_is_unpushed(plan_path, checkpoints_dir, task_id)):
             return None
         dod, _ = read_dod(plan[start:end])
         key = acceptance_key(Path(plan_path).resolve().parent, task_id) or ""
@@ -1673,7 +1691,7 @@ def pre_spawn_check(plan_path, checkpoints_dir, task_id: str):
     # name and nothing else (the adversarial read of 2026-09-06). A closed row comes back through
     # `reopen`, which opens the sheet again.
     if (checkpoint.read_checkpoint(cp)["status"] != "open"
-            and not close_is_unlanded(plan_path, checkpoints_dir, task_id)):
+            and not landing_is_unpushed(plan_path, checkpoints_dir, task_id)):
         raise AdmissionError(
             "%s is closed work, and its close has already landed on the remote, so no worker starts "
             "on it. Reopen it (`reopen %s --false-condition ... --evidence ...`) or admit the new "

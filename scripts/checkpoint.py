@@ -357,10 +357,11 @@ def update_checkpoint(path, done=None, in_progress=None, next=None, decision_she
     Raises ValueError if:
       - the checkpoint is already closed and `allow_closed` is not set. Updating closed work is
         out of scope for this function, and reopening a closed checkpoint is a separate design
-        question. The one caller that sets `allow_closed` is the brief token
-        (`task-admission.py mint_brief_token`), which records the spawn token of a landing whose
-        row has closed and whose close has not been pushed — the window the push gate's own
-        review is briefed in. It writes one line into DONE and changes nothing else;
+        question. Two callers set `allow_closed`, both in `task-admission.py` and both writing one
+        anchor line into DONE and nothing else: `close`, which records where the branch's upstream
+        stood at the close, and `mint_brief_token`, which records the spawn token of a landing
+        whose row has closed and whose close has not been pushed — the window the push gate's own
+        review is briefed in;
       - all four of done/in_progress/next/decision_sheet are None — calling this with
         nothing to change is almost certainly a caller bug, not a no-op to accept silently;
       - decision_sheet is given but the checkpoint is not pipeline-owned (mirrors

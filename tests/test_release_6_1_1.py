@@ -140,14 +140,19 @@ def give_upstream(tree):
     return branch
 
 
-def a_closed_row(tmp_path):
-    """One admitted row, verified by somebody other than its holder, and closed."""
+def a_closed_row(tmp_path, with_upstream=True):
+    """One admitted row, verified by somebody other than its holder, and closed.
+
+    The upstream is given BEFORE the close, the way a real host stands: the close records where
+    the upstream pointed at that moment, and that recording is the whole of the landing window.
+    """
     plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    branch = give_upstream(tmp_path) if with_upstream else None
     admission.admit(route(), plan, checkpoints)
     (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
     admission.verify(plan, checkpoints, "q-1", by="a-checker-who-did-none-of-the-work")
     admission.close(plan, checkpoints, "q-1")
-    return plan, checkpoints
+    return plan, checkpoints, branch
 
 
 def test_a_worker_may_take_the_gates_own_review_while_the_close_is_unpushed(tmp_path):
@@ -156,8 +161,7 @@ def test_a_worker_may_take_the_gates_own_review_while_the_close_is_unpushed(tmp_
     Red before the fix — the token died at the close, so this spawn was refused and the session
     owing an independent read of its own landing had to do that read itself.
     """
-    plan, checkpoints = a_closed_row(tmp_path)
-    give_upstream(tmp_path)
+    plan, checkpoints, _ = a_closed_row(tmp_path)
     token = token_for(tmp_path, checkpoints)   # the close is committed by `land` below
     land(tmp_path)
 
@@ -165,10 +169,15 @@ def test_a_worker_may_take_the_gates_own_review_while_the_close_is_unpushed(tmp_
 
 
 def test_the_window_shuts_the_moment_the_close_lands(tmp_path):
-    """The other half: once the landing is on the remote there is no gate left to serve."""
-    plan, checkpoints = a_closed_row(tmp_path)
-    branch = give_upstream(tmp_path)
-    token = token_for(tmp_path, checkpoints)
+    """The other half: once the landing is on the remote there is no gate left to serve.
+
+    Red before 2026-09-08 23:36 — the window was read off the checkpoint file, dirty or touched by
+    an unpushed commit, and `brief` writes that file, so minting a token was itself what kept the
+    window from ever shutting. The global review of that evening drove exactly this order on the
+    real hook — close, commit, brief, push — and got a spawn admitted on the far side of the push.
+    """
+    plan, checkpoints, branch = a_closed_row(tmp_path)
+    token = token_for(tmp_path, checkpoints)   # the brief writes the checkpoint, inside the window
     land(tmp_path)
     subprocess.run(["git", "push", "-q", "origin", branch], cwd=tmp_path, check=True,
                    capture_output=True)
@@ -177,13 +186,38 @@ def test_the_window_shuts_the_moment_the_close_lands(tmp_path):
 
     assert refusal is not None
     assert "no live brief token" in json.dumps(refusal)
+    assert admission.landing_is_unpushed(plan, checkpoints, "q-1") is False
+
+
+def test_a_touch_of_the_checkpoint_after_the_push_reopens_nothing(tmp_path):
+    """The neighbouring shape the same review named: a long-closed, long-pushed row must not come
+    back to life because somebody wrote a byte to its sheet, or because a later landing's commit
+    happens to touch it. The window is read off where the upstream stood at the close, so nothing
+    written afterwards moves it."""
+    plan, checkpoints, branch = a_closed_row(tmp_path)
+    token = token_for(tmp_path, checkpoints)
+    land(tmp_path)
+    subprocess.run(["git", "push", "-q", "origin", branch], cwd=tmp_path, check=True,
+                   capture_output=True)
+
+    sheet = checkpoints / "q-1.md"
+    sheet.write_text(sheet.read_text(encoding="utf-8") + "\na later hand\n", encoding="utf-8")
+    assert admission.landing_is_unpushed(plan, checkpoints, "q-1") is False
+    assert spawn(tmp_path, token) is not None
+
+    land(tmp_path)   # and committed, still unpushed, still no window
+    assert admission.landing_is_unpushed(plan, checkpoints, "q-1") is False
+    assert spawn(tmp_path, token) is not None
 
 
 def test_the_window_is_shut_where_there_is_no_upstream_at_all(tmp_path):
-    """No remote means no push to wait for, so a closed row refuses the way it always did."""
-    plan, checkpoints = a_closed_row(tmp_path)
+    """No remote means no push to wait for, so a closed row refuses the way it always did. The
+    close writes no upstream anchor at all in that tree, and the reader answers False on its
+    absence."""
+    plan, checkpoints, _ = a_closed_row(tmp_path, with_upstream=False)
 
-    assert admission.close_is_unlanded(plan, checkpoints, "q-1") is False
+    assert admission.landing_is_unpushed(plan, checkpoints, "q-1") is False
+    assert "CLOSED-UPSTREAM" not in (checkpoints / "q-1.md").read_text(encoding="utf-8")
 
 
 def test_the_window_does_not_lift_the_other_legs(tmp_path):
@@ -192,15 +226,18 @@ def test_the_window_does_not_lift_the_other_legs(tmp_path):
     A row inside the window whose acceptance command has moved since the brief still refuses, which
     is the leg that stops a token surviving a rewritten contract.
     """
-    plan, checkpoints = a_closed_row(tmp_path)
-    give_upstream(tmp_path)
+    plan, checkpoints, _ = a_closed_row(tmp_path)
     token = token_for(tmp_path, checkpoints)
     land(tmp_path)
     assert spawn(tmp_path, token) is None, "the window is open before the acceptance moves"
 
     keys = tmp_path / "scripts" / "plan_checks.py"
-    keys.write_text(keys.read_text(encoding="utf-8").replace("grep -q v2", "grep -q v3"),
-                    encoding="utf-8")
+    keys.write_text(keys.read_text(encoding="utf-8").replace(
+        "grep -q v2 deliverable.txt", "grep -q v3 some-other-deliverable.txt"), encoding="utf-8")
+    # A rewrite of the same length in the same second reads back out of the bytecode cache, which
+    # is the module import doing its job and not the guard failing to notice.
+    for stale in (tmp_path / "scripts" / "__pycache__").glob("plan_checks*"):
+        stale.unlink()
 
     refusal = spawn(tmp_path, token)
     assert refusal is not None
@@ -209,7 +246,6 @@ def test_the_window_does_not_lift_the_other_legs(tmp_path):
 def test_the_window_opens_nothing_for_a_row_that_was_never_admitted(tmp_path):
     """A prompt with no token is refused inside the window like anywhere else."""
     a_closed_row(tmp_path)
-    give_upstream(tmp_path)
     land(tmp_path)
 
     refusal = spawn(tmp_path, "Read the landing and write the record.")
@@ -220,11 +256,10 @@ def test_the_window_opens_nothing_for_a_row_that_was_never_admitted(tmp_path):
 
 def test_the_brief_itself_prints_a_token_inside_the_window(tmp_path):
     """`brief` and the guard judge a row through one function, so they cannot disagree about it."""
-    plan, checkpoints = a_closed_row(tmp_path)
-    give_upstream(tmp_path)
+    plan, checkpoints, _ = a_closed_row(tmp_path)
     land(tmp_path)
 
-    assert admission.close_is_unlanded(plan, checkpoints, "q-1") is True
+    assert admission.landing_is_unpushed(plan, checkpoints, "q-1") is True
     assert len(token_for(tmp_path, checkpoints)) == 32
 
 
