@@ -91,7 +91,8 @@ class TestTheDateDecidesNothing(unittest.TestCase):
             got = _run(tmp, base, today="2026-09-09")
 
             self.assertEqual(got.returncode, 0, got.stdout + got.stderr)
-            self.assertIn("covers the pushed range", got.stdout)
+            self.assertIn("2026-09-08-reviewed-before-midnight.md covers the pushed range",
+                          got.stdout)
 
 class TestTheArmsThatDecideStillRefuse(unittest.TestCase):
     """The two arms the date was standing in front of, each red-proven on the real gate."""

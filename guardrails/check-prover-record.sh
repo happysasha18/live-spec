@@ -166,50 +166,51 @@ while IFS= read -r f; do
   [ -n "$f" ] && candidates+=("$f")
 done <<< "$(git ls-files "$PROVER_DIR" | grep -E '/[0-9]{4}-[0-9]{2}-[0-9]{2}.*\.md$' | sort -r || true)"
 
-if [ ${#candidates[@]} -eq 0 ]; then
-  # Recordless class (the owner's word, agent card rule 1; narrowed to records alone by the
-  # adversarial REFUSE of 2026-08-15 23:41, findings F1–F3, grounded in his north star of
-  # honest conservative proof): a pushed range whose every commit touches only the RECORD
-  # DIRECTORIES earns no prover record of its own, and this gate stands down for it by name,
-  # ahead of the record-missing FAIL below. The class is exact, and it is only these three:
-  #   docs/prover/  docs/skill-review/  docs/language-reads/
-  # Every other path rides the full record demand. .live-spec/, tests/, TEST_MATRIX.md,
-  # guardrails/ and .github/workflows/ are all OUT. The earlier, wider class let a reviewer
-  # build a live range that gutted the strict test and rewrote the rules card recordlessly —
-  # the exempted range changed the very rules and tests that decide what a record must hold.
-  # Enforcement machinery must never exempt itself: rules, tests and gates are exactly the
-  # code this push chain trusts to hold the line, so a change to any of them earns no free
-  # pass from the record it enforces on everything else. What stays in the class is what
-  # carries no behaviour of its own: the written records of reviews and reads.
-  # A range where any commit touches one file outside this class keeps the full record demand.
-  # This arm runs on the PUSH road only, using the range already derived above, and only where
-  # no record was found — a range with a record on file keeps every existing behavior below —
-  # and only against a base a real push would resolve (never the HEAD~1 last resort).
-  # STAND-DOWN: recordless
-  if [ "$PUSH_ROAD" -eq 1 ] && [ -n "$DIFF_BASE" ] && [ "$DIFF_BASE_LAST_RESORT" -ne 1 ]; then
-    rc_range_commits="$(git rev-list "$DIFF_BASE..HEAD" 2>/dev/null || true)"
-    if [ -n "$rc_range_commits" ]; then
-      rc_all_in_class=1
-      while IFS= read -r c; do
-        [ -z "$c" ] && continue
-        rc_paths="$(git show --pretty=format: --name-only "$c" | grep -v '^[[:space:]]*$' || true)"
-        while IFS= read -r p; do
-          [ -z "$p" ] && continue
-          case "$p" in
-            docs/prover/*|docs/skill-review/*|docs/language-reads/*) ;;
-            *) rc_all_in_class=0 ;;
-          esac
-        done <<< "$rc_paths"
-      done <<< "$rc_range_commits"
-      if [ "$rc_all_in_class" -eq 1 ]; then
-        echo "OK (prover record): stand-down — every commit in $DIFF_BASE..HEAD touches only the"
-        echo "  owner's recordless class, the record directories alone (docs/prover/, docs/skill-review/,"
-        echo "  docs/language-reads/), agent card rule 1, narrowed by the REFUSE of 2026-08-15 23:41;"
-        echo "  no fresh prover record is owed for this push."
-        exit 0
-      fi
+# Recordless class (the owner's word, agent card rule 1; narrowed to records alone by the
+# adversarial REFUSE of 2026-08-15 23:41, findings F1–F3, grounded in his north star of
+# honest conservative proof): a pushed range whose every commit touches only the RECORD
+# DIRECTORIES earns no prover record of its own, and this gate stands down for it by name,
+# ahead of the record-missing FAIL below. The class is exact, and it is only these three:
+#   docs/prover/  docs/skill-review/  docs/language-reads/
+# Every other path rides the full record demand. .live-spec/, tests/, TEST_MATRIX.md,
+# guardrails/ and .github/workflows/ are all OUT. The earlier, wider class let a reviewer
+# build a live range that gutted the strict test and rewrote the rules card recordlessly —
+# the exempted range changed the very rules and tests that decide what a record must hold.
+# Enforcement machinery must never exempt itself: rules, tests and gates are exactly the
+# code this push chain trusts to hold the line, so a change to any of them earns no free
+# pass from the record it enforces on everything else. What stays in the class is what
+# carries no behaviour of its own: the written records of reviews and reads.
+# A range where any commit touches one file outside this class keeps the full record demand.
+# This arm runs on the PUSH road only, using the range already derived above, and only where
+# no record was found — a range with a record on file keeps every existing behavior below —
+# and only against a base a real push would resolve (never the HEAD~1 last resort).
+# STAND-DOWN: recordless
+if [ "$PUSH_ROAD" -eq 1 ] && [ -n "$DIFF_BASE" ] && [ "$DIFF_BASE_LAST_RESORT" -ne 1 ]; then
+  rc_range_commits="$(git rev-list "$DIFF_BASE..HEAD" 2>/dev/null || true)"
+  if [ -n "$rc_range_commits" ]; then
+    rc_all_in_class=1
+    while IFS= read -r c; do
+      [ -z "$c" ] && continue
+      rc_paths="$(git show --pretty=format: --name-only "$c" | grep -v '^[[:space:]]*$' || true)"
+      while IFS= read -r p; do
+        [ -z "$p" ] && continue
+        case "$p" in
+          docs/prover/*|docs/skill-review/*|docs/language-reads/*) ;;
+          *) rc_all_in_class=0 ;;
+        esac
+      done <<< "$rc_paths"
+    done <<< "$rc_range_commits"
+    if [ "$rc_all_in_class" -eq 1 ]; then
+      echo "OK (prover record): stand-down — every commit in $DIFF_BASE..HEAD touches only the"
+      echo "  owner's recordless class, the record directories alone (docs/prover/, docs/skill-review/,"
+      echo "  docs/language-reads/), agent card rule 1, narrowed by the REFUSE of 2026-08-15 23:41;"
+      echo "  no fresh prover record is owed for this push."
+      exit 0
     fi
   fi
+fi
+
+if [ ${#candidates[@]} -eq 0 ]; then
 
   # A scratch file in the working tree is the near miss worth naming: the record was written and
   # never committed, and the candidate list is built from git, so nothing above would have seen it.
@@ -359,8 +360,17 @@ fi
 # --- arm: a record names the base commit and every reviewed commit ---
 matched=""
 missing_report=""
+# The report names the three newest records it walked and counts the rest. Every record on file is
+# a candidate now, so a loop that printed one line each put 44.9 KB inside a pre-push hook and left
+# the FAIL on line 4 of it — the same reasoning the passing message above already carried, withheld
+# from the message a person actually needs to read (the closure review of q-830).
+reported=0
+considered=0
 for rec in "${tracked[@]}"; do
-  body="$(cat "$rec")"
+  # The committed bytes, never the working tree's: a record edited in place and left uncommitted is
+  # a scratch file however old its commit is, and the retired date filter used to refuse it by name
+  # (the closure review of q-830).
+  body="$(git show "HEAD:$rec" 2>/dev/null || true)"
   misses=""
   # A shell pattern match reads the whole body in this process. A pipe into `grep -q` reads it
   # wrong: grep exits at the first hit, printf takes SIGPIPE, and `set -o pipefail` then reports
@@ -374,20 +384,25 @@ for rec in "${tracked[@]}"; do
     matched="$rec"
     break
   fi
-  missing_report="$missing_report
+  if [ "$reported" -lt 3 ]; then
+    missing_report="$missing_report
   $rec names none of:$misses"
+    reported=$((reported + 1))
+  fi
+  considered=$((considered + 1))
 done
 
 if [ -z "$matched" ]; then
   echo "FAIL (prover record): no committed record under $PROVER_DIR/ names the pushed range — every"
   echo "  record on file was written about some other change, not this one (SPEC INV-304)."
-  echo "  the pushed range is $BASE_SHORT..$(git rev-parse --short=7 HEAD), $reviewed_count commit(s) reviewed.$missing_report"
+  echo "  the pushed range is $BASE_SHORT..$(git rev-parse --short=7 HEAD), $reviewed_count commit(s) reviewed."
+  echo "  $considered committed record(s) were read; the newest few and what each one misses:$missing_report"
   echo "$FIX_LINE"
   exit 1
 fi
 
 # --- arm: the record carries the marker and each field with a value ---
-body="$(cat "$matched")"
+body="$(git show "HEAD:$matched" 2>/dev/null || true)"
 shape_fail=0
 
 # The same whole-body read the hash match uses: a pipe into `grep -q` reports a marker the record

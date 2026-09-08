@@ -253,7 +253,13 @@ def test_closed_blocking_finding_passes():
 
 def test_a_range_of_record_commits_alone_stands_down():
     """A range whose every commit carries the record alone holds no change of its own to
-    review, so the gate stands down by name instead of asking for a record of a record."""
+    review, so the gate stands down by name instead of asking for a record of a record.
+
+    Which of the two stand-downs answers moved on 2026-09-09: the recordless-class arm was hoisted
+    out of a branch it could no longer reach, and it now judges this range first, since a range of
+    `docs/prover/` commits is a range inside the record class. The verdict is the same and its
+    message is the more precise of the two — it names the class the range sits in.
+    """
     with tempfile.TemporaryDirectory() as tmp:
         _init_repo(tmp)
         _write(tmp, "a.txt", "one\n")
@@ -262,7 +268,7 @@ def test_a_range_of_record_commits_alone_stands_down():
         _commit_all(tmp, "a record, and nothing else")
         r = _gate(tmp, base)
         assert r.returncode == 0, r.stdout + r.stderr
-        assert "carries the review record alone" in r.stdout
+        assert "recordless class" in r.stdout
 
 
 def test_a_tree_with_no_range_stands_down():
@@ -294,6 +300,12 @@ def test_a_recordless_class_range_stands_down():
     with tempfile.TemporaryDirectory() as tmp:
         _init_repo(tmp)
         _write(tmp, "a.txt", "one\n")
+        # A dated record already on file BEFORE the base, so the candidate list is not empty when
+        # the stand-down is judged. The fixture planted only undated names until 2026-09-09, which
+        # kept it green through a range where the stand-down could not fire at all: the arm sat
+        # inside "no candidate was found", and every committed record became a candidate that day
+        # (the closure review of q-830).
+        _write(tmp, "docs/prover/2026-09-01-an-earlier-push.md", "a record for an earlier push\n")
         base = _commit_all(tmp, "a v1")
         _write(tmp, "docs/prover/scratch-note.md", "a scratch prover note\n")
         _commit_all(tmp, "a records touch")

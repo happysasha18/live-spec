@@ -75,7 +75,7 @@ behaviour takes more than one line. A gate with no note here runs all the same.
   nothing here — a record written at 23:50 carries the push that goes out at 00:05; the gate
   demanded a today-dated file until the owner's word of 2026-09-09, and what that demand
   produced was one record written to satisfy a clock. What decides is below. The record names the base commit and every commit reviewed. It
-  carries the `PUSH-REVIEW` marker and its five fields with values. No blocking finding is
+  carries the `PUSH-REVIEW` marker and its six fields with values. No blocking finding is
   left open. Whether the review was adversarial rests on the reviewer; no script decides
   that. `docs/prover/README.md` holds the shape for a person writing one.
 - **b. Tests green.** `python3 -m pytest -q tests` exits clean — the SAME runner the CI mirror
