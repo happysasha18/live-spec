@@ -9,9 +9,22 @@ hold it defective until evidence said otherwise. Where the commit message states
 number was recomputed against this tree rather than read. Extended 2026-09-08 over `ba34202e`,
 the commit that repairs three of this record's four blocking items; each repair was re-derived
 against the tree rather than accepted from its own message. Extended again over `6db4ca8a`, which
-repairs F11 and the summary residual F2 named.
+repairs F11 and the summary residual F2 named. Extended a third time over `e5c38985`, the gate-u
+repair, which raises F13, and a fourth time over `888da66a`, which closes it.
 
-Range: ed35c92e..6db4ca8a — the base the remote holds, then the three commits this push sends.
+Range: ed35c92e..888da66a — the base the remote holds, then the five commits this push sends.
+`697aa57f` sits in the range too and carries this record alone, so the gate's record-only exemption
+covers it and it owes no naming of its own.
+
+- 888da66a The receipt gate's silent half gets its own test —
+  `test_a_hand_typed_done_mark_is_caught_when_an_earlier_row_closed_in_the_same_push` added, and
+  the second loop's variable in `faults()` renamed from `name` to `label`. Judged in F13's closure.
+
+- e5c38985 A closed row's receipt gate stops crashing on the second closed row — the shadowed
+  `was` in `guardrails/check-close-receipt.py:faults` renamed to `prior`,
+  `test_a_second_closed_row_does_not_crash_on_the_firsts_leftover_anchor` added, and one
+  `DECISIONS.md` entry recording the owner's word of 2026-09-08 12:01 that every report to him is
+  written in English. Judged in F13.
 
 - 6db4ca8a The matrix says what the law says, and no summary covers an unjudged row — `M-667`
   rewritten to the amended criterion 15, and `main`'s closing line in
@@ -77,10 +90,19 @@ tests/test_status_view_install.py` — 39 passed, the five files `ba34202e` touc
 `6db4ca8a`: `python3 -m pytest -q tests/test_acceptance_rerun_reach.py` — 8 passed; and
 `python3 guardrails/check-acceptance-rerun.py` on this tree at `6db4ca8a` — 15 of 83 selected, all
 15 ran and passed, 13 of them named as predating the acceptance anchor (this machine carries a
-drawn `board.html`, which `plan-11`'s command reads; CI draws it before gate v).
+drawn `board.html`, which `plan-11`'s command reads; CI draws it before gate v). Over `e5c38985`:
+`python3 guardrails/check-close-receipt.py` on this tree — "every done row on the board stands on a
+passed acceptance receipt.", exit 0, the gate's first complete verdict across all 83 done rows;
+`python3 guardrails/check-authority-anchor.py` — exit 0 over the new `DECISIONS.md` entry; and a
+planted two-row host in which `faults()` from `6db4ca8a` and from `e5c38985` were loaded side by
+side and run against the same tree (the result is F13). Over `888da66a`:
+`python3 -m pytest -q tests/test_closure_kernel_bypasses.py` — 31 passed; a read of
+`guardrails/check-close-receipt.py` lines 163–210 for every use of the bare `name`; and
+`python3 guardrails/check-close-receipt.py` again — exit 0, the same complete verdict.
 
-Findings: twelve. Four were blocking at 5ca8697c and all four are closed by `ba34202e`; F11, raised
-by that repair, is closed by `6db4ca8a`; F12 is raised by `6db4ca8a` and does not block. The mechanism this commit names is a contract with no
+Findings: thirteen. Four were blocking at 5ca8697c and all four are closed by `ba34202e`; F11,
+raised by that repair, is closed by `6db4ca8a`; F13, raised by `e5c38985`, is closed by `888da66a`;
+F12 stands and does not block. The range's verdict is in the closing section. The mechanism this commit names is a contract with no
 runner: `resolve_mode`, `admit_targets` and `decides_verdict` have no caller outside their own
 test file, so the four modes are declarations and the composition law they state is enforced
 nowhere. Two executions did change, and both changed honestly; the cost is that the one thing
@@ -460,6 +482,79 @@ hand — `unanchored` is a list at that point in `main`.
 
 `recommendation · summary-reads-stronger-than-its-run (traceability)`
 
+## F13 — The gate-u bug had a silent half, and only the loud half is held by a test
+
+> "The first closed row with a checkpoint leaves `was` holding its ACCEPT anchor string; the next
+> closed row's `newly` check then calls `.get` on a string and crashes" —
+> tests/test_closure_kernel_bypasses.py, the new test's docstring
+
+The rename is the whole shadowing fix, and it is correct. `faults()` binds `text`, `tasks`, `was`
+and `out` before the task loop; the loop's own names are `task`, `cp`, `newly`, `before`, `now`,
+`name`, `prior`, `receipt`, `failed`, `digest`, `anchor` and `value`, and none of those collides
+with an outer binding. One habit survives: `name` is the loop variable of two different loops in
+the same function, which is the same one-name-two-meanings shape that caused this.
+
+What the commit's account misses is that the bug had two faces, and the loud one is the lesser.
+`was` is reassigned to `(before or {}).get(name)`. Where the first checkpointed done row carried an
+anchor at the base, `was` became a string and the next row crashed — a traceback, exit 1, and
+`guardrails/pre-push` setting `fail=1`, so the push was refused. That half is fail-closed and
+visible. Where the first checkpointed done row's checkpoint did not exist at the base — the
+ordinary shape of a push that closes a row, which is what every push in this range does — `before`
+is `None`, so `was` became `None`, `newly` was `False` for every later row, and the
+"reads done and has no checkpoint" arm stopped firing without a word.
+
+Proved rather than reasoned. In a planted host, `q-1` was admitted, verified and closed in the
+push, and a done mark for `q-2` was typed straight into the plan's `## Tasks` section with no
+checkpoint at all. `faults()` loaded from `6db4ca8a` returned 0 faults. `faults()` loaded from
+`e5c38985`, against the identical tree, returned one: "q-2 reads done and has no checkpoint". So
+the gate whose whole purpose is that a done typed onto the board is not a close was passing exactly
+that, for every row after the first freshly-closed one.
+
+How far back: the shadowing arrived with `9246e86e` (2026-09-07), 13 commits before HEAD, in the
+commit that added the anchor-comparison loop. It cannot reach further, because the loop did not
+exist before it. So gate u has been judging less than it claimed since 2026-09-07, and on this
+pack's own push shape it was the silent branch that was live.
+
+The new test asserts `returncode == 0` and no traceback on two honestly closed rows. It would fail
+if the shadowing came back, since the crash gives exit 1 and a traceback, so it is red-proved by
+construction and holds the loud half. It proves a green verdict on two clean rows; it does not
+prove the gate still reaches a red one. Nothing today catches a regression that leaves `was` as
+`None` rather than a string. Add the planted case above as a second test: one row closed in the
+push, one done typed in with no checkpoint, and assert the gate names `q-2`.
+
+Two smaller things. `main()` wraps `faults()` in no `try`, so any other exception — a malformed
+checkpoint, a base ref that will not resolve — still ends the gate with a traceback rather than a
+verdict; that is fail-closed and so not urgent, but a `try` printing "BLOCKED — gate u could not
+judge: <exception>" would make the difference legible in the pre-push output. And the gate's first
+complete run, recorded above, is green across all 83 done rows: it holds that each done row's
+checkpoint carries a passed receipt, which is a different question from whether that receipt was
+earned by a re-run — the question F10's 78 counts. Neither answers the other.
+
+**Closed in `888da66a`.** `test_a_hand_typed_done_mark_is_caught_when_an_earlier_row_closed_in_the_same_push`
+plants the case this record planted: base taken before both rows, `q-1` admitted, verified and
+closed in the push so its checkpoint does not exist at the base, and `q-2` carrying a done mark
+with its checkpoint removed. It builds `q-2` through `admit` and then deletes the checkpoint and
+flips the mark, which is a stronger plant than mine — the row is well formed and carries its own
+`DOD hash.` line, so it cannot pass on a parse quirk instead of on the arm under test. It asserts
+`returncode == 1` and that the output names `q-2` and "has no checkpoint".
+
+It holds the silent half on its own. In that fixture `anchors_at` returns `None` for `q-1`, so the
+old code's shadowed assignment sets `was` to `None` rather than to a string: nothing crashes, and
+the failure is exactly the missed fault. So a regression that reintroduced only the `None` branch,
+leaving the crash fixed, still reds this test on both assertions, and reds it on the verdict rather
+than on a traceback. The reported red-proof at `6db4ca8a` — `assert 0 == 1` over the gate's own
+"every done row on the board stands on a passed acceptance receipt." — is the shape that failure
+takes, and it matches what this record measured independently before the test existed.
+
+The second rename I checked rather than took. `for name in ("DOD", "ACCEPT")` carries no `break`
+and no `continue`, so it always runs to completion; `name` appears nowhere between the two loops
+(read over lines 163–210); and the first loop rebinds `name` at the top of the next task before
+anything could read a stale value. The two loops cannot collide, the worker's reasoning holds, and
+the commit says so itself — "this was safe as `name` too". The rename is hygiene rather than a
+second fix, and it is named as hygiene, which is the honest way to carry it.
+
+`defect · a-repair-whose-test-holds-half-of-it (completeness) — closed`
+
 ## What ba34202e adds beside the repairs
 
 Three test fixtures — `tests/test_tasks_parser_finds_every_task.py`,
@@ -490,7 +585,10 @@ which the freshness arm reads as part of the same document: Requirement 321 lose
 Requirement 322 arrives under INV-328 with twenty criteria, indexed in `PRODUCT_SPEC.index.md`.
 `ba34202e` edits one criterion of that same requirement, criterion 15, leaving the criterion count
 and so `PRODUCT_SPEC.index.md` untouched, and moves no other spec text. `6db4ca8a` touches no spec
-file at all; it edits one matrix row, one summary branch and one test.
+file at all; it edits one matrix row, one summary branch and one test. `e5c38985` touches no spec
+or architecture file either: one gate script, one test, one `DECISIONS.md` entry that
+`guardrails/check-authority-anchor.py` accepts, and the suite-green record. `888da66a` touches one
+test and one variable name.
 `ARCHITECTURE.md` is unchanged; `architecture/pipeline-and-lanes.md` gains the INV-328 line and the
 `guardrails/run_modes.py:1` pin — a pin to a module with no caller, noted in F8. Against base rule
 43 the composition figures hold: `max_targets` 1 and 5 are counts of targets, the 5 traced to
@@ -499,12 +597,44 @@ things a budget must not scale on, and every mode ships `emergency_timeout_secon
 in the config is read off a clock. The one clock that does reach a verdict is
 `EMERGENCY_STOP_SECONDS` in the gate, F2.
 
-Blocking: four were raised against 5ca8697 and all four are closed by ba34202e, each re-derived here rather than accepted from that commit's message; F11 and F2's summary residual are closed by 6db4ca8a, and nothing in this range is left blocking.
+Blocking: four were raised against 5ca8697 and all four are closed by ba34202e, each re-derived here rather than accepted from that commit's message; F11 and F2's summary residual are closed by 6db4ca8a; F13 is raised by e5c38985 and closed by 888da66a; F12 stands and does not block, so nothing in ed35c92e..888da66a is left blocking.
 - F1 closed: Requirement 322 criterion 15 now bans a new global session hook, listener or daemon and permits the repo-local spawn guard wired into the host's own repository-local settings, which is what `adopt/install-scaffold.sh` does — it writes `$HOST_ROOT/.claude/settings.json` and nothing under `$HOME`. The criterion, the code and — since 6db4ca8a — matrix row M-667 all agree.
 - F2 closed: `run_one` returns `(None, ..., True)` on the emergency stop, `judge` files that row under `unjudged` and skips both `ran` and `faults`, and the exit code reads `faults` alone. Re-derived with `EMERGENCY_STOP_SECONDS` at 1 against `sleep 5`. Of the two non-blocking residuals F2 named, the summary one is closed in 6db4ca8a and the other stands as criterion 11 requires.
 - F3 closed: `adopt/install-status-view.sh` now vendors `scripts/task-admission.py` and `scripts/checkpoint.py`, and the probe names an unreadable reader. Re-proved in a host built by running that installer: the recheck line appears, and deleting `scripts/checkpoint.py` produces the named warning instead of silence.
 - F4 closed: ba34202e's own message corrects 5ca8697c's "0 of 82" to 15 of 83, the figure this review measured.
 
-The whole suite was left to the three commits' own claims (3,034 passed, 4 then 5 skipped, 1
-xfailed) and to CI. This pass ran the six files the change touches and every command named above; no finding
+## The verdict on the range
+
+This range set out to state how a run chooses what it runs. It ends having also found that
+`guardrails/check-close-receipt.py` — the gate whose one job is that a done mark on the board is a
+close and never a hand edit — had been passing a hand-typed done for thirteen commits, since
+2026-09-07. Both faces of that are now fixed and both are held by their own test.
+
+The range is safe to push as it stands. Every blocking item raised against it is closed, and each
+closure was re-derived against the tree rather than accepted from a commit message. Nothing in the
+range makes any guardrail weaker than it was at ed35c92e: gate u catches strictly more than before,
+gate v no longer lets a clock decide a verdict, and the session-start read says out loud what it
+could not read. The two findings still standing, F7 and F12, are a snapshot with no keeper and a
+summary line that reads stronger than its run; neither admits anything false into the tree.
+
+What a reader of this record should still be wary of, in order:
+
+- **The contract this range is named for has no enforcer.** `guardrails/run_modes.py` has no caller
+  outside its own test file. The composition cap that would refuse an oversized run is declared and
+  never asked. A whole-suite acceptance command is admitted at the door today (F6, F8).
+- **A green gate u is a narrower claim than it sounds.** It holds that each done row's checkpoint
+  carries a receipt saying passed. It does not hold that the receipt was earned by a run anyone can
+  reproduce, and the probe separately counts 78 of 83 done rows whose recorded state does not stand
+  (F10). The mechanism that had been re-establishing those rows at every push is narrowed inside
+  this same range, deliberately and on the owner's word.
+- **Six matrix rows name tests that do not exist, and three wear `*built*` over a test that covers
+  part of the row** (F6, F8). A reader taking the matrix at face value will over-read what is held.
+- **The release core is right today and kept by nothing** (F7), and gate v's summary still reads
+  over thirteen unanchored rows without qualification (F12).
+
+And the lesson the range taught about itself: gate u stayed green for thirteen commits while
+passing the exact thing it exists to catch, because every test around it planted the clean case. A
+gate's green is evidence about the cases someone thought to plant, and about nothing else.
+
+The whole suite was left to the five commits' own claims and to CI. This pass ran the six files the change touches and every command named above; no finding
 here rests on a suite total.
