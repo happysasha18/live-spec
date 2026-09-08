@@ -568,6 +568,12 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # row's Done-when: the contract's home, the probe reading state, the push-time re-run's
     # narrowed reach, the substring refusal gone from all three of its homes, the delivery
     # through the attach path with its fixture-host proof, and the law itself.
+    # q-827: the push review runs in one of two named modes. Closure is the default and reads the
+    # row's own contract, its acceptance, its diff and the paths that diff touched; global runs
+    # only on the owner's own word for a critical scope. Both modes are proved through the real
+    # gate (a planted record of each shape, run through check-prover-record.sh), never by reading
+    # the prose that describes them.
+    "q-827": "grep -q '^## Closure review' skills/product-prover-pack/SKILL.md && grep -q '^## Global review' skills/product-prover-pack/SKILL.md && grep -q '^Mode:' docs/prover/README.md && PYTHONPATH=tests python3 -m unittest -q test_review_modes >/dev/null 2>&1",
     "q-826": "python3 -c \"import json;c=json.load(open('guardrails.config.json'));m=c['run_modes'];assert set(m)=={'row','integration','release','manual'}\" && grep -q 'LIVE_SPEC_RUN_MODE' guardrails/run_modes.py && grep -q 'run_modes' adopt/install-scaffold.sh && grep -q 'worker-admission-guard.py' adopt/install-scaffold.sh && ! grep -q 'runs a test suite' scripts/task-admission.py && ! grep -q '6a\\.' spec/queue-intake-priority.md && ! grep -q 'M-656' matrix/build-pipeline.md && grep -q '## Requirement 322' spec/queue-intake-priority.md && grep -q 'INV-328' PRODUCT_SPEC.index.md && grep -q 'INV-328' TEST_MATRIX.index.md && grep -q 'def test_a_second_update_changes_nothing' tests/test_run_modes_install.py && grep -q 'recorded state' scripts/state-probe.sh",
     # q-609: the rule now names who enforces it, in the spec that carries it.
     "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",

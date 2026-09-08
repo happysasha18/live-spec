@@ -15,9 +15,22 @@ too, under the same file naming. Only a record written for a push owes the range
 
 ## What the review covers
 
-The spec and the architecture as they now stand, and the delta being pushed: every commit between
-the remote's head and the local head. Whatever is still uncommitted is read with them. The range
-comes from the base ladder the gate walks — `LIVE_SPEC_DIFF_BASE`, then `origin/main`, then `HEAD~1`.
+A push review runs in one of two modes, and the record names which on its `Mode:` line. The modes
+and their reach live in `skills/product-prover-pack/SKILL.md`; in short:
+
+- **closure** — the default. It reads the accepted row: its definition of done, its recorded
+  acceptance command, the diff of the pushed range, and the paths that diff touches. It blocks on
+  material failure alone, and anything true it notices outside that reach becomes one deposit under
+  `inbox/` rather than a second list or a new row.
+- **global** — owed when the owner asks for one naming a critical scope, and when the row itself
+  changes a critical cross-cutting surface: the base pack, the installer, CI or admission, or the
+  shared release path. The record names that scope on its `Scope:` line, and the read stays on
+  reproducible material failure of that surface, each finding carrying its affected path.
+
+Both modes read the spec and the architecture as they now stand, and the delta being pushed: every
+commit between the remote's head and the local head. Whatever is still uncommitted is read with
+them. The range comes from the base ladder the gate walks — `LIVE_SPEC_DIFF_BASE`, then
+`origin/main`, then `HEAD~1`.
 
 The commit list for the record:
 
@@ -35,6 +48,7 @@ once the date's plain file exists.
 
 PUSH-REVIEW
 
+Mode: closure
 Range: 258d544..9f21ab0
 - 9f21ab0 <subject>
 - 258d544 <subject>
@@ -43,6 +57,10 @@ Checks run: python3 -m pytest -q — 2,484 passed
 Findings: <what the review found>
 Blocking: none
 ```
+
+`Mode:` reads `closure` or `global`. A global record carries one more line, `Scope:`, naming the
+critical surface it was owed for and read against — the trigger in the owner's words, or the
+cross-cutting surface the row changed.
 
 Those are all the fields, and the gate reads every one of them. Each carries a value. The commits
 between the base and the head are listed under `Range:`, since the gate holds that the record names

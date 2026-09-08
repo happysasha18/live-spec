@@ -1127,6 +1127,32 @@ key does not read that file.
 
 **Context pointers.** INV-328; guardrails/check-acceptance-rerun.py:117; scripts/state-probe.sh:70; adopt/install-scaffold.sh:35; ed35c92e
 
+### 🔄 A push review runs in one of two named modes — id: q-827
+**Group:** Pack quality · **Priority:** normal
+**Source:** the owner, 2026-09-08 21:25 — replace the wide prover review with two modes: a closure review reading only the definition of done, the acceptance, the row's diff and the path it changed, blocking only on material failure and sending everything else to one inbox item; and a global review that runs only on his own word for a critical scope and hunts only reproducible systemic breakage with a real affected path
+
+**Holder:** the pipeline
+
+**Outcome:** a person pushing a change knows before the review starts what it will read and what it may block on, because the review names one of two modes and each mode names its own reach
+
+**Statement.** Echo-name: A push review runs in. Description: a person pushing a change knows before the review starts what it will read and what it may block on, because the review names one of two modes and each mode names its own reach. Plan: 1) the pack's review path names exactly two modes for a push review, closure and global 2) the closure mode's stated reach is the row's definition of done, its acceptance command, the diff of the row and the paths that diff touches, its blocking set is material failure alone, and everything else it finds becomes one inbox deposit rather than more work 3) the global mode runs only on an owner request naming a critical scope and its stated reach is reproducible systemic breakage with a named affected path 4) the record shape carries the mode it ran and the push gate reads a record of either mode 5) and both modes are proved through the gate itself against a planted record of each shape. Estimate: 0–17 minutes — basis: closed rows q-822, q-825, q-826 in the same group, timed off their own checkpoint stamps.
+
+**Validation.** 2026-09-08 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-08.**
+
+**Done when:** the pack's review path names exactly two modes for a push review, closure and global; the closure mode's stated reach is the row's definition of done, its acceptance command, the diff of the row and the paths that diff touches, its blocking set is material failure alone, and everything else it finds becomes one inbox deposit rather than more work; the global mode runs on an owner request naming a critical scope and also when the accepted row itself changes a critical cross-cutting surface — the base pack, the installer, CI or admission, or the shared release path — and in both cases the scope is named outright and the reach stays reproducible material failure of that named surface with an affected path, never a general audit of the repository; the record shape carries the mode it ran and the scope a global run names, the push gate reads a record of either mode; and both modes are proved through the gate itself against a planted record of each shape
+
+**Read before admission.** q-826 (PLAN.md), 4b87ff2 (commit 4b87ff2). Finding: q-826 built the four run modes for TEST runs and says nothing about review reach; the range just pushed at 4b87ff2 paid for four adversarial reads of one small change, each widening past the change itself, which is the cost this row exists to end
+
+**DOD hash.** aae6a3dfbdad1f27a1e5f8a31985e2edd6796487a05a92ab10f9974cc15442e8
+
+**DOD changed.** 2026-09-08 · previous: the pack's review path names exactly two modes for a push review, closure and global; the closure mode's stated reach is the row's definition of done, its acceptance command, the diff of the row and the paths that diff touches, its blocking set is material failure alone, and everything else it finds becomes one inbox deposit rather than more work; the global mode runs only on an owner request naming a critical scope and its stated reach is reproducible systemic breakage with a named affected path; the record shape carries the mode it ran and the push gate reads a record of either mode; and both modes are proved through the gate itself against a planted record of each shape · previous hash: 056b252cdad9d4f2d414abf8579936bb881aad11033d7c5f4979031777c4285a · source: the owner, 2026-09-08 21:26 · reason: his clarification: a global review is owed by the surface a row touches as well as by his own word, and naming the surface is what keeps it from becoming a repository audit
+
+**Verification:** the row's recorded acceptance key in scripts/plan_checks.py, plus tests/test_review_modes.py driving guardrails/check-prover-record.sh with a planted record of each mode
+
+**Context pointers.** `skills/product-prover-pack/SKILL.md`; `docs/prover/README.md`; `guardrails/check-prover-record.sh`
+
 ## Environment — known traps
 
 - A full local `pytest` run hangs at 0% CPU and never finishes. Run it narrowly with `-k` or a

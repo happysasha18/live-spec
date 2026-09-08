@@ -23,6 +23,53 @@ The build pipeline asks for a mode by machine name, and the prover answers to bo
 | `FEATURE-FIT` | Feature-fit review  |
 | `CODE-REVIEW` | Code mode           |
 
+## The push review runs in one of two modes
+
+Every push carries one adversarial read (`docs/prover/README.md`), and that read runs as CLOSURE or
+as GLOBAL. The record names which, on its own `Mode:` line, before anything it found. Closure is the
+default; global is owed rather than chosen, on the two triggers below.
+
+The two exist because an unbounded read costs what it cannot repay. On 2026-09-08 one change of
+about forty lines took four adversarial reads, each widening past the change itself, and the widening
+found true things about the repository that the change had never touched — the reviewers were doing
+what an unbounded brief asks for. A review's reach is fixed before it starts, by the same law a
+test run's composition is (SPEC INV-328, Requirement 322): what it covers is named in advance, and it
+never grows with what it happens to notice.
+
+## Closure review
+
+The default for every push. Its reach is the accepted row and nothing else:
+
+- the row's definition of done, and whether the change meets it;
+- the row's own recorded acceptance command, and whether it passes at this commit;
+- the diff of the row — every commit in the pushed range;
+- the paths that diff touches, read directly, including the callers of anything the diff changed.
+
+**It blocks on material failure alone.** A material failure is the change failing its own definition
+of done, its acceptance not passing, the diff breaking a path it touches, or the change making a
+false claim about itself. Nothing else holds the push.
+
+**Everything else it finds becomes one inbox deposit, and the work does not grow.** A closure review
+that notices something true outside its reach writes it into a single deposit under `inbox/`, in one
+paragraph per thing noticed, and the push goes out. It opens no row, it asks for no repair in the
+same breath, and it never returns a second list. The deposit is judged at the intake sweep, which is
+where a new row is opened if one is owed.
+
+## Global review
+
+Runs on two triggers, and no others:
+
+- the owner asks for one, naming the critical scope he wants read;
+- the accepted row itself changes a critical cross-cutting surface — the base pack, the installer,
+  CI or admission, or the shared release path.
+
+Either way **the scope is named outright**, on the record's own `Scope:` line, before the read
+starts. What a global review hunts is reproducible material failure of that named surface, each
+finding carrying the affected path that shows it. An improvement the surface could take, a
+consistency it could gain, a thing worth doing that nothing is failing over — none of these are
+findings here. A global review is a wider closure review over one named surface; it is never a
+licence to audit the repository.
+
 ## Code mode
 
 The prover's own `reference/code-lenses.md` (v1.4.0+) carries the full procedure. Three of the
