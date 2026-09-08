@@ -127,7 +127,7 @@ def test_range_with_no_record_reds():
         r = _gate(tmp, base)
         assert r.returncode == 1, r.stdout + r.stderr
         assert "FAIL (prover record)" in r.stdout
-        assert "no file matching" in r.stdout
+        assert "no committed record at all" in r.stdout
 
 
 def test_stale_record_does_not_cover_a_later_commit():
@@ -318,7 +318,7 @@ def _out_of_class_range_reds(relpath, message):
         r = _gate(tmp, base)
         assert r.returncode == 1, r.stdout + r.stderr
         assert "FAIL (prover record)" in r.stdout
-        assert "no file matching" in r.stdout
+        assert "no committed record at all" in r.stdout
 
 
 def test_a_tests_only_commit_now_reds():
@@ -350,7 +350,7 @@ def test_a_range_with_one_out_of_class_file_still_demands_the_record():
         r = _gate(tmp, base)
         assert r.returncode == 1, r.stdout + r.stderr
         assert "FAIL (prover record)" in r.stdout
-        assert "no file matching" in r.stdout
+        assert "no committed record at all" in r.stdout
 
 
 def test_a_guardrails_only_commit_now_reds():
@@ -366,7 +366,7 @@ def test_a_guardrails_only_commit_now_reds():
         r = _gate(tmp, base)
         assert r.returncode == 1, r.stdout + r.stderr
         assert "FAIL (prover record)" in r.stdout
-        assert "no file matching" in r.stdout
+        assert "no committed record at all" in r.stdout
 
 
 # --- one record, one gate: the second of each is gone ---

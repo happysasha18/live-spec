@@ -12,7 +12,9 @@ jobs:
   gates:
     runs-on: ubuntu-latest
     env:
-      TZ: Asia/Jerusalem   # gate (a) wants a today-dated prover record; "today" is the author's day, not UTC's
+      TZ: Asia/Jerusalem   # every date a check reads or writes is the author's day, not UTC's — the
+                           # timestamp arm (INV-24) and every filename a run suggests. Gate (a) read a
+                           # date until 2026-09-09 and reads the pushed range now.
     steps:
       - uses: actions/checkout@v5
         with:
@@ -60,7 +62,7 @@ jobs:
       - name: "test suite (gate b, full — the reach map stays local)"
         if: ${{ !cancelled() }}
         run: python3 -m pytest -q
-      - name: "gate a — fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304)"
+      - name: "gate a — a committed prover record covering this push (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304)"
         if: ${{ !cancelled() }}
         # LIVE_SPEC_DIFF_BASE lets the script judge the inbox-only carve-out (row 269,
         # SPEC M-6/INV-112): a push whose diff is exactly one new inbox/ file owes no

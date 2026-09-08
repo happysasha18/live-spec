@@ -587,6 +587,11 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # test file, which drives the real installer against a drifted copy and the real spawn guard
     # against a row closed and not yet pushed, and against one whose close has landed.
     "q-829": "PYTHONPATH=tests python3 -m unittest -q test_release_6_1_1 >/dev/null 2>&1 && grep -q 'conduct-law.md' scripts/install-pack-hooks.sh && test \"$(cat VERSION)\" = \"6.1.1\" && grep -q '^### 6.1.1' MIGRATION.md",
+    # q-830: the calendar date comes out of gate a. The proof is the gate itself, driven over
+    # throwaway repositories: a record dated an earlier day that covers the pushed range passes,
+    # and the two arms that decide anything — freshness against the guarded documents, and the
+    # record naming the range — still refuse what they always refused.
+    "q-830": "PYTHONPATH=tests python3 -m unittest -q test_record_is_judged_by_reach_not_by_date >/dev/null 2>&1 && ! grep -q 'TODAY\\*.md' guardrails/check-prover-record.sh && ! grep -q 'a record dated today exists' docs/prover/README.md",
     # q-609: the rule now names who enforces it, in the spec that carries it.
     "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",
 }

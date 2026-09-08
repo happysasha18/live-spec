@@ -83,7 +83,7 @@
 
 **Case: what each push must show**
 
-1. *when* a push runs, the system *shall* require a prover record dated the same day, a green suite scoped to the diff's reach, every anchor owned by one node, and no unchecked matrix-coverage box. [E-6, INV-41]
+1. *when* a push runs, the system *shall* require a committed prover record covering the pushed range and no older than the documents it re-checked, a green suite scoped to the diff's reach, every anchor owned by one node, and no unchecked matrix-coverage box. The date a record's filename carries *shall* decide nothing. [E-6, INV-41]
 2. *when* a push runs, the system *shall* require the prototype fence — no production file referencing into a prototype home — and the opt-in concurrent-edit fence on commit. [E-17, INV-17]
 
 **Case: hosts are offered, never imposed**

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # check-prover-record.sh — gate (a) of the push gate: a fresh, committed prover record
-# dated today must exist before a push, and that record must be fresh for BOTH guarded
+# covering the pushed range must exist before a push, and that record must be fresh for BOTH guarded
 # documents — PRODUCT_SPEC.md and ARCHITECTURE.md (SPEC M-6, INV-116: every live-spec push
 # is preceded by a fresh re-check recorded in docs/prover/, covering the spec and the
 # architecture alike).
@@ -57,19 +57,24 @@
 #
 # Usage: check-prover-record.sh [--push] [prover-dir] [YYYY-MM-DD]
 #   prover-dir  defaults to docs/prover (relative to the repo root)
-#   date        defaults to today
+#   date        defaults to today, and is used for one thing: the filename this script SUGGESTS
+#               when it refuses. No arm below reads it.
 #
-# "Present and committed" means: at least one file matching <prover-dir>/<date>*.md
-# both exists on disk AND is tracked by git (git ls-files sees it) — not just an
-# untracked scratch file sitting in the working tree.
+# "Present and committed" means: at least one file under <prover-dir> named YYYY-MM-DD*.md is
+# tracked by git (git ls-files sees it). Every such file is a candidate whatever date its name
+# carries; a scratch file sitting untracked in the working tree is refused by name. This script
+# matched <prover-dir>/<date>*.md until 2026-09-09, when the owner retired the arm: a landing
+# reviewed at 23:50 and pushed at 00:05 was told it carried no review at all.
 #
-# Freshness rule (row 61, SPEC M-6; extended row 271, INV-116): a record dated-today-and-
-# committed is not enough on its own — it can be a record for a STALE state if PRODUCT_SPEC.md
-# or ARCHITECTURE.md changed again after it landed. So after the tracked-record check above
-# passes, also require that the newest commit touching <prover-dir> is at least as new as the
-# newest commit touching PRODUCT_SPEC.md, and separately at least as new as the newest commit
+# Freshness rule (row 61, SPEC M-6; extended row 271, INV-116): a committed record is not enough
+# on its own — it can be a record for a STALE state if PRODUCT_SPEC.md or ARCHITECTURE.md changed
+# again after it landed. So the newest commit touching <prover-dir> has to be at least as new as
+# the newest commit touching PRODUCT_SPEC.md, and separately at least as new as the newest commit
 # touching ARCHITECTURE.md (equal, or the document's commit is an ancestor of the record's
 # commit — a record may ship in the very same commit as the document change it covers).
+#
+# On the push road one more arm follows: a record has to name the base commit and every commit
+# being pushed. Those two arms are the whole of what decides here.
 
 set -euo pipefail
 
@@ -80,11 +85,19 @@ cd "$REPO_ROOT"
 # point elsewhere) — the classifier module it calls (case_or_space_only.py) always ships beside it.
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Two roads (row 571, the cost audit's repair b). The PUSH road (--push; pre-push and CI pass
-# it) keeps the original demand: a record dated today. The default WORK road serves an ordinary
-# suite run: a clean tree after midnight is not a defect, so it also accepts the newest committed
-# record of any date — the freshness checks below still refuse it the moment PRODUCT_SPEC.md or
-# ARCHITECTURE.md changed after it.
+# Two roads (row 571, the cost audit's repair b), and neither reads a calendar. Both take every
+# committed record as a candidate. The PUSH road (--push; pre-push and CI pass it) keeps the one
+# that covers the pushed range; the default WORK road serves an ordinary suite run and asks only
+# that the newest be fresh. What decides in both is the same pair of arms below: the record is no
+# older than PRODUCT_SPEC.md or ARCHITECTURE.md, and — on the push road — it names the base commit
+# and every commit being pushed.
+#
+# The push road demanded a record whose FILENAME began with today's date until 2026-09-09. The
+# owner's word that morning, on a landing reviewed at 23:50 and pushed at 00:05 and told it carried
+# no review at all: «одна минута до полночи или после ничего не меняют. это лишняя машинерия». The
+# date settled nothing the two arms do not settle, and the only thing it produced that night was a
+# second record written to satisfy the clock. Its own work road had carried the same reasoning for
+# months — "a clean tree after midnight is not a defect" — on the road where nothing enforced it.
 PUSH_ROAD=0
 if [ "${1:-}" = "--push" ]; then
   PUSH_ROAD=1
@@ -144,25 +157,14 @@ if [ -n "$DIFF_BASE" ] && [ "$DIFF_BASE_LAST_RESORT" -ne 1 ] && \
   exit 0
 fi
 
-shopt -s nullglob
-candidates=("$PROVER_DIR"/"$TODAY"*.md)
-shopt -u nullglob
-
-WORK_ROAD_FALLBACK=0
-if [ ${#candidates[@]} -eq 0 ] && [ "$PUSH_ROAD" -ne 1 ]; then
-  # WORK road fallback: the newest committed record of any date stands in, and the
-  # freshness checks below still refuse it if a guarded document changed after it.
-  newest=""
-  for f in $(git ls-files "$PROVER_DIR" | grep -E '/[0-9]{4}-[0-9]{2}-[0-9]{2}.*\.md$' | sort); do
-    newest="$f"
-  done
-  if [ -n "$newest" ]; then
-    candidates=("$newest")
-    WORK_ROAD_FALLBACK=1
-    echo "NOTE (prover record): no record dated $TODAY; work-run road (row 571) — the newest"
-    echo "  committed record stands in while it stays fresh for the guarded documents: $newest"
-  fi
-fi
+# Every committed record is a candidate on both roads, newest filename first, and the arms below
+# pick: the freshness arms refuse one older than a guarded document, and the push road's range arm
+# keeps the one naming the base and every pushed commit. A record's own filename date orders this
+# list and decides nothing in it.
+candidates=()
+while IFS= read -r f; do
+  [ -n "$f" ] && candidates+=("$f")
+done <<< "$(git ls-files "$PROVER_DIR" | grep -E '/[0-9]{4}-[0-9]{2}-[0-9]{2}.*\.md$' | sort -r || true)"
 
 if [ ${#candidates[@]} -eq 0 ]; then
   # Recordless class (the owner's word, agent card rule 1; narrowed to records alone by the
@@ -209,35 +211,33 @@ if [ ${#candidates[@]} -eq 0 ]; then
     fi
   fi
 
-  echo "FAIL (prover record): no file matching $PROVER_DIR/$TODAY*.md exists — this push carries no"
-  echo "  written review of the spec and the architecture. Every push needs one, dated today and committed (SPEC M-6)."
+  # A scratch file in the working tree is the near miss worth naming: the record was written and
+  # never committed, and the candidate list is built from git, so nothing above would have seen it.
+  shopt -s nullglob
+  on_disk=("$PROVER_DIR"/[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]*.md)
+  shopt -u nullglob
+  if [ ${#on_disk[@]} -gt 0 ]; then
+    echo "FAIL (prover record): a review record exists on disk and none are committed to git:"
+    printf '  %s\n' "${on_disk[@]}"
+    echo "  A scratch file in the working tree is not the evidence a push stands on."
+    echo "  Fix: ask your agent to add and commit the file(s) above before pushing."
+    exit 1
+  fi
+  echo "FAIL (prover record): $PROVER_DIR/ holds no committed record at all — this push carries no"
+  echo "  written review of the spec and the architecture. Every push needs one, covering the range"
+  echo "  it pushes and committed (SPEC M-6). Its filename's date orders the directory and settles"
+  echo "  nothing: a record written before midnight covers the push that follows it."
   echo "  Fix: ask your agent to run the review (the product-prover pass) and commit its record as $PROVER_DIR/$TODAY-<slug>.md."
   exit 1
 fi
 
-tracked=()
-untracked=()
-for f in "${candidates[@]}"; do
-  if git ls-files --error-unmatch "$f" >/dev/null 2>&1; then
-    tracked+=("$f")
-  else
-    untracked+=("$f")
-  fi
-done
+# Every candidate came out of `git ls-files`, so the tracked/untracked split the list used to walk
+# has nothing left to decide: an uncommitted record is refused above, by name, before this.
+tracked=("${candidates[@]}")
 
-if [ ${#tracked[@]} -eq 0 ]; then
-  echo "FAIL (prover record): today's review record exists on disk but none are committed to git:"
-  printf '  %s\n' "${untracked[@]}"
-  echo "  Fix: ask your agent to add and commit the file(s) above before pushing."
-  exit 1
-fi
-
-if [ "$WORK_ROAD_FALLBACK" -eq 1 ]; then
-  echo "OK (prover record): committed record accepted on the work-run road:"
-else
-  echo "OK (prover record): committed record(s) for $TODAY found:"
-fi
-printf '  %s\n' "${tracked[@]}"
+# Listing every committed record would bury the verdict, so the count and the newest stand for the
+# set; on the push road the range arm below names the one that actually covers this push.
+echo "OK (prover record): ${#tracked[@]} committed record(s) to pick from; the newest is ${tracked[0]}."
 
 # The spec is ONE document written across the core and, once its parts map names them, the files
 # under spec/. Freshness reads the newest commit touching any of them, so a change landing in a part

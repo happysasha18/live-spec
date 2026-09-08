@@ -113,7 +113,7 @@ set -e
 echo "$reach_out"
 
 echo ""
-echo "-- gate a: fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --"
+echo "-- gate a: a committed prover record covering this push (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --"
 # The reach verdict does not scope this gate (the 2718c69 stand-down, reverted on the owner's
 # 2026-08-15 word). A prose-only or scoped diff still sends commits, and the record this gate
 # demands is the adversarial read of the pushed RANGE (INV-304) — a thing no file-class verdict

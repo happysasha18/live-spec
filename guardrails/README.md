@@ -19,7 +19,7 @@ grep -oE -- '-- gate [a-z]{1,2}: [^"]+' guardrails/pre-push | sort -u
 A push of this repository is refused where the second command disagrees with what stands here. The count decides how much of the tree a push protects. It also decides how long a push waits. A gate is added when a stated law earns one, and dropped when its law goes, so neither direction is better on its own. When the count rises, every push runs one more check and waits for it.
 
 ```
--- gate a: fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --
+-- gate a: a committed prover record covering this push (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --
 -- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --
 -- gate c: every spec anchor owned by exactly one architecture node --
 -- gate d: TEST_MATRIX.md generated Reference agrees with the body (SPEC INV-273/INV-218) --
@@ -68,11 +68,13 @@ The server runs gate g on every push, unconditionally, and so does `LIVE_SPEC_PU
 The roster above is the whole set. These notes enumerate nothing. They cover the gates whose
 behaviour takes more than one line. A gate with no note here runs all the same.
 
-- **a. Fresh review.** A prover record dated today exists under `docs/prover/` and is
-  committed. This is the push gate every push of live-spec must pass (SPEC anchor `M-6`):
-  no push without a same-day whole-spec re-check on file. One record carries the whole
-  review a push owes (SPEC `INV-304`). On the push road the same check reads that record
-  against the pushed range. The record names the base commit and every commit reviewed. It
+- **a. Fresh review.** A committed prover record under `docs/prover/` covers the range this
+  push sends. This is the push gate every push of live-spec must pass (SPEC anchor `M-6`):
+  no push without a whole-spec re-check on file. One record carries the whole review a push
+  owes (SPEC `INV-304`). The date in a record's filename orders the directory and settles
+  nothing here — a record written at 23:50 carries the push that goes out at 00:05; the gate
+  demanded a today-dated file until the owner's word of 2026-09-09, and what that demand
+  produced was one record written to satisfy a clock. What decides is below. The record names the base commit and every commit reviewed. It
   carries the `PUSH-REVIEW` marker and its five fields with values. No blocking finding is
   left open. Whether the review was adversarial rests on the reviewer; no script decides
   that. `docs/prover/README.md` holds the shape for a person writing one.

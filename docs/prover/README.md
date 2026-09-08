@@ -75,7 +75,10 @@ those two is written.
 
 The gate holds:
 
-- a record dated today exists;
+- a committed record covers the pushed range, whatever the date in its filename says. That date
+  orders this directory and settles nothing: a record written at 23:50 carries the push that goes
+  out at 00:05, and the gate demanded a today-dated file until the owner's word of 2026-09-09,
+  which had produced exactly one thing — a second record written to satisfy a clock;
 - the record is committed, rather than a scratch file in the working tree;
 - the record is no older than the last change to `PRODUCT_SPEC.md` or `ARCHITECTURE.md`;
 - the record is fresh against the pushed range;

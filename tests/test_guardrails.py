@@ -175,7 +175,13 @@ def _push_diff_files():
 
 
 class TestGateA_ProverRecord(unittest.TestCase):
-    """Gate (a): a committed prover record dated today must exist."""
+    """Gate (a): a committed prover record covering this push must exist.
+
+    It demanded a record whose filename began with today's date until 2026-09-09, and the owner
+    retired that arm: a landing reviewed at 23:50 and pushed at 00:05 was told it carried no review
+    at all. What decides is the pair of arms below — the record is no older than the documents it
+    re-checked, and on the push road it names the base commit and every commit being pushed.
+    """
 
     def test_real_repo_passes(self):
         if os.environ.get("LIVE_SPEC_SCRATCH"):
@@ -218,11 +224,18 @@ class TestGateA_ProverRecord(unittest.TestCase):
         run(["git", "add", "-A"], cwd=tmp)
         run(["git", "commit", "-q", "-m", msg], cwd=tmp)
 
-    def test_work_road_accepts_fresh_yesterday_record_and_push_road_refuses(self):
-        """Row 571 (the cost audit's repair b): after midnight a clean tree is not a defect.
-        The default WORK road accepts the newest committed record of any date while it stays
-        fresh for the guarded documents; the --push road keeps demanding a record dated today
-        (his recorded line: a full re-check before every push)."""
+    def test_a_record_of_an_earlier_date_is_taken_on_both_roads(self):
+        """Row 571 (the cost audit's repair b) and the owner's word of 2026-09-09: after midnight a
+        clean tree is not a defect, and it is not a defect on the push road either. Both roads take
+        the newest committed record whatever its filename says, and the freshness arm is what
+        refuses. Here nothing is refused and nothing should be: the record postdates the spec it
+        re-checked, and the only commit past this tree's base is the record's own, which the push
+        road names as carrying no change of its own to review. Before 2026-09-09 the push road
+        refused this same tree, and the reason it gave was a date on a filename.
+
+        `tests/test_record_is_judged_by_reach_not_by_date.py` carries the refusals, driving the gate
+        over records that do name a range and over a spec that moves past one.
+        """
         with tempfile.TemporaryDirectory() as tmp:
             self._init_repo(tmp)
             self._write(tmp, "PRODUCT_SPEC.md", "spec v1\n")
@@ -232,15 +245,14 @@ class TestGateA_ProverRecord(unittest.TestCase):
             script = os.path.join(GUARDRAILS, "check-prover-record.sh")
             work = run([script, "docs/prover", "2026-07-06"], cwd=tmp)
             self.assertEqual(work.returncode, 0, work.stdout + work.stderr)
-            self.assertIn("work-run road", work.stdout)
+            self.assertIn("committed record(s) to pick from", work.stdout)
             push = run([script, "--push", "docs/prover", "2026-07-06"], cwd=tmp)
-            self.assertEqual(push.returncode, 1, push.stdout + push.stderr)
-            self.assertIn("FAIL (prover record)", push.stdout)
+            self.assertEqual(push.returncode, 0, push.stdout + push.stderr)
+            self.assertNotIn("no file matching", push.stdout)
 
     def test_stale_record_fails(self):
         """A record committed BEFORE the last PRODUCT_SPEC.md change is stale (row 61,
-        SPEC M-6): the gate must refuse it even though it is dated today and
-        committed — gate (a)'s original checks alone would wrongly pass this."""
+        SPEC M-6): the gate must refuse it even though it is committed — gate (a)'s original checks alone would wrongly pass this."""
         with tempfile.TemporaryDirectory() as tmp:
             self._init_repo(tmp)
             self._write(tmp, "PRODUCT_SPEC.md", "spec v1\n")
@@ -260,7 +272,7 @@ class TestGateA_ProverRecord(unittest.TestCase):
         """A record committed BEFORE the last ARCHITECTURE.md change is stale too (INV-116,
         row 271): the architecture pass records beside the spec's and carries the spec's
         freshness rule, so the gate must refuse a record a later ARCHITECTURE.md change
-        outdates, even though it is dated today and committed."""
+        outdates, even though it is committed."""
         with tempfile.TemporaryDirectory() as tmp:
             self._init_repo(tmp)
             self._write(tmp, "PRODUCT_SPEC.md", "spec v1\n")

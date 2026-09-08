@@ -1203,6 +1203,30 @@ key does not read that file.
 
 **Context pointers.** scripts/install-pack-hooks.sh:44; guardrails/worker-admission-guard.py; scripts/task-admission.py:1569; MIGRATION.md:428
 
+### ✅ The push record is judged by its reach, and the calendar date comes out — id: q-830
+**Group:** Guardrails · **Priority:** normal
+**Source:** the owner, 2026-09-09 00:03, on the record this session had to write because the clock crossed midnight between a landing and its push: «я думаю что это бред, одна минута до полночи или после ничего не меняют. это лишняя машинерия»
+
+**Holder:** seat
+
+**Outcome:** a landing whose review was written before midnight pushes on that review, and the arms that decide anything — the record covering the pushed range, and the record being no older than the guarded documents — refuse exactly what they refused before
+
+**Statement.** Echo-name: Reach, not the calendar. Description: the push gate picks the review record it judges by the date in the record's filename, so a landing whose review was written at 23:50 and pushed at 00:05 is told it carries no review at all. It happened tonight, and the answer was a second record written to satisfy the clock and nothing else. The date decides nothing anybody cares about: what makes a record the right one is that it covers the commits being pushed and is no older than the documents it re-checked, and the gate already holds both of those. Plan: 1) the push road picks its candidates from every committed record instead of the ones whose filename starts with today; 2) the two arms that decide — the record covering the pushed range, and the record being no older than the guarded documents — are proved to refuse exactly what they refused before, against the real gate over throwaway repositories; 3) the gate's own refusal message names the reach it wants; 4) the record README, the matrix row and the reviewer-facing wording say what the gate now says. Estimate: 1–2 hours — basis: no comparable history in this tree; the range is read off the four steps, one of them a change and one its proof.
+
+**Validation.** 2026-09-09 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-09.**
+
+**Done when:** the push road picks its record by what the record covers rather than by the date in its filename; a committed record written on an earlier day that names the pushed range and postdates PRODUCT_SPEC.md and ARCHITECTURE.md passes the gate, while a record naming a different range and a record older than a change to either guarded document are each still refused; the gate's own message names the reach it wants; and the record README, the matrix row and the reviewer-facing wording say the same thing the gate does
+
+**Read before admission.** nothing named. Finding: the plan carries no open or archived row on the gate's calendar-date arm and the record's commit subjects name none; the spec's own statement of this gate (M-6, INV-116) asks for a fresh record landed before the push and never for one dated today, so the date arm is the gate's own addition rather than a rule it enforces
+
+**DOD hash.** a34f95e278f81bbb2136cfc29c6a460e53db90434b612ee7eebd5a98a71e30ab
+
+**Verification:** python3 scripts/task-admission.py verify q-830
+
+**Context pointers.** guardrails/check-prover-record.sh:148; docs/prover/README.md:78; matrix/product-prover.md:6
+
 ## Environment — known traps
 
 - A full local `pytest` run hangs at 0% CPU and never finishes. Run it narrowly with `-k` or a
