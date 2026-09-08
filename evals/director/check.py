@@ -72,6 +72,8 @@ USAGE
   check.py --pair DIR_A DIR_B   grade two recordings and print the reds they share
 """
 import argparse
+import re
+import hashlib
 import glob
 import json
 import os
@@ -237,13 +239,60 @@ def report(name, fails, notes, checks):
     return not fails
 
 
+# ---------------------------------------------------------------- the freshness pin, by content
+
+SKILL = os.path.join(os.path.dirname(os.path.dirname(HERE)), "skills", "director", "SKILL.md")
+_VERSION_LINE = re.compile(r"(?m)^(  version: ).*$")
+
+
+def skill_digest(path=None):
+    """The digest a recorded run is pinned to: the skill's CONTENT, with its declared version out.
+
+    `evals/director/README.md` already states the principle for the neighbouring closing set — the
+    pin "reads the skill's content rather than its declared version", because the Director's text
+    moved three times on one day while its declared version moved none of them. The larger set's
+    own freshness arm read commit timestamps instead, so it could tell neither case from the other:
+    on 2026-09-08 the 6.1.1 patch stamp moved `  version: 6.1.0` to `  version: 6.1.1` and nothing
+    else in the file, and the arm read all thirty-six runs as stale against a skill that teaches
+    exactly what it taught when they were recorded. Normalizing that one line is what makes the
+    digest answer the question the pin is for.
+
+    What this deliberately does NOT catch: a real rule change that happens to be one line long
+    reads as a change here, because every line but the declared version counts. The version line
+    is the only one normalized, and it is normalized because a stamp writes it mechanically on
+    every release without touching a word the Director acts on.
+    """
+    text = open(path or SKILL, encoding="utf-8").read()
+    return hashlib.sha256(_VERSION_LINE.sub(r"\1<stamped>", text).encode("utf-8")).hexdigest()
+
+
+def freshness():
+    """0 while every recorded run is pinned to the skill's content as it stands, 1 otherwise."""
+    live = skill_digest()
+    stale = []
+    for run in sorted(glob.glob(os.path.join(HERE, "traces", "*.json"))):
+        pinned = load(run).get("skill_sha256")
+        if pinned != live:
+            stale.append("%s (pinned %s)" % (os.path.basename(run), (pinned or "nothing")[:12]))
+    if stale:
+        print("stale against the skill's content (%s): %s" % (live[:12], ", ".join(stale)))
+        return 1
+    print("all %d recorded run(s) are pinned to the skill's content as it stands (%s)"
+          % (len(glob.glob(os.path.join(HERE, "traces", "*.json"))), live[:12]))
+    return 0
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--scenario")
     ap.add_argument("--actual")
     ap.add_argument("--all", action="store_true")
     ap.add_argument("--pair", nargs=2, metavar=("DIR_A", "DIR_B"))
+    ap.add_argument("--freshness", action="store_true")
     a = ap.parse_args()
+
+    if a.freshness:
+        return freshness()
 
     if a.pair:
         book = load(os.path.join(HERE, "scenarios.json"))

@@ -15,8 +15,8 @@
   "reasoning": "The person reports a fact about the session's state and asks for nothing: 'Observation or feedback — reports a fact or an impression without asking for a repair | record it as evidence | infer a repair job, unless the repair follows from the situation beyond doubt'. There is no repair to infer here — a refilled allowance is not a defect; it is the removal of one. So no work is accepted: 'An observation is evidence unless its repair follows beyond doubt', and creates_work stays false with work_items zero. It is not conversation either, because it carries a fact that was not already known and changes what the session can do next — 'A message is conversation when it adds nothing'. On the state operations, an exhausted allowance is precisely the blocker shape the ledger names ('an action only the person can take'), and this message is 'a report that a named blocker is verifiably gone', which runs T5; it does not run T1/T2 because nothing was admitted or taken in hand, and not T3 because no goal or constraint of running work changed. The operation lands on a ticket that already existed rather than opening one, so it attaches to existing work. Dimensions and specialists stay empty by the rule 'A turn that accepted no work names no dimension and calls no specialist' — the one exception is a correction, and this is not one.",
   "scenario": "observation-neutral",
   "label": "OO",
-  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "skill_sha256": "4390ac37595772f5da11b78d2d93e7621242767602e4a25663d5fc9f4518e3dd",
   "recorded": "2026-09-06",
-  "skill_version": "6.1.0",
+  "skill_version": "6.1.1",
   "producer_model": "opus"
 }

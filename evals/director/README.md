@@ -107,6 +107,27 @@ every edit it exists to catch — and a stale score that reads as a fresh one is
 directory already has on record. The first recording of the closing runs was thrown out under that
 same pin when the skill changed an hour later, and the whole set was recorded again.
 
+## The freshness pin
+
+A recorded run says something about the skill it was run against and nothing about any other, so
+each run here pins the skill it saw. The pin is a digest of the skill's CONTENT with its declared
+version line normalized out, and `python3 evals/director/check.py --freshness` is the one reader of
+it; `plan-2`'s recorded acceptance calls that command.
+
+It read commit timestamps until 2026-09-08 — the traces' newest commit against the skill's — and
+that arm could tell neither case from the other. The 6.1.1 patch stamp moved `  version: 6.1.0` to
+`  version: 6.1.1` and no other byte of the file, and every one of the thirty-six runs read stale
+against a skill teaching exactly what it taught when they were recorded; the same arm would have
+read fresh across a rule change that landed in the same commit as a trace. The digest answers the
+question the pin is for, and it is the reading this directory's own paragraph below already states
+for the closing set.
+
+The thirty-six runs were re-pinned to the content digest on 2026-09-08, and their `skill_version`
+moved to 6.1.1 with it. Nothing was re-run: the skill's text at the recording commit and its text
+after the stamp differ by that one line and by nothing else, which is checked before the re-pin
+rather than assumed. A real change to the skill's text moves the digest and reds the pin, including
+a change one line long.
+
 ## Running it
 
 Produce a verdict per scenario with a fresh agent that holds `skills/director/SKILL.md`

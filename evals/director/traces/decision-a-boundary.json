@@ -15,8 +15,8 @@
   "reasoning": "The message settles who owns what: the person keeps the moratorium negotiation, the agent takes the rest. The skill names exactly this shape under 'A decision is a standing rule, not only a single choice' — it settles something 'with force beyond the message that carried it: a standing rule, a grant of authority, a division of responsibility.' The two halves are one division said in one breath, not two acts: the second clause states the other side of the same allocation and adds nothing the first does not already carry, which is the case the skill excludes in 'a clause that is plainly redundant with a neighbour's goal does not' get its own act. It is not a halt: the scenario states nothing is running that either sentence stops, and 'What makes it a halt is that something running should stop running.' It is not a correction for the same reason — a correction 'changes something already in flight,' and nothing is in flight. It is not an instruction: no concrete result is being asked for now. The 'No act absorbs another' rule about 'always deploy without asking, and deploy this one' does not fire, because no demand for a particular thing today rides alongside the rule — only the allocation itself. So the turn is remembered as a standing rule and creates nothing: 'A turn that accepted no work names no dimension and calls no specialist. This holds for the standing rule that will shape everything built afterwards.' Under the operation ladder, a standing rule remembered runs ['none'].",
   "scenario": "decision-a-boundary",
   "label": "ZB",
-  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "skill_sha256": "4390ac37595772f5da11b78d2d93e7621242767602e4a25663d5fc9f4518e3dd",
   "recorded": "2026-09-06",
-  "skill_version": "6.1.0",
+  "skill_version": "6.1.1",
   "producer_model": "opus"
 }

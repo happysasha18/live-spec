@@ -88,7 +88,7 @@ if unmarked:
     print('open with no group or no priority: ' + ', '.join(unmarked))
 sys.exit(1 if undrawn or unmarked else 0)
 " """,
-    "plan-2": 'test ! -f evals/director.md && test "$(git log -1 --format=%ct -- evals/director/traces)" -ge "$(git log -1 --format=%ct -- skills/director/SKILL.md)" && python3 evals/director/check.py --all 2>/dev/null | tail -1 | grep -qv " 0 of "',
+    "plan-2": 'test ! -f evals/director.md && python3 evals/director/check.py --freshness >/dev/null && python3 evals/director/check.py --all 2>/dev/null | tail -1 | grep -qv " 0 of "',
     # Step 6 tore machinery down and, more often, proved a piece of it earned its place. What it
     # leaves behind that a command can see: the plan carries no executable line and neither reader
     # looks for one, the checks have this one home, and the read-only report on wiring a decision

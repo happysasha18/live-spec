@@ -16,8 +16,8 @@
   "reasoning": "«Нет стоп» tells something running to stop running, and the skill says a halt is about state, not about words: the person wants the maintenance of that parameter to stop. It is not a correction — a correction narrows or changes a goal that the work then goes on pursuing, whereas here nothing is left to pursue: the parameter is called invented and its upkeep unnecessary machinery, so the work itself is dropped, which is the halt that drops the work for good and archives it (T9), not the one that parks it for later. The second clause — that the machinery is unnecessary and the parameter invented — is its own act under 'Grounds stated with an act carry their own act only when they say something new': 'a judgment about the product — that something is broken, wasteful or invented — says something new even when it doubles as the reason for the neighbouring act', and 'No act absorbs another' keeps the reason given with a halt from dissolving into it. That judgment is an observation: it reports what is true about the product without asking for a repair, and it is worth keeping after the halted work closes. Its repair does not follow beyond doubt — the halt already says what to do about it — so no work is inferred. A halt 'change[s] the state of that work' and 'must not create anything', so creates_work is false and work_items is zero: per the numbers passage, a halt 'change[s] a piece of work that already existed, and both produce zero new ones'. attaches_to_existing_work is true because the halt names the running maintenance work for build-pipeline to change. No idea was voiced, so shelves_idea is false. 'A turn that accepted no work names no dimension and calls no specialist', and the one exception is a correction, not a halt — so dimensions and specialists are empty.",
   "scenario": "halt-with-a-reason-worth-keeping",
   "label": "VM",
-  "skill_sha256": "25918077595e51533c96de018652426dbc9758c70a6c0961dea8a747e2373943",
+  "skill_sha256": "4390ac37595772f5da11b78d2d93e7621242767602e4a25663d5fc9f4518e3dd",
   "recorded": "2026-09-06",
-  "skill_version": "6.1.0",
+  "skill_version": "6.1.1",
   "producer_model": "opus"
 }
