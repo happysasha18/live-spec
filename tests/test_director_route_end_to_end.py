@@ -161,6 +161,16 @@ class RouteHost(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         return r.stdout
 
+    def board(self):
+        # The probe (state-probe.sh) reads recorded state only and runs no row's acceptance
+        # command (PLAN q-826) — a row's live pass/fail verdict, and the 🔁 icon a failing done
+        # mark draws, come only from scripts/render-board.sh now, which still re-runs each row's
+        # command by default (LIVE_SPEC_BOARD_CHECKS=on).
+        r = run(["bash", os.path.join(self.host, "scripts", "render-board.sh"), "--json"],
+               cwd=self.host)
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        return json.loads(r.stdout)
+
     def cp(self, *args):
         return run([sys.executable, self.checkpoint] + list(args), cwd=self.host)
 
@@ -324,37 +334,36 @@ class TestADoneMarkWaitsOnItsCheck(RouteHost):
     """M-632 — wish-intake Requirement 4 criteria 9, 10 and 13."""
 
     def test_a_done_mark_reads_reopened_until_the_check_passes_and_then_reads_done(self):
-        # route-1's acceptance: the thing the work was for is actually on disk.
+        # route-1's acceptance: the thing the work was for is actually on disk. state-probe.sh
+        # runs no command any more (PLAN q-826), so the live verdict is read off the board
+        # renderer, which still re-runs it.
         self.set_checks(route_1="test -f board-opened-by-itself")
         self.set_plan(self.plan().replace("### 🔄 Open the board", "### ✅ Open the board"))
 
-        red = self.probe()
-        self.assertIn("route-1", red, "a done mark with a failing check dropped off the open list")
-        self.assertIn("🔁", red)
-        self.assertIn("marked done", red)
-        self.assertIn("its acceptance command fails", red)
+        red = self.board()["cards"]["route-1"]
+        self.assertEqual(red["icon"], "🔁",
+                         "a done mark with a failing check did not read reopened")
+        self.assertTrue(red["failing_key"])
+        self.assertIn("its acceptance command fails", red["note"])
 
         # The DOD is met — and only that. Nobody touches the mark.
         plan_before = self.plan()
         write(os.path.join(self.host, "board-opened-by-itself"), "the page opened\n")
-        green = self.probe()
+        green = self.board()["cards"]["route-1"]
         self.assertEqual(self.plan(), plan_before,
                          "the row was re-marked by hand, so the check is not what decided it")
-        self.assertNotIn("\x1b[2mroute-1\x1b[0m", green,
-                         "the passing check did not close the row")
-        self.assertIn("route-2", green)
+        self.assertEqual(green["icon"], "✅", "the passing check did not close the row")
+        self.assertFalse(green["failing_key"])
 
     def test_the_reopened_reading_comes_from_the_check_and_not_from_the_mark(self):
         """The same plan, read twice, with only the host's own command moved between the readings."""
         self.set_plan(self.plan().replace("### 🔄 Open the board", "### ✅ Open the board"))
 
         self.set_checks(route_1="true")
-        self.assertNotIn("route-1", self.probe())
+        self.assertEqual(self.board()["cards"]["route-1"]["icon"], "✅")
 
         self.set_checks(route_1="false")
-        reopened = self.probe()
-        self.assertIn("route-1", reopened)
-        self.assertIn("🔁", reopened)
+        self.assertEqual(self.board()["cards"]["route-1"]["icon"], "🔁")
 
 
 class TestTheRecordedStateNamesOneNextAction(RouteHost):

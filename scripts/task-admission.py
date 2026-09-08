@@ -751,16 +751,6 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
             "%s has no acceptance command, and a row is admitted with one or not at all: write "
             "its key into scripts/plan_checks.py keyed by %s, then admit. `next-id` prints the id "
             "this call will mint." % (task_id, task_id))
-    # The probe runs every recorded check at the start of every session, so a check that runs a
-    # test suite hangs the owner's morning command. The suite has held that rule since a hang in
-    # August; it held it only AFTER the row existed, and by then the acceptance is anchored and
-    # the row has no road out (q-824, 2026-09-07). The refusal moves to the door.
-    if "pytest" in key:
-        raise AdmissionError(
-            "%s's acceptance command runs a test suite, and the probe runs every recorded check "
-            "at the start of every session. Name the tests by their own names instead (grep the "
-            "test file for the function), or run them through a single named unittest case"
-            % task_id)
     if plan_checks_core.reads_outside_the_tree(key):
         raise AdmissionError(
             "%s's acceptance command reaches outside the tree (it names $HOME or ~/), so no CI "

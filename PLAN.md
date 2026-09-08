@@ -1103,6 +1103,30 @@ key does not read that file.
 
 **Context pointers.** INV-327; spec/queue-intake-priority.md Requirement 321; scripts/task-admission.py:admit; M-651; 186dc4a2
 
+### ✅ Test runs go by a named mode and a fixed set of checks — id: q-826
+**Group:** Pack quality · **Priority:** normal
+**Source:** owner 2026-09-07 22:00 and 2026-09-08 07:22 — tests run by an explicit mode and a fixed budget, and the pack delivers that contract into host projects; a budget fixes the composition of the work, and a timeout is an emergency stop alone
+
+**Holder:** the pipeline
+
+**Outcome:** a person running this pack knows what a run covers before it starts, because the run names its mode and the mode names a fixed set of checks, and a session no longer waits while every closed row's acceptance command is executed again
+
+**Statement.** Echo-name: Runs go by named mode. Description: a person running this pack knows what a run covers before it starts, because the run says which of four kinds it is and each kind carries a fixed list of what it checks. A session opening the project no longer waits while the acceptance command of every finished task is executed again. Plan: 1) name the four kinds a run can be — one task, the layers a change touched, a release, and a hand-started audit — and write what each one covers into the settings file this pack already carries, with one reader that says which kind was asked for 2) have the check that runs when a session opens report what is already written down for each task, its mark, its acceptance receipt, and whether its terms have moved since, and name the tasks that need a fresh check, running none of their commands 3) narrow the check that runs when work is pushed to the release list plus the tasks whose own terms or files moved in what is being pushed, leaving finished history alone 4) take out the rule that refuses an acceptance command because its text mentions a test runner by name, in all three places that rule is written 5) have the setup script this pack already ships carry the new settings, the state checks and the local spawn guard into another project, proved on a throwaway project by installing once and then updating it a second time. Estimate: 4–7 hours — basis: the author's own reading of the plan's five steps. The finished tasks in this group were written and committed in one batch, so their recorded times span minutes and give no duration to read.
+
+**Validation.** 2026-09-08 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-08.**
+
+**Done when:** one named mode selects a run and the four modes — row, integration, release, manual — carry a fixed composition in the pack's existing config file, with no duration deciding what runs; the session-start probe reads recorded state, marks, receipts and the definition-of-done and acceptance digests, names the rows that need re-checking, and executes no row's acceptance command; the push-time acceptance re-run covers the release core plus the rows whose definition of done, acceptance command or observed files moved in the pushed range, walking no closed history; the refusal that matched the substring pytest is gone from the door, from the spec and from the matrix, and a targeted test run is admitted in row and integration mode; the pack's existing attach path delivers the mode contract, the state checks, the repo-local worker admission guard and the CI acceptance into a host without adding a global hook, and a fixture host proves an install followed by a second update; the law stands as spec Requirement 322 under INV-328 with its matrix rows
+
+**Read before admission.** q-825 (PLAN.md), 2026-09-07 (DECISIONS.md), 2026-08-07 (DECISIONS.md), ed35c92e (commit ed35c92e). Finding: No row on the record covers how a run picks what it runs. q-825 built the door that reads the record and left the run modes untouched. The decision record holds two rulings of the same class: 2026-08-07, where an invented 360-second budget was dropped, and 2026-09-07 22:32, which stops a budget being derived from a measurement and fixes composition and volume instead. This row obeys both. It also removes what q-825 added and the owner has since ruled out: the refusal that matched the substring pytest, its spec criterion 6a and its matrix row M-656, which the 2026-09-08 prover record already carries as standing findings.
+
+**DOD hash.** a8758273c9b3de567dacd8aa3b3f7d317e3342cca9ccfefa49ec9255a7d987ac
+
+**Verification:** the row's recorded acceptance key in scripts/plan_checks.py, plus tests/test_run_modes.py and tests/test_run_modes_install.py
+
+**Context pointers.** INV-328; guardrails/check-acceptance-rerun.py:117; scripts/state-probe.sh:70; adopt/install-scaffold.sh:35; ed35c92e
+
 ## Environment — known traps
 
 - A full local `pytest` run hangs at 0% CPU and never finishes. Run it narrowly with `-k` or a

@@ -16,14 +16,31 @@ acceptance and reds, rather than being run.  A row admitted before that anchor e
 none; its command is run and the line says the anchor is missing, which is the non-retroactive
 line this pack takes with every anchor.
 
+WHICH ROWS RUN (the owner's word, 2026-09-07 22:00: "CI runs a fixed release core and only a
+limited set of actually-affected obligations"). The release core is a list of GATES —
+`run_modes.release.core` in `guardrails.config.json` — and this script is one member of that
+list (gate v). It is not a list of PLAN.md rows, and this gate reads no such list: the two are
+different kinds of thing, and mixing them here was a category error, corrected 2026-09-08. What
+this gate selects, on its own, is the AFFECTED obligations alone: a done row whose own contract or
+own files moved in the pushed range — its `Done when` text or its `DOD hash.` line in PLAN.md
+changed, the acceptance command recorded for it in `scripts/plan_checks.py` changed, or a file its
+acceptance command names changed. The pushed range is read the same way `check-prover-record.sh`
+reads it: `LIVE_SPEC_DIFF_BASE` if it resolves, else `origin/main`, else `HEAD~1`.
+When no base resolves at all (a single-commit tree with no upstream — a synthetic tree, never a
+real push), nothing can be compared against, so every done row runs — the same lean the prover
+record's own carve-out takes ("the carve-out cannot be judged and the full gate runs"), never the
+other way around into running nothing.
+A done row that is not affected — with a base that DID resolve — never runs here, and the summary
+line below says why every row that DID run was selected.
+
 WHERE IT IS MEANT TO RUN.  In CI, on a pushed commit, in a fresh checkout — see the gates
 workflow.  It runs locally too, and says so; the point of the CI placement is that the machine
 running the check is not the machine that wrote the receipt.
 
-WHAT REDS.  A done row whose acceptance command fails.  A done row whose acceptance command was
-changed after admission.  A done row with no acceptance command at all is REPORTED and does not
-red: rows admitted before the acceptance became a condition of admission carry none, and this
-gate is not a retroactive demand on them.
+WHAT REDS.  A selected row whose acceptance command fails.  A selected row whose acceptance
+command was changed after admission.  A selected row with no acceptance command at all is
+REPORTED and does not red: rows admitted before the acceptance became a condition of admission
+carry none, and this gate is not a retroactive demand on them.
 
 Usage: check-acceptance-rerun.py [--plan PLAN.md] [--checkpoints DIR] [--jobs N]
 """
@@ -43,10 +60,12 @@ import checkpoint  # noqa: E402
 
 DONE = "✅"
 ACCEPT_ANCHOR = "ACCEPT: "
-# One command's own budget. Every key in this pack's table is a grep, a `test`, or one small
-# program — the state probe runs the whole set at every session start — so a key past this is a
-# key that hung, and a hung key must red by name rather than take the runner down with it.
-PER_KEY_SECONDS = 300
+# EMERGENCY STOP on one command, and nothing else. It exists so a process this run owns that has
+# hung ends by name instead of holding the whole gate open — it takes no part in any verdict, and
+# its value is never derived from how fast any machine runs a check (rule 43,
+# skills/live-spec-base/SKILL.md: "a clock never certifies a budget"). 300s is the pack's existing
+# figure, carried over unchanged; nothing here re-measures or re-derives it.
+EMERGENCY_STOP_SECONDS = 300
 
 
 def digest(text):
@@ -93,11 +112,154 @@ def acceptance_table(tree):
     return table
 
 
+def _load_checks_text(text):
+    """A CHECKS table from some other point in history, loaded the same way acceptance_table
+    loads the tree's current one. Text that fails to load reads as an empty table — its commands
+    are simply unknown at that point in history, which makes every one of the tree's current
+    commands read as having moved (the same lean-toward-running default a missing base file
+    takes below), never as unreadable-therefore-silent."""
+    import importlib.util
+    import tempfile
+    fd, temp_path = tempfile.mkstemp(suffix=".py")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(text)
+        spec = importlib.util.spec_from_file_location("host_plan_checks_base_%d" % os.getpid(),
+                                                       temp_path)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        table = getattr(module, "CHECKS", None)
+        return table if isinstance(table, dict) else {}
+    except Exception:  # noqa: BLE001 - a base version that won't load names nothing
+        return {}
+    finally:
+        os.unlink(temp_path)
+
+
+def _git(tree, *args):
+    return subprocess.run(["git", *args], cwd=str(tree), capture_output=True, text=True)
+
+
+def diff_base(tree):
+    """The pushed range's base commit, read exactly as check-prover-record.sh reads it:
+    `LIVE_SPEC_DIFF_BASE` if it resolves, else `origin/main`, else `HEAD~1` — so the two never
+    disagree about what "pushed" means. None when nothing resolves at all."""
+    def resolves(ref):
+        return _git(tree, "rev-parse", "--verify", "--quiet", ref + "^{commit}").returncode == 0
+
+    env_base = os.environ.get("LIVE_SPEC_DIFF_BASE", "")
+    if env_base and env_base != "0" * 40 and resolves(env_base):
+        return env_base
+    if resolves("origin/main"):
+        return "origin/main"
+    if resolves("HEAD~1"):
+        return "HEAD~1"
+    return None
+
+
+def changed_paths(tree, base):
+    """Paths that differ between base and HEAD, or an empty set when no range resolves."""
+    if base is None:
+        return set()
+    out = _git(tree, "diff", "--name-only", base, "HEAD")
+    return {p for p in out.stdout.splitlines() if p.strip()}
+
+
+def file_at(tree, ref, relpath):
+    """relpath's text as of ref, or None where it did not exist there."""
+    out = _git(tree, "show", "%s:%s" % (ref, relpath))
+    return out.stdout if out.returncode == 0 else None
+
+
+def dod_signature(task):
+    """The row's own contract, read off its two fixed PLAN.md lines: what counts as done, and the
+    hash pinned at first verification. Either line moving is the row's contract moving."""
+    return "\n".join(line for line in task.get("body", [])
+                     if line.startswith("**Done when:**") or line.startswith("**DOD hash.**"))
+
+
+def contract_moved(tree, base, current_tasks):
+    """Task ids whose Done-when text or DOD hash line differs between base and HEAD."""
+    if base is None:
+        return set()
+    base_text = file_at(tree, base, "PLAN.md")
+    base_tasks = plan_checks_core.parse_tasks(base_text) if base_text is not None else []
+    base_sig = {t["id"]: dod_signature(t) for t in base_tasks}
+    return {t["id"] for t in current_tasks if base_sig.get(t["id"]) != dod_signature(t)}
+
+
+def acceptance_moved(tree, base, current_table):
+    """Task ids whose recorded acceptance command in scripts/plan_checks.py differs between base
+    and HEAD."""
+    if base is None:
+        return set()
+    base_text = file_at(tree, base, "scripts/plan_checks.py")
+    base_table = _load_checks_text(base_text) if base_text is not None else {}
+    return {tid for tid, cmd in current_table.items()
+            if (base_table.get(tid) or "").strip() != (cmd or "").strip()}
+
+
+def files_named_moved(current_table, changed):
+    """Task ids whose acceptance command's own text names one of the changed paths.
+
+    A textual read only, by design (kept simple on purpose): a changed path is checked for
+    appearing literally inside the command string, rather than parsing the command's shell or
+    globbing its arguments. A changed path necessarily exists in the tree at one end of the diff,
+    so a command whose text carries it is a command naming a file that moved.
+    """
+    if not changed:
+        return set()
+    moved = set()
+    for tid, cmd in current_table.items():
+        cmd = cmd or ""
+        if any(path and path in cmd for path in changed):
+            moved.add(tid)
+    return moved
+
+
+def select(tree, tasks, table):
+    """The affected obligations, and the reason each selected row was picked. Returns
+    (reasons: {id: str}, done_tasks: [task, ...]).
+
+    No release-core list is read here. The release core (`run_modes.release.core` in
+    `guardrails.config.json`) is a fixed list of GATES — this script is one entry in it (gate v)
+    — and a gate does not also select rows off its own membership in that list; that would be a
+    gate asking whether it is a gate. What this gate selects, on its own, is the affected
+    obligations alone: the rows this push actually touched.
+    """
+    base = diff_base(tree)
+    done_tasks = [t for t in tasks if t["mark"] == DONE]
+
+    if base is None:
+        # Nothing to compare against — the prover record's own carve-out takes the same lean
+        # ("the carve-out cannot be judged and the full gate runs"): every done row runs, rather
+        # than a range nobody could measure silently excusing all of history.
+        return ({t["id"]: "no pushed range resolved here, so the full historical sweep ran"
+                for t in done_tasks}, done_tasks)
+
+    changed = changed_paths(tree, base)
+    moved_contract = contract_moved(tree, base, tasks)
+    moved_accept = acceptance_moved(tree, base, table)
+    moved_files = files_named_moved(table, changed)
+
+    reasons = {}
+    for task in done_tasks:
+        tid = task["id"]
+        if tid in moved_contract:
+            reasons[tid] = "its Done-when text or DOD hash moved in the pushed range"
+        elif tid in moved_accept:
+            reasons[tid] = "its recorded acceptance command moved in the pushed range"
+        elif tid in moved_files:
+            reasons[tid] = "a file its acceptance command names changed in the pushed range"
+        # else: closed history — never walked, never even table-looked-up below.
+    return reasons, done_tasks
+
+
 def run_one(tree, command):
     try:
-        done = plan_checks_core.run_key(command, mark=True, cwd=tree, timeout=PER_KEY_SECONDS)
+        done = plan_checks_core.run_key(command, mark=True, cwd=tree, timeout=EMERGENCY_STOP_SECONDS)
     except subprocess.TimeoutExpired:
-        return 1, "the check did not finish inside %ds" % PER_KEY_SECONDS
+        return 1, "the check hit the emergency stop before finishing (%ds)" % EMERGENCY_STOP_SECONDS
     except Exception as exc:  # noqa: BLE001
         return 1, str(exc)
     text = (done.stdout or b"") if isinstance(done.stdout, bytes) else (done.stdout or "")
@@ -111,11 +273,12 @@ def judge(plan_path, checkpoints_dir, jobs):
     tree = Path(plan_path).resolve().parent
     tasks = plan_checks_core.parse_tasks(Path(plan_path).read_text(encoding="utf-8"))
     table = acceptance_table(tree)
+    reasons, done_tasks = select(tree, tasks, table)
     ran, faults, unanchored, keyless, offmachine = [], [], [], [], []
 
     to_run = []
-    for task in tasks:
-        if task["mark"] != DONE:
+    for task in done_tasks:
+        if task["id"] not in reasons:
             continue
         command = (table.get(task["id"]) or "").strip()
         # The anchor is read FIRST. Read after the keyless arm, deleting the row's one line from
@@ -163,7 +326,7 @@ def judge(plan_path, checkpoints_dir, jobs):
             if code != 0:
                 faults.append("%s: its acceptance command failed here, at this commit%s"
                               % (rid, (" — " + first[:120]) if first else ""))
-    return ran, faults, unanchored, keyless, offmachine
+    return ran, faults, unanchored, keyless, offmachine, len(tasks), len(done_tasks), reasons
 
 
 def main():
@@ -180,28 +343,32 @@ def main():
     # re-entry breaker rather than fanning out; this process is not itself a reader.
     os.environ.pop("LIVE_SPEC_EVALUATING", None)
     try:
-        ran, faults, unanchored, keyless, offmachine = judge(
+        ran, faults, unanchored, keyless, offmachine, total, total_done, reasons = judge(
             args.plan, args.checkpoints, max(1, args.jobs))
     except TableUnreadable as exc:
         print("BLOCKED — the acceptance table this gate runs from is unreadable, so nothing here "
               "judged anything: %s" % exc)
         return 1
 
-    print("   ran %d done row(s)' own acceptance command at this commit." % len(ran))
+    print("   %d row(s) in the plan, %d marked done, %d selected here (closed history is never "
+          "walked): %s"
+          % (total, total_done, len(reasons),
+             ", ".join("%s — %s" % (tid, reasons[tid]) for tid in sorted(reasons)) or "(none)"))
+    print("   ran %d of the selected row(s)' own acceptance command at this commit." % len(ran))
     if unanchored:
         print("   %d of them predate the acceptance anchor, so what ran is the command the tree "
               "records now: %s" % (len(unanchored), ", ".join(sorted(unanchored))))
     if offmachine:
-        print("   %d done row(s) hold a key that reads this machine rather than the tree, which a "
-              "checkout cannot judge; admission refuses such a key today: %s"
+        print("   %d selected row(s) hold a key that reads this machine rather than the tree, "
+              "which a checkout cannot judge; admission refuses such a key today: %s"
               % (len(offmachine), ", ".join(sorted(offmachine))))
     if keyless:
-        print("   %d done row(s) record no acceptance command and were not run (admitted before "
-              "one was required): %s" % (len(keyless), ", ".join(sorted(keyless))))
+        print("   %d selected row(s) record no acceptance command and were not run (admitted "
+              "before one was required): %s" % (len(keyless), ", ".join(sorted(keyless))))
     if not faults:
-        print("   every done row's acceptance passes here.")
+        print("   every selected row's acceptance passes here.")
         return 0
-    print("BLOCKED — a done row whose acceptance does not pass at this commit:")
+    print("BLOCKED — a selected row whose acceptance does not pass at this commit:")
     for line in faults:
         print("  " + line)
     return 1

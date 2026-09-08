@@ -188,8 +188,11 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
 
     #: A reopened row (🔁) is nobody's work in progress, so it is a candidate for the next move
     #: ahead of the queue — rule 38's own group order and criterion 6's words both say so (R2).
-    #: demo-1 is marked done; its own acceptance command is wired (below) to keep failing, which
-    #: is the only way evaluate() ever draws a row 🔁.
+    #: state-probe.sh nulls every row's own check before evaluate() runs (PLAN q-826), so an
+    #: acceptance command can no longer put a row into the 🔁 bucket here; the mark itself does —
+    #: 🔁 is a mark a plan's own page can carry, not only one evaluate() computes off a failing
+    #: command, and plan_checks_core.py's no-command branch reads a row's mark straight back as
+    #: its icon (`t["icon"] = t["mark"]`), 🔁 included.
     PLAN_REOPENED_OUTRANKS_QUEUED = """# demo — Plan
 
 ## Words used here
@@ -200,7 +203,7 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
 
 ## Tasks
 
-### ✅ Reopened, and ranks highest — id: demo-1
+### 🔁 Reopened, and ranks highest — id: demo-1
 **Group:** One · **Priority:** urgent
 **Source:** the fixture.
 
@@ -320,7 +323,7 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
         self.assertNotIn("Blocked, and ranks highest", next_block)
 
     def test_a_reopened_row_wins_next_over_a_queued_row_and_the_reason_names_it(self):
-        out = self._run(self.PLAN_REOPENED_OUTRANKS_QUEUED, checks={"demo-1": "false"})
+        out = self._run(self.PLAN_REOPENED_OUTRANKS_QUEUED)
         next_block = out.rsplit("NEXT", 1)[-1]
         self.assertIn("Reopened, and ranks highest", next_block)
         self.assertNotIn("Queued, and ranks lower", next_block)

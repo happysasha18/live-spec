@@ -83,14 +83,69 @@ from plan_checks import evaluate, parse_tasks
 # and this reader takes it rather than deciding for the project.
 import plan_checks_core as core
 
+# What a done row's checkpoint already carries is read through the one home that already carries
+# these readers, scripts/task-admission.py — its own filename cannot be `import`ed directly, so
+# it loads the same way guardrails/worker-admission-guard.py already loads it. A module that will
+# not load names no anchor rather than stopping the probe over an optional cross-check.
+import importlib.util
+task_admission = None
+_ta_path = os.path.join("scripts", "task-admission.py")
+if os.path.exists(_ta_path):
+    _ta_spec = importlib.util.spec_from_file_location("task_admission", _ta_path)
+    _ta_mod = importlib.util.module_from_spec(_ta_spec)
+    try:
+        _ta_spec.loader.exec_module(_ta_mod)
+        task_admission = _ta_mod
+    except Exception:  # noqa: BLE001 - an unreadable module names no anchor, nothing more
+        task_admission = None
+
 text = open("PLAN.md", encoding="utf-8").read()
 tasks = parse_tasks(text)
+
+# The probe used to run every row's own recorded acceptance command here, serially, with no time
+# limit — 75 commands at every session start (PLAN q-826, the owner's word 2026-09-07 22:00). It
+# reads recorded state instead now, the same road scripts/render-board.sh already takes off the
+# machine that holds the work (LIVE_SPEC_BOARD_CHECKS=off, row q-818): no command runs, so
+# evaluate() below takes its no-command branch for every row and each icon is the row's own mark.
+for t in tasks:
+    t["check"] = None
 
 # What each row's state really is — its command run, its icon and its note decided — is one
 # computation every reader of a plan needs and none of them may decide differently, so it lives
 # with the parser in scripts/plan_checks_core.py and both readers here call it. The two used to
 # carry their own copy of it, which is exactly how they drifted apart before.
 evaluate(tasks)
+
+# A done row's recorded state does not stand on its own when: no checkpoint carries a passed
+# acceptance receipt for it, or its definition of done or its acceptance command has moved since
+# that receipt was written. Nothing here runs a command — every fact is read off the row's own
+# `**DOD hash.**` line, scripts/plan_checks.py's current table, and the checkpoint's own DOD/
+# ACCEPT anchors and RECEIPT line, through the readers scripts/task-admission.py already carries.
+needs_recheck = []
+if task_admission is not None:
+    for t in tasks:
+        if t["mark"] != "✅":
+            continue
+        cp_path = os.path.join(".live-spec", "checkpoints", t["id"] + ".md")
+        if not os.path.exists(cp_path):
+            needs_recheck.append(t["id"])
+            continue
+        try:
+            receipt = task_admission.read_receipt(cp_path)
+        except (OSError, ValueError):
+            receipt = None
+        if not receipt or receipt.get("verdict") != "passed":
+            needs_recheck.append(t["id"])
+            continue
+        _, dod_recorded = task_admission.read_dod("\n".join(t["body"]))
+        dod_anchor = task_admission.read_dod_anchor(cp_path)
+        if dod_anchor and dod_recorded and dod_anchor != dod_recorded:
+            needs_recheck.append(t["id"])
+            continue
+        accept_anchor = task_admission.read_accept_anchor(cp_path)
+        key = task_admission.acceptance_key(".", t["id"])
+        if accept_anchor and key and accept_anchor != task_admission.dod_digest(key):
+            needs_recheck.append(t["id"])
 
 # A plan this reader can find no rows in gets a sentence saying what shape it needs, rather than an
 # empty PLAN block a person has to guess at. It travelled with the shipped renderer before the two
@@ -289,6 +344,26 @@ more_below = sum(1 for t in tasks if t["id"] not in shown_ids and t["icon"] != "
 # agreed on to mean anything. What is left is the work still open, and the rows closed since the
 # last push stand above as their own lines.
 print(f"  {D}… {open_count} open · {more_below} more below · full list in PLAN.md / board.html{X}")
+
+if needs_recheck:
+    # The full 78-id list this line used to print was a closed pack's whole history dumped on a
+    # person reading first thing in the morning — exactly the weight q-822 exists to cut. PLAN.md
+    # already distinguishes rows still in the live queue from ones rotated off to the archive; of
+    # those still live, only a row already printed above (shown_ids — normally the 0-1 rows this
+    # push just closed) is one this session could act on right now. Naming that one and pointing
+    # at the board for the rest keeps the count honest without re-printing a history nobody asked
+    # to read here.
+    on_screen = sorted(i for i in needs_recheck if i in shown_ids)
+    n = len(needs_recheck)
+    pron = "it" if n == 1 else "them"
+    if on_screen:
+        print(f"  {Y}{n} done row(s) need a fresh check — recorded state alone does not stand "
+              f"for {pron}; {', '.join(on_screen)} above {'is' if len(on_screen) == 1 else 'are'} "
+              f"one — the rest is on the board (bash scripts/render-board.sh / board.html){X}")
+    else:
+        print(f"  {Y}{n} done row(s) need a fresh check — recorded state alone does not stand "
+              f"for {pron}; none are above — full list on the board "
+              f"(bash scripts/render-board.sh / board.html){X}")
 
 if not PRIORITY_ORDER:
     print(f"  {D}the plan does not say what a priority means here, so this list keeps the file's own order{X}")

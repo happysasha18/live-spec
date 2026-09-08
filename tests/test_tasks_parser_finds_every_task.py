@@ -399,6 +399,12 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         #: absent. Same two files, same two acts, both still read-only; nothing was added, moved
         #: or widened.
         "q-816": "a6746dfeacd59bddcdef72e633815e611f54285b27d22f38e046763f465fc404",
+        #: q-826 (2026-09-08) carries a `python3 -c` payload this reader stops at, read by hand
+        #: before this pin was written: it opens `guardrails.config.json` with `json.load(open(...))`
+        #: (default read mode) and asserts on the loaded dict, no write anywhere in it. The rest of
+        #: the command is a chain of plain and negated `grep -q` reads over tracked files — nothing
+        #: after the `python3 -c` clause runs anything but grep. No write on any road.
+        "q-826": "2c7f9b4fa260db0b5be247bc6c7e9925e86206acf3900c486d032a623ead3723",
     }
 
     def setUp(self):

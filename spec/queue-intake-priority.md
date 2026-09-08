@@ -777,10 +777,6 @@
 4. *when* the title stands on the record already — on the live plan or in the queue archive — the system *shall* refuse the admission and *shall* name the row and the file it stands in. [INV-327, INV-276]
 5. The system *shall* lift that refusal only against a written record naming the row superseded, what is new in this request, and why the decision already on record does not cover it, and *shall* write all three onto the admitted row. [INV-327]
 
-**Case: the check a row is admitted against can actually run**
-
-6a. The system *shall* refuse at the door an acceptance command that runs a test suite, since the session-start probe runs every recorded check, so a row is never admitted against a check the suite forbids and then held to it by its own frozen acceptance. [INV-327]
-
 **Case: reading the record is one command**
 
 6. The system *shall* print, on one command, every row, decision line and commit subject carrying all the words given, ranking nothing and applying no cutoff, so the words the caller chose are the whole filter. [INV-327]
@@ -789,3 +785,72 @@
 
 7. *when* the request reads as an oversight — the person appears to have forgotten something already settled, or to have made a slip — the system *shall* ask one plain question and wait for the answer. [INV-327]
 8. *when* the request conflicts with a standing decision and reads as deliberate, the system *shall* state the conflict in one sentence and *shall* carry on with the work. [INV-327, INV-121]
+
+---
+
+## Requirement 322: A check's verdict is judged by the run's kind and its composition
+
+**Context:** A row's acceptance command was refused at the door for carrying the word `pytest`, on the reasoning that the session-start probe runs every recorded check and a check running a whole test suite would hang it. An adversarial review proved the refusal wrong on both sides at once: a command that ran a whole suite through `unittest` was admitted, because the word it forbade never appeared, while a harmless `grep` for the word `pytest` inside a config file was refused, because the word appeared and the check never asked what the command did. A refusal keyed to a program's name judges neither what a run does nor what it costs. A run states which of four kinds it is — `row`, `integration`, `release`, or `manual`. Each kind carries its own fixed composition and its own budget, and a check reads that composition. The name of whatever process carries the run out decides nothing.
+
+**User Story:** As an owner running checks across many kinds of work, I want every check to judge a run's kind and its composition, so that a targeted test run is admitted on what it covers and a run that has outgrown its kind's own budget is refused on that.
+
+### Acceptance Criteria
+
+**Case: a run declares its kind before it selects a target**
+
+1. *when* a check runs, the system *shall* have it state which of four kinds it is — `row`, `integration`, `release`, or `manual` — before it selects a target, and *shall* fix its composition to that kind's own composition. [INV-328]
+
+**Case: a row run**
+
+2. *when* a run is `row`, the system *shall* run only the one currently accepted task's own deterministic acceptance command, judged only by that task's own named checks, against at most one target. [INV-328]
+
+**Case: an integration run**
+
+3. *when* a run is `integration`, the system *shall* select only the layers an explicit map names as touched by the change, at most five named targets, the figure taken from the pack's own `MOST_DELIVERABLES`. [INV-328]
+4. The system *shall* never let an `integration` run's selection grow with the size of a corpus or with how many rows a work board holds. [INV-328]
+
+**Case: a release run**
+
+5. *when* a run is `release`, the system *shall* run a fixed, versioned list of core gates. [INV-328]
+6. The system *shall* never let a `release` run's composition grow with the number of finished rows, or with samples, seeds, roles, or possible combinations, and *shall* run no N-squared sweep, no pair sweep, and no walk of a whole corpus. [INV-328]
+
+**Case: a manual run**
+
+7. *when* a run is `manual`, the system *shall* start it only when a person starts it, and *shall* record its purpose and its limit before it starts. [INV-328]
+8. The system *shall* never let a `manual` run stand as a CI or release gate, and *shall* have it decide no verdict. [INV-328]
+
+**Case: a verdict is functional and deterministic**
+
+9. The system *shall* have every verdict depend only on the commit and the check run against it, so the same commit checked the same way always returns the same verdict. [INV-328]
+
+**Case: timing and host load are never evidence**
+
+10. The system *shall* never read host load, a quiet machine, a wall-clock comparison, a p50 or p95 figure, or a comparison of a fast run against a slow one as evidence of correctness. [INV-328]
+11. *when* a runtime timeout stops a spent process, the system *shall* have that timeout take no part in the verdict, and *shall* never read it as a measure of how fast the machine is. [INV-328]
+
+**Case: a check judges the mode and the composition**
+
+12. The system *shall* admit a targeted test run in a `row` run and in an `integration` run. [INV-328]
+13. *when* a check judges an acceptance command, the system *shall* judge its mode and its composition, and *shall* never judge the name of the program that runs it. [INV-328]
+14. The system *shall* keep no registry of forbidden verifier commands. [INV-328]
+
+**Case: no new machinery watches a run**
+
+15. The system *shall* add no new hook, listener, daemon, or global session hook to run or to watch a check. [INV-328]
+16. *when* a run ends, the system *shall* wait on the specific process id or process group it started, and *shall* end only the group it owns. [INV-328]
+
+**Case: the session-start read executes nothing**
+
+17. The system *shall* have the session-start read report the state already recorded — marks, acceptance receipts, and whether a row's definition of done or acceptance command has moved since its receipt — and *shall* execute no acceptance command to produce that report. [INV-328]
+
+**Case: the push-time re-run has a bounded reach**
+
+18. The system *shall* have the push-time re-run cover the release core and the rows whose own definition of done, acceptance command, or named files moved in the pushed range, and *shall* walk no finished history outside that range. [INV-328]
+
+**Case: a receipt stays bound to what it was taken against**
+
+19. The system *shall* keep an acceptance receipt bound to the commit it was taken at and to the definition of done frozen at the row's admission. [INV-328]
+
+**Case: the pack ships the mechanism, the host keeps the subject**
+
+20. The system *shall* leave a project's own acceptance commands, budgets, and subject matrix to the host, and *shall* ship from the pack only the mechanism and the laws of this requirement. [INV-328]

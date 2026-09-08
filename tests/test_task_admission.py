@@ -1084,18 +1084,3 @@ def test_m655_the_prior_command_prints_the_record_and_judges_nothing(tmp_path):
     # Every word has to be present, so the caller's own words are the whole filter.
     assert "rows on the record: 0" in admission.prior(plan, ["weekly", "invoice"])
     assert "at least one word" in refused(admission.prior, plan, [])
-
-
-def test_m656_an_acceptance_command_that_runs_a_test_suite_is_refused_at_the_door(tmp_path):
-    """M-656: the probe runs every recorded check at every session start, so none runs a suite.
-
-    The suite already held this rule, and it held it only after the row existed — by which time
-    the acceptance is anchored to the checkpoint and the row has no legitimate road out. Here the
-    refusal stands at the door, where the row can still simply not be written.
-    """
-    plan, checkpoints = host(tmp_path)
-    (tmp_path / "scripts" / "plan_checks.py").write_text(
-        "CHECKS = {'q-1': 'python3 -m pytest -q tests/test_thing.py'}\n", encoding="utf-8")
-    message = refused(admission.admit, new_route(), plan, checkpoints)
-    assert "runs a test suite" in message
-    assert plan.read_text(encoding="utf-8").count("— id: q-1") == 0

@@ -29,10 +29,13 @@ ROOT = pathlib.Path(ROOT)
 PLAN = ROOT / "PLAN.md"
 READERS = ("scripts/state-probe.sh", "scripts/render-board.sh")
 
-# What a reader needs from the tree to run at all: the plan it reads, the two reader scripts, and
-# the one home the checks now live in.
+# What a reader needs from the tree to run at all: the plan it reads, the two reader scripts, the
+# one home the checks now live in, and the checkpoint readers the probe uses to decide whether a
+# done row's recorded state still holds (q-826) — without these two, the probe's own
+# `import task_admission` fails to load, silently, and its recheck line never fires.
 NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh",
-          "scripts/plan_checks.py", "scripts/plan_checks_core.py")
+          "scripts/plan_checks.py", "scripts/plan_checks_core.py",
+          "scripts/task-admission.py", "scripts/checkpoint.py")
 
 
 class TestAPlantedCommandNeverRuns(unittest.TestCase):
@@ -121,22 +124,6 @@ class TestTheChecksHaveOneHome(unittest.TestCase):
                 "what 'done' means for a step" % reader,
             )
 
-    def test_every_check_is_cheap_enough_for_the_probe(self):
-        """The probe runs every one of these at the start of every session, so none may run a
-        test suite. A suite in here made the owner's morning command hang."""
-        import sys
-
-        sys.path.insert(0, str(ROOT / "scripts"))
-        from plan_checks import CHECKS
-
-        self.assertTrue(CHECKS, "the shared check map is empty")
-        for step, cmd in CHECKS.items():
-            self.assertNotIn(
-                "pytest",
-                cmd,
-                "step %s's check runs a test suite; the probe must stay fast" % step,
-            )
-
 
 class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
     """A ✅ whose acceptance command fails must not print as done, on either reader.
@@ -180,48 +167,42 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
         return tmp, r
 
     def test_the_probe_does_not_print_a_failing_done_mark_as_done(self):
+        # The probe runs no acceptance command at all now (q-826) — CHECKS["plan-0"] = "false"
+        # above is planted for the board's own test below and never reaches the probe. A ✅ can
+        # no longer be contradicted by a live re-run there; instead it is caught by the recorded-
+        # state read, because this fixture carries no checkpoint for plan-0 at all. The guarantee
+        # this test held — a done mark that cannot be trusted must not print as plain done — is
+        # now the recheck line's job, not the ranked list's.
         _, r = self._run("scripts/state-probe.sh")
-        line = [ln for ln in r.stdout.splitlines() if "plan-0" in ln]
-        self.assertTrue(line, "the probe printed no line for the task:\n%s" % r.stdout)
-        # 🔁, reopened: the row was done and is done no longer, and that is neither blocked nor
-        # queued. It read ⛔ until 02.09, when he named blocked and back-in-work as different
-        # states — blocked is an outside cause held in blocked_by. It then read ⬜ for the rest
-        # of that same day, until he named a third state: queued means never started, and this
-        # row was done once — reopened is its own mark.
-        self.assertIn("🔁", line[0], "a ✅ whose command fails still reads as something other "
-                                    "than reopened: %r" % line[0])
-        self.assertNotIn("✅", line[0])
-        self.assertNotIn("⛔", line[0], "a row that is merely unfinished is drawn as blocked, "
-                                       "which reserves that mark for a real outside cause: %r" % line[0])
-        self.assertNotIn("⬜", line[0], "a reopened row is drawn as queued, which reserves that "
-                                       "mark for work that never started: %r" % line[0])
-        self.assertIn("its acceptance command fails", line[0])
-        # And the tag beside the mark has to agree with the mark. The board's own reader stopped
-        # saying "verified" here on 28.08 and the probe did not, so the two readers of one plan
-        # disagreed on the row the whole change is about (found by the adversarial read that
-        # evening).
-        self.assertNotIn("verified", line[0],
-                         "the probe still calls a row verified whose acceptance command fails, "
-                         "while the board does not: %r" % line[0])
-        self.assertIn("marked done", line[0])
-        # The row's own id leads its line, ahead of the mark and the title (his word, 02.09) —
-        # it used to trail at the end in parentheses.
-        self.assertLess(line[0].index("plan-0"), line[0].index("🔁"),
-                        "the row's id must print before its state mark: %r" % line[0])
-        self.assertLess(line[0].index("🔁"), line[0].index("A task whose key cannot hold"),
-                        "the state mark must print before the title: %r" % line[0])
+        body_lines = [ln for ln in r.stdout.splitlines()
+                      if "plan-0" in ln and "need a fresh check" not in ln]
+        self.assertFalse(body_lines,
+                         "a done row with no checkpoint to confirm it still printed in the main "
+                         "list: %r" % body_lines)
+        recheck = [ln for ln in r.stdout.splitlines() if "need a fresh check" in ln]
+        self.assertTrue(recheck, "the probe printed no recheck line:\n%s" % r.stdout)
+        self.assertIn("1 done row(s)", recheck[0],
+                     "a done row with no checkpoint was not counted as needing a fresh check: %r"
+                     % recheck[0])
+        # A single-row fixture with no push history — plan-0 is not one of the (normally 0-1)
+        # rows this push just closed, so it is not named by id here; a person reads the count and
+        # the pointer to the board, not a second copy of the plan's own done list (q-822).
+        self.assertIn("full list on the board", recheck[0])
 
     def test_the_probe_counts_a_failing_done_mark_among_the_open(self):
+        # Same fixture, same reasoning as above: the probe never runs plan-0's command, so the
+        # row cannot be reopened by a live result. It also cannot count as quietly finished —
+        # the recheck line has to carry it instead of the summary staying silent about it.
         _, r = self._run("scripts/state-probe.sh")
         summary = [ln for ln in r.stdout.splitlines() if "more below ·" in ln]
         self.assertTrue(summary, "the probe printed no summary line:\n%s" % r.stdout)
-        self.assertIn("1 open", summary[0],
-                      "the reopened row does not count as open work: %r" % summary[0])
-        # No figure for finished work at all since 02.09, on his word: a running total only grows,
-        # and it needs a window nobody agreed on to mean anything. The rows closed since the last
-        # push carry that news themselves, as their own lines above.
-        self.assertNotIn("done", summary[0],
-                         "the summary line carries a count of finished work again: %r" % summary[0])
+        self.assertIn("0 open", summary[0],
+                      "a done row with no checkpoint is counted as open work, which is not what "
+                      "the recorded-state read decides: %r" % summary[0])
+        recheck = [ln for ln in r.stdout.splitlines() if "need a fresh check" in ln]
+        self.assertTrue(recheck, "the probe printed no recheck line:\n%s" % r.stdout)
+        self.assertIn("1 done row(s)", recheck[0],
+                     "an unconfirmed done row left no trace at all: %r" % recheck[0])
 
     def test_the_board_does_not_draw_a_failing_done_mark_as_done(self):
         tmp, r = self._run("scripts/render-board.sh")
@@ -335,13 +316,21 @@ class TestAPassingCommandDoesNotCloseARow(unittest.TestCase):
         return tmp, r
 
     def test_the_probe_keeps_the_rows_own_mark_and_counts_it_open(self):
+        # The probe runs no command at all now (q-826), so "acceptance passes" — an annotation
+        # that only ever came from a live result — can no longer appear; the guarantee this test
+        # held is the stronger one that replaced it: nothing on the row's line can come from a
+        # run that never happens, and the mark still governs, so the row stays open regardless.
         _, r = self._run("scripts/state-probe.sh")
         line = [ln for ln in r.stdout.splitlines() if "plan-0" in ln]
         self.assertTrue(line, "the probe printed no line for the task:\n%s" % r.stdout)
         self.assertIn("🔄", line[0], "a row in hand was promoted by its own command: %r" % line[0])
         self.assertNotIn("✅", line[0])
-        self.assertIn("acceptance passes", line[0],
-                      "the row keeps its mark but says nothing about its command: %r" % line[0])
+        self.assertIn("declared", line[0],
+                      "the row's line claims a command decided something, though the probe runs "
+                      "none: %r" % line[0])
+        self.assertNotIn("acceptance", line[0],
+                         "the probe still reports on a command result it never computed: %r"
+                         % line[0])
         summary = [ln for ln in r.stdout.splitlines() if "more below ·" in ln]
         self.assertTrue(summary, "the probe printed no summary line:\n%s" % r.stdout)
         self.assertIn("1 open", summary[0],
@@ -400,10 +389,17 @@ class TestAReaderNeverRunsInsideACheck(unittest.TestCase):
         return tmp
 
     def test_a_key_that_runs_the_probe_stops_at_depth_one(self):
+        # The probe itself no longer runs any row's key (q-826), so it can no longer be the
+        # driver that starts this chain — a key only ever runs today from inside the board
+        # renderer, which still executes CHECKS by default. The breaker this test holds is the
+        # one shared home, plan_checks_core, so entering through the renderer still proves it:
+        # the renderer runs plan-0's key, that key calls into the probe, and the probe's own
+        # evaluate() call (it still makes that call, just with every row's command already
+        # nulled) sees LIVE_SPEC_EVALUATING on it and refuses before touching a row.
         tmp = self._plant()
         env = {k: v for k, v in os.environ.items() if k != "LIVE_SPEC_EVALUATING"}
         env["HOME"] = str(tmp)
-        r = subprocess.run(["bash", str(tmp / "scripts" / "state-probe.sh")], cwd=str(tmp),
+        r = subprocess.run(["bash", str(tmp / "scripts" / "render-board.sh")], cwd=str(tmp),
                            capture_output=True, text=True, env=env, timeout=120)
         depth = (tmp / "depth.txt").read_text(encoding="utf-8").count("x") if (tmp / "depth.txt").exists() else 0
         self.assertEqual(depth, 1, "the probe re-entered itself %d level(s) deep" % depth)

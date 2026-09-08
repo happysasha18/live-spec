@@ -52,6 +52,34 @@ for name in "${VENDOR_CODE[@]}" "README.md"; do
   fi
 done
 
+# The four-mode contract's own runtime (row q-826, 2026-09-07 22:00): the run-mode reader, the
+# repo-local spawn guard, the push-time acceptance re-run (owned by another worker right now —
+# vendored by path, never opened here), and the minimal runtime admission the four modes rest on.
+# These five live outside scaffold/guardrails/, so they get their own "<pack-rel>|<host-rel>"
+# pairs, the same shape adopt/install-status-view.sh already uses for files whose pack source and
+# host destination differ.
+VENDOR_MODES=(
+  "guardrails/run_modes.py|guardrails/run_modes.py"
+  "guardrails/check-acceptance-rerun.py|guardrails/check-acceptance-rerun.py"
+  "guardrails/worker-admission-guard.py|guardrails/worker-admission-guard.py"
+  "scripts/task-admission.py|scripts/task-admission.py"
+  "scripts/checkpoint.py|scripts/checkpoint.py"
+)
+
+for pair in "${VENDOR_MODES[@]}"; do
+  src="$PACK_ROOT/${pair%%|*}"
+  rel="${pair##*|}"
+  dest="$HOST_ROOT/$rel"
+  mkdir -p "$(dirname "$dest")"
+  if [ -f "$dest" ] && [ "$FORCE" -ne 1 ]; then
+    echo "skip (exists, use --force to overwrite): $rel"
+  else
+    cp "$src" "$dest"
+    chmod +x "$dest" 2>/dev/null || true
+    echo "vendored: $rel"
+  fi
+done
+
 # --- step b: seed the host's guardrails config from the example (never clobber a filled one) --------
 CONFIG_SEEDED=0
 if [ -f "$HOST_ROOT/guardrails.config.json" ]; then
@@ -63,14 +91,22 @@ else
 fi
 
 # --- step c: write or MERGE the one manifest, pinning the vendored checks against the pack ----------
-python3 - "$HOST_ROOT" "$PACK_ROOT" "${VENDOR_CODE[@]}" << 'PYEOF'
+# The run-mode contract's own files (VENDOR_MODES above) are pinned in this same pass, by their own
+# pack-relative source path — the generic shape guardrails/check-status-view-drift.py and
+# scripts/check-pack-update.sh already read. One manifest write keeps key order stable across reruns;
+# a second, later write of the same file would re-append the scaffold keys the loop below deletes and
+# re-inserts every run, moving them after whatever this pass wrote and breaking the idempotent-rerun
+# byte-equality the sibling installer already proves.
+python3 - "$HOST_ROOT" "$PACK_ROOT" "${#VENDOR_CODE[@]}" "${VENDOR_CODE[@]}" "${VENDOR_MODES[@]}" << 'PYEOF'
 import hashlib
 import json
 import os
 import sys
 
-host_root, pack_root = sys.argv[1], sys.argv[2]
-vendor_code = sys.argv[3:]
+host_root, pack_root, n_code = sys.argv[1], sys.argv[2], int(sys.argv[3])
+rest = sys.argv[4:]
+vendor_code = rest[:n_code]
+vendor_modes_pairs = [p.split("|", 1) for p in rest[n_code:]]
 
 
 def sha256_of(path):
@@ -96,6 +132,13 @@ if os.path.isfile(manifest_path):
 manifest["pack_version"] = pack_version
 vendored = manifest.setdefault("vendored", {})
 
+# Pinned first, so a rerun's key order is stable: an existing key just gets its value refreshed in
+# place, at the position it already holds. The scaffold loop below deletes-then-reinserts its own
+# keys on every run (to dedupe a stale host-relative pin), which would otherwise reorder these keys
+# behind it every single rerun if they were pinned after.
+for src_rel, host_rel in vendor_modes_pairs:
+    vendored[src_rel] = sha256_of(os.path.join(host_root, host_rel))
+
 # Scaffold entries are ours to own: drop any prior scaffold-check key (either the pack-relative form we
 # write, or the host-relative guardrails/<name> form the ratchet installer opportunistically pinned),
 # then re-pin under the pack-relative source path so the watcher resolves it against the pack checkout.
@@ -113,8 +156,89 @@ for name in vendor_code:
 with open(manifest_path, "w", encoding="utf-8") as f:
     json.dump(manifest, f, indent=2)
     f.write("\n")
-print("wrote scripts/ratchet-manifest.json (%d scaffold checks pinned, pack %s)"
-      % (len(vendor_code), pack_version))
+print("wrote scripts/ratchet-manifest.json (%d scaffold checks + %d run-mode files pinned, pack %s)"
+      % (len(vendor_code), len(vendor_modes_pairs), pack_version))
+PYEOF
+
+# The four-mode contract's names, seeded into the host's own guardrails.config.json only when the
+# host carries no "run_modes" key of its own. The host owns every budget under it — max_targets,
+# the release core list, the layer map, timeouts — this seeds only the mechanism: the four names and
+# whether a mode decides a verdict. A host's own tuning, once written, is never touched again.
+#
+# Gated on CONFIG_SEEDED (step b just created this file from the example, which carries no
+# run_modes key of its own): a host's PRE-EXISTING config is never opened here, the same
+# never-clobber promise step b already gives the whole file — the run_modes key rides that file's
+# own seed rather than becoming a second, independent way this installer can touch a filled config.
+if [ "$CONFIG_SEEDED" -eq 1 ]; then
+  python3 - "$HOST_ROOT/guardrails.config.json" << 'PYEOF'
+import json
+import sys
+
+cfg_path = sys.argv[1]
+with open(cfg_path, encoding="utf-8") as f:
+    cfg = json.load(f)
+
+if "run_modes" in cfg:
+    print("skip (exists, keep your tuning): guardrails.config.json run_modes")
+else:
+    cfg["run_modes"] = {
+        "row": {"decides_verdict": True, "emergency_timeout_seconds": None,
+                "timeout_is_never_a_verdict": True},
+        "integration": {"decides_verdict": True, "emergency_timeout_seconds": None,
+                         "timeout_is_never_a_verdict": True, "layer_map": {}},
+        "release": {"decides_verdict": True, "emergency_timeout_seconds": None,
+                     "timeout_is_never_a_verdict": True},
+        "manual": {"in_ci": False, "decides_verdict": False, "emergency_timeout_seconds": None,
+                   "timeout_is_never_a_verdict": True},
+    }
+    with open(cfg_path, "w", encoding="utf-8") as f:
+        json.dump(cfg, f, indent=2)
+        f.write("\n")
+    print("seeded: guardrails.config.json run_modes (the four names; fill your budgets, "
+          "release core and layer map)")
+PYEOF
+else
+  echo "skip (guardrails.config.json pre-dates this install, keep your tuning): run_modes"
+fi
+
+# The repo-local spawn guard's own wiring: a PreToolUse hook on Task|Agent in the HOST's own
+# .claude/settings.json, beside the tree it guards — never under the user's home, no global hook.
+# A host that already carries the hook (its own, or from an earlier install) is left alone.
+mkdir -p "$HOST_ROOT/.claude"
+python3 - "$HOST_ROOT/.claude/settings.json" << 'PYEOF'
+import json
+import os
+import sys
+
+path = sys.argv[1]
+HOOK_CMD = 'python3 "$CLAUDE_PROJECT_DIR/guardrails/worker-admission-guard.py"'
+
+settings = {}
+if os.path.isfile(path):
+    try:
+        settings = json.load(open(path, encoding="utf-8"))
+    except (OSError, ValueError):
+        settings = {}
+
+pre_tool_use = settings.setdefault("hooks", {}).setdefault("PreToolUse", [])
+already = any(
+    "worker-admission-guard.py" in (h.get("command") or "")
+    for group in pre_tool_use
+    for h in group.get("hooks", [])
+)
+if already:
+    print("skip (exists, keep your host's hook): .claude/settings.json PreToolUse "
+          "worker-admission-guard")
+else:
+    pre_tool_use.append({
+        "matcher": "Task|Agent",
+        "hooks": [{"type": "command", "command": HOOK_CMD}],
+    })
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(settings, f, indent=2)
+        f.write("\n")
+    print("wired: .claude/settings.json PreToolUse Task|Agent -> "
+          "guardrails/worker-admission-guard.py")
 PYEOF
 
 # --- step d: the walk's remaining manual steps + final summary ------------------------------------

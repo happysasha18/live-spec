@@ -23,6 +23,7 @@
 - E-2 · T-1..T-6 · T-8 · T-9 · T-11 · T-12 · T-15 · T-16 · T-17 · INV-1 · INV-3 · INV-4 · INV-12 · INV-16 · INV-22 · INV-26 · INV-30 · INV-31 · INV-33 · INV-37 · INV-41 · INV-43 · INV-46 · INV-53 · INV-54 · INV-55 · INV-62 · INV-63 · INV-69 · INV-70 · INV-74 · INV-75 · INV-82 · INV-99 · INV-103 · INV-137 · INV-104 · INV-106 · INV-113 · E-14 · E-15 · INV-15 · M-1 · INV-115 · INV-116 · INV-121 · INV-122 · INV-123 · INV-124 · INV-128 · INV-129 · INV-133 · INV-134 · INV-144 · INV-151 · INV-153 · INV-159 · INV-164 · INV-166
 - INV-318 · INV-319 (the decision sheet in its one checkpoint, and the order accepted work runs in)
 - INV-327 (the record the door reads before it writes a row: the live plan, the queue archive, the decision record and the log, carried on the route and refused where a reference resolves to none of them)
+- INV-328 (a run names one of four modes — row, integration, release, manual — each a fixed, versioned composition read from `guardrails.config.json`; the session-start read reports recorded state and runs no row's acceptance command)
 - INV-247 (the resume-side twin of the primary-source rule and the architecture step's pin-from-a-command)
 - INV-221 (the pack owes the general law the profile holds as a personal value)
 - INV-222 (the queue's far tier — the report-shape home is communicator, carried there as wiring)
@@ -41,6 +42,7 @@
 - `skills/build-pipeline/SKILL.md` and `skills/build-pipeline/references/accepted-work-execution.md` (admission and the dynamic execution graph)
 - `scripts/task-admission.py:1` (the mechanical new-work door: source, outcome, definition of done and verification become one PLAN.md row and its checkpoint; quiet and existing-work routes write nothing)
 - `scripts/task-admission.py:36` (the record's own read at that door: the archive counted beside the live plan, every named reference resolved, and the `prior` command that prints what the record holds, INV-327)
+- `guardrails/run_modes.py:1` (the run-mode reader: the four names and each one's fixed composition, INV-328)
 - `scripts/checkpoint.py:47` (the decision-sheet checkpoint mechanism)
 - `skills/build-pipeline/SKILL.md:45` (gates — the MINOR-bump gate, this node's own remaining "Gates worth remembering" section)
 - `skills/architect/SKILL.md:141` (re-carve paragraph — INV-113 redesign-owes-rework)

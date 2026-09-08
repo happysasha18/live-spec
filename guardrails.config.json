@@ -61,5 +61,73 @@
       "hooks",
       "adopt"
     ]
+  },
+  "run_modes": {
+    "row": {
+      "max_targets": 1,
+      "targets_source": "the one accepted task's own recorded acceptance command in scripts/plan_checks.py (CHECKS[<task id>]); no check outside that one task runs",
+      "decides_verdict": true,
+      "emergency_timeout_seconds": null,
+      "timeout_is_never_a_verdict": true
+    },
+    "integration": {
+      "max_targets": 5,
+      "max_targets_source": "scripts/task-admission.py MOST_DELIVERABLES = 5, itself read from spec/work-board.md's own sub-item (\"the retunable value is the most deliverables one plan holds, standing at five\", criterion 45) — no figure here is measured off a run",
+      "targets_source": "only the layers a change touched, each resolved through this mode's own layer_map to its own named test targets; the selection reads which layers the diff touched, never the size of the corpus or the count of rows on the board",
+      "decides_verdict": true,
+      "emergency_timeout_seconds": null,
+      "timeout_is_never_a_verdict": true,
+      "layer_map": {},
+      "layer_map_comment": "layer name -> list of NAMED test targets; empty until a change names a layer, never filled with an invented figure"
+    },
+    "release": {
+      "core": [
+        "b",
+        "a",
+        "d",
+        "g",
+        "f",
+        "e",
+        "i",
+        "j",
+        "l",
+        "o",
+        "p",
+        "q",
+        "u",
+        "v",
+        "r",
+        "s",
+        "t",
+        "h",
+        "n",
+        "ag",
+        "x",
+        "y",
+        "z"
+      ],
+      "core_version": "6.1.0",
+      "core_version_source": "VERSION at the time this list was taken from .github/workflows/gates.yml",
+      "never_grows_with": [
+        "finished rows",
+        "samples",
+        "seeds",
+        "roles",
+        "combinations"
+      ],
+      "decides_verdict": true,
+      "emergency_timeout_seconds": null,
+      "timeout_is_never_a_verdict": true
+    },
+    "manual": {
+      "in_ci": false,
+      "decides_verdict": false,
+      "records_before_start": [
+        "purpose",
+        "limit"
+      ],
+      "emergency_timeout_seconds": null,
+      "timeout_is_never_a_verdict": true
+    }
   }
 }

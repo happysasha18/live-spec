@@ -379,6 +379,7 @@
 | INV-325 | guardrails |
 | INV-326 | guardrails |
 | INV-327 | build-pipeline |
+| INV-328 | build-pipeline |
 | M-1 | build-pipeline |
 | M-2 | base-rulebook |
 | M-3 | package-docs |

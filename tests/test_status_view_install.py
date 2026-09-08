@@ -13,6 +13,7 @@ taking commands naming files it does not have.
 """
 import json
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -109,6 +110,15 @@ def _write(path, text):
         fh.write(text)
 
 
+def _card(page, task_id):
+    """The HTML block for one card, from its id up to wherever the next card or column starts —
+    used to pin an assertion to the row it names rather than to the page as a whole, since the
+    board draws every row's id onto the page (open, done, and reopened alike)."""
+    m = re.search(r'id="card-%s".*?(?=<div class="card|<div class=\'col|$)' % re.escape(task_id),
+                  page, re.S)
+    return m.group(0) if m else ""
+
+
 #: The pack files adopt/install-status-view.sh itself reaches for — real content copied from this
 #: checkout, so a fake pack directory runs the real installer script exactly as this repo does.
 _PACK_FILES = [
@@ -165,26 +175,39 @@ class TestTheInstalledViewIsTheHostsOwn(unittest.TestCase):
         self.assertEqual(leaked, [], "this pack's own task ids reached a host's probe: %s" % leaked)
 
     def test_the_hosts_own_commands_decide_each_row(self):
-        """The point of the whole split. Same three rows, the host's two commands swapped: the row
-        whose command passes leaves the open list, and the row whose command fails comes back as
-        reopened. Nothing but the host's own map moved between the two readings."""
+        """The point of the whole split. The probe itself (row q-826) now reads recorded state
+        alone and runs no row's acceptance command at all, for any host — so this proof, that
+        the host's own commands (never this pack's) decide which done row stands and which
+        reopens, now lives in the board render, whose acceptance checks still run by default
+        (LIVE_SPEC_BOARD_CHECKS=on). Same three rows, the host's two commands swapped: the row
+        whose command fails reopens with the host's own failure note, and the row whose command
+        passes lands as done. Nothing but the host's own map moved between the two readings."""
         tmp = self._installed_host(demo2="true", demo3="false")
-        probe = os.path.join(tmp, "scripts", "state-probe.sh")
-        first = run(["bash", probe], cwd=tmp).stdout
-        # demo-2's command passes: the mark is honoured and the row is done, so it is off the list.
-        self.assertNotIn("demo-2", first)
+        board = os.path.join(tmp, "scripts", "render-board.sh")
+
+        def render():
+            r = run(["bash", board], cwd=tmp)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            return open(os.path.join(tmp, "board.html"), encoding="utf-8").read()
+
+        first = render()
+        # demo-2's command passes: the mark is honoured, the row lands, plainly done.
+        self.assertIn("✅", _card(first, "demo-2"))
+        self.assertIn("landed", _card(first, "demo-2"))
         # demo-3's done mark is contradicted by its own command: reopened, and it says why.
-        self.assertIn("demo-3", first)
-        self.assertIn("🔁", first)
-        self.assertIn("marked done", first)
-        self.assertIn("its acceptance command fails", first)
+        self.assertIn("🔁", _card(first, "demo-3"))
+        self.assertIn("marked done in the plan, but its acceptance command fails",
+                      _card(first, "demo-3"))
         # demo-1 has no command at all, so it is DECLARED rather than invented either way.
-        self.assertIn("declared", first)
+        self.assertIn("declared, no acceptance command", _card(first, "demo-1"))
 
         _write(os.path.join(tmp, "scripts", "plan_checks.py"), host_checks("false", "true"))
-        second = run(["bash", probe], cwd=tmp).stdout
-        self.assertIn("demo-2", second, "a planted red did not reopen the row it names")
-        self.assertNotIn("demo-3", second, "a planted pass did not close the row it names")
+        second = render()
+        self.assertIn("🔁", _card(second, "demo-2"), "a planted red did not reopen the row it names")
+        self.assertIn("marked done in the plan, but its acceptance command fails",
+                      _card(second, "demo-2"))
+        self.assertIn("✅", _card(second, "demo-3"), "a planted pass did not close the row it names")
+        self.assertIn("landed", _card(second, "demo-3"))
         self.assertNotEqual(first, second)
 
     def test_the_board_draws_the_hosts_own_rows_and_none_of_this_packs(self):
@@ -221,7 +244,10 @@ class TestTheInstalledViewIsTheHostsOwn(unittest.TestCase):
     def test_the_table_shaped_plan_a_founding_lands_is_read_too(self):
         """A project founded on templates/PLAN.template.md carries the table shape, not the headings
         shape this pack's own plan uses. A reader that saw only one of the two would print an empty
-        list on every freshly founded project."""
+        list on every freshly founded project. The probe (row q-826) runs no row's acceptance
+        command at all any more, so what it can still prove for this shape is that the rows and
+        their marks read at all; whether a host's own command still decides is proved on the
+        board render below, which is the reader whose acceptance checks still run by default."""
         tmp = self._installed_host(demo2="false", demo3="false", plan=HOST_PLAN_TABLE)
         r = run(["bash", os.path.join(tmp, "scripts", "state-probe.sh")], cwd=tmp)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
@@ -230,12 +256,19 @@ class TestTheInstalledViewIsTheHostsOwn(unittest.TestCase):
         # the table's status WORDS become the marks the readers draw
         self.assertIn("⬜", r.stdout)   # *queued*
         self.assertIn("🔄", r.stdout)   # *in-work*
-        # and the host's own command still decides: demo-2's fails, so it reads verified-and-open,
-        # while demo-1, which has none, reads declared.
-        self.assertIn("verified", r.stdout)
-        self.assertIn("declared", r.stdout)
         leaked = sorted(i for i in _pack_ids() if i in r.stdout)
         self.assertEqual(leaked, [], "this pack's own task ids reached a host's probe: %s" % leaked)
+
+        # and the host's own command still decides, on the board: demo-2's fails but it is not
+        # marked done, so it reads verified (a command decided it) and open; demo-1, which has
+        # no command at all, reads declared.
+        b = run(["bash", os.path.join(tmp, "scripts", "render-board.sh")], cwd=tmp)
+        self.assertEqual(b.returncode, 0, b.stdout + b.stderr)
+        page = open(os.path.join(tmp, "board.html"), encoding="utf-8").read()
+        self.assertIn("verified by its acceptance command", _card(page, "demo-2"))
+        self.assertIn("declared, no acceptance command", _card(page, "demo-1"))
+        leaked = sorted(i for i in _pack_ids() if i in page)
+        self.assertEqual(leaked, [], "this pack's own task ids reached a host's board: %s" % leaked)
 
 
 class TestStatusViewInstall(unittest.TestCase):
