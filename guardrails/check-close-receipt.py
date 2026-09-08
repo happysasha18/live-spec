@@ -203,11 +203,18 @@ def faults(plan_path, checkpoints_dir, base):
                        "`correct`, which keeps the previous text and hash."
                        % (task["id"], anchor, digest))
             continue
-        for name, value in (("row", digest), ("checkpoint anchor", anchor)):
+        # `label`, not `name`: the anchor-comparison loop above already runs `name` through this
+        # same function scope. The two never overlap in a reachable order — that loop always
+        # finishes before this one starts, nothing between them reads the bare name, and a for
+        # loop rebinds its own variable fresh on the next task — so this was safe as `name` too.
+        # Renamed anyway: one function holding the same identifier for two different loops is the
+        # shape that shadowed `was` (see the comment above), and the next hand to edit this file
+        # should not have to re-derive that these two are independent.
+        for label, value in (("row", digest), ("checkpoint anchor", anchor)):
             if value and receipt.get("dod_hash") != value:
                 out.append("%s reads done against a definition of done the receipt did not verify "
                            "(receipt %s, %s %s): verify it again against the done as it now reads."
-                           % (task["id"], receipt.get("dod_hash"), name, value))
+                           % (task["id"], receipt.get("dod_hash"), label, value))
                 break
         if checkpoint.read_checkpoint(cp)["status"] != "closed":
             out.append("%s reads done with its checkpoint still open: the close writes the "

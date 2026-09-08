@@ -538,3 +538,38 @@ def test_a_second_closed_row_does_not_crash_on_the_firsts_leftover_anchor(tmp_pa
     got = gate(plan, checkpoints)
     assert got.returncode == 0, got.stdout + got.stderr
     assert "Traceback" not in got.stderr
+
+
+def test_a_hand_typed_done_mark_is_caught_when_an_earlier_row_closed_in_the_same_push(tmp_path):
+    """The same shadow's other face. Where the first closed row's checkpoint does not exist at
+    the diff base — the ordinary shape of a push that closes a row — `anchors_at` returns None
+    for it, so the old code's shadowed `was = (before or {}).get(name)` sets the OUTER `was` (the
+    base-marks map) to None rather than to a string. Nothing crashes. But `newly` then reads
+    `was is not None and was.get(...)`, and with `was` now None that is False for every row after
+    the first — so a done mark typed straight onto the board with no checkpoint at all, right
+    after a row that closed honestly in the same push, passed uncaught. Base predates both rows."""
+    plan, checkpoints = host(tmp_path)
+    (tmp_path / "scripts" / "plan_checks.py").write_text(
+        "from plan_checks_core import evaluate  # noqa: F401\n"
+        "from plan_checks_core import parse_tasks as _parse_tasks\n\n"
+        "CHECKS = {'q-1': 'true', 'q-2': 'true'}\n\n\n"
+        "def parse_tasks(text):\n"
+        "    return _parse_tasks(text, CHECKS)\n", encoding="utf-8")
+    base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=tmp_path, capture_output=True,
+                          text=True).stdout.strip()
+
+    admission.admit(route(task_id="q-1", title="Ship the thing"), plan, checkpoints)
+    admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    admission.close(plan, checkpoints, "q-1")
+
+    admission.admit(route(task_id="q-2", title="Ship the other thing"), plan, checkpoints)
+    (checkpoints / "q-2.md").unlink()
+    plan.write_text(plan.read_text(encoding="utf-8").replace("### ⬜", "### ✅"),
+                    encoding="utf-8")
+
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-qm", "one closed row, one hand-typed"], cwd=tmp_path,
+                   check=True, capture_output=True)
+    got = gate(plan, checkpoints, base=base)
+    assert got.returncode == 1, got.stdout + got.stderr
+    assert "q-2" in got.stdout and "has no checkpoint" in got.stdout
