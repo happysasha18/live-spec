@@ -124,6 +124,12 @@ def run_rerun(tmp_path, plan, checkpoints, base_sha, mode="release"):
     env = dict(os.environ, LIVE_SPEC_DIFF_BASE=base_sha)
     env.pop("LIVE_SPEC_EVALUATING", None)
     env.pop("LIVE_SPEC_PUSH_FULL", None)
+    # The CI markers are cleared, so a fixture run is a fixture run wherever the suite itself is
+    # running. Inherited through `dict(os.environ, ...)`, they made the gate's own CI refusal fire
+    # inside the manual scenario below — green on a laptop and red on the server, which is the
+    # one direction a test must never differ in. The test that wants those markers sets them.
+    env.pop("GITHUB_ACTIONS", None)
+    env.pop("CI", None)
     if mode is None:
         env.pop("LIVE_SPEC_RUN_MODE", None)
     else:
@@ -404,3 +410,54 @@ def test_a_row_run_takes_its_one_target_and_decides_on_it(tmp_path):
     assert "run mode: row — it decides the verdict below" in got.stdout, got.stdout
     assert sentinel(tmp_path, "file"), got.stdout
     assert not sentinel(tmp_path, "ctrl"), got.stdout
+
+
+def _vendored_host(tmp_path, config):
+    """A host as adopt/install-scaffold.sh leaves one: the gate and the run-mode reader vendored
+    into its own guardrails/, reading that host's own config. The pack's copy reads the pack's
+    config, so a host's shape can only be judged by running the host's own copy."""
+    import shutil
+    (tmp_path / "guardrails").mkdir(exist_ok=True)
+    for name in ("check-acceptance-rerun.py", "run_modes.py"):
+        shutil.copy2(Path(ROOT) / "guardrails" / name, tmp_path / "guardrails" / name)
+    (tmp_path / "scripts" / "plan_checks_core.py").write_bytes(
+        (Path(ROOT) / "scripts" / "plan_checks_core.py").read_bytes())
+    (tmp_path / "scripts" / "checkpoint.py").write_bytes(
+        (Path(ROOT) / "scripts" / "checkpoint.py").read_bytes())
+    (tmp_path / "guardrails.config.json").write_text(json.dumps(config), encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-qm", "a host carrying its own copy of the gate")
+    return tmp_path / "guardrails" / "check-acceptance-rerun.py"
+
+
+def _run_host_gate(tmp_path, gate, plan, checkpoints, base_sha, mode="release"):
+    env = dict(os.environ, LIVE_SPEC_DIFF_BASE=base_sha, LIVE_SPEC_RUN_MODE=mode)
+    for name in ("LIVE_SPEC_EVALUATING", "LIVE_SPEC_PUSH_FULL", "GITHUB_ACTIONS", "CI"):
+        env.pop(name, None)
+    return subprocess.run(
+        [sys.executable, str(gate), "--plan", str(plan), "--checkpoints", str(checkpoints)],
+        cwd=str(tmp_path), env=env, capture_output=True, text=True, timeout=60)
+
+
+def test_a_host_whose_config_pre_dates_the_run_modes_key_is_refused_by_name(tmp_path):
+    """A host that adopted the pack before `run_modes` existed carries a config without it — the
+    installer's never-clobber promise means it is never added later. Every reader used to end in
+    a bare KeyError traceback with no verdict at all (the adversarial read of 2026-09-08). It is
+    a named refusal now, saying what the tree lacks and who writes it."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    gate = _vendored_host(tmp_path, {"some_other_key": {}})
+    got = _run_host_gate(tmp_path, gate, plan, checkpoints, base)
+    assert got.returncode == 1, got.stdout + got.stderr
+    assert "Traceback" not in got.stderr, got.stderr
+    assert 'no "run_modes" key' in got.stdout, got.stdout
+
+
+def test_a_mode_the_host_config_does_not_carry_is_refused_by_name(tmp_path):
+    """The partial shape the pack's own installer test plants: a host holding some of the four and
+    not the rest. The run names one the config lacks, and says so instead of dying on it."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    gate = _vendored_host(tmp_path, {"run_modes": {"row": {"decides_verdict": True}}})
+    got = _run_host_gate(tmp_path, gate, plan, checkpoints, base)
+    assert got.returncode == 1, got.stdout + got.stderr
+    assert "Traceback" not in got.stderr, got.stderr
+    assert "nothing for 'release'" in got.stdout, got.stdout

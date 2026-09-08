@@ -32,9 +32,30 @@ _CONFIG_PATH = os.path.join(
 )
 
 
+class RunModesUnreadable(ValueError):
+    """This tree carries no readable run-mode contract for the mode being asked about."""
+
+
 def _load_run_modes(config_path=_CONFIG_PATH):
-    with open(config_path, encoding="utf-8") as f:
-        cfg = json.load(f)
+    """The four modes as this tree records them.
+
+    A tree whose config carries no `run_modes` key refuses by name. `adopt/install-scaffold.sh`
+    seeds that key only into a config it creates itself, keeping its never-clobber promise to a
+    host's own filled config — so a host that adopted the pack before the key existed has one
+    without it, and every reader here used to end in a bare KeyError traceback with no verdict
+    (the adversarial read of 2026-09-08).
+    """
+    try:
+        with open(config_path, encoding="utf-8") as f:
+            cfg = json.load(f)
+    except (OSError, ValueError) as exc:
+        raise RunModesUnreadable("%s does not load: %s" % (config_path, exc))
+    if "run_modes" not in cfg:
+        raise RunModesUnreadable(
+            "%s carries no \"run_modes\" key, so no run here knows what its mode covers. A tree "
+            "that adopted this pack before the key existed writes its own: the four names are "
+            "%s, and adopt/install-scaffold.sh seeds them into a config it creates."
+            % (config_path, ", ".join(MODES)))
     return cfg["run_modes"]
 
 
@@ -74,6 +95,11 @@ def mode_composition(mode, run_modes=None):
             "unknown run mode %r; the four modes are %s" % (mode, ", ".join(MODES))
         )
     run_modes = _load_run_modes() if run_modes is None else run_modes
+    if mode not in run_modes:
+        raise RunModesUnreadable(
+            "this tree's run_modes names %s, and nothing for %r — a mode a run asks for and the "
+            "config does not carry has no composition to fix the run to."
+            % (", ".join(sorted(run_modes)) or "no mode at all", mode))
     return run_modes[mode]
 
 
@@ -91,7 +117,12 @@ def admit_targets(mode, targets, run_modes=None):
     own versioned core list, and a manual run decides no verdict at all.
     """
     composition = mode_composition(mode, run_modes)
-    cap = composition.get("max_targets", MODE_LAW.get(mode))
+    # A key written as null is a key naming no cap, the same as a key nobody wrote — `.get` with a
+    # default hands back the null and the law is walked, which is how a one-word edit could have
+    # widened `row` to everything.
+    cap = composition.get("max_targets")
+    if cap is None:
+        cap = MODE_LAW.get(mode)
     if cap is not None and len(targets) > cap:
         raise ModeCapExceeded(
             "mode %r allows at most %d target(s); %d were asked for"

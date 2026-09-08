@@ -161,8 +161,10 @@ print("wrote scripts/ratchet-manifest.json (%d scaffold checks + %d run-mode fil
 PYEOF
 
 # The four-mode contract's names, seeded into the host's own guardrails.config.json only when the
-# host carries no "run_modes" key of its own. The host owns every budget under it — max_targets,
-# the release core list, the layer map, timeouts — this seeds only the mechanism: the four names and
+# host carries no "run_modes" key of its own. The host owns its own SUBJECT under it — the release
+# core list, the layer map, timeouts — while `max_targets` for `row` and `integration` is the pack's
+# own law (Requirement 322 criteria 2 and 3), seeded here and held as a floor in
+# guardrails/run_modes.py whatever a host's config says. This seeds the mechanism: the four names and
 # whether a mode decides a verdict. A host's own tuning, once written, is never touched again.
 #
 # Gated on CONFIG_SEEDED (step b just created this file from the example, which carries no

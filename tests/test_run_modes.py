@@ -137,3 +137,38 @@ def test_only_manual_is_barred_from_standing_as_a_gate():
     assert run_modes.stands_as_a_gate("manual") is False
     for name in ("row", "integration", "release"):
         assert run_modes.stands_as_a_gate(name) is True
+
+
+# ------------------------------------------------- the release core is the CI chain, kept in step
+# Criterion 5 and M-659: a release run covers a FIXED, VERSIONED list of core gates. The list in
+# guardrails.config.json was 23 letters copied out of .github/workflows/gates.yml with nothing
+# holding the two together (the adversarial read of 2026-09-08, F7): a gate added, dropped or
+# renamed in CI left this file green, and a release core that has quietly stopped naming a gate
+# still reads as a fixed versioned list. The owner's own reading of it, 2026-09-08 21:08: a row
+# promising a fixed composition stays open until the composition is proved finite and the same.
+
+
+def _ci_gate_letters():
+    """Every gate letter the CI chain actually runs, read off its own step names. Two shapes
+    appear there: `gate x — …` and `… (gate b, full — …)`."""
+    import re
+    text = (ROOT_PATH / ".github" / "workflows" / "gates.yml").read_text(encoding="utf-8")
+    # Step NAMES only. Read across the whole file, the word "gate" inside a comment's prose
+    # ("the gate falls back to origin/main") reads as a gate letter and the check turns noisy.
+    names = re.findall(r'^\s*-?\s*name:\s*"([^"]+)"', text, re.M)
+    letters = set()
+    for name in names:
+        letters.update(re.findall(r"gate ([a-z]+)[ ,]", name))
+    return letters
+
+
+def test_the_release_core_names_exactly_the_gates_ci_runs():
+    core = set(_config()["release"]["core"])
+    ci = _ci_gate_letters()
+    assert core - ci == set(), "named in the release core and run by no CI step: %s" % sorted(core - ci)
+    assert ci - core == set(), "run by CI and absent from the release core: %s" % sorted(ci - core)
+
+
+def test_the_release_cores_version_is_the_packs_own():
+    version = (ROOT_PATH / "VERSION").read_text(encoding="utf-8").strip()
+    assert _config()["release"]["core_version"] == version

@@ -400,6 +400,11 @@ def main():
     # this gate into a one-word green — the faults printed and the step passed (the adversarial
     # read of 2026-09-08). A mode that may not stand as a gate is refused where a gate is what it
     # would be standing as, and the run says which variable made it a CI run.
+    try:
+        run_modes.mode_composition(mode)
+    except run_modes.RunModesUnreadable as exc:
+        print("BLOCKED — %s" % exc)
+        return 1
     ci_marker = next((name for name in ("GITHUB_ACTIONS", "CI") if os.environ.get(name)), None)
     if ci_marker and not run_modes.stands_as_a_gate(mode):
         print("BLOCKED — this is a CI run (%s is set) and mode %r may never stand as a CI or "

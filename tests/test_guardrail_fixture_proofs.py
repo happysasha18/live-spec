@@ -462,9 +462,10 @@ class TestOneCheckCompletesTheWalk(unittest.TestCase):
 
     # The two PROVEN entries whose fixture pairs nothing called. Both were listed as owning a live
     # proof and neither proof was ever run, so the pair could return False on both halves and the
-    # suite stayed green — which is what the acceptance re-run's pair was doing on 2026-09-08,
-    # having gone dead when its gate began requiring a named mode. A proof nobody calls is a proof
-    # nobody has.
+    # suite stayed green. Both halves of all four were already returning False at origin/main, on
+    # a checkpoint whose metadata block this fixture wrote in a shape `read_checkpoint` refuses —
+    # older than the mode requirement and unrelated to it. A proof nobody calls is a proof nobody
+    # has.
 
     def test_close_receipt_reds_without_its_fix(self):
         self.assertTrue(
