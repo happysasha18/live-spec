@@ -123,6 +123,14 @@ jobs:
 
       - name: "gate v — every done row's own acceptance command RUNS here, at this commit (the source of a passing acceptance is this run, never a receipt anybody can type)"
         if: ${{ !cancelled() }}
+        # The run names its kind before it selects a target (SPEC INV-328, Requirement 322
+        # criterion 1). A push to this workflow IS the release run, and gate v is one member of
+        # `run_modes.release.core` in guardrails.config.json. Naming it here is what lets the
+        # script bind its selection to that mode's composition and decide a verdict at all: with
+        # no mode named it refuses, rather than resolving to `row` and judging under a budget
+        # nobody asked for.
+        env:
+          LIVE_SPEC_RUN_MODE: release
         run: python3 guardrails/check-acceptance-rerun.py
 
       - name: "gate r — authority anchor (a decision recorded as the person's names its exchange, SPEC INV-207)"

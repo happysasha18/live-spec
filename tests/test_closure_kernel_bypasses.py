@@ -220,9 +220,15 @@ RERUN = Path(ROOT) / "guardrails" / "check-acceptance-rerun.py"
 
 
 def rerun(plan, checkpoints):
+    # The run names its kind, the way the gates workflow's own step does: this gate refuses a run
+    # that named none (Requirement 322 criterion 1), and that refusal is held in
+    # tests/test_acceptance_rerun_reach.py. Every call below is the release road, which is where a
+    # forged receipt is meant to meet it.
+    env = dict(os.environ, LIVE_SPEC_RUN_MODE="release")
+    env.pop("LIVE_SPEC_PUSH_FULL", None)
     return subprocess.run(
         [sys.executable, str(RERUN), "--plan", str(plan), "--checkpoints", str(checkpoints)],
-        capture_output=True, text=True, timeout=120)
+        capture_output=True, text=True, timeout=120, env=env)
 
 
 def test_a_row_cannot_be_admitted_without_an_acceptance_command(tmp_path):

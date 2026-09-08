@@ -57,6 +57,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import plan_checks_core  # noqa: E402
 import checkpoint  # noqa: E402
+import run_modes  # noqa: E402 — this script's own guardrails/ dir, the run-mode contract's reader
 
 DONE = "✅"
 ACCEPT_ANCHOR = "ACCEPT: "
@@ -274,11 +275,17 @@ def run_one(tree, command):
     return done.returncode, first, False
 
 
-def judge(plan_path, checkpoints_dir, jobs):
+def judge(plan_path, checkpoints_dir, jobs, mode):
     tree = Path(plan_path).resolve().parent
     tasks = plan_checks_core.parse_tasks(Path(plan_path).read_text(encoding="utf-8"))
     table = acceptance_table(tree)
     reasons, done_tasks = select(tree, tasks, table)
+    # The mode's own composition binds what this run may take. `release` carries no cap and admits
+    # the affected set whatever its size; `row` admits one target and `integration` five, so a run
+    # named as either of those over a wider selection is refused here by the cap, naming the mode,
+    # the cap and what was asked for. The selection above never grew with the corpus or with the
+    # board's length, and this is what holds that in place rather than a comment saying so.
+    run_modes.admit_targets(mode, sorted(reasons))
     ran, faults, unanchored, keyless, offmachine, unjudged = [], [], [], [], [], []
 
     to_run = []
@@ -349,21 +356,48 @@ def main():
     if not Path(args.plan).exists():
         print("   (no PLAN.md in this tree — the gate stands down by name)")
         return 0
+
+    # THE RUN NAMES ITS MODE BEFORE IT SELECTS A TARGET (Requirement 322 criterion 1, INV-328).
+    # This is the acceptance run itself — gate v of the release core — so it is the place where a
+    # mode and its composition are known: which rows this run may take, how many of them, and
+    # whether what it returns is a verdict at all. A run that named no mode is refused here rather
+    # than resolved to a default: `run_modes.resolve_mode` answers "row" for an empty environment,
+    # which is the right answer to "what did this environment ask for" and the wrong thing for an
+    # automatic run to be handed. CI names the mode on the step (.github/workflows/gates.yml), and
+    # a person running this by hand names it too.
+    if os.environ.get("LIVE_SPEC_RUN_MODE") is None and os.environ.get("LIVE_SPEC_PUSH_FULL") != "1":
+        print("BLOCKED — this run named no mode, so nothing here knows what it may cover or "
+              "whether it decides a verdict. Name one: LIVE_SPEC_RUN_MODE=%s (or "
+              "LIVE_SPEC_PUSH_FULL=1, which names release)." % "|".join(run_modes.MODES))
+        return 1
+    try:
+        mode = run_modes.resolve_mode()
+    except ValueError as exc:
+        print("BLOCKED — %s" % exc)
+        return 1
     # The keys the probe runs are marked, so one of them starting a reader is caught by the
     # re-entry breaker rather than fanning out; this process is not itself a reader.
     os.environ.pop("LIVE_SPEC_EVALUATING", None)
     try:
         ran, faults, unanchored, keyless, offmachine, unjudged, total, total_done, reasons = judge(
-            args.plan, args.checkpoints, max(1, args.jobs))
+            args.plan, args.checkpoints, max(1, args.jobs), mode)
     except TableUnreadable as exc:
         print("BLOCKED — the acceptance table this gate runs from is unreadable, so nothing here "
               "judged anything: %s" % exc)
+        return 1
+    except ValueError as exc:
+        # The mode's own cap refused this run's selection, and a run that may not take what it
+        # selected returns no verdict on it.
+        print("BLOCKED — %s. Name the mode this run actually is, or narrow what it covers." % exc)
         return 1
 
     print("   %d row(s) in the plan, %d marked done, %d selected here (closed history is never "
           "walked): %s"
           % (total, total_done, len(reasons),
              ", ".join("%s — %s" % (tid, reasons[tid]) for tid in sorted(reasons)) or "(none)"))
+    print("   run mode: %s — %s" % (mode, "it decides the verdict below"
+                                    if run_modes.decides_verdict(mode)
+                                    else "an explicit audit, and it decides no verdict"))
     print("   ran %d of the selected row(s)' own acceptance command at this commit." % len(ran))
     if unanchored:
         print("   %d of them predate the acceptance anchor, so what ran is the command the tree "
@@ -387,9 +421,16 @@ def main():
         else:
             print("   every selected row's acceptance passes here.")
         return 0
-    print("BLOCKED — a selected row whose acceptance does not pass at this commit:")
     for line in faults:
         print("  " + line)
+    if not run_modes.decides_verdict(mode):
+        # Criterion 8: a manual run never stands as a CI or release gate and decides no verdict.
+        # What it found is printed above, in full, and it ends green because the reading it did is
+        # a person's audit rather than a gate's judgement. A mode that decides no verdict cannot
+        # block, and a run that wants to block names a mode that decides one.
+        print("   the %r run reports the row(s) above and decides no verdict on them." % mode)
+        return 0
+    print("BLOCKED — a selected row whose acceptance does not pass at this commit (above).")
     return 1
 
 

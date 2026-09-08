@@ -117,9 +117,17 @@ def build_fixture(tmp_path):
     return plan, checkpoints, base_sha
 
 
-def run_rerun(tmp_path, plan, checkpoints, base_sha):
+def run_rerun(tmp_path, plan, checkpoints, base_sha, mode="release"):
+    """Run the gate the way CI runs it. The mode is named on every call because the gate refuses
+    a run that named none (Requirement 322 criterion 1); `mode=None` is how a test asks for that
+    refusal itself."""
     env = dict(os.environ, LIVE_SPEC_DIFF_BASE=base_sha)
     env.pop("LIVE_SPEC_EVALUATING", None)
+    env.pop("LIVE_SPEC_PUSH_FULL", None)
+    if mode is None:
+        env.pop("LIVE_SPEC_RUN_MODE", None)
+    else:
+        env["LIVE_SPEC_RUN_MODE"] = mode
     return subprocess.run(
         [sys.executable, str(RERUN), "--plan", str(plan), "--checkpoints", str(checkpoints)],
         cwd=str(tmp_path), env=env, capture_output=True, text=True, timeout=60,
@@ -191,7 +199,7 @@ def test_a_stopped_command_is_unjudged_and_never_a_failed_verdict(tmp_path, monk
     monkeypatch.setattr(mod, "EMERGENCY_STOP_SECONDS", 1)
 
     ran, faults, unanchored, keyless, offmachine, unjudged, total, total_done, reasons = mod.judge(
-        str(plan), str(checkpoints), 1)
+        str(plan), str(checkpoints), 1, "release")
 
     assert any(line.startswith("q-contract: ") for line in unjudged), unjudged
     assert not any("q-contract" in line for line in faults), faults
@@ -210,6 +218,9 @@ def test_the_summary_never_claims_a_pass_over_an_unjudged_row(tmp_path, monkeypa
     _git(tmp_path, "commit", "-qm", "the slow check")
 
     monkeypatch.setenv("LIVE_SPEC_DIFF_BASE", base)
+    # The run names its kind, the way the gates workflow's own step does. A run that names none is
+    # refused before it selects anything (Requirement 322 criterion 1), which has its own test.
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "release")
     monkeypatch.delenv("LIVE_SPEC_EVALUATING", raising=False)
     monkeypatch.setattr(
         sys, "argv",
@@ -236,3 +247,84 @@ def test_the_summary_line_names_the_count_selected_and_the_reason_for_each(tmp_p
     # neither untouched row names a reason, because neither was selected
     assert "q-ctrl —" not in got.stdout
     assert "q-core —" not in got.stdout
+
+
+# ------------------------------------------------- the run names its mode, and the mode binds it
+# Requirement 322 (INV-328): a run states which of four kinds it is BEFORE it selects a target,
+# and fixes its composition to that kind's own. This script is the acceptance run itself — gate v
+# of the release core — so it is where a mode and a composition are actually known: which rows the
+# run may take, how many, and whether what it returns is a verdict at all. The record of
+# 2026-09-08 (docs/prover/2026-09-08-four-named-modes-and-the-runner-that-never-arrived.md, F6/F8)
+# found `guardrails/run_modes.py` with no caller outside its own test; these four are that caller's
+# proof, each driving the real script rather than the reader beneath it.
+
+
+def test_a_run_that_names_no_mode_is_refused_before_it_selects_anything(tmp_path):
+    """M-661: an automatic run with no mode named is refused, rather than resolved to `row` and
+    judged under a budget nobody asked for. Nothing runs: no sentinel appears."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    got = run_rerun(tmp_path, plan, checkpoints, base, mode=None)
+    assert got.returncode == 1, got.stdout + got.stderr
+    assert "named no mode" in got.stdout, got.stdout
+    for name in ("row", "integration", "release", "manual"):
+        assert name in got.stdout, got.stdout
+    for name in ("ctrl", "contract", "accept", "file", "core"):
+        assert not sentinel(tmp_path, name), "%s ran under a run that named no mode" % name
+
+
+def test_a_row_run_is_refused_by_its_own_cap_when_more_than_one_row_is_affected(tmp_path):
+    """M-661: the mode's fixed composition binds what the run may take. Three rows are affected
+    here, and `row` admits one target — so the run is refused, naming the mode, the cap and the
+    count, and it judges none of them."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    got = run_rerun(tmp_path, plan, checkpoints, base, mode="row")
+    assert got.returncode == 1, got.stdout + got.stderr
+    assert "row" in got.stdout and "1 target" in got.stdout and "3 were asked for" in got.stdout
+    for name in ("contract", "accept", "file"):
+        assert not sentinel(tmp_path, name), "%s ran past the mode's own cap" % name
+
+
+def test_a_release_run_decides_the_verdict_and_a_manual_run_decides_none(tmp_path):
+    """Criterion 8: a manual run never stands as a gate and decides no verdict. The same failing
+    row reds the release run and is reported without a verdict by the manual one."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    checks = tmp_path / "scripts" / "plan_checks.py"
+    checks.write_text(_checks_text({**CHECKS_HEAD, "q-contract": "false"}), encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-qm", "a row whose acceptance fails")
+
+    red = run_rerun(tmp_path, plan, checkpoints, base, mode="release")
+    assert red.returncode == 1, red.stdout
+    assert "BLOCKED" in red.stdout, red.stdout
+
+    audit = run_rerun(tmp_path, plan, checkpoints, base, mode="manual")
+    assert audit.returncode == 0, audit.stdout
+    assert "q-contract" in audit.stdout, audit.stdout
+    assert "decides no verdict" in audit.stdout, audit.stdout
+
+
+def test_the_gate_judges_no_program_name(tmp_path):
+    """M-662: no registry of forbidden verifier commands, and criterion 13 — the name of the
+    program carrying a check decides nothing. A key that names a test runner and a key that merely
+    MENTIONS one in its text are both run like any other key.
+
+    This one is a STANDING GUARD rather than a proof of the change beside it: it passes against the
+    gate as it stood before, which is correct, because that gate judged no program name either. It
+    exists because a program-name rule was written into this pack twice — deleted in 5ca8697c, and
+    written again at the admission door on 2026-09-08 before a review caught it — and the row it
+    answers, M-662, is the one that would have caught the second time and did not exist."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    checks = tmp_path / "scripts" / "plan_checks.py"
+    checks.write_text(_checks_text({
+        **CHECKS_HEAD,
+        # one names a test runner, one names none, one merely mentions the runner's name in text
+        "q-contract": "python3 -m pytest --version >/dev/null && touch sentinel-contract.txt",
+        "q-accept": "grep -q pytest scripts/plan_checks.py && touch sentinel-accept.txt",
+    }), encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-qm", "keys that name a runner and merely mention one")
+
+    got = run_rerun(tmp_path, plan, checkpoints, base, mode="release")
+    assert got.returncode == 0, got.stdout + got.stderr
+    assert sentinel(tmp_path, "contract"), got.stdout
+    assert sentinel(tmp_path, "accept"), got.stdout
