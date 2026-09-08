@@ -12,7 +12,9 @@ the shared release path (`guardrails/run_modes.py`, `guardrails.config.json`,
 `adopt/install-scaffold.sh`, `guardrails/check-acceptance-rerun.py`, `VERSION`, `MIGRATION.md`,
 `.github/workflows/gates.yml`). The row changes a critical cross-cutting surface, which is the
 second trigger a global read is owed on, so no owner's word was needed for it.
-Range: 6b7a3fc..69f5e38
+Range: 6b7a3fc..22f4f201
+- 22f4f201 The night's chapter: the review's three, and the pin his word settled — the journal
+  entry this record's own findings are written into, carrying no change to the pack
 - 69f5e38f The Director eval pin reads the skill's content, not its declared version — the close of
   the one red the third repair uncovered, on the owner's word this turn. Re-read here: the arm
   `plan-2` runs is now `evals/director/check.py --freshness`, a digest of the skill with its
