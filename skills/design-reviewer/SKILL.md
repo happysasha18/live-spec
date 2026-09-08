@@ -410,7 +410,11 @@ shape.
   the prover's declared-class defect path [INV-125]. Route it there, since this pass owns only the
   groupings no clause has declared.
 - Never file a defect, never hold a landing. The pass produces recommendations and questions, and no
-  blocking defects.
+  blocking defects. This is the one deliberate exception to the rule that the lane which finds a
+  cause repairs it in the same lane (`live-spec-base` rule 5), and it is one because a grouping this
+  pass surfaces is not yet a defect anybody meets: only a person's accepted declaration turns it into
+  a spec sentence, so there is nothing here for the lane to build. Read it as this pass's own
+  exception and never as the shape of an ordinary brief.
 
 > The pack, whole:
 >

@@ -1153,6 +1153,30 @@ key does not read that file.
 
 **Context pointers.** `skills/product-prover-pack/SKILL.md`; `docs/prover/README.md`; `guardrails/check-prover-record.sh`
 
+### ✅ The pack stops teaching sessions to grow a second queue — id: q-828
+**Group:** Pack rules · **Priority:** normal
+**Source:** the owner, through the tlvphotos seat's incident letter of 2026-09-08, after he stopped a session that was about to hand a backlog forward: nobody may breed tasks
+
+**Holder:** seat
+
+**Outcome:** a session reading the pack's own standing rules is never told to walk a forward queue, and a brief that finds a cause repairs it in the same lane instead of handing the repair on
+
+**Statement.** Echo-name: One-queue and same-lane fix. Description: the pack's own standing wording tells a session two things this project already forbids — to walk a forward queue the resume file may not carry, and to hand a diagnosis on to someone else to repair. Both sentences get corrected where they stand, so a session reading the rules is told the board is the one queue and the lane that finds a cause repairs it. Plan: 1) the standing orchestration law names the board rather than a forward queue; 2) the spec's list of the same laws drops the queue phrase with it; 3) the shared rulebook's briefing rule states that the lane which finds a cause repairs it in the same lane; 4) the design reviewer's no-landing is named there and in its own skill as the one deliberate exception, with the reason it is one. Estimate: 1–2 hours — basis: no comparable history in this tree; the range is read off the four steps, each a wording change in one file.
+
+**Validation.** 2026-09-08 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-08.**
+
+**Done when:** the standing orchestration law names the board rather than a forward queue, the spec's law list drops the same phrase, the shared rulebook states that the lane which finds a cause repairs it in the same lane, and the design reviewer's no-landing stands named as the one deliberate exception
+
+**Read before admission.** nothing named. Finding: the plan carries no open or archived row on the pack's own forward-queue wording and the record's commit subjects name none; the spec already forbids a forward queue in the resume file, so the standing law and the spec's law list contradict a rule this project already holds
+
+**DOD hash.** 8fd38f278b4820c4062e8adb3b6218c0ab7e57e10bac5b184612b89d278a625c
+
+**Verification:** python3 scripts/task-admission.py verify q-828
+
+**Context pointers.** hooks/conduct-law.md:25; spec/guardrails-freshness.md:295; INV-48; skills/live-spec-base/SKILL.md:93
+
 ## Environment — known traps
 
 - A full local `pytest` run hangs at 0% CPU and never finishes. Run it narrowly with `-k` or a

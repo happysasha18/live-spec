@@ -22,8 +22,8 @@ side — a long inline authoring pass, or an inline read deeper than a glance, t
 have dispatched. A short confirming read or a small inline edit is a glance and passes; a long authored
 artifact or a deep read carried on the seat offends.
 
-LAW 3 — pull-unblocked-work-and-never-idle. After a landing the seat walks the forward queue and does
-every item the landing unblocked. Banned as a class: a trace that LANDS work — a commit, a push, a
+LAW 3 — pull-unblocked-work-and-never-idle. After a landing the seat walks the board, the project's one
+queue, and does every item the landing unblocked. Banned as a class: a trace that LANDS work — a commit, a push, a
 deploy, a completed build — and then IDLES, stopping with unblocked forward work still open instead of
 pulling the next item. The pass case is a trace that lands and then continues into the next unblocked
 unit, or one that legitimately stops only at a taste, policy, or device call that is the human's alone.

@@ -575,6 +575,12 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # the prose that describes them.
     "q-827": "grep -q '^## Closure review' skills/product-prover-pack/SKILL.md && grep -q '^## Global review' skills/product-prover-pack/SKILL.md && grep -q '^Mode:' docs/prover/README.md && PYTHONPATH=tests python3 -m unittest -q test_review_modes >/dev/null 2>&1",
     "q-826": "python3 -c \"import json;c=json.load(open('guardrails.config.json'));m=c['run_modes'];assert set(m)=={'row','integration','release','manual'}\" && grep -q 'LIVE_SPEC_RUN_MODE' guardrails/run_modes.py && grep -q 'run_modes' adopt/install-scaffold.sh && grep -q 'worker-admission-guard.py' adopt/install-scaffold.sh && ! grep -q 'runs a test suite' scripts/task-admission.py && ! grep -q '6a\\.' spec/queue-intake-priority.md && ! grep -q 'M-656' matrix/build-pipeline.md && grep -q '## Requirement 322' spec/queue-intake-priority.md && grep -q 'INV-328' PRODUCT_SPEC.index.md && grep -q 'INV-328' TEST_MATRIX.index.md && grep -q 'def test_a_second_update_changes_nothing' tests/test_run_modes_install.py && grep -q 'recorded state' scripts/state-probe.sh",
+    # q-828: the pack's own wording no longer grows the board. Two arms, one per repair the
+    # incident named: the standing law that told the seat to walk a "forward queue" now names the
+    # board (the resume file carries no queue, INV-48), and the rulebook that briefs a unit now
+    # says the lane which finds a cause repairs it in the same lane, with the design reviewer's
+    # no-landing named there and in its own skill as the one deliberate exception.
+    "q-828": "! grep -q 'forward queue' hooks/conduct-law.md && grep -q 'walks the board' hooks/conduct-law.md && ! grep -q 'unblocked queue work' spec/guardrails-freshness.md && grep -q 'repairs it in the same lane' skills/live-spec-base/SKILL.md && grep -q 'the one deliberate exception' skills/design-reviewer/SKILL.md",
     # q-609: the rule now names who enforces it, in the spec that carries it.
     "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",
 }

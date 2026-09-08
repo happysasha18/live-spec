@@ -107,6 +107,16 @@ its own manifest line. Every other rule below keeps the number it already carrie
      taste calls rather than decide them — on top of the functional brief, never instead of it
      (tlvphotos A/B, 2026-08-08).
 
+   - **The lane that finds a cause repairs it in the same lane.** A brief never asks a lane to
+     find the cause and name the repair without building it. A diagnosis handed on is work nobody
+     has taken up, and it reaches the board as a row for something the lane that already
+     understood it could have finished — which is how a session that opened no row still grew a
+     backlog (tlvphotos, 2026-09-08). The design reviewer is the one deliberate exception, and it
+     is one because its findings are recommendations about groupings no spec sentence has declared
+     yet: until a person accepts a declaration there is no repair to build, so the pass holds no
+     landing (SPEC INV-154, `skills/design-reviewer/SKILL.md`). Read that exception as the
+     reviewer's own and never as the shape of an ordinary brief.
+
 6. **Every long or delegated piece of work keeps a persistent checkpoint.** Keep a live checkpoint
    file (done / in-progress / next) in `.live-spec/checkpoints/`; updated as the work runs, so a
    cut-off resumes from disk. A landing that ships a checkpoint's items flips that checkpoint to
