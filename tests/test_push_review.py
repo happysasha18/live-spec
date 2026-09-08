@@ -80,6 +80,9 @@ def _record(shas, findings="the delta was read for a refusal; two soft spots not
             blocking="none", drop_field=None, extra=""):
     """A record body naming the given commits, in the shape docs/prover/README.md states."""
     fields = [
+        # Every record names the mode its review ran in, and the gate holds that field like the
+        # rest (q-827). A fixture that leaves it out is a record no push would carry.
+        ("Mode", "closure"),
         ("Range", "%s..%s" % (shas[0], shas[-1])),
         ("Files read", "PRODUCT_SPEC.md, guardrails/pre-push"),
         ("Checks run", "python3 -m pytest -q — 12 passed"),

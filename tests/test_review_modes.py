@@ -172,3 +172,33 @@ class TestEachModeStatesItsOwnReach(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestTheGateReadsTheModeLine(unittest.TestCase):
+    """The mode is a field the gate holds, rather than a line a record carries for a reader. A
+    record that names no mode says nothing about its own reach, and a global one naming no scope is
+    the unbounded read this whole contract ends — so the gate refuses both."""
+
+    def _plant_and_run(self, body, slug):
+        import tempfile
+        with tempfile.TemporaryDirectory() as raw:
+            tmp = Path(raw)
+            base, head = _tree(tmp)
+            _record(tmp, body.format(base=base[:7], head=head[:7]), slug)
+            return _run_gate(tmp, base)
+
+    def test_a_record_naming_no_mode_is_refused(self):
+        got = self._plant_and_run(CLOSURE.replace("Mode: closure\n", ""), "no-mode")
+        self.assertEqual(got.returncode, 1, got.stdout)
+        self.assertIn("missing its `Mode:` line", got.stdout)
+
+    def test_a_global_record_naming_no_scope_is_refused(self):
+        body = GLOBAL.replace("Scope: the installer, which this row changes\n", "")
+        got = self._plant_and_run(body, "global-no-scope")
+        self.assertEqual(got.returncode, 1, got.stdout)
+        self.assertIn("names no `Scope:`", got.stdout)
+
+    def test_a_mode_that_is_not_one_of_the_two_is_refused(self):
+        got = self._plant_and_run(CLOSURE.replace("Mode: closure", "Mode: quick"), "bad-mode")
+        self.assertEqual(got.returncode, 1, got.stdout)
+        self.assertIn("is not a mode a review runs in", got.stdout)

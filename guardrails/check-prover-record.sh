@@ -400,7 +400,7 @@ case "$body" in
     ;;
 esac
 
-for field in "Range" "Files read" "Checks run" "Findings" "Blocking"; do
+for field in "Mode" "Range" "Files read" "Checks run" "Findings" "Blocking"; do
   line="$(grep -m1 -E "^${field}:" <<<"$body" || true)"
   if [ -z "$line" ]; then
     echo "FAIL (prover record): the review record is missing its \`${field}:\` line, so it doesn't say"
@@ -415,6 +415,34 @@ for field in "Range" "Files read" "Checks run" "Findings" "Blocking"; do
     shape_fail=1
   fi
 done
+
+# --- arm: the mode this review ran in, and the scope a global one names ---
+# A push review runs as closure or as global (skills/product-prover-pack/SKILL.md). Closure reads
+# the accepted row alone and blocks on material failure; global is owed by the owner's own request
+# or by a row touching a critical cross-cutting surface, and it names that surface before it reads.
+# The mode decides what the review was allowed to cover, so a record that does not name it says
+# nothing about its own reach, and a global one that names no scope is the unbounded read this
+# whole contract exists to end.
+mode_line="$(grep -m1 -E '^Mode:' <<<"$body" || true)"
+mode_value="$(printf '%s' "$mode_line" | sed -E 's/^Mode:[[:space:]]*//' | tr '[:upper:]' '[:lower:]')"
+case "$mode_value" in
+  closure) ;;
+  global)
+    scope="$(grep -m1 -E '^Scope:' <<<"$body" | sed -E 's/^Scope:[[:space:]]*//' || true)"
+    if [ -z "$scope" ]; then
+      echo "FAIL (prover record): the record says its mode is global and names no \`Scope:\`. A global"
+      echo "  review is owed for one critical surface and reads that surface; a global read with no"
+      echo "  scope on the record is the unbounded review this contract ends (SPEC INV-304)."
+      shape_fail=1
+    fi
+    ;;
+  "") ;;  # the missing-field arm above has already said so
+  *)
+    echo "FAIL (prover record): \`Mode: $mode_value\` is not a mode a review runs in. The two are"
+    echo "  closure and global (skills/product-prover-pack/SKILL.md)."
+    shape_fail=1
+    ;;
+esac
 
 if [ "$shape_fail" -ne 0 ]; then
   echo "  Fix: ask your agent to fill in the record's fields — the shape they should follow is"
