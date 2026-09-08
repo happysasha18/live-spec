@@ -359,17 +359,21 @@ def test_a_manual_run_may_not_stand_as_a_gate_in_ci(tmp_path):
     assert "GITHUB_ACTIONS" in in_ci.stdout, in_ci.stdout
 
 
-def test_an_integration_run_covers_the_targets_it_names_and_decides_a_verdict(tmp_path):
-    """M-661's other half, and criterion 12: a targeted test run is ADMITTED in an integration
-    run. Three affected rows sit inside integration's cap of five, so the run takes them, runs
-    each row's own named command, and decides the verdict on what they returned."""
+def test_an_integration_run_is_refused_until_its_targets_are_named(tmp_path):
+    """Criterion 3 as it now reads: an integration run covers a composition somebody wrote down
+    before it started, and no count stands in for that naming.
+
+    Until 2026-09-08 this same run was admitted because three affected rows sat inside a cap of
+    five — a figure borrowed from how many deliverables one plan holds, which said nothing about
+    which targets a run covers. This tree's own contract names no integration targets, which is
+    the state that key is meant to be in between changes, so the run is refused here and the
+    refusal names the key to fill. Nothing runs: the sentinels stay untouched."""
     plan, checkpoints, base = build_fixture(tmp_path)
     got = run_rerun(tmp_path, plan, checkpoints, base, mode="integration")
-    assert got.returncode == 0, got.stdout + got.stderr
-    assert "run mode: integration — it decides the verdict below" in got.stdout, got.stdout
+    assert got.returncode == 1, got.stdout + got.stderr
+    assert "'targets' names none" in got.stdout, got.stdout
     for name in ("contract", "accept", "file"):
-        assert sentinel(tmp_path, name), got.stdout
-    assert not sentinel(tmp_path, "ctrl"), got.stdout
+        assert not sentinel(tmp_path, name), got.stdout
 
 
 def test_an_unreadable_checkpoint_reds_its_row_instead_of_killing_the_run(tmp_path):

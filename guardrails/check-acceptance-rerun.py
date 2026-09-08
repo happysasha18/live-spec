@@ -294,11 +294,14 @@ def judge(plan_path, checkpoints_dir, jobs, mode):
     tasks = plan_checks_core.parse_tasks(Path(plan_path).read_text(encoding="utf-8"))
     table = acceptance_table(tree)
     reasons, done_tasks = select(tree, tasks, table)
-    # The mode's own composition binds what this run may take. `release` carries no cap and admits
-    # the affected set whatever its size; `row` admits one target and `integration` five, so a run
-    # named as either of those over a wider selection is refused here by the cap, naming the mode,
-    # the cap and what was asked for. The selection above never grew with the corpus or with the
-    # board's length, and this is what holds that in place rather than a comment saying so.
+    # The mode's own composition binds what this run may take. `row` admits one target, because
+    # one target is what a row run means. `integration` admits the targets its composition names,
+    # written down before the run — it carried a cap of five until 2026-09-08, a figure borrowed
+    # from how many deliverables one plan holds, which admitted any five and refused a sixth for
+    # no stateable reason. `release` is admitted on naming a versioned core, and `manual` on
+    # declaring the purpose and the finite sample a person records before starting it. The
+    # selection above never grew with the corpus or with the board's length, and this is what
+    # holds that in place rather than a comment saying so.
     run_modes.admit_targets(mode, sorted(reasons))
     ran, faults, unanchored, keyless, offmachine, unjudged = [], [], [], [], [], []
 
@@ -426,6 +429,13 @@ def main():
         # selected returns no verdict on it. Caught by its own type: a bare ValueError here read
         # every fault inside judge() as a mode refusal and said so in the mode's words.
         print("BLOCKED — %s. Name the mode this run actually is, or narrow what it covers." % exc)
+        return 1
+    except run_modes.ModeCompositionUnnamed as exc:
+        # The other half of the same refusal, since 2026-09-08: a mode admitted against what its
+        # composition names rather than against a count says so here instead of ending in a
+        # traceback with no verdict at all.
+        print("BLOCKED — %s. Name the mode this run actually is, or write down what it covers "
+              "before running it." % exc)
         return 1
 
     print("   %d row(s) in the plan, %d marked done, %d selected here (closed history is never "

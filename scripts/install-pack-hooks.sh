@@ -10,7 +10,10 @@
 #   - the code-anchor Stop hook (a queue row number left standing where plain words belong);
 #   - the register judge (register_judge_core.py + register-judge.py + the async collect/report arms),
 #     the class-reading model judge that holds what a literal list cannot (SPEC INV-203). Its universal
-#     law ships in the mechanism; its personal laws ride ~/.claude/hooks/register-judge-personal.md.
+#     law ships in the mechanism; its personal laws ride ~/.claude/hooks/register-judge-personal.md;
+#   - the conduct-judge arms with the standing orchestration law they read (conduct-law.md), and the
+#     lean-orchestrator net. These five were shipped by nothing until 2026-09-08, though gate m held
+#     each of them to match its installed copy — see the note above JUDGE_FILES.
 # The personal overlays (scissors-personal.json, hedge-personal.json, register-judge-personal.md) are
 # owned entirely by the personal layer — this script never creates or edits them.
 #
@@ -39,9 +42,37 @@ done
 DEST_DIR="$HOME/.claude/hooks"
 SETTINGS="$HOME/.claude/settings.json"
 
-# The universal files this script ships: the scissors scan, the hedge scan, and the register-judge
-# mechanism + arms.
-JUDGE_FILES="scissors-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py language-laws.json turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
+# Every file this script ships. It is the whole of hooks/ minus the files another installer already
+# owns, because config-health (gate m) compares EVERY file under hooks/ against its installed copy
+# and names the installer whose text mentions the file as the fix. A file under hooks/ that no
+# installer names has no fix to offer: on 2026-09-08 an edit to conduct-law.md left the installed
+# copy stale, gate m red with "run the installer that owns this hook", and no such installer
+# existed — the file was copied by hand to get the push out. The list below therefore holds the six
+# opt-in checks it always shipped (the scissors, hedge, affirmation and code-anchor scans, and the
+# register-judge mechanism with its arms), and beside them the conduct-judge arms with the standing
+# law they read and the lean-orchestrator net, which nothing installed before today.
+JUDGE_FILES="scissors-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py language-laws.json turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh conduct-judge.py conduct-judge-collect.sh conduct-judge-report.sh conduct-law.md lean-orchestrator-scan.py"
+
+# The names another installer owns, so the sweep below can tell "somebody ships it" from "nobody
+# does". scripts/install-session-hooks.sh generates the three wired hooks from the declaration and
+# then chains here; scripts/install-dialog-warning-guard.sh and scripts/install-worker-restore-guard.sh
+# each own one file.
+OWNED_ELSEWHERE="clock-hook.sh chat-law-hook.sh routing-preamble-hook.sh dialog-warning-guard.py worker-restore-guard.py"
+
+# The recurrence-stop for the defect above: a file added to hooks/ and to no installer is named
+# here, at install time, instead of surfacing weeks later as a gate red with no fix behind it.
+for src_hook in "$DIR"/hooks/*; do
+  hname="$(basename "$src_hook")"
+  case " $JUDGE_FILES $OWNED_ELSEWHERE " in
+    *" $hname "*) ;;
+    *)
+      echo "install-pack-hooks: hooks/$hname is shipped by no installer, so config-health has no" >&2
+      echo "  fix to name when its installed copy drifts. Add it to JUDGE_FILES here, or to the" >&2
+      echo "  installer that owns it, then run this again." >&2
+      exit 2
+      ;;
+  esac
+done
 
 if [ "$DRY_RUN" = "1" ]; then
   for f in $JUDGE_FILES; do
@@ -62,7 +93,7 @@ for f in $JUDGE_FILES; do
     echo "already present: $DEST_DIR/$f"
   else
     cp "$DIR/hooks/$f" "$DEST_DIR/$f"
-    chmod +x "$DEST_DIR/$f"
+    case "$f" in *.py|*.sh) chmod +x "$DEST_DIR/$f" ;; esac
     echo "installed: $DEST_DIR/$f"
   fi
 done

@@ -904,11 +904,12 @@ def _write_dod_anchor(cp, digest: str) -> None:
     _write_anchor(cp, DOD_ANCHOR, digest)
 
 
-def _write_anchor(cp, prefix: str, value: str) -> None:
+def _write_anchor(cp, prefix: str, value: str, allow_closed: bool = False) -> None:
     body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
     kept = [ln for ln in body.splitlines()
             if not ln.startswith(prefix) and not checkpoint._is_empty_body(ln)]
-    checkpoint.update_checkpoint(cp, done="\n".join(kept + [prefix + value]).strip())
+    checkpoint.update_checkpoint(cp, done="\n".join(kept + [prefix + value]).strip(),
+                                 allow_closed=allow_closed)
 
 
 def _read_anchor(cp, prefix: str):
@@ -1552,7 +1553,11 @@ def mint_brief_token(plan_path, checkpoints_dir, task_id: str) -> str:
     token = secrets.token_hex(16)
     _write_anchor(cp, BRIEF_TOKEN, "%s dod=%s accept=%s issued=%s"
                   % (token, dod_digest(dod), dod_digest(key),
-                     datetime.datetime.now().isoformat(timespec="seconds")))
+                     datetime.datetime.now().isoformat(timespec="seconds")),
+                  # A row inside the landing window has a shut sheet and unpushed work, and the
+                  # review the push gate is about to ask for is briefed from it. The write is the
+                  # token line and nothing else.
+                  allow_closed=close_is_unlanded(plan_path, checkpoints_dir, task_id))
     return token
 
 
@@ -1566,12 +1571,48 @@ def read_brief_token(cp):
     return parts[0], fields.get("dod"), fields.get("accept")
 
 
+def close_is_unlanded(plan_path, checkpoints_dir, task_id: str) -> bool:
+    """True while a closed row's close has not yet reached the remote.
+
+    The push gate asks for a review of the landing AFTER the row closed — the prover record over the
+    pushed range, and the skill-review record of any skill the range edited. Both are reads that must
+    not be the producer's own, so they are exactly the work a session should hand to a worker; and
+    until 2026-09-08 it could not, because the spawn guard admits a worker only against an open
+    checkpoint and the sheet shuts at the close. That session's only roads were to do the independent
+    read itself or to open a second row for the first row's own gate. So the token outlives the close
+    by one window, and the window is the landing: the close is still uncommitted, or the commit that
+    carries it is not yet on the branch's upstream.
+
+    It is a window, never a loosening. The row is admitted, its frozen done and its recorded
+    acceptance are still the ones the token was cut against, and both are checked as before. What
+    changes is one leg's wording — the sheet is open, or it shut and the landing has not left the
+    machine. The window closes the moment the push lands, and a row closed and pushed refuses a spawn
+    the way it always did. Where the tree has no upstream there is no push to wait for, so the window
+    is shut and the answer is False.
+    """
+    root = Path(plan_path).resolve().parent
+    rel = os.path.relpath(_checkpoint_path(checkpoints_dir, task_id).resolve(), root)
+
+    def git(*args):
+        return subprocess.run(("git", "-C", str(root)) + args, capture_output=True, text=True)
+
+    upstream = git("rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}")
+    if upstream.returncode != 0 or not upstream.stdout.strip():
+        return False   # nowhere to push, so nothing to wait for
+    dirty = git("status", "--porcelain", "--", rel)
+    if dirty.returncode == 0 and dirty.stdout.strip():
+        return True    # the close is not even committed yet
+    ahead = git("log", "--oneline", "%s..HEAD" % upstream.stdout.strip(), "--", rel)
+    return ahead.returncode == 0 and bool(ahead.stdout.strip())
+
+
 def token_row(plan_path, checkpoints_dir, token: str):
     """The row whose live brief token this is, or None.
 
-    Live means three things at once: the token was issued by `brief`, its row's checkpoint is
-    still open, and the done and the acceptance it was cut against are the ones the row and the
-    tree read now. Any of the three moving retires every token cut before it.
+    Live means three things at once: the token was issued by `brief`, its row is still in hand —
+    the checkpoint open, or closed with the landing that carries the close not yet pushed (see
+    `close_is_unlanded`) — and the done and the acceptance it was cut against are the ones the row
+    and the tree read now. Any of the three moving retires every token cut before it.
     """
     token = (token or "").strip()
     if not token:
@@ -1589,7 +1630,8 @@ def token_row(plan_path, checkpoints_dir, token: str):
             start, end, _, _ = _row_span(plan, task_id)
         except AdmissionError:
             return None
-        if checkpoint.read_checkpoint(cp)["status"] != "open":
+        if (checkpoint.read_checkpoint(cp)["status"] != "open"
+                and not close_is_unlanded(plan_path, checkpoints_dir, task_id)):
             return None
         dod, _ = read_dod(plan[start:end])
         key = acceptance_key(Path(plan_path).resolve().parent, task_id) or ""
@@ -1630,11 +1672,12 @@ def pre_spawn_check(plan_path, checkpoints_dir, task_id: str):
     # exists" let any long-closed row id in a prompt clear the spawn guard, which is admission in
     # name and nothing else (the adversarial read of 2026-09-06). A closed row comes back through
     # `reopen`, which opens the sheet again.
-    if checkpoint.read_checkpoint(cp)["status"] != "open":
+    if (checkpoint.read_checkpoint(cp)["status"] != "open"
+            and not close_is_unlanded(plan_path, checkpoints_dir, task_id)):
         raise AdmissionError(
-            "%s is closed work: its checkpoint is not open, so no worker starts on it. Reopen it "
-            "(`reopen %s --false-condition ... --evidence ...`) or admit the new work as its own "
-            "row: %s" % (task_id, task_id, PRE_SPAWN))
+            "%s is closed work, and its close has already landed on the remote, so no worker starts "
+            "on it. Reopen it (`reopen %s --false-condition ... --evidence ...`) or admit the new "
+            "work as its own row: %s" % (task_id, task_id, PRE_SPAWN))
     return start, end
 
 

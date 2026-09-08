@@ -343,7 +343,8 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
     write_atomic(out_path, _serialize_checkpoint(title, "open", owner, sections))
 
 
-def update_checkpoint(path, done=None, in_progress=None, next=None, decision_sheet=None) -> None:
+def update_checkpoint(path, done=None, in_progress=None, next=None, decision_sheet=None,
+                      allow_closed=False) -> None:
     """Rewrite one or more section bodies of an EXISTING open checkpoint, in place.
 
     Unlike `new_checkpoint` (which always overwrites the whole file with a blank template),
@@ -354,8 +355,12 @@ def update_checkpoint(path, done=None, in_progress=None, next=None, decision_she
     order are all preserved.
 
     Raises ValueError if:
-      - the checkpoint is already closed (updating closed work is out of scope for this
-        function; reopening a closed checkpoint is a separate design question);
+      - the checkpoint is already closed and `allow_closed` is not set. Updating closed work is
+        out of scope for this function, and reopening a closed checkpoint is a separate design
+        question. The one caller that sets `allow_closed` is the brief token
+        (`task-admission.py mint_brief_token`), which records the spawn token of a landing whose
+        row has closed and whose close has not been pushed — the window the push gate's own
+        review is briefed in. It writes one line into DONE and changes nothing else;
       - all four of done/in_progress/next/decision_sheet are None — calling this with
         nothing to change is almost certainly a caller bug, not a no-op to accept silently;
       - decision_sheet is given but the checkpoint is not pipeline-owned (mirrors
@@ -372,7 +377,7 @@ def update_checkpoint(path, done=None, in_progress=None, next=None, decision_she
     """
     data = read_checkpoint(path)
 
-    if data["status"] == "closed":
+    if data["status"] == "closed" and not allow_closed:
         raise ValueError("cannot update a closed checkpoint: %s" % path)
 
     if done is None and in_progress is None and next is None and decision_sheet is None:

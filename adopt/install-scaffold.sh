@@ -162,10 +162,12 @@ PYEOF
 
 # The four-mode contract's names, seeded into the host's own guardrails.config.json only when the
 # host carries no "run_modes" key of its own. The host owns its own SUBJECT under it — the release
-# core list, the layer map, timeouts — while `max_targets` for `row` and `integration` is the pack's
-# own law (Requirement 322 criteria 2 and 3), seeded here and held as a floor in
-# guardrails/run_modes.py whatever a host's config says. This seeds the mechanism: the four names and
-# whether a mode decides a verdict. A host's own tuning, once written, is never touched again.
+# core list, the layer map, timeouts — while `max_targets` for `row` is the pack's own law
+# (Requirement 322 criterion 2), seeded here and held as a floor in guardrails/run_modes.py whatever
+# a host's config says. `integration` carries no count: a run of it is admitted against the targets
+# its own composition names, written down before it starts, so the seed leaves that list empty for
+# the host to fill. This seeds the mechanism: the four names and whether a mode decides a verdict.
+# A host's own tuning, once written, is never touched again.
 #
 # Gated on CONFIG_SEEDED (step b just created this file from the example, which carries no
 # run_modes key of its own): a host's PRE-EXISTING config is never opened here, the same
@@ -184,19 +186,24 @@ if "run_modes" in cfg:
     print("skip (exists, keep your tuning): guardrails.config.json run_modes")
 else:
     cfg["run_modes"] = {
-        # max_targets rides the seed because it is the PACK's law rather than a host's budget
-        # (Requirement 322 criteria 2 and 3): a row run covers one target, an integration run at
-        # most five. guardrails/run_modes.py carries the same two figures as its floor, so a host
-        # that edits these keys away still gets them; seeding them keeps the host's own config
-        # honest about what it is running under.
+        # max_targets rides the seed for `row` alone, because it is the PACK's law rather than a
+        # host's budget (Requirement 322 criterion 2) and one target is what a row run means.
+        # guardrails/run_modes.py carries the same figure as its floor, so a host that edits the
+        # key away still gets it. The other three modes are admitted against what they name:
+        # `integration` against its own `targets` list, `release` against its versioned core,
+        # `manual` against the purpose and the finite sample it records. Each is seeded empty and
+        # refuses a run until the host writes it, which is what naming before the run means.
         "row": {"max_targets": 1, "decides_verdict": True, "emergency_timeout_seconds": None,
                 "timeout_is_never_a_verdict": True},
-        "integration": {"max_targets": 5, "decides_verdict": True,
+        "integration": {"targets": [], "decides_verdict": True,
                          "emergency_timeout_seconds": None,
                          "timeout_is_never_a_verdict": True, "layer_map": {}},
-        "release": {"decides_verdict": True, "emergency_timeout_seconds": None,
+        "release": {"core": [], "core_version": "", "decides_verdict": True,
+                     "emergency_timeout_seconds": None,
                      "timeout_is_never_a_verdict": True},
-        "manual": {"in_ci": False, "decides_verdict": False, "emergency_timeout_seconds": None,
+        "manual": {"in_ci": False, "decides_verdict": False,
+                   "records_before_start": ["purpose", "limit"],
+                   "emergency_timeout_seconds": None,
                    "timeout_is_never_a_verdict": True},
     }
     with open(cfg_path, "w", encoding="utf-8") as f:

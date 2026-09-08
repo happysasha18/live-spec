@@ -581,6 +581,12 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # says the lane which finds a cause repairs it in the same lane, with the design reviewer's
     # no-landing named there and in its own skill as the one deliberate exception.
     "q-828": "! grep -q 'forward queue' hooks/conduct-law.md && grep -q 'walks the board' hooks/conduct-law.md && ! grep -q 'unblocked queue work' spec/guardrails-freshness.md && grep -q 'repairs it in the same lane' skills/live-spec-base/SKILL.md && grep -q 'the one deliberate exception' skills/design-reviewer/SKILL.md",
+    # q-829: the release that closes two reproduced defects in the pack's own lifecycle. The
+    # arms hold the two visible facts — the hook is in the installer's own file list, and the
+    # release is stamped and carries its host chapter — and the proofs themselves live in the
+    # test file, which drives the real installer against a drifted copy and the real spawn guard
+    # against a row closed and not yet pushed, and against one whose close has landed.
+    "q-829": "PYTHONPATH=tests python3 -m unittest -q test_release_6_1_1 >/dev/null 2>&1 && grep -q 'conduct-law.md' scripts/install-pack-hooks.sh && test \"$(cat VERSION)\" = \"6.1.1\" && grep -q '^### 6.1.1' MIGRATION.md",
     # q-609: the rule now names who enforces it, in the spec that carries it.
     "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",
 }

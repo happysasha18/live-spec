@@ -71,8 +71,8 @@
       "timeout_is_never_a_verdict": true
     },
     "integration": {
-      "max_targets": 5,
-      "max_targets_source": "scripts/task-admission.py MOST_DELIVERABLES = 5, itself read from spec/work-board.md's own sub-item (\"the retunable value is the most deliverables one plan holds, standing at five\", criterion 45) — no figure here is measured off a run",
+      "targets": [],
+      "targets_comment": "the NAMED test targets this integration run covers, written here before it starts and resolved from the layers the change touched; empty until a change names them, and an integration run with none is refused. No count stands in for naming them: a cap admitted any five targets and refused a sixth for no stateable reason (2026-09-08).",
       "targets_source": "only the layers a change touched, each resolved through this mode's own layer_map to its own named test targets; the selection reads which layers the diff touched, never the size of the corpus or the count of rows on the board",
       "decides_verdict": true,
       "emergency_timeout_seconds": null,
@@ -106,7 +106,7 @@
         "y",
         "z"
       ],
-      "core_version": "6.1.0",
+      "core_version": "6.1.1",
       "core_version_source": "VERSION at the time this list was taken from .github/workflows/gates.yml",
       "never_grows_with": [
         "finished rows",

@@ -806,7 +806,7 @@
 
 **Case: an integration run**
 
-3. *when* a run is `integration`, the system *shall* select only the layers an explicit map names as touched by the change, at most five named targets, the figure taken from the pack's own `MOST_DELIVERABLES`. [INV-328]
+3. *when* a run is `integration`, the system *shall* select only the layers an explicit map names as touched by the change, and *shall* run it only against a composition of named targets recorded before the run starts. A count of targets *shall* never stand in for that naming. [INV-328]
 4. The system *shall* never let an `integration` run's selection grow with the size of a corpus or with how many rows a work board holds. [INV-328]
 
 **Case: a release run**

@@ -34,8 +34,14 @@
     "register-judge-collect": "register-judge-collect.sh",
     "affirmation-scan": "affirmation-scan.py",
     "code-anchor-scan": "code-anchor-scan.py",
-    "worker-restore-guard": "worker-restore-guard.py"
+    "worker-restore-guard": "worker-restore-guard.py",
+    "conduct-judge": "conduct-judge.py",
+    "conduct-judge-collect": "conduct-judge-collect.sh",
+    "conduct-judge-report": "conduct-judge-report.sh",
+    "conduct-law": "conduct-law.md",
+    "lean-orchestrator-scan": "lean-orchestrator-scan.py"
   },
+  "_file_comment": "hooks/ basename per stem. Every stem that ships as a file of its own carries one, wired or library alike, because scripts/install-pack-hooks.sh ships the library files and this map is what says which file each stem is. The five conduct and lean-orchestrator stems joined on 2026-09-08, when it turned out nothing installed them at all while config-health (gate m) held each one to match its installed copy.",
   "command": {
     "clock-hook": "sh ~/.claude/hooks/clock-hook.sh",
     "chat-law-hook": "sh ~/.claude/hooks/chat-law-hook.sh",

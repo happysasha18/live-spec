@@ -457,3 +457,39 @@ host running a separate queue is not asked to merge it, and a host that wants th
 takes it as its own row through its own pipeline. Both shapes are readable by the pack's skills: the
 sentences repointed above name the one list, and a host whose queue lives under its own filename is
 already covered by the host-profile line that records it.
+
+### 6.1.1 — 2026-09-08
+
+**Host action: two steps, both small.** This patch closes two faults in the pack's own release
+machinery and takes one number out of the run-mode contract.
+
+1. **Run the hook installer once: `sh <pack>/scripts/install-session-hooks.sh`.** Five files under
+   the pack's `hooks/` were shipped by no installer — the conduct-judge arms, the standing
+   orchestration law `conduct-law.md` they read, and the lean-orchestrator net — while the config
+   health check (push gate m) held every one of them to match its installed copy. A host whose
+   installed copy of any of the five had drifted saw that gate red with the fix "run the installer
+   that owns this hook", and no such installer existed. All five are shipped now, and the installer
+   stops by name if a later hook is added to `hooks/` and to nobody's file list. Running it is
+   idempotent: a file already matching is left as it stands.
+
+2. **Fill in your own run-mode composition in `guardrails.config.json`, or leave the modes you do
+   not use refused.** The contract no longer carries a general numeric cap for an `integration`
+   run. That cap was five, borrowed from how many deliverables one plan holds, and it admitted any
+   five targets and refused a sixth for no reason anybody could state. What admits a run now is
+   what it names before it starts:
+
+   - `row` — one target, still, because one target is what a row run means. Nothing to do.
+   - `integration` — the named test targets the run covers, in `run_modes.integration.targets`,
+     written before the run. A run of this mode with that list empty is refused, and the refusal
+     names the key.
+   - `release` — a `core` list of gates with the `core_version` it was taken at. A release run
+     whose core names no version is refused.
+   - `manual` — `records_before_start` naming a purpose and a finite sample. The values of those
+     belong to the person's own run; what the contract owes is the declaration.
+
+   A host that already filled `max_targets` for `integration` can delete that key: nothing reads it
+   any more. A host that never filled `targets` gets a refusal instead of a silent five, which is
+   the point of the change.
+
+Everything else in 6.1.0 stands. The plan, the board, the spec codes and every skill interface are
+unchanged, and no host document moves.

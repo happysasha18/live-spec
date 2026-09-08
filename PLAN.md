@@ -1177,6 +1177,32 @@ key does not read that file.
 
 **Context pointers.** hooks/conduct-law.md:25; spec/guardrails-freshness.md:295; INV-48; skills/live-spec-base/SKILL.md:93
 
+### ✅ Release 6.1.1 closes the two lifecycle defects the last push reproduced — id: q-829
+**Group:** Release · **Priority:** normal
+**Source:** the owner, this turn, after the q-828 push hit both defects in one landing: the installer that owns the hooks left a drifted copy in place until it was copied by hand, and the push gate asked for review work after the close that admission itself forbids a worker to start
+
+**Holder:** seat
+
+**Outcome:** a host on 6.1.1 installs the standing-law hook the way it installs every other one, and a session can hand the push gate's own review work to a worker in the window between a close and its push, with admission's three legs untouched
+
+**Statement.** Echo-name: Hook drift and admission window. Description: the last push hit two faults in the project's own release machinery. A health check compares every hook file against its installed copy, and one of those files is named by no installer, so an edit to it left the installed copy silently stale and blocked the push until somebody copied the file by hand. And the push gate asks for review work after a row is closed, while the rule that admits workers only lets one start on an open row — so the session that owes that review has nobody it may hand it to. Both are fixed here so neither costs a hand next time, and the release is stamped and given the note a host reads. Plan: 1) the hook installer's own file list carries every file the health check compares, hooks/conduct-law.md among them, so a drifted copy is refreshed and the check passes right after; 2) a worker may start on a row whose close is committed and not yet on the remote, and may still not start on a row whose close has landed, nor on one with no definition of done and no acceptance command; 3) both proved by tests that run the real installer and the real guard rather than reading their prose; 4) VERSION reads 6.1.1 and MIGRATION.md carries a 6.1.1 chapter naming what a host runs. Estimate: 2–4 hours — basis: no comparable history in this tree; the range is read off the plan's four steps, two of them a change plus its proof.
+
+**Validation.** 2026-09-08 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-08.**
+
+**Done when:** the hook installer's own file list carries hooks/conduct-law.md so a drifted copy is refreshed and config-health passes right after; a spawn is admitted on a row whose close is committed and not yet on the remote, and still refused on a row whose close has landed and on a row with no done or no acceptance; the pack-owned run-mode contract, its seed and its fallback carry no general numeric cap for integration, which is admitted only against a named composition of targets recorded before the run, while row still means one target, release means the versioned core, and manual means a stated purpose with a finite sample; all three proved by tests that run the real installer, the real guard and the real mode reader rather than reading their prose; VERSION reads 6.1.1 and MIGRATION.md carries a 6.1.1 chapter naming what a host runs
+
+**Read before admission.** nothing named. Finding: the plan carries no open or archived row on either defect and the record's commit subjects name neither; both were reproduced during the q-828 push of this same session, the first as a config-health red on a hook no installer file list names, the second as the close-then-review order the push gate demands
+
+**DOD hash.** 415c9a653b755aed2d0396c6c4bb1f714a1c4ff7a06074103e944d31b1b512f8
+
+**DOD changed.** 2026-09-08 · previous: the hook installer's own file list carries hooks/conduct-law.md so a drifted copy is refreshed and config-health passes right after; a spawn is admitted on a row whose close is committed and not yet on the remote, and still refused on a row whose close has landed and on a row with no done or no acceptance; both proved by tests that run the real installer and the real guard rather than reading their prose; VERSION reads 6.1.1 and MIGRATION.md carries a 6.1.1 chapter naming what a host runs · previous hash: c092b0205358a294688173025a06c8a0d828fc35a3148147e076c096c73de4d9 · source: the owner, this turn, correcting the row while it was in flight · reason: the row's first wording fenced the run-mode contract off; he replaced that fence with its opposite in the same release and named what each mode is admitted on in place of a number
+
+**Verification:** python3 scripts/task-admission.py verify q-829
+
+**Context pointers.** scripts/install-pack-hooks.sh:44; guardrails/worker-admission-guard.py; scripts/task-admission.py:1569; MIGRATION.md:428
+
 ## Environment — known traps
 
 - A full local `pytest` run hangs at 0% CPU and never finishes. Run it narrowly with `-k` or a
