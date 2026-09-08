@@ -57,7 +57,7 @@ It now reads as follows, at 35 words with the same codes and five items in a lis
 >
 > - worker-routing: each unit of work is routed to the cheapest tier its step and kind allow;
 > - lean-orchestrator: heavy reading is dispatched to a worker, and none of it is held inline;
-> - pull-unblocked-work: the session keeps pulling unblocked queue work instead of idling;
+> - pull-unblocked-work: the session keeps pulling unblocked work off the board instead of idling;
 > - classify-the-subtask: a subtask is the person's or the seat's by what the subtask itself needs,
 >   never by the heading it sits under;
 > - each break is recorded in the problem ledger (`PROBLEMS.md`), the home the break-record law names.
