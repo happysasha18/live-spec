@@ -4,7 +4,8 @@ PUSH-REVIEW
 
 Mode: global
 Scope: the push review path — `skills/product-prover-pack/SKILL.md`, `docs/prover/README.md`, and `guardrails/check-prover-record.sh`, the three documents that together decide what every future review of this pack reads and what it may block on. The scope is owed by the second trigger the row's own Global review section names: the accepted row changes a critical cross-cutting surface, the shared release path.
-Range: 4b87ff28..d23e2214
+Range: 4b87ff28..8ca060ec
+- 8ca060ec The two pins the new sections moved, and the skill's own review record — both refused by the push chain after this read, both caused by the reviewed edit inserting sections into the skill body, and both repaired in that commit rather than left for a later one
 - d23e2214 The gate reads the mode line the record shape names — the repair this record's one blocking finding names, written after this read and recorded on that finding as closed
 - b63662bc A push review runs in one of two named modes — q-827
 - 4b87ff28 The range's own closure record (base)
