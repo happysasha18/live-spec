@@ -3,7 +3,13 @@
 PUSH-REVIEW
 
 Mode: closure
-Range: 5020064c..fa05011c
+Range: 5020064c..71e28121
+- 71e28121 The one stale quote the closure review found, repaired where it stood — written after
+  this read, and by it: the deposit's first paragraph named the quote, and the change's author
+  closed it in the same landing rather than leaving it for a sweep. Re-read here: the page's
+  current-text quote and the spec bullet it quotes now carry the same words, and the word count
+  beside it covers the sentence above the list, which this row never touched.
+- cbe2f56c The closure review q-828's push stands on — this record's own first commit
 - fa05011c The two skill reviews this landing's edits owe
 - 031b0b9e The pack's own two sentences that grew a second queue
 - 5020064c The closure review the row's close stands on (base)
