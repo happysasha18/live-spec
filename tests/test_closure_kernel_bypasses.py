@@ -510,3 +510,31 @@ def test_a_correction_moves_the_anchor_so_the_corrected_row_still_verifies(tmp_p
     assert receipt["verdict"] == "passed"
     admission.close(plan, checkpoints, "q-1")
     assert "### ✅" in plan.read_text(encoding="utf-8")
+
+
+def test_a_second_closed_row_does_not_crash_on_the_firsts_leftover_anchor(tmp_path):
+    """`faults()` holds the base-marks map in a variable named `was`, read again by every task's
+    `newly` check — and the anchor-comparison loop a few lines down reuses that same name for a
+    plain string, in the same function scope. The first closed row with a checkpoint leaves `was`
+    holding its ACCEPT anchor string; the next closed row's `newly` check then calls `.get` on a
+    string and crashes (AttributeError: 'str' object has no attribute 'get'), never reaching a
+    verdict on either row. Two closed rows, each with a checkpoint, is the ordinary shape of a
+    plan with any history — the gate must judge them, not crash."""
+    plan, checkpoints = host(tmp_path)
+    (tmp_path / "scripts" / "plan_checks.py").write_text(
+        "from plan_checks_core import evaluate  # noqa: F401\n"
+        "from plan_checks_core import parse_tasks as _parse_tasks\n\n"
+        "CHECKS = {'q-1': 'true', 'q-2': 'true'}\n\n\n"
+        "def parse_tasks(text):\n"
+        "    return _parse_tasks(text, CHECKS)\n", encoding="utf-8")
+    for task_id, title in (("q-1", "Ship the thing"), ("q-2", "Ship the other thing")):
+        admission.admit(route(task_id=task_id, title=title), plan, checkpoints)
+        receipt = admission.verify(plan, checkpoints, task_id, by="a-second-pair-of-eyes")
+        assert receipt["verdict"] == "passed"
+        admission.close(plan, checkpoints, task_id)
+    subprocess.run(["git", "add", "-A"], cwd=tmp_path, check=True, capture_output=True)
+    subprocess.run(["git", "commit", "-qm", "two closed rows"], cwd=tmp_path, check=True,
+                   capture_output=True)
+    got = gate(plan, checkpoints)
+    assert got.returncode == 0, got.stdout + got.stderr
+    assert "Traceback" not in got.stderr

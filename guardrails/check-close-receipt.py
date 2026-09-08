@@ -163,12 +163,16 @@ def faults(plan_path, checkpoints_dir, base):
         before = anchors_at(Path(plan_path).resolve().parent, base, task["id"])
         now = _anchors_of(Path(cp).read_text(encoding="utf-8"))
         for name in ("DOD", "ACCEPT"):
-            was = (before or {}).get(name)
-            if was and was != now.get(name):
+            # `prior`, not `was`: this function scope already holds the base-marks map in `was`
+            # (assigned once, above the task loop, and read again by every later task's `newly`
+            # check) — reusing that name here clobbered it with a plain string after the first
+            # checkpointed row, and the next done row's `was.get(...)` crashed on it.
+            prior = (before or {}).get(name)
+            if prior and prior != now.get(name):
                 out.append("%s's %s anchor has moved since the base (%s → %s): what a row was "
                            "admitted against does not change under the work — admit the new work "
                            "as its own row."
-                           % (task["id"], name, was, now.get(name) or "gone"))
+                           % (task["id"], name, prior, now.get(name) or "gone"))
         receipt = last_receipt(cp)
         if not receipt:
             out.append("%s reads done and its checkpoint holds no acceptance receipt: run "

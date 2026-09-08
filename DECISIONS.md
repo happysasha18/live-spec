@@ -50,6 +50,12 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-09-08 12:01 — every report to you is written in English. Your words in chat: «Пиши мне все
+  репорты на английском». Consequence: the chat line in `~/.claude/live-spec/profile.md`, which
+  had said to speak Russian since 2026-08-09, is replaced by this. Documents, commits, code and
+  artifacts were already English and are unaffected. Your own words stay quoted in their original
+  language wherever a record cites them, since a quotation is evidence of what you said.
+
 - 2026-09-07 22:32 and 22:33 — a stop on deriving a runtime budget from a measurement, and
   a ruling on where that stop lives. Your words in chat: «Стоп на выводе чисел из замеров.
   Не вводи 600/1800 и не превращай два локальных прогона в policy.»; «300 секунд и 4
