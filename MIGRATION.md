@@ -496,9 +496,22 @@ unchanged, and no host document moves.
 
 ### 6.1.2 — 2026-09-09
 
-**Host action: none required, and one command worth knowing.** This patch adds output a person
-reads and closes a reader that was measuring the wrong thing. It changes no document a host writes,
-no skill interface and no gate's verdict.
+**Host action: one command, and it is not optional.** This patch adds output a person reads and
+closes a reader that was measuring the wrong thing. It changes no document a host writes, no skill
+interface and no gate's verdict — and a host that pulls the pack and stops there gets none of it.
+
+Both changed files are VENDORED into a host by `adopt/install-scaffold.sh`, whose vendoring loop
+skips a file that already exists unless it is told otherwise. So run:
+
+```
+cd <your host root> && sh <pack>/adopt/install-scaffold.sh --force
+```
+
+It vendors into the directory it is RUN FROM, so run it from your own tree's root; a path handed to
+it as an argument is refused as an unknown flag. Re-running is idempotent, and `--force` is what
+replaces the two copies your tree already holds,
+`guardrails/check-acceptance-rerun.py` and `scripts/task-admission.py`. Without it the host keeps
+its 6.1.1 gate and its 6.1.1 reader, and the `history` command below does not exist there at all.
 
 1. **A multi-part run now says what it is doing while it does it.** `guardrails/check-acceptance-rerun.py`
    printed its whole report after the last target returned, so a run that took hours said nothing at

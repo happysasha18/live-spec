@@ -329,9 +329,10 @@ def test_the_gate_that_reruns_acceptances_says_so_instead_of_dying(tmp_path):
 
 # ------------------------------------------------------------------------ 4. the release itself
 
-def test_the_pack_is_stamped_and_carries_its_host_chapter():
-    assert (Path(ROOT) / "VERSION").read_text(encoding="utf-8").strip() == "6.1.1"
+def test_the_pack_carries_this_release_s_host_chapter():
+    """6.1.1's chapter is history and stays true. The version surfaces are NOT pinned here: this
+    test asserted `VERSION == "6.1.1"` until 2026-09-09, so the next release reddened the suite CI
+    runs on every push, and the row that bumped could not see it — its own acceptance ran one other
+    module. That every surface agrees with VERSION is one fact with one home,
+    `tests/test_version_is_one_fact.py`; this file holds what 6.1.1 shipped."""
     assert "### 6.1.1" in (Path(ROOT) / "MIGRATION.md").read_text(encoding="utf-8")
-    import json
-    contract = json.loads((Path(ROOT) / "guardrails.config.json").read_text(encoding="utf-8"))
-    assert contract["run_modes"]["release"]["core_version"] == "6.1.1"

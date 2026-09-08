@@ -292,8 +292,13 @@ class TestTheHistoryCommand(unittest.TestCase):
 
 # ---------------------------------------------------------------------- 3. the release itself
 
-def test_the_pack_is_stamped_and_carries_its_host_chapter():
-    assert (Path(ROOT) / "VERSION").read_text(encoding="utf-8").strip() == "6.1.2"
+def test_the_pack_carries_a_host_chapter_for_the_version_it_reads():
+    """The chapter this release owes, held against VERSION rather than against a literal: a pinned
+    number here reds the suite at the next release, which is what `tests/test_release_6_1_1.py` did
+    to this one. 6.1.2's own stamp is the row's recorded acceptance, which is where a claim about
+    THIS release belongs."""
+    version = (Path(ROOT) / "VERSION").read_text(encoding="utf-8").strip()
+    assert "### %s" % version in (Path(ROOT) / "MIGRATION.md").read_text(encoding="utf-8")
     assert "### 6.1.2" in (Path(ROOT) / "MIGRATION.md").read_text(encoding="utf-8")
 
 
