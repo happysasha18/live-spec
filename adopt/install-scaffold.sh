@@ -182,9 +182,15 @@ if "run_modes" in cfg:
     print("skip (exists, keep your tuning): guardrails.config.json run_modes")
 else:
     cfg["run_modes"] = {
-        "row": {"decides_verdict": True, "emergency_timeout_seconds": None,
+        # max_targets rides the seed because it is the PACK's law rather than a host's budget
+        # (Requirement 322 criteria 2 and 3): a row run covers one target, an integration run at
+        # most five. guardrails/run_modes.py carries the same two figures as its floor, so a host
+        # that edits these keys away still gets them; seeding them keeps the host's own config
+        # honest about what it is running under.
+        "row": {"max_targets": 1, "decides_verdict": True, "emergency_timeout_seconds": None,
                 "timeout_is_never_a_verdict": True},
-        "integration": {"decides_verdict": True, "emergency_timeout_seconds": None,
+        "integration": {"max_targets": 5, "decides_verdict": True,
+                         "emergency_timeout_seconds": None,
                          "timeout_is_never_a_verdict": True, "layer_map": {}},
         "release": {"decides_verdict": True, "emergency_timeout_seconds": None,
                      "timeout_is_never_a_verdict": True},

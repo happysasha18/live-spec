@@ -8,6 +8,9 @@ import os
 import pytest
 
 from conftest import ROOT
+from pathlib import Path as _Path
+
+ROOT_PATH = _Path(ROOT)
 
 import run_modes  # noqa: E402 — guardrails/ is on sys.path via conftest
 
@@ -83,3 +86,54 @@ def test_release_core_list_is_non_empty_and_never_grows_with_named_things():
     assert len(release["core"]) > 0
     for word in ("samples", "seeds", "roles", "combinations"):
         assert any(word in item for item in release["never_grows_with"])
+
+
+# ------------------------------------------------- the pack's own law about composition
+# The adversarial read of 2026-09-08: `admit_targets` refused only where the config named a
+# `max_targets`, and `adopt/install-scaffold.sh` seeds `row` and `integration` with none — so on
+# every host the pack installs, a `row` run admitted forty targets without a word. Criterion 2
+# pins a row run to one target and criterion 3 pins an integration run to five, and both are the
+# pack's law rather than a host's budget (criterion 20).
+
+
+def test_a_mode_carrying_no_cap_falls_to_the_packs_own_law():
+    seeded = {
+        "row": {"decides_verdict": True},
+        "integration": {"decides_verdict": True, "layer_map": {}},
+        "release": {"decides_verdict": True},
+        "manual": {"in_ci": False, "decides_verdict": False},
+    }
+    with pytest.raises(run_modes.ModeCapExceeded) as exc:
+        run_modes.admit_targets("row", ["a", "b"], run_modes=seeded)
+    assert "row" in str(exc.value) and "1 target" in str(exc.value)
+    with pytest.raises(run_modes.ModeCapExceeded):
+        run_modes.admit_targets("integration", list("abcdef"), run_modes=seeded)
+    # the two that carry no law here take what they are given: a release run's composition is its
+    # own versioned core list, and a manual run decides no verdict at all
+    assert len(run_modes.admit_targets("release", list("abcdefghij"), run_modes=seeded)) == 10
+    assert len(run_modes.admit_targets("manual", list("abcdefghij"), run_modes=seeded)) == 10
+
+
+def test_the_host_seed_carries_the_two_caps_the_law_names():
+    """The seed adopt/install-scaffold.sh writes into a host names both caps outright, so a
+    host reading its own config sees what it runs under."""
+    text = (ROOT_PATH / "adopt" / "install-scaffold.sh").read_text(encoding="utf-8")
+    seed = text[text.index('cfg["run_modes"] = {'):text.index('"manual": {')]
+    assert '"max_targets": 1' in seed
+    assert '"max_targets": 5' in seed
+
+
+def test_named_mode_answers_none_where_nothing_named_one():
+    assert run_modes.named_mode(env={}) is None
+    # an empty string names nothing, and used to take the "a mode was named" branch
+    assert run_modes.named_mode(env={"LIVE_SPEC_RUN_MODE": ""}) is None
+    # pre-push treats its own switch as set-or-not, so anything set names release
+    assert run_modes.named_mode(env={"LIVE_SPEC_PUSH_FULL": "yes"}) == "release"
+    assert run_modes.named_mode(env={"LIVE_SPEC_RUN_MODE": "manual"}) == "manual"
+    assert run_modes.resolve_mode(env={}) == "row"
+
+
+def test_only_manual_is_barred_from_standing_as_a_gate():
+    assert run_modes.stands_as_a_gate("manual") is False
+    for name in ("row", "integration", "release"):
+        assert run_modes.stands_as_a_gate(name) is True

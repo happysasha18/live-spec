@@ -328,3 +328,79 @@ def test_the_gate_judges_no_program_name(tmp_path):
     assert got.returncode == 0, got.stdout + got.stderr
     assert sentinel(tmp_path, "contract"), got.stdout
     assert sentinel(tmp_path, "accept"), got.stdout
+
+
+def test_a_manual_run_may_not_stand_as_a_gate_in_ci(tmp_path):
+    """Criterion 8's first half: a manual run never STANDS as a CI or release gate. `in_ci: false`
+    sat in the config with no reader, so naming manual on a CI step turned this gate into a
+    one-word green — the faults printed and the step passed (the adversarial read of 2026-09-08).
+    In CI the run is refused outright; off CI the same mode is the audit it is meant to be."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    checks = tmp_path / "scripts" / "plan_checks.py"
+    checks.write_text(_checks_text({**CHECKS_HEAD, "q-contract": "false"}), encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-qm", "a row whose acceptance fails")
+
+    env = dict(os.environ, LIVE_SPEC_DIFF_BASE=base, LIVE_SPEC_RUN_MODE="manual",
+               GITHUB_ACTIONS="true")
+    env.pop("LIVE_SPEC_EVALUATING", None)
+    env.pop("LIVE_SPEC_PUSH_FULL", None)
+    in_ci = subprocess.run(
+        [sys.executable, str(RERUN), "--plan", str(plan), "--checkpoints", str(checkpoints)],
+        cwd=str(tmp_path), env=env, capture_output=True, text=True, timeout=60)
+    assert in_ci.returncode == 1, in_ci.stdout
+    assert "may never stand as a CI or release gate" in in_ci.stdout, in_ci.stdout
+    assert "GITHUB_ACTIONS" in in_ci.stdout, in_ci.stdout
+
+
+def test_an_integration_run_covers_the_targets_it_names_and_decides_a_verdict(tmp_path):
+    """M-661's other half, and criterion 12: a targeted test run is ADMITTED in an integration
+    run. Three affected rows sit inside integration's cap of five, so the run takes them, runs
+    each row's own named command, and decides the verdict on what they returned."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    got = run_rerun(tmp_path, plan, checkpoints, base, mode="integration")
+    assert got.returncode == 0, got.stdout + got.stderr
+    assert "run mode: integration — it decides the verdict below" in got.stdout, got.stdout
+    for name in ("contract", "accept", "file"):
+        assert sentinel(tmp_path, name), got.stdout
+    assert not sentinel(tmp_path, "ctrl"), got.stdout
+
+
+def test_an_unreadable_checkpoint_reds_its_row_instead_of_killing_the_run(tmp_path):
+    """A selected row whose own checkpoint will not parse used to take the whole gate down with a
+    traceback and no verdict at all — found 2026-09-08 when the gate's own fixture proof was
+    called for the first time. Unknown admission is a fault on that row, never a pass and never a
+    dead run."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    checkpoints.mkdir(parents=True, exist_ok=True)
+    (checkpoints / "q-contract.md").write_text("# no metadata block at all\n", encoding="utf-8")
+    got = run_rerun(tmp_path, plan, checkpoints, base, mode="release")
+    assert got.returncode == 1, got.stdout + got.stderr
+    assert "Traceback" not in got.stderr, got.stderr
+    assert "its own checkpoint does not load" in got.stdout, got.stdout
+    # the other selected rows still ran: one unreadable checkpoint reds its own row alone
+    assert sentinel(tmp_path, "accept"), got.stdout
+
+
+def test_a_row_run_takes_its_one_target_and_decides_on_it(tmp_path):
+    """M-661 and criterion 12's row half: a targeted run is ADMITTED in a `row` run, rather than
+    only refused past a cap. One affected row sits inside row's cap of one, so the run takes it,
+    runs that row's own named command and decides the verdict on what it returned."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    # narrow the push to one affected row: only q-file's watched file moved
+    plan.write_text(PLAN_BASE, encoding="utf-8")
+    checks = tmp_path / "scripts" / "plan_checks.py"
+    checks.write_text(_checks_text(CHECKS_BASE), encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-qm", "put the contract and the key back")
+    narrow_base = _git(tmp_path, "rev-parse", "HEAD").stdout.strip()
+    (tmp_path / "watched-file.txt").write_text("moved again\n", encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-qm", "one affected row")
+
+    got = run_rerun(tmp_path, plan, checkpoints, narrow_base, mode="row")
+    assert got.returncode == 0, got.stdout + got.stderr
+    assert "1 selected here" in got.stdout, got.stdout
+    assert "run mode: row — it decides the verdict below" in got.stdout, got.stdout
+    assert sentinel(tmp_path, "file"), got.stdout
+    assert not sentinel(tmp_path, "ctrl"), got.stdout

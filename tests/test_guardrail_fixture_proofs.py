@@ -214,7 +214,10 @@ def _close_receipt_tree(tmp, done_mark, receipt_line):
            "**Done when:** the deliverable says v2\n\n"
            "**DOD hash.** deadbeef\n")
     _write(tmp, ".live-spec/checkpoints/q-1.md",
-           "# Ship the thing\n\nOwner: pipeline\nStatus: closed\n\n"
+           # The metadata block is the two lines directly under the title, in the shape
+           # scripts/checkpoint.py reads — a blank line between them made this fixture's
+           # checkpoint unreadable, and the gate died on it with a traceback instead of running.
+           "# Ship the thing\nStatus: closed\nOwner: pipeline\n\n"
            "## DECISION SHEET\n\nGoal: ship it.\n\n"
            "## DONE\n\n%s\n\n## IN PROGRESS\n\n(nothing)\n\n## NEXT\n\n(nothing)\n"
            % receipt_line)
@@ -271,7 +274,10 @@ def _acceptance_rerun_tree(tmp, command):
     import hashlib
     accept = hashlib.sha256(" ".join(command.split()).encode("utf-8")).hexdigest()
     _write(tmp, os.path.join(".live-spec", "checkpoints", "q-1.md"),
-           "# Ship the thing\n\nOwner: pipeline\nStatus: closed\n\n"
+           # The metadata block is the two lines directly under the title, in the shape
+           # scripts/checkpoint.py reads — a blank line between them made this fixture's
+           # checkpoint unreadable, and the gate died on it with a traceback instead of running.
+           "# Ship the thing\nStatus: closed\nOwner: pipeline\n\n"
            "## DECISION SHEET\n\nGoal: ship it.\n\n## DONE\n\n"
            "ACCEPT: %s\n"
            'RECEIPT: {"by": "a name anybody can type", "dod_hash": "deadbeef", '
@@ -281,11 +287,16 @@ def _acceptance_rerun_tree(tmp, command):
 
 
 def _run_acceptance_rerun(tmp):
+    # The run names its kind, the way the gates workflow's own step does: this gate refuses a run
+    # that named none (Requirement 322 criterion 1). Both proofs below returned False without
+    # this and nothing noticed, because no test called them — see the two tests that now do.
+    env = dict(os.environ, LIVE_SPEC_RUN_MODE="release")
+    env.pop("LIVE_SPEC_PUSH_FULL", None)
     return subprocess.run(
         ["python3", os.path.join(GUARDRAILS, "check-acceptance-rerun.py"),
          "--plan", os.path.join(tmp, "PLAN.md"),
          "--checkpoints", os.path.join(tmp, ".live-spec", "checkpoints")],
-        cwd=ROOT, capture_output=True, text=True, timeout=120,
+        cwd=ROOT, capture_output=True, text=True, timeout=120, env=env,
     )
 
 
@@ -304,7 +315,11 @@ def acceptance_rerun_passes_the_fix():
     with tempfile.TemporaryDirectory() as tmp:
         _acceptance_rerun_tree(tmp, "true")
         result = _run_acceptance_rerun(tmp)
-        return result.returncode == 0 and "every done row's acceptance passes here" in result.stdout
+        # "selected", not "done": the gate narrowed to the rows a push actually touched in
+        # 5ca8697c and its summary line moved with it. This proof kept the old sentence and
+        # nothing noticed, because nothing called it.
+        return (result.returncode == 0
+                and "every selected row's acceptance passes here" in result.stdout)
 
 
 #: Checks that own a live fixture proof, run by this suite — the shape q-489 asks every check to
@@ -443,6 +458,40 @@ class TestOneCheckCompletesTheWalk(unittest.TestCase):
             status_view_drift_passes_the_fix(),
             "check-status-view-drift.py must pass the same host once its vendored copy is "
             "byte-identical to the pack's own",
+        )
+
+    # The two PROVEN entries whose fixture pairs nothing called. Both were listed as owning a live
+    # proof and neither proof was ever run, so the pair could return False on both halves and the
+    # suite stayed green — which is what the acceptance re-run's pair was doing on 2026-09-08,
+    # having gone dead when its gate began requiring a named mode. A proof nobody calls is a proof
+    # nobody has.
+
+    def test_close_receipt_reds_without_its_fix(self):
+        self.assertTrue(
+            close_receipt_reds_the_bug(),
+            "check-close-receipt.py must red a done row whose close never went through the "
+            "state machine",
+        )
+
+    def test_close_receipt_passes_with_its_fix(self):
+        self.assertTrue(
+            close_receipt_passes_the_fix(),
+            "check-close-receipt.py must pass the same row once it carries a passed receipt for "
+            "the done it now reads",
+        )
+
+    def test_acceptance_rerun_reds_without_its_fix(self):
+        self.assertTrue(
+            acceptance_rerun_reds_the_bug(),
+            "check-acceptance-rerun.py must red a done row whose own acceptance command fails at "
+            "this commit, however green the receipt somebody typed",
+        )
+
+    def test_acceptance_rerun_passes_with_its_fix(self):
+        self.assertTrue(
+            acceptance_rerun_passes_the_fix(),
+            "check-acceptance-rerun.py must pass the same row once its acceptance command "
+            "actually passes here",
         )
 
 

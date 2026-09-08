@@ -74,11 +74,25 @@ def digest(text):
     return hashlib.sha256(" ".join(str(text).split()).encode("utf-8")).hexdigest()
 
 
+class CheckpointUnreadable(Exception):
+    """A selected row's own checkpoint would not load, so its admitted acceptance is unknown."""
+
+
 def admitted_acceptance(cp):
-    """The digest of the acceptance command the row was admitted with, or None."""
+    """The digest of the acceptance command the row was admitted with, or None.
+
+    A checkpoint that will not parse raises rather than returning None: unknown-anchor and
+    no-anchor are different states, and reading the first as the second would run whatever the
+    check table happens to say today for a row whose admission nobody can read. Before this, an
+    unreadable checkpoint took the whole gate down with a traceback and no verdict at all.
+    """
     if not cp.exists():
         return None
-    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    try:
+        parsed = checkpoint.read_checkpoint(cp)
+    except (ValueError, OSError) as exc:
+        raise CheckpointUnreadable(str(exc))
+    body = parsed["sections"].get("DONE", "")
     for line in reversed(body.splitlines()):
         if line.startswith(ACCEPT_ANCHOR):
             return line[len(ACCEPT_ANCHOR):].strip() or None
@@ -298,7 +312,13 @@ def judge(plan_path, checkpoints_dir, jobs, mode):
         # the whole of claim one defeated in one deleted line (the adversarial read of
         # 2026-09-07). A row admitted through the kernel always carries an anchor, so an anchor
         # standing over a missing key is a key somebody removed.
-        anchor = admitted_acceptance(Path(checkpoints_dir) / (task["id"] + ".md"))
+        try:
+            anchor = admitted_acceptance(Path(checkpoints_dir) / (task["id"] + ".md"))
+        except CheckpointUnreadable as exc:
+            faults.append("%s: its own checkpoint does not load, so what it was admitted against "
+                          "cannot be read here (%s). An unreadable admission is not a passed "
+                          "one." % (task["id"], exc))
+            continue
         if anchor and not command:
             faults.append("%s: it was admitted against an acceptance command whose digest is %s, "
                           "and the check table names none for it now. A removed check is not a "
@@ -365,15 +385,26 @@ def main():
     # which is the right answer to "what did this environment ask for" and the wrong thing for an
     # automatic run to be handed. CI names the mode on the step (.github/workflows/gates.yml), and
     # a person running this by hand names it too.
-    if os.environ.get("LIVE_SPEC_RUN_MODE") is None and os.environ.get("LIVE_SPEC_PUSH_FULL") != "1":
-        print("BLOCKED — this run named no mode, so nothing here knows what it may cover or "
-              "whether it decides a verdict. Name one: LIVE_SPEC_RUN_MODE=%s (or "
-              "LIVE_SPEC_PUSH_FULL=1, which names release)." % "|".join(run_modes.MODES))
-        return 1
     try:
-        mode = run_modes.resolve_mode()
+        mode = run_modes.named_mode()
     except ValueError as exc:
         print("BLOCKED — %s" % exc)
+        return 1
+    if mode is None:
+        print("BLOCKED — this run named no mode, so nothing here knows what it may cover or "
+              "whether it decides a verdict. Name one: LIVE_SPEC_RUN_MODE=%s (or "
+              "LIVE_SPEC_PUSH_FULL, which names release)." % "|".join(run_modes.MODES))
+        return 1
+    # Criterion 8's first half, which nothing held: a manual run never STANDS as a CI or release
+    # gate. `in_ci: false` sat in the config with no reader, so naming manual on a CI step turned
+    # this gate into a one-word green — the faults printed and the step passed (the adversarial
+    # read of 2026-09-08). A mode that may not stand as a gate is refused where a gate is what it
+    # would be standing as, and the run says which variable made it a CI run.
+    ci_marker = next((name for name in ("GITHUB_ACTIONS", "CI") if os.environ.get(name)), None)
+    if ci_marker and not run_modes.stands_as_a_gate(mode):
+        print("BLOCKED — this is a CI run (%s is set) and mode %r may never stand as a CI or "
+              "release gate: it decides no verdict, so it can neither pass nor fail this step. "
+              "Name the mode this gate actually is." % (ci_marker, mode))
         return 1
     # The keys the probe runs are marked, so one of them starting a reader is caught by the
     # re-entry breaker rather than fanning out; this process is not itself a reader.
@@ -385,9 +416,10 @@ def main():
         print("BLOCKED — the acceptance table this gate runs from is unreadable, so nothing here "
               "judged anything: %s" % exc)
         return 1
-    except ValueError as exc:
+    except run_modes.ModeCapExceeded as exc:
         # The mode's own cap refused this run's selection, and a run that may not take what it
-        # selected returns no verdict on it.
+        # selected returns no verdict on it. Caught by its own type: a bare ValueError here read
+        # every fault inside judge() as a mode refusal and said so in the mode's words.
         print("BLOCKED — %s. Name the mode this run actually is, or narrow what it covers." % exc)
         return 1
 
