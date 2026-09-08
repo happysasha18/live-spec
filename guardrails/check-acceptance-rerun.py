@@ -381,7 +381,11 @@ def main():
         for line in unjudged:
             print("  " + line)
     if not faults:
-        print("   every selected row's acceptance passes here.")
+        if unjudged:
+            print("   %d selected row(s) that returned a verdict pass here; the %d UNJUDGED above "
+                  "were decided by nothing." % (len(ran), len(unjudged)))
+        else:
+            print("   every selected row's acceptance passes here.")
         return 0
     print("BLOCKED — a selected row whose acceptance does not pass at this commit:")
     for line in faults:

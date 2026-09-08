@@ -198,6 +198,34 @@ def test_a_stopped_command_is_unjudged_and_never_a_failed_verdict(tmp_path, monk
     assert not faults, "a stopped command must never turn the gate red on its own: %r" % faults
 
 
+def test_the_summary_never_claims_a_pass_over_an_unjudged_row(tmp_path, monkeypatch, capsys):
+    """docs/prover F2 residual: 'every selected row's acceptance passes here' used to print even
+    when the emergency stop left a row UNJUDGED, overstating by exactly the row it had just named.
+    A clean gate with an unjudged row must say so, never claim the blanket pass line."""
+    plan, checkpoints, base = build_fixture(tmp_path)
+    checks = tmp_path / "scripts" / "plan_checks.py"
+    slow_checks = {**CHECKS_HEAD, "q-contract": "sleep 5"}
+    checks.write_text(_checks_text(slow_checks), encoding="utf-8")
+    _git(tmp_path, "add", "-A")
+    _git(tmp_path, "commit", "-qm", "the slow check")
+
+    monkeypatch.setenv("LIVE_SPEC_DIFF_BASE", base)
+    monkeypatch.delenv("LIVE_SPEC_EVALUATING", raising=False)
+    monkeypatch.setattr(
+        sys, "argv",
+        ["check-acceptance-rerun.py", "--plan", str(plan), "--checkpoints", str(checkpoints)])
+
+    mod = _load_rerun_module()
+    monkeypatch.setattr(mod, "EMERGENCY_STOP_SECONDS", 1)
+
+    code = mod.main()
+    out = capsys.readouterr().out
+
+    assert code == 0, out
+    assert "UNJUDGED" in out, out
+    assert "every selected row's acceptance passes here." not in out, out
+
+
 def test_the_summary_line_names_the_count_selected_and_the_reason_for_each(tmp_path):
     plan, checkpoints, base = build_fixture(tmp_path)
     got = run_rerun(tmp_path, plan, checkpoints, base)
