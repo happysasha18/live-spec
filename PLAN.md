@@ -1205,7 +1205,7 @@ key does not read that file.
 
 ### ✅ The push record is judged by its reach, and the calendar date comes out — id: q-830
 **Group:** Guardrails · **Priority:** normal
-**Source:** the owner, 2026-09-09 00:03, on the record this session had to write because the clock crossed midnight between a landing and its push: «я думаю что это бред, одна минута до полночи или после ничего не меняют. это лишняя машинерия»
+**Source:** the owner, 2026-09-09 00:03, on the record this session had to write because the clock crossed midnight between a landing and its push: a minute either side of midnight changes nothing, and the demand is machinery serving itself. JOURNAL.md's entry for that day holds his words.
 
 **Holder:** seat
 

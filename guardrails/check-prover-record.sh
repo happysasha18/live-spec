@@ -92,12 +92,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # older than PRODUCT_SPEC.md or ARCHITECTURE.md, and — on the push road — it names the base commit
 # and every commit being pushed.
 #
-# The push road demanded a record whose FILENAME began with today's date until 2026-09-09. The
-# owner's word that morning, on a landing reviewed at 23:50 and pushed at 00:05 and told it carried
-# no review at all: «одна минута до полночи или после ничего не меняют. это лишняя машинерия». The
-# date settled nothing the two arms do not settle, and the only thing it produced that night was a
-# second record written to satisfy the clock. Its own work road had carried the same reasoning for
-# months — "a clean tree after midnight is not a defect" — on the road where nothing enforced it.
+# The push road demanded a record whose FILENAME began with today's date until 2026-09-09, when
+# that arm was retired: a minute before midnight and a minute after change nothing, and the demand
+# was machinery serving itself. A landing reviewed at 23:50 and pushed at 00:05 had been told it
+# carried no review at all, and what cleared it was a second record written to satisfy the clock.
+# The date settles nothing the two arms do not settle. This script's own work road had carried the
+# same reasoning for months — "a clean tree after midnight is not a defect" — on the road where
+# nothing enforced it. JOURNAL.md's entry for that day holds the exchange.
 PUSH_ROAD=0
 if [ "${1:-}" = "--push" ]; then
   PUSH_ROAD=1
