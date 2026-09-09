@@ -14,7 +14,9 @@ which are `scripts/task-admission.py`'s acceptance path, `guardrails/run_modes.p
 `guardrails.config.json`'s `run_modes`, `tests/test_closure_kernel_bypasses.py` and
 `tests/test_task_admission.py`, `scripts/install-pack-hooks.sh`, `guardrails/check-push-reach.sh`,
 `tests/test_release_6_1_1.py`, and the release stamping and prose that carry them.
-Range: d671bd79..0aa429a0
+Range: d671bd79..05fa7b1a
+- 05fa7b1a The skill-creator read of the closing kernel's changed bullet — the review gate a
+  second gate asked for, written after this read and by another reviewer; it changes no code
 - 0aa429a0 6.1.4 — a close rests on the acceptance the row was admitted with
 - d671bd79 (base) The record of the read that turned this landing back three times
 Files read: PLAN.md (rows q-833 and q-834), .live-spec/checkpoints/q-833.md, .live-spec/checkpoints/q-834.md, .live-spec/readers/q-834-reader.md, scripts/task-admission.py, scripts/plan_checks.py, guardrails/run_modes.py, guardrails.config.json, guardrails/check-acceptance-rerun.py, guardrails/check-close-receipt.py, guardrails/check-push-reach.sh, scripts/install-pack-hooks.sh, tests/test_closure_kernel_bypasses.py, tests/test_task_admission.py, tests/test_release_6_1_1.py, tests/test_statement_validation.py, skills/build-pipeline/SKILL.md, skills/build-pipeline/references/accepted-work-execution.md, VERSION, MIGRATION.md, JOURNAL.md, docs/queue-archive/2026-09-09-abandoned-q833.md
@@ -37,3 +39,8 @@ not cover, and both are named in the commit that carries them: the installer's b
 was found by reading CI's own failure on the previous push and is proved by its own test with the
 cache present, and the pin of `tests/test_update_watcher.py` into the scoped-run set, which the
 previous landing owed and which the suite itself demanded by name.
+
+The range also carries a second review, `docs/skill-review/2026-09-09-build-pipeline.md`, written
+by the skill-creator reviewer after this read and covering the closing kernel's changed bullet by
+its own craft's standards. Its four folds land in that commit and touch prose alone; the row's
+recorded acceptance was re-run after them and still returns 0.
