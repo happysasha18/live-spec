@@ -10,9 +10,9 @@
 **pins** —
 - `inbox/README.md:3` (one door, one new file)
 - `inbox/README.md:10` (file format)
-- `inbox/README.md:109` (commit rule)
-- `inbox/README.md:120` (remote arm)
-- `inbox/README.md:125` (stranger arm)
+- `inbox/README.md:137` (commit rule)
+- `inbox/README.md:145` (remote arm)
+- `inbox/README.md:150` (stranger arm)
 - `scripts/stranger-wish-monitor.py:1` (the monitor bridge, INV-147)
 - `scripts/stranger-wish-monitor.py:109` (the cross-host claim + arbitration, INV-149)
 - `.github/ISSUE_TEMPLATE/wish.yml:1` (the wish template requesting a source, INV-146)
