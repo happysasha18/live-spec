@@ -80,11 +80,10 @@ Three commands carry that, and a session holding only this page can run them:
 - `python3 scripts/task-admission.py verify <id> --by <name> [--surface <path-or-url>]` — the
   acceptance receipt, refused when `--by` names the row's own holder. It runs the acceptance the
   tree RECORDED for the row, in `scripts/plan_checks.py` keyed by the row's id, and that command
-  alone: a row run covers one task's check, which is what this tree's `run_modes.row` already
-  records, so a command handed on the command line is refused. A broader check is a manual run,
-  which writes down its purpose and its finite sample before it starts and closes no row, and a
-  run naming any mode that decides no verdict writes no receipt at all. A row with no recorded
-  acceptance cannot be verified at all;
+  alone; a row with no recorded acceptance cannot be verified at all. A row run covers one task's
+  check, which is what this tree's `run_modes.row` already records, so a command handed on the
+  command line is refused, and a broader check is a manual run, which closes no row. A run made
+  under a mode this tree's contract records as deciding no verdict writes no receipt;
 - `python3 scripts/task-admission.py close <id>` — which reads that receipt.
 
 Every refusal prints one reason, exits 2, and leaves the row's mark where it was.

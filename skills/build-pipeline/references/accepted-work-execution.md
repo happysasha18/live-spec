@@ -284,19 +284,10 @@ previous text and the previous hash on the row, and a `--done` without both of t
 refused. The close recomputes the hash from the row and refuses a mismatch, so a done edited by
 hand between admission and closing stops the close rather than passing under it.
 
-`verify <id> --by <name> [--surface <path-or-url>]` writes the
-acceptance receipt into the checkpoint's `DONE` section: who accepted, when, the tree hash `git
-write-tree` computes over a temporary index of the working tree, the HEAD commit, the frozen DOD's
-hash, the acceptance it ran, the surfaces given, and every command with the exit code it actually
-returned.
-
-It runs the recorded acceptance and that command alone. A command handed on the command line is
-refused, because a row run covers one task's check — this tree's `run_modes.row` says so in its own
-words, and until 2026-09-09 the executor did not read its own contract, so a command handed here
-rode into the receipt `close` reads and a broad run nobody scoped in advance could become a row's
-closing evidence. A broader check is a manual run, which records its purpose and its finite sample
-before it starts; `manual` ships `decides_verdict` false, and `verify` now refuses to write a
-receipt at all under any mode that decides no verdict, so manual evidence reaches no close.
+`verify <id> --by <name> [--surface <path-or-url>]` writes the acceptance receipt into the
+checkpoint's `DONE` section: who accepted, when, the tree hash `git write-tree` computes over a
+temporary index of the working tree, the HEAD commit, the frozen DOD's hash, the acceptance it
+ran, the surfaces given, and every command with the exit code it actually returned.
 
 **The route file admission takes.** The body names `admit --route <route.json>` and the facts a
 route has to carry; these are the field names, so a session holding the body and this page can
@@ -336,6 +327,16 @@ name in `--by` proves nothing on its own; the acceptance running is what the rec
 key is run in the tree that holds the plan, because a key names that project's files relative to
 its root. `close` then compares the acceptance the receipt ran against the one the tree records
 now, so rewriting the check after the evidence was written voids it.
+
+Riding beside the recorded key left that hole half open until 2026-09-09: a command handed on the
+command line still rode into the receipt `close` reads, so a broad run nobody scoped in advance
+could become a row's closing evidence. A row run covers one task's check — this tree's
+`run_modes.row` says so in its own words — so a handed command is refused, and a broader check is
+a manual run, which records its purpose and its finite sample before it starts. `manual` ships
+`decides_verdict` false, and `verify` refuses to write a receipt under any mode that decides no
+verdict, so manual evidence reaches no close. The mode a run names is read from
+`LIVE_SPEC_RUN_MODE`, or from `LIVE_SPEC_PUSH_FULL`, which reads as `release`; a run naming
+neither names no mode.
 
 `--by` is refused when it names the row's own holder, because the holder is the producer. A receipt carrying
 any non-zero exit code is a failed verdict, which is what "the presence of a test is not success"
