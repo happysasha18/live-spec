@@ -14,7 +14,9 @@ which are `scripts/inbox_lifecycle.py`, both copies of the status probe, `script
 and `scripts/plan_checks_core.py` where they read and write a row's source letter,
 `adopt/install-status-view.sh`, `inbox/README.md`, `tests/test_inbox_lifecycle.py` and
 `tests/test_status_view_install.py`.
-Range: b8ec3ee8..a4554732
+Range: b8ec3ee8..04f95252
+- 04f95252 The architecture's pins follow the text that moved under them — written after this read
+  and by the gate that caught them; it moves four line numbers and changes no behaviour
 - a4554732 q-835 closed: the link is proved bound to the letter and to the row
 - 9af50e9a Merge the inbox-state lane
 - e7a7df99 q-835: an inbox letter carries its own state, and the board names the letter a row came from
@@ -40,4 +42,6 @@ mark rules, while the matched-pairs alternative the reviewer prototyped brings b
 repair exists for. Two things ride in the reviewed range that the row's own done does not name, and
 both are named in the commit that carries them: the status-view installer now vendors the new
 reader, and `tests/test_status_view_install.py` reads the installer's own array instead of keeping a
-second copy of it.
+second copy of it. A fourth thing rides in the range and was written after this read: the four
+architecture pins that the inbox README's new section and the plan parser's new field pushed down
+the page. Gate g named each one, and each now names the line its own description stands on.
