@@ -1301,6 +1301,30 @@ key does not read that file.
 
 **Context pointers.** `scripts/task-admission.py:1112`; `guardrails/run_modes.py:237`; `guardrails.config.json` run_modes.row.targets_source; `tests/test_closure_kernel_bypasses.py`; `tests/test_task_admission.py`
 
+### 🔄 An inbox letter carries its own state and the board shows the row it became — id: q-835
+**Group:** Guardrails · **Priority:** normal
+**Source:** the owner, 2026-09-09 10:00: make the inbox lifecycle explicit — open, handled, noted, superseded, with superseded_by required for a cancelled letter; never guess a cancellation from prose; record the letter on the row at admission; the board shows an open letter's link to its task and shows no superseded letter as work; history stays readable; no host sweep and no other projects; a row admitted from a letter shows a compact inbox label carrying the letter's filename
+
+**Holder:** lane-inbox-state
+
+**Outcome:** a person reading the board sees which letter became which row, and no cancelled letter among the work
+
+**Statement.** Echo-name: A letter carries its state. Description: a letter in the inbox says nothing a reader can check about what became of it — its state today is which folder it sits in, plus a prose section that eight of the eleven archived letters do not carry — so a cancelled letter looks like a live one, a noted letter looks unhandled, and no row on the board names the letter it came from. Plan: 1) each letter's state is read from a line the letter carries, one of open, handled, noted or superseded, and never inferred from its prose 2) a letter recorded as superseded names the letter that supersedes it, and one naming none or naming a letter that is not on disk is refused by name 3) a letter carrying no state line still reads — open where it stands in the inbox and handled where it stands in the archive — so every letter already on the record is readable unchanged 4) a row admitted from a letter records that letter on the row, and the status list shows that row with a compact inbox label carrying the letter's filename 5) the status list shows an open letter beside the row it was admitted into and shows no superseded letter as work. Estimate: 2–4 hours — basis: no comparable history in this tree; the range is read off the plan's steps.
+
+**Validation.** 2026-09-09 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-09.**
+
+**Done when:** each letter's state is read from a line the letter carries, one of open, handled, noted or superseded, and never inferred from its prose; a letter recorded as superseded names the letter that supersedes it, and one naming none or naming a letter that is not on disk is refused by name; a letter carrying no state line still reads — open where it stands in the inbox and handled where it stands in the archive — so every letter already on the record is readable unchanged; a row admitted from a letter records that letter on the row, and the status list shows that row with a compact inbox label carrying the letter's filename; the status list shows an open letter beside the row it was admitted into and shows no superseded letter as work; all of it proved by tests that drive the real reader and the real status list
+
+**Read before admission.** q-834 (PLAN.md), b8ec3ee8 (commit b8ec3ee8). Finding: the live plan carries no row on the inbox's own states and the record's commit subjects name none; today a letter's state is its position — a file under inbox/ is unhandled and one under inbox/handled/ is not — plus a prose section some letters carry and eight of the eleven archived ones do not, so nothing a reader can check says whether a letter was acted on, noted, or cancelled, and no row names the letter it came from
+
+**DOD hash.** 5b1ed74e559aed6ebbf2ec2b8b68bb208e253727c9b988ce97b4dca59871ad87
+
+**Verification:** python3 -m pytest -q tests/test_inbox_lifecycle.py tests/test_task_admission.py
+
+**Context pointers.** `scripts/state-probe.sh:487`; `scripts/state-probe.sh:350`; `inbox/README.md`; `scripts/task-admission.py` admit; `inbox/handled/`
+
 ## Environment — known traps
 
 - A full local `pytest` run hangs at 0% CPU and never finishes. Run it narrowly with `-k` or a

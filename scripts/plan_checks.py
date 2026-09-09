@@ -613,6 +613,12 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # collects them; q-833 was abandoned because its own key drove a pytest module with unittest
     # and so ran nothing at all. The arms beside it hold the release stamp and its host chapter.
     "q-834": "python3 -m pytest -q tests/test_closure_kernel_bypasses.py tests/test_task_admission.py >/dev/null 2>&1 && test \"$(cat VERSION)\" = \"6.1.4\" && grep -q '^### 6.1.4' MIGRATION.md",
+    # q-835: a letter's state is written down rather than read out of its prose. The proofs drive
+    # the real reader and the real probe; the arms beside them hold the two visible facts — the
+    # reader is the one home for the four states, and the probe reads it rather than a second copy.
+    # No release literal rides here: that every version surface agrees with VERSION already has its
+    # own home, and a key pinning a version goes red at the next one (the deposit beside q-834).
+    "q-835": "python3 -m pytest -q tests/test_inbox_lifecycle.py tests/test_task_admission.py >/dev/null 2>&1 && grep -q 'superseded' scripts/inbox_lifecycle.py && grep -q 'inbox_lifecycle' scripts/state-probe.sh",
     # q-609: the rule now names who enforces it, in the spec that carries it.
     "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",
 }
