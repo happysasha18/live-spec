@@ -2,7 +2,7 @@
 name: product-prover-pack
 description: 'Pack-side bindings for the external product-prover skill inside the live-spec pack. It carries what the prover body no longer does: the pin map from this pack''s PRODUCT_SPEC requirement codes to prover lenses, the pack paths a review reads, the record home and shape the push gate checks, and the mode names the build pipeline uses. Load it whenever product-prover runs inside a live-spec project. It reviews nothing itself.'
 metadata:
-  version: 6.1.3
+  version: 6.1.4
   requires: product-prover >= 1.4.0 (github.com/happysasha18/product-prover)
 ---
 
@@ -142,7 +142,7 @@ change and lands as one.
 
 ## The pack's lens bindings
 
-This page is written against `live-spec-base` (v6.1.3). The bindings below are the pack-side review
+This page is written against `live-spec-base` (v6.1.4). The bindings below are the pack-side review
 duties a live-spec project adds to the external prover's own lenses. The prover's body states the
 general method; each line here is the pack's concrete pin of one duty, read beside the body on every
 review run inside a live-spec project.

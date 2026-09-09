@@ -1275,7 +1275,7 @@ key does not read that file.
 
 **Context pointers.** `scripts/check-pack-update.sh:104`; `adopt/install-scaffold.sh:61`; `adopt/install-style-gates.sh:97`; `tests/test_update_watcher.py:49`; INV-177
 
-### 🔄 The official close path runs the acceptance the row recorded and no other — id: q-833
+### ✅ A close rests on the acceptance the row was admitted with and no other evidence — id: q-834
 **Group:** Guardrails · **Priority:** normal
 **Source:** the owner, 2026-09-09 09:47: the official close path cannot widen acceptance over the command recorded at admission; the recorded command is the only proof of closing, a broader run can only be a manual run with its purpose and finite sample written down first, and manual evidence never closes a row
 
@@ -1283,21 +1283,23 @@ key does not read that file.
 
 **Outcome:** a close rests on the one command the row was admitted with
 
-**Statement.** Echo-name: Close runs the recorded acceptance. Description: a row is closed on the one command it was admitted with, and the acceptance path today lets any other command ride into the receipt that the close reads, so a broad run nobody scoped in advance can become a row's closing evidence and a run made under a mode that decides no verdict can write a receipt at all. Plan: 1) the official acceptance path refuses a command handed beside the one the row recorded, and its refusal names the manual run as where a broader check belongs 2) a receipt is refused where the environment names a run mode that decides no verdict, so a manual run's evidence cannot reach a close 3) the row's own recorded acceptance still runs, still passes and still closes the row 4) all three are proved by tests that drive the real acceptance path in this tree. Estimate: 12–39 minutes — basis: closed rows q-830, q-831, q-832 in the same group, read off the delivery trail each close recorded.
+**Statement.** Echo-name: Close rests on recorded acceptance. Description: a row is closed on the one command it was admitted with, and the acceptance path today lets any other command ride into the receipt that the close reads, so a broad run nobody scoped in advance can become a row's closing evidence and a run made under a mode that decides no verdict can write a receipt at all. Plan: 1) the official acceptance path refuses a command handed beside the one the row recorded, and its refusal names the manual run as where a broader check belongs 2) a receipt is refused where the environment names a run mode that decides no verdict, so a manual run's evidence cannot reach a close 3) a tree whose run-mode contract cannot answer is refused by name rather than guessed at, and a reader that is absent is named apart from one that will not load 4) the row's own recorded acceptance still runs, still passes and still closes the row 5) all four are proved by tests run the way the recorded acceptance runs them. Estimate: 12–39 minutes — basis: closed rows q-830, q-831, q-832 in the same group, read off the delivery trail each close recorded.
 
 **Validation.** 2026-09-09 · floor: passed · reader: passed · echo-name placed: yes · status: ready
 
 **Frozen at take-up 2026-09-09.**
 
-**Done when:** the official acceptance path refuses a command handed beside the one the row recorded, and its refusal names the manual run as where a broader check belongs; a receipt is refused where the environment names a run mode that decides no verdict, so a manual run's evidence cannot reach a close; the row's own recorded acceptance still runs, still passes and still closes the row; all three are proved by tests that drive the real acceptance path in this tree
+**Done when:** the official acceptance path refuses a command handed beside the one the row recorded, and its refusal names the manual run as where a broader check belongs; a receipt is refused where the environment names a run mode that decides no verdict, so a manual run's evidence cannot reach a close; a tree whose run-mode contract cannot answer is refused by name rather than guessed at, and a reader that is absent is named apart from one that will not load; the row's own recorded acceptance still runs, still passes and still closes the row; all four are proved by tests run the way the recorded acceptance runs them
 
-**Read before admission.** q-832 (PLAN.md), 81180176 (commit 81180176). Finding: the live plan carries no open row on the acceptance path's own reach and the record's commit subjects name none; the row contract is already written down and unread by the executor — guardrails.config.json's run_modes.row says its targets source is the one accepted task's recorded acceptance command and that no check outside that one task runs, and run_modes.manual already carries decides_verdict false, while scripts/task-admission.py's verify accepts any --command as an extra check, writes it into the receipt that close reads, and asks nothing about the mode the run was made under
+**Read before admission.** q-833 (PLAN.md), d671bd79 (commit d671bd79). Finding: q-833 on the live plan carried this same outcome and was abandoned before any close: the acceptance it was admitted with drove a pytest module with python3 -m unittest, which collects none of its bare test functions and exits 0 with the count hidden, so the row's closing evidence was a grep for a phrase that also stands in a comment; the acceptance anchor is written once at admission and nothing may move it, so the work carries to a row admitted with a key that runs. The work itself stands in the tree and the record's commit subjects name no other row on this surface
 
-**DOD hash.** e617942b1bb13ca1107d43991ad89fc3fe0233672b4eadc0b142a63892a9d142
+**Supersedes.** q-833 (PLAN.md). New here: the acceptance recorded here runs the tests with pytest, which is what collects them, and the definition of done also names the two error paths the independent verification found: a contract that cannot answer, and a reader absent as against one that will not load. Why the earlier decision does not cover it: q-833 was abandoned rather than decided; nothing was settled by it, and the anchor that fixes an acceptance at admission gives no road to repair the one it carried
 
-**Verification:** PYTHONPATH=tests python3 -m unittest -q test_closure_kernel_bypasses
+**DOD hash.** 7fc81cfa937f6a0cf592227456cbadaf4b715be346675b999290f01f1bb1419e
 
-**Context pointers.** `scripts/task-admission.py:1087`; `guardrails/run_modes.py:237`; `guardrails.config.json` run_modes.row.targets_source; `tests/test_closure_kernel_bypasses.py`
+**Verification:** python3 -m pytest -q tests/test_closure_kernel_bypasses.py tests/test_task_admission.py
+
+**Context pointers.** `scripts/task-admission.py:1112`; `guardrails/run_modes.py:237`; `guardrails.config.json` run_modes.row.targets_source; `tests/test_closure_kernel_bypasses.py`; `tests/test_task_admission.py`
 
 ## Environment — known traps
 
@@ -1344,4 +1346,5 @@ Rotated closed rows (base rule 10 — nothing lost; the archive keeps every move
 - rows 811 → docs/queue-archive/rotated-PLAN-2026-09-03-q811-declined.md
 - rows 385 → docs/queue-archive/rotated-PLAN-2026-09-06-q385-no-producer-declined.md
 - rows 824 → docs/queue-archive/rotated-PLAN-2026-09-07-q824-superseded.md
+- row q-833 (abandoned) → docs/queue-archive/2026-09-09-abandoned-q833.md
 <!-- /rotated-manifest -->

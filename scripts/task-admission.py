@@ -1005,8 +1005,8 @@ def acceptance_key(tree, task_id: str):
     """The acceptance command this tree recorded for the row, or None.
 
     One home: `scripts/plan_checks.py` in the tree that holds the plan, the same table the plan
-    readers and the pre-spawn gate read. A verifier runs THAT command; a command handed on the
-    command line is an extra check beside it and can never stand in for it.
+    readers and the pre-spawn gate read. A verifier runs THAT command and only that command;
+    a command handed on the command line is refused, because a row run covers one task's check.
     """
     keys = Path(tree) / "scripts" / "plan_checks.py"
     if not keys.exists():
@@ -1020,6 +1020,40 @@ def acceptance_key(tree, task_id: str):
         return None
     key = getattr(mod, "CHECKS", {}).get(task_id)
     return key if (key or "").strip() else None
+
+
+def run_mode_reader(tree):
+    """The run-mode contract's own reader out of the tree that holds the plan, and why it is absent.
+
+    Returns `(module, "")` where it loaded, and `(None, <what went wrong>)` where it did not.
+
+    One home for the mode precedence and for what each mode may decide: `guardrails/run_modes.py`,
+    the same module the acceptance re-run gate reads. It is loaded from the tree rather than
+    imported by name, so a host running its own vendored copy is judged by its own contract.
+    """
+    path = Path(tree) / "guardrails" / "run_modes.py"
+    if not path.exists():
+        return None, "is not in this tree"
+    spec = importlib.util.spec_from_file_location("host_run_modes", path)
+    mod = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(mod)
+    except Exception as exc:  # noqa: BLE001 - a reader that does not load answers nothing
+        # A tree that HAS the reader and cannot load it is a different fault from one that has
+        # none, and a caller telling a person the wrong one sends them looking in the wrong place.
+        return None, "does not load (%s)" % exc
+    return mod, ""
+
+
+def _names_a_run_mode(env=None) -> bool:
+    """Whether the environment named a run mode at all, without the contract's reader.
+
+    The precedence itself has one home, `guardrails/run_modes.named_mode`, and this is only
+    reached where that home is unreadable. It reads the same two variables the same way — an
+    all-whitespace value names nothing — so the two branches agree about an empty string.
+    """
+    env = os.environ if env is None else env
+    return bool((env.get("LIVE_SPEC_RUN_MODE") or "").strip()) or bool(env.get("LIVE_SPEC_PUSH_FULL"))
 
 
 def read_receipt(cp):
@@ -1043,7 +1077,7 @@ def verify(plan_path: Path, checkpoints_dir: Path, task_id: str, by: str,
     thing the producer may not write: `--by` naming the row's own holder is refused.
 
     The receipt is made of the acceptance the TREE recorded for this row, never of whatever the
-    caller handed in. `commands` names extra checks that ride beside it; a row with no recorded
+    caller handed in. A command handed beside it is refused, and a row with no recorded
     acceptance cannot be verified at all. The name in `by` proves nothing by itself — what makes
     the verdict independent of the producer is that the recorded check ran and its exit code is
     written down.
@@ -1071,21 +1105,73 @@ def verify(plan_path: Path, checkpoints_dir: Path, task_id: str, by: str,
             "this done names a rendered or published surface, so the receipt names the surface "
             "it was read on: verify --surface <path-or-url>. A fixture passing is not the "
             "surface rendering")
-    # The acceptance is the one the tree RECORDED for this row, run here. A command handed on
-    # the command line rides beside it and never in place of it: `--command true` used to be the
-    # whole receipt, so a verifier who ran nothing at all produced a passed verdict, and the
-    # row's own recorded check — the one that would have failed — was never executed
-    # (the read of 2026-09-06).
+    # The acceptance is the one the tree RECORDED for this row, run here, and it is the only
+    # command that runs: `--command true` used to be the whole receipt, so a verifier who ran
+    # nothing at all produced a passed verdict and the row's own check was never executed (the
+    # read of 2026-09-06). Riding beside the recorded key was that hole half-shut; a handed
+    # command is refused outright below (q-833, the owner's word 2026-09-09).
     tree_root = Path(plan_path).resolve().parent
     key = acceptance_key(tree_root, task_id)
     if not key:
         raise AdmissionError(
             "%s has no recorded acceptance command, so there is nothing for a verifier to run: "
             "write the row's key into scripts/plan_checks.py, keyed by the row's id, and verify "
-            "again. A command named at the command line is an extra check, never the acceptance"
+            "again. A command named at the command line is refused, so it cannot stand in for "
+            "the missing one"
             % task_id)
-    extra = [str(c) for c in commands if str(c).strip() and str(c).strip() != key]
-    commands = [key] + extra
+    # A row run covers the recorded acceptance and nothing else. That is not a new rule: this
+    # tree's own run_modes.row records its targets source as "the one accepted task's own recorded
+    # acceptance command in scripts/plan_checks.py (CHECKS[<task id>]); no check outside that one
+    # task runs". Until now the executor did not read its own contract — a command handed here
+    # rode into the receipt that `close` reads, so a broad run nobody scoped in advance could
+    # become a row's closing evidence.
+    if [str(c) for c in commands if str(c).strip() and str(c).strip() != key]:
+        raise AdmissionError(
+            "the acceptance a close rests on is the one this row was admitted with, and a row run "
+            "covers that command alone (guardrails.config.json, run_modes.row: no check outside "
+            "that one task runs). A broader check is a manual run, which records its purpose and "
+            "its finite sample before it starts and closes no row: run it on its own, and leave "
+            "this receipt to the row's own recorded acceptance")
+    commands = [key]
+
+    # A receipt is evidence, and a run that decides no verdict produces none. The four modes and
+    # what each may decide are recorded in guardrails.config.json and read by
+    # guardrails/run_modes.py, which ships `manual` as decides_verdict false: a manual run stands
+    # on whatever purpose and finite sample a person wrote down before it started, and nothing
+    # binds that to this row. Asking the contract is the whole of the check.
+    modes, reader_fault = run_mode_reader(tree_root)
+    if modes is not None:
+        # A caller's typo and a tree's broken contract are two different faults, and a refusal
+        # naming the wrong one sends a person to the wrong file. `named_mode` refuses a mode that
+        # is not one of the four and says so itself, so that sentence is passed through as it
+        # stands; everything the CONTRACT cannot answer is the second refusal below.
+        try:
+            named = modes.named_mode()
+        except ValueError as exc:
+            raise AdmissionError("%s. Name one of them, or none" % str(exc).rstrip("."))
+        try:
+            no_verdict = bool(named) and not modes.decides_verdict(named)
+        except (ValueError, KeyError, AttributeError) as exc:
+            # A contract this tree cannot answer from is not a licence to write a receipt. A config
+            # missing a mode's own `decides_verdict` raises out of this call and used to escape as
+            # a refusal about a route, on a run that has no route.
+            raise AdmissionError(
+                "this tree's run-mode contract does not say what mode %r may decide, so this "
+                "receipt cannot be judged (%s): repair guardrails.config.json's run_modes, or run "
+                "this row's recorded acceptance with no mode named" % (named, exc))
+        if no_verdict:
+            raise AdmissionError(
+                "this run names mode %r, which this tree's contract records as deciding no "
+                "verdict, so it writes no acceptance receipt and closes no row. A run that covers "
+                "more than this row's own recorded acceptance is a manual run, which stands on the "
+                "purpose and the finite sample it recorded before it started. Run this row's "
+                "recorded acceptance with no mode named" % named)
+    elif _names_a_run_mode():
+        raise AdmissionError(
+            "this run names a run mode and this tree's run-mode reader %s, so what that mode may "
+            "decide cannot be read and the receipt cannot be judged: restore "
+            "guardrails/run_modes.py, or run this row's recorded acceptance with no mode named"
+            % reader_fault)
 
     cp = _checkpoint_path(checkpoints_dir, task_id)
     if not cp.exists() or checkpoint.read_checkpoint(cp)["status"] != "open":
@@ -1864,9 +1950,11 @@ def main() -> int:
                 help="write the acceptance receipt: the frozen done, the exact tree, and the "
                      "exit code each check actually returned")
     accept.add_argument("--command", action="append", default=[], dest="command",
-                        help="an EXTRA check beside the row's own recorded acceptance "
-                             "(scripts/plan_checks.py, keyed by the row's id), repeatable. It "
-                             "never stands in for that one; any non-zero exit is a failed verdict")
+                        help="REFUSED. A row run covers the row's own recorded acceptance "
+                             "(scripts/plan_checks.py, keyed by the row's id) and no other check. "
+                             "A broader run is a manual run, which records its purpose and finite "
+                             "sample before it starts and closes no row. The flag stays so the "
+                             "refusal says that rather than an unknown-argument error")
     accept.add_argument("--surface", action="append", default=[], dest="surface",
                         help="a path or URL the acceptance was read on, repeatable. Required "
                              "when the done names a rendered or published surface — the "

@@ -21,7 +21,7 @@ spec.loader.exec_module(admission)
 import checkpoint  # noqa: E402 — the checkpoint half of the same state machine
 
 
-def host(tmp_path):
+def host(tmp_path, key="true"):
     plan = tmp_path / "PLAN.md"
     plan.write_text("# Host plan\n\n## Tasks\n\n## Blockers\n\nNone.\n", encoding="utf-8")
     # The host's own acceptance table. A verifier runs the command the tree RECORDED for the row,
@@ -30,8 +30,9 @@ def host(tmp_path):
     # a passing one, and each test adds the failing or spawning command it is actually about.
     (tmp_path / "scripts").mkdir(exist_ok=True)
     (tmp_path / "scripts" / "plan_checks.py").write_text(
-        "CHECKS = {'q-%d' % n: 'true' for n in range(1, 40)}\n"
-        "CHECKS.update({'plan-%d' % n: 'true' for n in range(0, 40)})\n", encoding="utf-8")
+        "CHECKS = {'q-%%d' %% n: %r for n in range(1, 40)}\n"
+        "CHECKS.update({'plan-%%d' %% n: %r for n in range(0, 40)})\n" % (key, key),
+        encoding="utf-8")
     return plan, tmp_path / ".live-spec" / "checkpoints"
 
 
@@ -140,7 +141,7 @@ def test_done_when_cannot_make_the_person_the_checker(tmp_path):
 # illegal one the code refuses. Every one of these was red before the transition existed.
 
 
-def seeded(tmp_path):
+def seeded(tmp_path, key="true"):
     """One admitted ticket, ready for work: a queued row whose statement has passed validation,
     and its open checkpoint. Returns both plus the id.
 
@@ -148,7 +149,7 @@ def seeded(tmp_path):
     on an unvalidated statement (Requirement 309 criterion 49). The reader half is a stub here;
     the mechanics it exercises are proven in `tests/test_statement_validation.py`.
     """
-    plan, checkpoints = host(tmp_path)
+    plan, checkpoints = host(tmp_path, key=key)
     task_id = admission.admit(new_route(), plan, checkpoints)["task_id"]
     echo = admission.read_statement(row_of(plan, task_id))["echo"]
     reader = tmp_path / "reader.txt"
@@ -607,10 +608,15 @@ def test_reopening_a_ticket_with_no_checkpoint_opens_a_minimal_one(tmp_path):
 # claim. Every test below was red against the tree of 2026-09-06 before the kernel was built.
 
 
-def repo(tmp_path):
-    """A seeded ticket inside a real git tree — an acceptance receipt pins a real tree hash."""
+def repo(tmp_path, key="true"):
+    """A seeded ticket inside a real git tree — an acceptance receipt pins a real tree hash.
+
+    `key` is the acceptance the tree RECORDS for the row, and it is the only command a verifier
+    runs: since 2026-09-09 a command handed beside it is refused, so a test about a failing or a
+    probing check records that check here rather than passing it to `verify`.
+    """
     subprocess.run(["git", "init", "-q", str(tmp_path)], check=True, capture_output=True)
-    return seeded(tmp_path)
+    return seeded(tmp_path, key=key)
 
 
 def accepted(plan, checkpoints, task_id, cp, by="a second pair of eyes", commands=("true",),
@@ -683,11 +689,11 @@ def test_a_close_with_no_acceptance_receipt_is_refused(tmp_path):
 
 
 def test_a_receipt_whose_command_failed_is_a_failed_verdict(tmp_path):
-    plan, checkpoints, task_id, cp = repo(tmp_path)
+    plan, checkpoints, task_id, cp = repo(tmp_path, key="false")
     finished(plan, checkpoints, task_id, cp)
-    accepted(plan, checkpoints, task_id, cp, commands=["true", "false"])
+    accepted(plan, checkpoints, task_id, cp, commands=[])
     receipt = admission.read_receipt(cp)
-    assert receipt["verdict"] == "failed" and receipt["checks"][1] == ["false", 1]
+    assert receipt["verdict"] == "failed" and receipt["checks"][0] == ["false", 1]
     message = refused(admission.close, plan, checkpoints, task_id)
     assert "failed" in message
     assert row_of(plan, task_id).startswith("### 🔄 ")
@@ -962,10 +968,9 @@ def test_a_reopened_row_verified_again_closes_without_a_hand_touching_next(tmp_p
 
 def test_the_verifiers_own_check_may_spawn_the_probe(tmp_path):
     """The re-entry breaker binds acceptance keys inside a reader, never the verifier's checks."""
-    plan, checkpoints, task_id, cp = repo(tmp_path)
+    plan, checkpoints, task_id, cp = repo(tmp_path, key='test -z "$LIVE_SPEC_EVALUATING"')
     finished(plan, checkpoints, task_id, cp)
-    admission.verify(plan, checkpoints, task_id, by="a second pair of eyes",
-                     commands=["test -z \"$LIVE_SPEC_EVALUATING\""])
+    admission.verify(plan, checkpoints, task_id, by="a second pair of eyes")
     receipt = [ln for ln in cp.read_text(encoding="utf-8").splitlines() if ln.startswith("RECEIPT:")][-1]
     assert '"verdict": "passed"' in receipt
 

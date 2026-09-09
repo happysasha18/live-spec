@@ -2,13 +2,13 @@
 name: design-reviewer
 description: Use after a spec is proven to check whether similar features behave consistently and flag ungrouped same-kind items the spec missed. It holds no landing; every finding is a recommendation or a question.
 metadata:
-  version: 6.1.3
+  version: 6.1.4
 ---
 
 # Design Review
 
 > Part of the **live-spec pack**. The shared working rules live once in the pack's base skill,
-> `live-spec-base` (v6.1.3), whose file is `skills/live-spec-base/SKILL.md`. That file carries the
+> `live-spec-base` (v6.1.4), whose file is `skills/live-spec-base/SKILL.md`. That file carries the
 > numbered rules. Four scopes settle a setting there, in this order: the session's live word, then the
 > host profile, then the personal profile, then the package default. This skill points at those rules
 > and covers only its own subject. Used on its own, this skill is plain advice a person applies by

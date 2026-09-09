@@ -192,16 +192,22 @@ def test_a_done_typed_onto_a_row_that_has_no_checkpoint_at_all_is_refused(tmp_pa
 # ---------------------------------------------------------------- 2b. the hollow receipt
 
 def test_the_verifier_runs_the_recorded_acceptance_and_not_the_one_it_was_handed(tmp_path):
-    """`--command true` used to be the whole receipt. Now it rides beside the recorded key."""
+    """`--command true` used to be the whole receipt. It rode beside the recorded key from
+    2026-09-06, and from 2026-09-09 (q-833) it is refused outright: a row run covers the one
+    recorded check. Either way the road it opened is shut — a handed command never decides."""
     plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
     admission.admit(route(), plan, checkpoints)
-    receipt = admission.verify(plan, checkpoints, "q-1", by="a-friendly-name",
-                               commands=["true"])
+    with pytest.raises(admission.AdmissionError) as refused:
+        admission.verify(plan, checkpoints, "q-1", by="a-friendly-name", commands=["true"])
+    assert "row run covers that command alone" in str(refused.value)
+    # The row's own recorded check is what decides, and here it fails: the deliverable still
+    # says v1, so no close is reachable.
+    receipt = admission.verify(plan, checkpoints, "q-1", by="a-friendly-name")
     assert receipt["verdict"] == "failed"
     assert receipt["checks"][0][0] == "grep -q v2 deliverable.txt"
-    with pytest.raises(admission.AdmissionError) as refused:
+    with pytest.raises(admission.AdmissionError) as blocked:
         admission.close(plan, checkpoints, "q-1")
-    assert "failed verdict" in str(refused.value)
+    assert "failed verdict" in str(blocked.value)
 
 
 def test_a_row_with_no_recorded_acceptance_cannot_be_verified_at_all(tmp_path):
@@ -579,3 +585,177 @@ def test_a_hand_typed_done_mark_is_caught_when_an_earlier_row_closed_in_the_same
     got = gate(plan, checkpoints, base=base)
     assert got.returncode == 1, got.stdout + got.stderr
     assert "q-2" in got.stdout and "has no checkpoint" in got.stdout
+
+
+# ------------------------------------- 5. the acceptance a close rests on is the recorded one
+# Added 2026-09-09 (q-833). Until then `verify` took any `--command` as an extra check, wrote it
+# into the receipt `close` reads, and asked nothing about the mode the run was made under — so a
+# broad run nobody scoped in advance could become a row's closing evidence, and a manual run could
+# write a receipt at all. Both facts were already recorded in this tree and unread by the executor:
+# run_modes.row says no check outside the one task runs, and run_modes.manual decides no verdict.
+
+def plant_run_modes(tree):
+    """The run-mode contract, in the throwaway tree, exactly as a host carries it."""
+    (tree / "guardrails").mkdir(exist_ok=True)
+    shutil.copy(Path(ROOT) / "guardrails" / "run_modes.py", tree / "guardrails" / "run_modes.py")
+    shutil.copy(Path(ROOT) / "guardrails.config.json", tree / "guardrails.config.json")
+
+
+def test_a_command_handed_beside_the_recorded_acceptance_is_refused(tmp_path):
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    with pytest.raises(admission.AdmissionError) as refusal:
+        admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes",
+                         commands=["python3 -m pytest -q"])
+    said = str(refusal.value)
+    assert "row run covers that command alone" in said
+    assert "manual run" in said
+    assert admission.read_receipt(checkpoints / "q-1.md") is None, \
+        "a refused verify writes no receipt at all"
+
+
+def test_the_recorded_command_may_be_handed_back_verbatim(tmp_path):
+    """Handing the row its own recorded check is not a second check, so it is not a refusal."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    receipt = admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes",
+                               commands=["grep -q v2 deliverable.txt"])
+    assert receipt["verdict"] == "passed"
+    assert [c for c, _code in receipt["checks"]] == ["grep -q v2 deliverable.txt"], \
+        "the receipt carries the recorded acceptance once and nothing beside it"
+
+
+def test_a_run_under_a_mode_that_decides_no_verdict_writes_no_receipt(tmp_path, monkeypatch):
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    plant_run_modes(tmp_path)
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "manual")
+    with pytest.raises(admission.AdmissionError) as refusal:
+        admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    said = str(refusal.value)
+    assert "names mode 'manual'" in said
+    assert "deciding no verdict" in said
+    assert "closes no row" in said
+    assert admission.read_receipt(checkpoints / "q-1.md") is None
+    # And with the mode cleared, the same row verifies and closes on its own recorded check.
+    monkeypatch.delenv("LIVE_SPEC_RUN_MODE")
+    assert admission.verify(plan, checkpoints, "q-1",
+                            by="a-second-pair-of-eyes")["verdict"] == "passed"
+    admission.close(plan, checkpoints, "q-1")
+    assert "### ✅" in plan.read_text(encoding="utf-8")
+
+
+def test_a_mode_that_does_decide_a_verdict_still_verifies(tmp_path, monkeypatch):
+    """The guard reads the contract rather than a list of mode names: `row` decides a verdict."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    plant_run_modes(tmp_path)
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "row")
+    assert admission.verify(plan, checkpoints, "q-1",
+                            by="a-second-pair-of-eyes")["verdict"] == "passed"
+
+
+def test_a_named_mode_with_no_contract_in_the_tree_is_refused(tmp_path, monkeypatch):
+    """A tree carrying no run-mode reader cannot say what a named mode may decide, and a receipt
+    nobody can judge is not evidence. A run naming no mode is the ordinary road and passes."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "manual")
+    with pytest.raises(admission.AdmissionError) as refusal:
+        admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    assert "is not in this tree" in str(refusal.value)
+    monkeypatch.delenv("LIVE_SPEC_RUN_MODE")
+    assert admission.verify(plan, checkpoints, "q-1",
+                            by="a-second-pair-of-eyes")["verdict"] == "passed"
+
+
+def test_a_reader_that_will_not_load_is_named_apart_from_one_that_is_absent(tmp_path, monkeypatch):
+    """A tree that HAS the reader and cannot load it is a different fault from one that has none,
+    and a refusal naming the wrong fault sends a person looking in the wrong place."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    (tmp_path / "guardrails").mkdir(exist_ok=True)
+    (tmp_path / "guardrails" / "run_modes.py").write_text("raise RuntimeError('broken')\n",
+                                                          encoding="utf-8")
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "manual")
+    with pytest.raises(admission.AdmissionError) as refusal:
+        admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    said = str(refusal.value)
+    assert "does not load" in said and "broken" in said
+    assert "is not in this tree" not in said
+
+
+def test_a_contract_that_cannot_answer_writes_no_receipt(tmp_path, monkeypatch):
+    """A config whose named mode carries no `decides_verdict` used to escape as a refusal about a
+    route, on a run that has no route. It is a refusal about the contract now, and still no
+    receipt."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    plant_run_modes(tmp_path)
+    config = json.loads((tmp_path / "guardrails.config.json").read_text(encoding="utf-8"))
+    config["run_modes"]["manual"].pop("decides_verdict", None)
+    (tmp_path / "guardrails.config.json").write_text(json.dumps(config), encoding="utf-8")
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "manual")
+    with pytest.raises(admission.AdmissionError) as refusal:
+        admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    said = str(refusal.value)
+    assert "does not say what mode 'manual' may decide" in said
+    assert "route" not in said
+    assert admission.read_receipt(checkpoints / "q-1.md") is None
+
+
+def test_a_typo_in_the_mode_name_is_refused_as_a_typo(tmp_path, monkeypatch):
+    """A caller's typo and a tree's broken contract are two faults, and a refusal naming the wrong
+    one sends a person to the wrong file."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    plant_run_modes(tmp_path)
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "nightly")
+    with pytest.raises(admission.AdmissionError) as refusal:
+        admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    said = str(refusal.value)
+    assert "unknown run mode 'nightly'" in said
+    assert "row, integration, release, manual" in said
+    assert "guardrails.config.json" not in said, \
+        "a typed mode name is the caller's own fault, so the refusal sends nobody to the config"
+
+
+def test_the_no_verdict_refusal_names_the_mode_that_was_asked_for(tmp_path, monkeypatch):
+    """The refusal used to describe the manual run whichever mode had been named. It reads the
+    tree's own contract, so it says what the named mode records about itself."""
+    plan, checkpoints = host(tmp_path, key="grep -q v2 deliverable.txt")
+    plant_run_modes(tmp_path)
+    config = json.loads((tmp_path / "guardrails.config.json").read_text(encoding="utf-8"))
+    config["run_modes"]["release"]["decides_verdict"] = False
+    (tmp_path / "guardrails.config.json").write_text(json.dumps(config), encoding="utf-8")
+    admission.admit(route(), plan, checkpoints)
+    (tmp_path / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "release")
+    with pytest.raises(admission.AdmissionError) as refusal:
+        admission.verify(plan, checkpoints, "q-1", by="a-second-pair-of-eyes")
+    assert "names mode 'release'" in str(refusal.value)
+    assert admission.read_receipt(checkpoints / "q-1.md") is None
+
+
+def test_a_whitespace_mode_names_nothing_on_both_roads(tmp_path, monkeypatch):
+    """`named_mode` strips, so an all-whitespace value names no mode. The road taken when the
+    reader is absent reads the same two variables the same way, so the two agree."""
+    monkeypatch.setenv("LIVE_SPEC_RUN_MODE", "   ")
+    for planted in (True, False):
+        tree = tmp_path / ("with" if planted else "without")
+        tree.mkdir()
+        plan, checkpoints = host(tree, key="grep -q v2 deliverable.txt")
+        if planted:
+            plant_run_modes(tree)
+        admission.admit(route(), plan, checkpoints)
+        (tree / "deliverable.txt").write_text("v2\n", encoding="utf-8")
+        assert admission.verify(plan, checkpoints, "q-1",
+                                by="a-second-pair-of-eyes")["verdict"] == "passed"

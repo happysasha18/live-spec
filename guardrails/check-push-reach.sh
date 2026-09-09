@@ -144,6 +144,7 @@ ALWAYS_SCOPED=(
   "tests/test_guardrails_unit.py"   # the guardrail unit half: fast, sandbox-free, rides every scoped run
   "tests/test_work_board.py"        # enumerating-infra test — walks scripts/ to prove the craft set has one home
   "tests/test_board_publish.py"     # enumerating-infra test — walks the shipped set for a retired address
+  "tests/test_update_watcher.py"    # enumerating-infra test — lists adopt/install-*.sh and reads each one's own vendor arrays
 )
 # SCOPED_EXCLUDED — test files the by-name discovery must NOT pull into a scoped run. One member:
 # the guardrail integration half, whose classes copy the repository, build git sandboxes and run

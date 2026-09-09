@@ -607,6 +607,12 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # closes a row, a command handed beside it is refused, and a run naming a mode that decides no
     # verdict writes no receipt. The arm beside it holds the visible fact that the refusal exists.
     "q-833": "PYTHONPATH=tests python3 -m unittest -q test_closure_kernel_bypasses >/dev/null 2>&1 && grep -q 'decides no verdict' scripts/task-admission.py",
+    # q-834: a close rests on the one command the row was admitted with. The proofs drive the real
+    # acceptance path — the closure-kernel file for the refusals and the ordinary road, the
+    # admission file for the transitions around them — and they are run with pytest, which is what
+    # collects them; q-833 was abandoned because its own key drove a pytest module with unittest
+    # and so ran nothing at all. The arms beside it hold the release stamp and its host chapter.
+    "q-834": "python3 -m pytest -q tests/test_closure_kernel_bypasses.py tests/test_task_admission.py >/dev/null 2>&1 && test \"$(cat VERSION)\" = \"6.1.4\" && grep -q '^### 6.1.4' MIGRATION.md",
     # q-609: the rule now names who enforces it, in the spec that carries it.
     "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",
 }

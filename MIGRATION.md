@@ -575,3 +575,39 @@ cd <your host root> && bash <pack>/adopt/install-status-view.sh --force
 Each vendors into the directory it is RUN FROM, so run it from your own tree's root. After this
 release the watcher names the right one of these itself, so on the next daily check you can simply
 run the road it prints.
+
+### 6.1.4 — 2026-09-09
+
+**Host action: none for most hosts. Two shapes owe one.** A host whose own scripts pass `--command`
+to `verify` owes the change named at the end of this chapter. A host that names a run mode through
+`LIVE_SPEC_RUN_MODE` or `LIVE_SPEC_PUSH_FULL` owes a readable run-mode contract: a tree adopted
+before the four modes existed carries `guardrails/run_modes.py` with no `run_modes` key in its own
+`guardrails.config.json`, because `adopt/install-scaffold.sh` never overwrites a config a host
+already has, and such a host is now refused by name rather than guessed at. A host that names no run
+mode and passes no `--command` sees nothing new. This patch narrows what the acceptance path
+accepts. A host that runs `python3 scripts/task-admission.py verify <id>
+--by <name>` the ordinary way is unaffected; a script that adds `--command "<something>"` now gets
+one refusal and exit 2 instead of an extra check riding into the receipt.
+
+What changed and why. A close rests on the acceptance the row was admitted with. Until this release
+`verify` took any `--command` as an extra check beside the recorded one and wrote it into the
+receipt that `close` reads, so a broad run nobody scoped in advance could become a row's closing
+evidence. It also asked nothing about the mode the run was made under, so a manual run could write
+a receipt at all. Both facts were already recorded in this pack and unread by the executor:
+`guardrails.config.json`'s `run_modes.row` says its targets source is the one accepted task's own
+recorded acceptance command and that no check outside that one task runs, and `run_modes.manual`
+carries `decides_verdict` false.
+
+So `verify` now runs the recorded acceptance and only that, refuses a command handed beside it
+naming the manual run as where a broader check belongs, and refuses to write a receipt at all under
+any mode that decides no verdict. A broader run stays available as what it always was: a manual run,
+which records its purpose and its finite sample before it starts and closes no row.
+
+If a script of yours passes `--command`, the check it named belongs in one of two places: in the
+row's own recorded acceptance in `scripts/plan_checks.py`, where it becomes part of what the close
+rests on, or in a manual run of its own beside the row.
+
+`verify` reads the run-mode contract out of the tree that holds the plan, so a host is judged by its
+own `guardrails/run_modes.py` and its own `guardrails.config.json`. A host that names a run mode and
+carries no readable contract is refused rather than guessed at; a host that names no mode is on the
+ordinary road and sees nothing new.

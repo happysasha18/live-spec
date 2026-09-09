@@ -3,13 +3,13 @@ name: build-pipeline
 description: >-
   Execute work after director has classified the human's message and returned a route contract. Derive the observable outcome and definition of done, admit new work to the one board, update existing work in place, call only needed specialists, verify, close and report. Also use when asked to attach live-spec, adopt live-spec, install live-spec, onboard a codebase with live-spec, set live-spec up, set a project up on live-spec, add live-spec, found or start a new project with live-spec, or update live-spec, and for the MINOR-bump gate.
 metadata:
-  version: 6.1.3
+  version: 6.1.4
 ---
 
 # build-pipeline — accepted work from admission to close
 
 > Part of the **live-spec pack**. The shared working rules, the settings ladder, and the pack's
-> glossary live in `live-spec-base` (v6.1.3). This skill does not restate them. Loaded alone, every
+> glossary live in `live-spec-base` (v6.1.4). This skill does not restate them. Loaded alone, every
 > section below still runs.
 
 Director is the first reader of every message but the setup entry below. It classifies every act,
@@ -77,11 +77,14 @@ Three commands carry that, and a session holding only this page can run them:
 
 - `python3 scripts/task-admission.py correct <id> --done "<new>" --source "<who asked>" --reason
   "<why>"` — the only door through a done already fixed;
-- `python3 scripts/task-admission.py verify <id> --by <name> [--command "<extra>" ...]
-  [--surface <path-or-url>]` — the acceptance receipt, refused when `--by` names the row's own
-  holder. It runs the acceptance the tree RECORDED for the row, in `scripts/plan_checks.py` keyed
-  by the row's id; a `--command` names an extra check beside that one and can never stand in for
-  it. A row with no recorded acceptance cannot be verified at all;
+- `python3 scripts/task-admission.py verify <id> --by <name> [--surface <path-or-url>]` — the
+  acceptance receipt, refused when `--by` names the row's own holder. It runs the acceptance the
+  tree RECORDED for the row, in `scripts/plan_checks.py` keyed by the row's id, and that command
+  alone: a row run covers one task's check, which is what this tree's `run_modes.row` already
+  records, so a command handed on the command line is refused. A broader check is a manual run,
+  which writes down its purpose and its finite sample before it starts and closes no row, and a
+  run naming any mode that decides no verdict writes no receipt at all. A row with no recorded
+  acceptance cannot be verified at all;
 - `python3 scripts/task-admission.py close <id>` — which reads that receipt.
 
 Every refusal prints one reason, exits 2, and leaves the row's mark where it was.

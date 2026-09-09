@@ -63,6 +63,14 @@ OWNED_ELSEWHERE="clock-hook.sh chat-law-hook.sh routing-preamble-hook.sh dialog-
 # here, at install time, instead of surfacing weeks later as a gate red with no fix behind it.
 for src_hook in "$DIR"/hooks/*; do
   hname="$(basename "$src_hook")"
+  # Python writes __pycache__/ beside any module it imports, so a test that imports a hook makes
+  # one appear here. It is generated, it is gitignored, and no installer will ever ship it, so the
+  # recurrence-stop below read it as an unshipped hook and refused the whole install — which is
+  # every hook, including the refresh of any drifted copy. On CI, where the suite imports the hook
+  # modules before this runs, that refusal reddened sixteen tests across five files from
+  # 2026-09-08 on. A directory is not a hook either: only files are shipped.
+  case "$hname" in __pycache__|*.pyc) continue ;; esac
+  [ -f "$src_hook" ] || continue
   case " $JUDGE_FILES $OWNED_ELSEWHERE " in
     *" $hname "*) ;;
     *)

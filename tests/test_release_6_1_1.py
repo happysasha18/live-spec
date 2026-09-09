@@ -101,6 +101,31 @@ def test_a_hook_no_installer_names_stops_the_install_by_name(tmp_path):
     assert "shipped by no installer" in got.stderr
 
 
+def test_generated_bytecode_beside_a_hook_does_not_stop_the_install(tmp_path):
+    """The other half of the recurrence-stop above, and the reason it lives beside it.
+
+    Python writes `__pycache__/` beside any module it imports, so a suite that imports a hook makes
+    one appear under `hooks/`. It is generated and gitignored and no installer will ever ship it, so
+    the refusal above read it as an unowned hook and stopped the whole install — every hook,
+    including the refresh of any drifted copy. On CI, where the suite imports the hook modules
+    before this runs, that reddened sixteen tests across five files from 2026-09-08 until
+    2026-09-09. The refusal keeps its teeth for a real file; a cache directory is passed over.
+    """
+    pack = tmp_path / "pack"
+    shutil.copytree(ROOT, pack, symlinks=True,
+                    ignore=shutil.ignore_patterns(".git", "attic", "docs", "evals", "prototype"))
+    cache = pack / "hooks" / "__pycache__"
+    cache.mkdir(exist_ok=True)
+    (cache / "turn_reader.cpython-39.pyc").write_bytes(b"\x00")
+    (pack / "hooks" / "stray.pyc").write_bytes(b"\x00")
+
+    got = run_installer(tmp_path / "home", pack=pack)
+
+    assert got.returncode == 0, got.stdout + got.stderr
+    assert "shipped by no installer" not in got.stderr
+    assert "__pycache__" not in got.stdout
+
+
 def test_a_data_file_is_not_installed_as_a_program(tmp_path):
     """The list now carries a `.md` and a `.json`; only the programs come out executable."""
     home = tmp_path / "home"

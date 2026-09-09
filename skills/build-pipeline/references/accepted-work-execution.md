@@ -284,11 +284,19 @@ previous text and the previous hash on the row, and a `--done` without both of t
 refused. The close recomputes the hash from the row and refuses a mismatch, so a done edited by
 hand between admission and closing stops the close rather than passing under it.
 
-`verify <id> --by <name> [--command "<extra>" ...] [--surface <path-or-url>]` writes the
+`verify <id> --by <name> [--surface <path-or-url>]` writes the
 acceptance receipt into the checkpoint's `DONE` section: who accepted, when, the tree hash `git
 write-tree` computes over a temporary index of the working tree, the HEAD commit, the frozen DOD's
 hash, the acceptance it ran, the surfaces given, and every command with the exit code it actually
 returned.
+
+It runs the recorded acceptance and that command alone. A command handed on the command line is
+refused, because a row run covers one task's check — this tree's `run_modes.row` says so in its own
+words, and until 2026-09-09 the executor did not read its own contract, so a command handed here
+rode into the receipt `close` reads and a broad run nobody scoped in advance could become a row's
+closing evidence. A broader check is a manual run, which records its purpose and its finite sample
+before it starts; `manual` ships `decides_verdict` false, and `verify` now refuses to write a
+receipt at all under any mode that decides no verdict, so manual evidence reaches no close.
 
 **The route file admission takes.** The body names `admit --route <route.json>` and the facts a
 route has to carry; these are the field names, so a session holding the body and this page can
