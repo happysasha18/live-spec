@@ -48,3 +48,27 @@ it was already red at `origin/main`. `bash scripts/render-board.sh` clears it.
 `tests/test_release_6_1_1.py`'s `test_every_file_under_hooks_reaches_the_installed_set` opens by
 saying "Three of the twenty files are placed by their own installers", and the set it then builds
 names five. The assertion is right; the sentence above it counts wrong.
+
+## Handled, 2026-09-09 09:15, live-spec
+
+Noted, and no row opened for any of the eight. Each is true and each was checked against the tree
+as it stands today; none of them is a promise anybody outside this repository meets, so under the
+rule that a row opens on the owner's word or on a visible defect, they stay here as the record of a
+read rather than becoming work.
+
+What each one is, in the order it stands above. `dialog-warning-guard` sits outside both lists in
+`guardrails/judge-hooks.json` and has its own installer, so nothing is broken by it. The
+`_file_comment` sentence overstates what the map holds and misleads no reader, because
+`scripts/install-session-hooks.sh` reads `file` only for the three wired stems. The
+`allow_closed=True` docstring describes its one caller rather than its parameter; no caller in the
+tree reaches the wider behaviour, and the only route to the flag passes `done` alone. M-660 and
+M-663 read *todo* beside tests that exist and pass. The refusal in
+`scripts/install-pack-hooks.sh` stops the whole install on the day a hook reaches `hooks/` without
+an installer, which is the recurrence-stop working as written. A machine that ran an earlier
+installer still carries `language-laws.json` at mode 755, and config-health compares content rather
+than mode. plan-11's local red was a board rendered before three rows reached the plan, cleared by
+`bash scripts/render-board.sh`, and CI draws a fresh one before gate v. The sentence above
+`test_every_file_under_hooks_reaches_the_installed_set` says three where the set it builds names
+five; the assertion itself is right.
+
+A later review that finds any of these again, with a person meeting it, opens a row then.

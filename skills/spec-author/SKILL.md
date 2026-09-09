@@ -2,13 +2,13 @@
 name: spec-author
 description: Use to start a new product spec, add a feature to an existing spec, or keep a spec in sync with behavior changes. Setting a project up on live-spec comes earlier, at build-pipeline's setup entry. Documenting already-built code after the fact and a prototype sketch that carries no spec stay outside it.
 metadata:
-  version: 6.1.2
+  version: 6.1.3
 ---
 
 # Spec Author
 
 > Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
-> `live-spec-base` (v6.1.2), together with the settings ladder — this skill references them and
+> `live-spec-base` (v6.1.3), together with the settings ladder — this skill references them and
 > elaborates only its own domain. That base skill's file is `skills/live-spec-base/SKILL.md`, and
 > its own frontmatter states how many numbered rules it carries. Loaded without it, this page still
 > runs every section below. What it loses is those shared rules and the settings ladder, which live

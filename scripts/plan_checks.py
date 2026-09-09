@@ -597,6 +597,16 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # which drives the real rerun gate and the real reader; the arms beside it hold the two visible
     # facts — the release is stamped and carries its host chapter.
     "q-831": "PYTHONPATH=tests python3 -m unittest -q test_live_progress_and_recorded_history >/dev/null 2>&1 && test \"$(cat VERSION)\" = \"6.1.2\" && grep -q '^### 6.1.2' MIGRATION.md",
+    # q-832: the watcher hands a host the installer that actually re-vendors its stale files.
+    # The proof lives in the test file, which drives the real watcher over a manifest pinned so
+    # that only the scaffold installer's run-mode files are stale, and over one where only a
+    # style-gate vendor file is; the arms beside it hold the release stamp and its host chapter.
+    "q-832": "PYTHONPATH=tests python3 -m unittest -q test_update_watcher >/dev/null 2>&1 && test \"$(cat VERSION)\" = \"6.1.3\" && grep -q '^### 6.1.3' MIGRATION.md",
+    # q-833: a close rests on the one command the row was admitted with. The proofs live in the
+    # closure-kernel test file, which drives the real acceptance path: the recorded check still
+    # closes a row, a command handed beside it is refused, and a run naming a mode that decides no
+    # verdict writes no receipt. The arm beside it holds the visible fact that the refusal exists.
+    "q-833": "PYTHONPATH=tests python3 -m unittest -q test_closure_kernel_bypasses >/dev/null 2>&1 && grep -q 'decides no verdict' scripts/task-admission.py",
     # q-609: the rule now names who enforces it, in the spec that carries it.
     "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",
 }

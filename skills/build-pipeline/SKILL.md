@@ -3,13 +3,13 @@ name: build-pipeline
 description: >-
   Execute work after director has classified the human's message and returned a route contract. Derive the observable outcome and definition of done, admit new work to the one board, update existing work in place, call only needed specialists, verify, close and report. Also use when asked to attach live-spec, adopt live-spec, install live-spec, onboard a codebase with live-spec, set live-spec up, set a project up on live-spec, add live-spec, found or start a new project with live-spec, or update live-spec, and for the MINOR-bump gate.
 metadata:
-  version: 6.1.2
+  version: 6.1.3
 ---
 
 # build-pipeline — accepted work from admission to close
 
 > Part of the **live-spec pack**. The shared working rules, the settings ladder, and the pack's
-> glossary live in `live-spec-base` (v6.1.2). This skill does not restate them. Loaded alone, every
+> glossary live in `live-spec-base` (v6.1.3). This skill does not restate them. Loaded alone, every
 > section below still runs.
 
 Director is the first reader of every message but the setup entry below. It classifies every act,

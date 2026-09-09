@@ -72,7 +72,7 @@ check_manifest() {
   [ -z "$PACK_ROOT" ] && PACK_ROOT="$ROOT"
   if [ -n "$MANIFEST" ] && [ -f "$MANIFEST" ]; then
     python3 - "$MANIFEST" "$PACK_ROOT" "$pack_now" <<'PYEOF'
-import hashlib, json, os, sys
+import hashlib, json, os, re, sys
 manifest_path, pack_root, pack_now = sys.argv[1], sys.argv[2], sys.argv[3]
 try:
     man = json.load(open(manifest_path))
@@ -97,16 +97,64 @@ if pinned and _v(pinned) and _v(pack_now) and _v(pinned) < _v(pack_now):
         print("    stale vs current pack: %s" % rel)
     if not stale:
         print("    (no vendored file differs from the local pack copy — the pin alone is old)")
-    # Name the road per stale kit (2026-07-16 fix): a scaffold-only host was pointed at the
-    # style-gate installer, which doesn't touch scaffold/guardrails/ at all. Manifest keys tell the kits apart —
-    # install-scaffold.sh always pins under the pack-relative scaffold/guardrails/<name> prefix;
-    # install-style-gates.sh's own vendor set never uses that prefix.
-    scaffold_stale = [rel for rel in stale if rel.startswith("scaffold/guardrails/")]
-    style_gate_stale = [rel for rel in stale if not rel.startswith("scaffold/guardrails/")]
-    if scaffold_stale:
-        print("  re-install road: bash <pack>/adopt/install-scaffold.sh --force  (re-vendoring the scaffold checks)")
-    if style_gate_stale or not stale:
-        print("  re-install road: bash <pack>/adopt/install-style-gates.sh --force  (a re-vendor is explicit, never silent)")
+    # Name the road per stale kit (2026-07-16 fix; its sorting repaired 2026-09-09, q-832). The road
+    # named has to be the installer that actually re-vendors the stale file, and that is a fact each
+    # installer already states in its own vendor array. Two earlier shapes both failed the same way:
+    # a path prefix, and then one membership test against install-scaffold.sh with everything else
+    # falling to install-style-gates.sh by default. Three installers under adopt/ write into this one
+    # manifest — install-scaffold.sh, install-status-view.sh and install-style-gates.sh — so any rule
+    # that knows fewer than all of them sends some host to an installer that carries nothing it needs.
+    # So every adopt/install-*.sh is read here for its own arrays, and a key no installer claims is
+    # said out loud rather than handed to whichever road the code happened to fall through to.
+    roads = {}
+    adopt_dir = os.path.join(pack_root, "adopt")
+    try:
+        installers = sorted(n for n in os.listdir(adopt_dir)
+                            if n.startswith("install-") and n.endswith(".sh"))
+    except OSError:
+        installers = []
+    for installer in installers:
+        try:
+            with open(os.path.join(adopt_dir, installer), encoding="utf-8") as fh:
+                body = fh.read()
+        except OSError:
+            continue
+        for array in re.findall(r"VENDOR[A-Z_]*=\((.*?)\n\)", body, re.S):
+            for entry in re.findall(r'"([^"]+)"', array):
+                # An entry is either a bare pack-relative path, a "<pack-rel>|<host-rel>" pair whose
+                # first half is the manifest key, or a bare basename — the scaffold checks, which
+                # every installer pins under the pack-relative scaffold/guardrails/ prefix.
+                rel = entry.split("|")[0]
+                if "/" not in rel:
+                    rel = "scaffold/guardrails/" + rel
+                roads.setdefault(rel, installer)
+
+    by_road = {}
+    unclaimed = []
+    for rel in stale:
+        installer = roads.get(rel)
+        if installer:
+            by_road.setdefault(installer, []).append(rel)
+        else:
+            unclaimed.append(rel)
+    for installer in sorted(by_road):
+        print("  re-install road: bash <pack>/adopt/%s --force  "
+              "(a re-vendor is explicit, never silent)" % installer)
+    for rel in unclaimed:
+        print("  no installer under adopt/ vendors %s — no road is named for it" % rel)
+    if not stale:
+        # The pin alone is old: every vendored file already matches the pack, and re-running the
+        # installers of the kits this manifest carries is what refreshes the pin. This branch named
+        # install-style-gates.sh whatever the host had adopted, which is the last place the old
+        # default lived — a status-view-only host was told to vendor nine files of a kit it never
+        # chose. It now names the roads for the kits the manifest's own keys belong to.
+        pinned = sorted({roads[rel] for rel in (man.get("vendored") or {}) if rel in roads})
+        for installer in pinned:
+            print("  re-install road: bash <pack>/adopt/%s --force  "
+                  "(a re-vendor is explicit, never silent)" % installer)
+        if not pinned:
+            print("  no installer under adopt/ vendors anything this manifest pins "
+                  "— no road is named")
 PYEOF
   fi
 }

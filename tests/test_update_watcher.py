@@ -9,6 +9,7 @@ for the whole).
 """
 import json
 import os
+import re
 import subprocess
 import tempfile
 import unittest
@@ -62,6 +63,121 @@ class TestUpdateWatcherManifestArm(unittest.TestCase):
             self.assertNotIn("install-style-gates.sh --force", r.stdout,
                               "a scaffold-only stale key must not propose the style-gate road")
 
+    def test_stale_run_mode_keys_propose_the_scaffold_road(self):
+        # q-832 (2026-09-09): install-scaffold.sh vendors five run-mode files under their
+        # host-relative paths, outside the scaffold/guardrails/ prefix the sorting used to test.
+        # A host stale on exactly those was handed install-style-gates.sh, whose vendor set holds
+        # none of them, so following the advice changed nothing and the watcher repeated it.
+        with tempfile.TemporaryDirectory() as tmp:
+            man = os.path.join(tmp, "ratchet-manifest.json")
+            json.dump({"pack_version": "0.0.1",
+                       "vendored": {"guardrails/run_modes.py": "0" * 64,
+                                    "scripts/task-admission.py": "0" * 64}},
+                      open(man, "w"))
+            r = run_check(tmp, manifest=man)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertIn("stale vs current pack: guardrails/run_modes.py", r.stdout)
+            self.assertIn("stale vs current pack: scripts/task-admission.py", r.stdout)
+            self.assertIn("install-scaffold.sh --force", r.stdout)
+            self.assertNotIn("install-style-gates.sh --force", r.stdout,
+                             "run-mode files are vendored by install-scaffold.sh, so the "
+                             "style-gate road repairs nothing a host stale on them can use")
+
+    def test_stale_style_gate_keys_still_propose_the_style_gate_road_alone(self):
+        # The other side of the same sorting: widening what counts as scaffold must not pull a
+        # style-gate vendor file across with it.
+        with tempfile.TemporaryDirectory() as tmp:
+            man = os.path.join(tmp, "ratchet-manifest.json")
+            json.dump({"pack_version": "0.0.1",
+                       "vendored": {"scripts/spec-style-lint.py": "0" * 64,
+                                    "scripts/spec-freeze.py": "0" * 64}},
+                      open(man, "w"))
+            r = run_check(tmp, manifest=man)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertIn("stale vs current pack: scripts/spec-style-lint.py", r.stdout)
+            self.assertIn("install-style-gates.sh --force", r.stdout)
+            self.assertNotIn("install-scaffold.sh --force", r.stdout,
+                             "a style-gate-only stale set must not propose the scaffold road")
+
+    def test_the_scaffold_road_reads_the_installers_own_vendor_list(self):
+        # The sorting reads adopt/install-scaffold.sh's VENDOR_MODES array rather than keeping a
+        # second copy of it, so the two cannot drift apart. Every pack-relative half of that array
+        # is claimed by the scaffold road.
+        with open(os.path.join(REPO, "adopt", "install-scaffold.sh"), encoding="utf-8") as fh:
+            installer = fh.read()
+        block = re.search(r"VENDOR_MODES=\((.*?)\n\)", installer, re.S)
+        self.assertIsNotNone(block, "install-scaffold.sh no longer carries a VENDOR_MODES array")
+        pairs = [q.split("|")[0] for q in re.findall(r'"([^"]+)"', block.group(1))]
+        self.assertTrue(pairs, "VENDOR_MODES is empty")
+        with tempfile.TemporaryDirectory() as tmp:
+            man = os.path.join(tmp, "ratchet-manifest.json")
+            json.dump({"pack_version": "0.0.1",
+                       "vendored": {rel: "0" * 64 for rel in pairs}}, open(man, "w"))
+            r = run_check(tmp, manifest=man)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertIn("install-scaffold.sh --force", r.stdout)
+            self.assertNotIn("install-style-gates.sh --force", r.stdout,
+                             "every file the scaffold installer vendors takes the scaffold road")
+
+    def test_stale_status_view_keys_propose_the_status_view_road(self):
+        # The third kit. adopt/install-status-view.sh keeps its own VENDOR array and writes its
+        # keys into the same manifest, so a rule that knows only two installers sends a host stale
+        # on these to one that carries none of them — the same defect one kit over.
+        with tempfile.TemporaryDirectory() as tmp:
+            man = os.path.join(tmp, "ratchet-manifest.json")
+            json.dump({"pack_version": "0.0.1",
+                       "vendored": {"scripts/render-board.sh": "0" * 64,
+                                    "scaffold/status-view/state-probe.sh": "0" * 64}},
+                      open(man, "w"))
+            r = run_check(tmp, manifest=man)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertIn("install-status-view.sh --force", r.stdout)
+            self.assertNotIn("install-style-gates.sh --force", r.stdout,
+                             "install-status-view.sh is what re-vendors the status-view kit")
+            self.assertNotIn("install-scaffold.sh --force", r.stdout)
+
+    def test_a_key_no_installer_vendors_is_said_rather_than_routed(self):
+        # A key that reaches the manifest from somewhere else must not fall through to whichever
+        # road the code happened to end on. scripts/stamp-versions.py is a real pack file that no
+        # adopt installer vendors.
+        with tempfile.TemporaryDirectory() as tmp:
+            man = os.path.join(tmp, "ratchet-manifest.json")
+            json.dump({"pack_version": "0.0.1",
+                       "vendored": {"scripts/stamp-versions.py": "0" * 64}}, open(man, "w"))
+            r = run_check(tmp, manifest=man)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertIn("no installer under adopt/ vendors scripts/stamp-versions.py", r.stdout)
+            self.assertNotIn("--force", r.stdout,
+                             "no installer claims this key, so no re-install road is named")
+
+    def test_every_adopt_installer_is_a_road_the_watcher_can_name(self):
+        # The sorting reads every adopt/install-*.sh rather than a list beside them, so a kit added
+        # later is routed without touching the watcher. Each installer's own array, driven through
+        # the real script, comes back as that installer's road.
+        adopt = os.path.join(REPO, "adopt")
+        installers = sorted(n for n in os.listdir(adopt)
+                            if n.startswith("install-") and n.endswith(".sh"))
+        self.assertGreaterEqual(len(installers), 3, installers)
+        for name in installers:
+            with open(os.path.join(adopt, name), encoding="utf-8") as fh:
+                body = fh.read()
+            keys = []
+            for array in re.findall(r"VENDOR[A-Z_]*=\((.*?)\n\)", body, re.S):
+                for entry in re.findall(r'"([^"]+)"', array):
+                    rel = entry.split("|")[0]
+                    keys.append(rel if "/" in rel else "scaffold/guardrails/" + rel)
+            self.assertTrue(keys, "%s carries no vendor array the watcher can read" % name)
+            with tempfile.TemporaryDirectory() as tmp:
+                man = os.path.join(tmp, "ratchet-manifest.json")
+                json.dump({"pack_version": "0.0.1",
+                           "vendored": {k: "0" * 64 for k in keys}}, open(man, "w"))
+                r = run_check(tmp, manifest=man)
+                self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+                self.assertNotIn("no installer under adopt/ vendors", r.stdout,
+                                 "%s's own keys must all resolve to a road" % name)
+                self.assertIn("adopt/%s --force" % name, r.stdout,
+                              "%s's own keys must name %s" % (name, name))
+
     def test_mixed_stale_keys_propose_both_reinstall_roads(self):
         with tempfile.TemporaryDirectory() as tmp:
             man = os.path.join(tmp, "ratchet-manifest.json")
@@ -73,6 +189,41 @@ class TestUpdateWatcherManifestArm(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
             self.assertIn("install-style-gates.sh --force", r.stdout)
             self.assertIn("install-scaffold.sh --force", r.stdout)
+
+    def test_all_three_kits_stale_propose_all_three_roads(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            man = os.path.join(tmp, "ratchet-manifest.json")
+            json.dump({"pack_version": "0.0.1",
+                       "vendored": {"guardrails/run_modes.py": "0" * 64,
+                                    "scripts/spec-style-lint.py": "0" * 64,
+                                    "scripts/render-board.sh": "0" * 64}},
+                      open(man, "w"))
+            r = run_check(tmp, manifest=man)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            for name in ("install-scaffold.sh", "install-status-view.sh",
+                         "install-style-gates.sh"):
+                self.assertIn("%s --force" % name, r.stdout)
+
+    def test_an_old_pin_with_nothing_stale_names_only_the_kits_it_pins(self):
+        # The one branch the road-per-kit rewrite first left behind: nothing differs from the pack,
+        # so there is nothing to sort, and the old code named install-style-gates.sh whatever the
+        # host had adopted. A status-view-only host is told about its own kit and no other.
+        import hashlib
+        keys = ["scripts/render-board.sh", "scripts/plan-step.sh"]
+        pins = {}
+        for rel in keys:
+            with open(os.path.join(REPO, rel), "rb") as fh:
+                pins[rel] = hashlib.sha256(fh.read()).hexdigest()
+        with tempfile.TemporaryDirectory() as tmp:
+            man = os.path.join(tmp, "ratchet-manifest.json")
+            json.dump({"pack_version": "0.0.1", "vendored": pins}, open(man, "w"))
+            r = run_check(tmp, manifest=man)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertIn("the pin alone is old", r.stdout)
+            self.assertIn("install-status-view.sh --force", r.stdout)
+            self.assertNotIn("install-style-gates.sh --force", r.stdout,
+                             "a host that pins only the status-view kit hears about that kit")
+            self.assertNotIn("install-scaffold.sh --force", r.stdout)
 
     def test_current_pin_stays_silent_on_vendored_files(self):
         with tempfile.TemporaryDirectory() as tmp:

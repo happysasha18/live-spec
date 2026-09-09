@@ -1251,6 +1251,54 @@ key does not read that file.
 
 **Context pointers.** guardrails/check-acceptance-rerun.py:350; scripts/task-admission.py:572; scripts/task-admission.py:1450
 
+### ✅ The update watcher names the installer that actually vendors the stale file — id: q-832
+**Group:** Guardrails · **Priority:** normal
+**Source:** the owner, 2026-09-09 09:05, handing on the first finding of the 6.1.2 push review: the daily watcher names the wrong installer for five of the files it reports stale
+
+**Holder:** seat
+
+**Outcome:** a host whose vendored run-mode files fell behind is handed the installer that re-vendors them
+
+**Statement.** Echo-name: Watcher names the vendoring installer. Description: the daily watcher tells a host which installer refreshes its stale vendored files, and for five of those files it names an installer whose vendor set does not carry them, so a person who runs what they were told still holds the same stale files afterward and hears the same advice tomorrow. Plan: 1) the watcher sorts each stale manifest key by the installer whose own vendor set carries it, reading the scaffold installer's run-mode pairs out of that installer itself 2) a manifest whose only stale keys are the run-mode files the scaffold installer vendors under host-relative paths prints the scaffold re-install road alone 3) a manifest whose only stale key is a style-gate vendor file prints the style-gate re-install road alone 4) both cases are proved by tests that drive the real watcher script 5) VERSION reads 6.1.3 and MIGRATION.md carries a 6.1.3 chapter naming what a host runs. Estimate: 12–36 minutes — basis: closed rows q-830, q-831 in the same group, read off the delivery trail each close recorded.
+
+**Validation.** 2026-09-09 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-09.**
+
+**Done when:** the watcher sorts each stale manifest key by the installer whose own vendor set carries it, reading the scaffold installer's run-mode pairs out of that installer itself; a manifest whose only stale keys are the run-mode files the scaffold installer vendors under host-relative paths prints the scaffold re-install road alone; a manifest whose only stale key is a style-gate vendor file prints the style-gate re-install road alone; both cases are proved by tests that drive the real watcher script; VERSION reads 6.1.3 and MIGRATION.md carries a 6.1.3 chapter naming what a host runs
+
+**Read before admission.** q-831 (PLAN.md), be70e356 (commit be70e356). Finding: the live plan carries no open row on the watcher's road-naming; commit be70e356 (2026-07-16, archived row 358) is the fix that first named a road per stale kit and left the sorting on the scaffold/guardrails/ path prefix; q-831's push review is where the misrouting was seen again, arriving through the five run-mode files the scaffold installer began vendoring under host-relative paths, which that prefix test never reaches
+
+**DOD hash.** 2b572f61ffc6802febe8523b4dcec644cfaf789762150acecceffa4a78bd4e31
+
+**Verification:** PYTHONPATH=tests python3 -m unittest -q test_update_watcher
+
+**Context pointers.** `scripts/check-pack-update.sh:104`; `adopt/install-scaffold.sh:61`; `adopt/install-style-gates.sh:97`; `tests/test_update_watcher.py:49`; INV-177
+
+### 🔄 The official close path runs the acceptance the row recorded and no other — id: q-833
+**Group:** Guardrails · **Priority:** normal
+**Source:** the owner, 2026-09-09 09:47: the official close path cannot widen acceptance over the command recorded at admission; the recorded command is the only proof of closing, a broader run can only be a manual run with its purpose and finite sample written down first, and manual evidence never closes a row
+
+**Holder:** seat
+
+**Outcome:** a close rests on the one command the row was admitted with
+
+**Statement.** Echo-name: Close runs the recorded acceptance. Description: a row is closed on the one command it was admitted with, and the acceptance path today lets any other command ride into the receipt that the close reads, so a broad run nobody scoped in advance can become a row's closing evidence and a run made under a mode that decides no verdict can write a receipt at all. Plan: 1) the official acceptance path refuses a command handed beside the one the row recorded, and its refusal names the manual run as where a broader check belongs 2) a receipt is refused where the environment names a run mode that decides no verdict, so a manual run's evidence cannot reach a close 3) the row's own recorded acceptance still runs, still passes and still closes the row 4) all three are proved by tests that drive the real acceptance path in this tree. Estimate: 12–39 minutes — basis: closed rows q-830, q-831, q-832 in the same group, read off the delivery trail each close recorded.
+
+**Validation.** 2026-09-09 · floor: passed · reader: passed · echo-name placed: yes · status: ready
+
+**Frozen at take-up 2026-09-09.**
+
+**Done when:** the official acceptance path refuses a command handed beside the one the row recorded, and its refusal names the manual run as where a broader check belongs; a receipt is refused where the environment names a run mode that decides no verdict, so a manual run's evidence cannot reach a close; the row's own recorded acceptance still runs, still passes and still closes the row; all three are proved by tests that drive the real acceptance path in this tree
+
+**Read before admission.** q-832 (PLAN.md), 81180176 (commit 81180176). Finding: the live plan carries no open row on the acceptance path's own reach and the record's commit subjects name none; the row contract is already written down and unread by the executor — guardrails.config.json's run_modes.row says its targets source is the one accepted task's recorded acceptance command and that no check outside that one task runs, and run_modes.manual already carries decides_verdict false, while scripts/task-admission.py's verify accepts any --command as an extra check, writes it into the receipt that close reads, and asks nothing about the mode the run was made under
+
+**DOD hash.** e617942b1bb13ca1107d43991ad89fc3fe0233672b4eadc0b142a63892a9d142
+
+**Verification:** PYTHONPATH=tests python3 -m unittest -q test_closure_kernel_bypasses
+
+**Context pointers.** `scripts/task-admission.py:1087`; `guardrails/run_modes.py:237`; `guardrails.config.json` run_modes.row.targets_source; `tests/test_closure_kernel_bypasses.py`
+
 ## Environment — known traps
 
 - A full local `pytest` run hangs at 0% CPU and never finishes. Run it narrowly with `-k` or a

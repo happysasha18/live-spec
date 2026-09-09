@@ -504,7 +504,7 @@ Both changed files are VENDORED into a host by `adopt/install-scaffold.sh`, whos
 skips a file that already exists unless it is told otherwise. So run:
 
 ```
-cd <your host root> && sh <pack>/adopt/install-scaffold.sh --force
+cd <your host root> && bash <pack>/adopt/install-scaffold.sh --force
 ```
 
 It vendors into the directory it is RUN FROM, so run it from your own tree's root; a path handed to
@@ -536,3 +536,42 @@ its 6.1.1 gate and its 6.1.1 reader, and the `history` command below does not ex
    no budget, and no ordering read off past hours.
 
 Nothing else in 6.1.1 moves.
+
+### 6.1.3 — 2026-09-09
+
+**Host action: pull the pack, and nothing else.** This patch repairs the daily update watcher's own
+advice. The watcher lives in the pack checkout and is never vendored into a host, so a host that
+pulls the pack has the repair; no installer run, no document edit, no record to re-write.
+
+What changed for a host: when the watcher reports vendored files stale, it now names the installer
+whose own vendor set carries each one, and says so plainly where no installer carries it. Until this
+release it sorted stale files by whether their manifest key began with `scaffold/guardrails/`, and
+everything else took the style-gate road by default. Three installers under `adopt/` write into the
+one manifest — `install-scaffold.sh`, `install-status-view.sh` and `install-style-gates.sh` — so two
+kinds of host were sent to an installer carrying nothing they needed. A host stale on the five
+run-mode files `install-scaffold.sh` vendors under host-relative paths (`guardrails/run_modes.py`,
+`guardrails/check-acceptance-rerun.py`, `guardrails/worker-admission-guard.py`,
+`scripts/task-admission.py`, `scripts/checkpoint.py`) was told to run `install-style-gates.sh
+--force`; a host stale on the status-view kit (`scripts/render-board.sh`,
+`scaffold/status-view/state-probe.sh` and the rest) was told the same. Either run changed nothing
+and the same advice came back the next day. The sorting now reads each installer's own vendor array
+out of that installer, so a kit added later is routed without anyone editing the watcher.
+
+If you followed that advice on an earlier version and the files stayed stale, run the installer that
+carries the files that stayed stale. For the five run-mode files:
+
+```
+cd <your host root> && bash <pack>/adopt/install-scaffold.sh --force
+```
+
+For the status-view kit — `scripts/state-probe.sh`, `scripts/render-board.sh`,
+`scripts/plan-step.sh`, `scripts/plan_checks_core.py`,
+`guardrails/check-status-view-drift.py`, `scripts/check-success-measure-feed.py`:
+
+```
+cd <your host root> && bash <pack>/adopt/install-status-view.sh --force
+```
+
+Each vendors into the directory it is RUN FROM, so run it from your own tree's root. After this
+release the watcher names the right one of these itself, so on the next daily check you can simply
+run the road it prints.
