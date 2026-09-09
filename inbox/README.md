@@ -81,6 +81,12 @@ or names a file that is not on disk, is refused rather than guessed at. `scripts
 the one reader of this line — `scripts/state-probe.sh`'s INBOX section and a row's own admission both read
 a letter's state through it, and neither keeps a second copy of the four words.
 
+Two details of that read, so a depositor knows what they get. The word is read whatever its case, so
+`Status: NOTED` says what it means. And the line counts only where it stands as the letter's own field:
+a `Status:` line inside a fenced block is an example, the way the fence above is an example, and the
+reader passes over it. That keeps a letter that explains this field from silencing itself, and it keeps
+the state out of the letter's prose, which is the whole reason the line exists.
+
 **A reply names the message it discharges (SPEC INV-192).** A reply travels the sender's own inbox and
 owes no blocked work of its own: the message it answers already named the blocked work that earned the
 exchange, so the reply names that message's identifier and states where the message ended.

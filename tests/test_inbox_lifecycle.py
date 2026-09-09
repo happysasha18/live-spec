@@ -11,6 +11,7 @@ Every fixture here is a throwaway tree in `tmp_path`; nothing touches this repos
 letter here is ever written to).
 """
 import importlib.util
+import re
 import shutil
 import subprocess
 import sys
@@ -40,6 +41,17 @@ def letter(root: Path, name: str, body: str = "content\n", handled: bool = False
     path = folder / name
     path.write_text(body, encoding="utf-8")
     return path
+
+
+def plain_lines(stdout, starts_with):
+    """The probe's own lines with their colour stripped, kept where one opens with `starts_with`.
+
+    The probe colours every line, so a bare substring test over the raw output picks up whichever
+    line happens to mention the same words — which is how two shapes of the link assertion came to
+    read the plan row instead of the letter's own.
+    """
+    plain = [re.sub(r"\033\[[0-9;]*m", "", ln).strip() for ln in stdout.splitlines()]
+    return [ln for ln in plain if ln.startswith(starts_with)]
 
 
 def test_a_letter_with_no_status_line_reads_open_where_it_stands_in_the_inbox(tmp_path):
@@ -296,9 +308,88 @@ def test_the_inbox_block_shows_an_open_letters_link_to_the_row_it_became(tmp_pat
     build_probe_tree(tmp_path, plan_body=plan)
     letter(tmp_path / "inbox", "a.md", "Status: open\n")
     r = run_probe(tmp_path)
-    assert "a.md" in r.stdout
-    assert "q-1" in r.stdout
-    assert "A wish worked" in r.stdout
+    # The assertion has to look at the LETTER's own line and at what that line SAYS. Two earlier
+    # shapes of this test proved nothing: reading the whole output passed on the plan row, which
+    # prints `q-1 ... inbox:a.md` whatever the inbox block does, and excluding `"q-1 "` kept that
+    # same plan row, because an escape sequence sits between the id and the space. Both were shown
+    # green with the link deleted, with a wrong title printed, and with a link invented for a
+    # letter no row names (the verifications of 2026-09-09). The letter's own line is the one
+    # opening with the inbox marker, and the whole line is compared.
+    assert plain_lines(r.stdout, "! a.md") == ["! a.md  \u2192 q-1 A wish worked"], r.stdout
+
+
+def test_the_link_lands_on_the_letter_the_row_names_and_not_on_its_neighbour(tmp_path):
+    """Three open letters, two rows. Every other test in this file shows the probe a single letter
+    and a single row, so `the row it was admitted into` and `some row` read alike there: a probe
+    handing the first row it holds to whatever letter it is printing passes all of them, and so
+    does one taking a link's words from whichever row comes first. The neighbour shares a first
+    character on purpose, so a match comparing less than the whole name is caught too, and the
+    third letter names no row so a fallback still has somewhere to fire.
+    """
+    plan = (
+        "# Plan\n\n## Tasks\n\n"
+        "### \u2b1c A wish worked \u2014 id: q-1\n"
+        "**Group:** Test \u00b7 **Priority:** normal\n"
+        "**Source:** the owner.\n\n"
+        "**Source inbox.** a.md\n\n"
+        "**Outcome:** it happens.\n\n"
+        "**Done when:** it happens.\n\n"
+        "**DOD hash.** deadbeef\n\n"
+        "### \u2b1c A second wish \u2014 id: q-2\n"
+        "**Group:** Test \u00b7 **Priority:** normal\n"
+        "**Source:** the owner.\n\n"
+        "**Source inbox.** another.md\n\n"
+        "**Outcome:** it happens.\n\n"
+        "**Done when:** it happens.\n\n"
+        "**DOD hash.** deadbeef\n\n"
+        "## Blockers\n\n- none\n"
+    )
+    build_probe_tree(tmp_path, plan_body=plan)
+    letter(tmp_path / "inbox", "a.md", "Status: open\n")
+    letter(tmp_path / "inbox", "another.md", "Status: open\n")
+    letter(tmp_path / "inbox", "zz.md", "Status: open\n")
+    r = run_probe(tmp_path)
+    assert plain_lines(r.stdout, "! a.md") == ["! a.md  \u2192 q-1 A wish worked"], r.stdout
+    assert plain_lines(r.stdout, "! another.md") == ["! another.md  \u2192 q-2 A second wish"], r.stdout
+    assert plain_lines(r.stdout, "! zz.md") == ["! zz.md"], r.stdout
+
+
+def test_an_open_letter_no_row_names_prints_no_link(tmp_path):
+    """The mirror of the row-side negative: a letter nothing was admitted from carries no link.
+
+    Without it, a probe inventing `-> q-999 INVENTED` beside any letter passes the whole file.
+    """
+    build_probe_tree(tmp_path)
+    letter(tmp_path / "inbox", "a.md", "Status: open\n")
+    r = run_probe(tmp_path)
+    assert plain_lines(r.stdout, "! a.md") == ["! a.md"], r.stdout
+
+
+def test_a_status_line_inside_a_code_fence_is_not_the_letters_own_field(tmp_path):
+    """A letter quoting the field in an example must not silence itself. This is the fault the row
+    exists to kill: a state read out of prose rather than out of the letter's own field."""
+    body = (
+        "A letter about the field itself.\n\n"
+        "```\n"
+        "Status: handled\n"
+        "```\n\n"
+        "It is open all the same.\n"
+    )
+    build_probe_tree(tmp_path)
+    letter(tmp_path / "inbox", "a.md", body)
+    r = run_probe(tmp_path)
+    assert r.returncode == 0, r.stderr
+    assert "a.md" in r.stdout, "a letter whose only Status line is an example is still open"
+
+
+def test_a_state_word_is_read_whatever_its_case(tmp_path):
+    """A depositor typing the word in capitals meant the word. Recorded because it is a choice,
+    and `inbox/README.md` says so where a depositor reads."""
+    build_probe_tree(tmp_path)
+    letter(tmp_path / "inbox", "a.md", "Status: NOTED\n")
+    r = run_probe(tmp_path)
+    assert r.returncode == 0, r.stderr
+    assert "a.md" not in r.stdout
 
 
 def test_a_rows_own_printed_line_carries_its_letters_name(tmp_path):

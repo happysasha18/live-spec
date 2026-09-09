@@ -602,11 +602,6 @@ m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
     # that only the scaffold installer's run-mode files are stale, and over one where only a
     # style-gate vendor file is; the arms beside it hold the release stamp and its host chapter.
     "q-832": "PYTHONPATH=tests python3 -m unittest -q test_update_watcher >/dev/null 2>&1 && test \"$(cat VERSION)\" = \"6.1.3\" && grep -q '^### 6.1.3' MIGRATION.md",
-    # q-833: a close rests on the one command the row was admitted with. The proofs live in the
-    # closure-kernel test file, which drives the real acceptance path: the recorded check still
-    # closes a row, a command handed beside it is refused, and a run naming a mode that decides no
-    # verdict writes no receipt. The arm beside it holds the visible fact that the refusal exists.
-    "q-833": "PYTHONPATH=tests python3 -m unittest -q test_closure_kernel_bypasses >/dev/null 2>&1 && grep -q 'decides no verdict' scripts/task-admission.py",
     # q-834: a close rests on the one command the row was admitted with. The proofs drive the real
     # acceptance path — the closure-kernel file for the refusals and the ordinary road, the
     # admission file for the transitions around them — and they are run with pytest, which is what

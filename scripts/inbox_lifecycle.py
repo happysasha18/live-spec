@@ -23,6 +23,25 @@ STATES = (OPEN, HANDLED, NOTED, SUPERSEDED)
 
 _STATUS_RE = re.compile(r"(?m)^Status:\s*(\S+)\s*$")
 _SUPERSEDED_BY_RE = re.compile(r"(?m)^Superseded-by:\s*(\S+)\s*$")
+_FENCE_RE = re.compile(r"(?m)^\s*(?:```|~~~)")
+
+
+def _fields_only(text: str) -> str:
+    """The letter with its fenced blocks blanked out, so a quoted example is never its own field.
+
+    A letter explaining the field writes the field inside a fence, and a reader that does not know
+    about fences takes that example as the letter's state — which is a state read out of prose,
+    the one thing this reader exists to stop. Blanking keeps every line's position, so nothing else
+    that counts lines is disturbed.
+    """
+    out, inside = [], False
+    for line in text.splitlines():
+        if _FENCE_RE.match(line):
+            inside = not inside
+            out.append("")
+            continue
+        out.append("" if inside else line)
+    return "\n".join(out)
 
 
 class InboxLifecycleError(ValueError):
@@ -56,7 +75,8 @@ def read_state(inbox_root, filename: str) -> dict:
         raise InboxLifecycleError(
             "%s is not on disk under %s or %s/handled" % (filename, inbox_root, inbox_root))
     text = path.read_text(encoding="utf-8")
-    m = _STATUS_RE.search(text)
+    fields = _fields_only(text)
+    m = _STATUS_RE.search(fields)
     if not m:
         state = HANDLED if path.parent.name == "handled" else OPEN
         return {"state": state, "superseded_by": None, "path": path}
@@ -64,7 +84,7 @@ def read_state(inbox_root, filename: str) -> dict:
     if word not in STATES:
         raise InboxLifecycleError(
             "%s names Status: %s, which is none of %s" % (filename, word, ", ".join(STATES)))
-    sm = _SUPERSEDED_BY_RE.search(text)
+    sm = _SUPERSEDED_BY_RE.search(fields)
     successor = sm.group(1).strip() if sm else None
     if word != SUPERSEDED:
         return {"state": word, "superseded_by": None, "path": path}

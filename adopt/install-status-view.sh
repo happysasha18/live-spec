@@ -53,6 +53,7 @@ VENDOR=(
   "scripts/render-board.sh|scripts/render-board.sh"
   "scripts/plan-step.sh|scripts/plan-step.sh"
   "scripts/plan_checks_core.py|scripts/plan_checks_core.py"
+  "scripts/inbox_lifecycle.py|scripts/inbox_lifecycle.py"
   "guardrails/check-status-view-drift.py|guardrails/check-status-view-drift.py"
   "scripts/check-success-measure-feed.py|scripts/check-success-measure-feed.py"
   "scripts/task-admission.py|scripts/task-admission.py"

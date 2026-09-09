@@ -121,19 +121,27 @@ def _card(page, task_id):
 
 #: The pack files adopt/install-status-view.sh itself reaches for — real content copied from this
 #: checkout, so a fake pack directory runs the real installer script exactly as this repo does.
-_PACK_FILES = [
-    "VERSION",
-    "scaffold/status-view/state-probe.sh",
-    "scaffold/status-view/plan_checks.py",
-    "scripts/render-board.sh",
-    "scripts/plan-step.sh",
-    "scripts/plan_checks_core.py",
-    "guardrails/check-status-view-drift.py",
-    "scripts/check-success-measure-feed.py",
-    "scripts/task-admission.py",
-    "scripts/checkpoint.py",
-    "adopt/install-status-view.sh",
+#: The vendored half is READ OUT OF THE INSTALLER rather than listed again here: a second copy of
+#: that list falls behind the day the kit grows, which is what happened when the kit gained
+#: scripts/inbox_lifecycle.py and this test reddened on a file the fake pack had never heard of.
+#: Three files stand outside the array and are named here with the reason each one is:
+_PACK_EXTRAS = [
+    "VERSION",                                # the installer reads it to pin the manifest
+    "adopt/install-status-view.sh",           # the script under test itself
+    "scaffold/status-view/plan_checks.py",    # the host's seed, copied outside the VENDOR loop
 ]
+
+
+def _vendored_by_the_installer():
+    """The pack-relative half of every pair in the installer's own VENDOR array."""
+    with open(os.path.join(ROOT, "adopt", "install-status-view.sh"), encoding="utf-8") as fh:
+        body = fh.read()
+    block = re.search(r"VENDOR=\((.*?)\n\)", body, re.S)
+    assert block, "adopt/install-status-view.sh no longer carries a VENDOR array"
+    return [entry.split("|")[0] for entry in re.findall(r'"([^"]+)"', block.group(1))]
+
+
+_PACK_FILES = _PACK_EXTRAS + _vendored_by_the_installer()
 
 
 def _make_fake_pack(parent):

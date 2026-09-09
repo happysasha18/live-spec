@@ -1301,7 +1301,7 @@ key does not read that file.
 
 **Context pointers.** `scripts/task-admission.py:1112`; `guardrails/run_modes.py:237`; `guardrails.config.json` run_modes.row.targets_source; `tests/test_closure_kernel_bypasses.py`; `tests/test_task_admission.py`
 
-### 🔄 An inbox letter carries its own state and the board shows the row it became — id: q-835
+### ✅ An inbox letter carries its own state and the board shows the row it became — id: q-835
 **Group:** Guardrails · **Priority:** normal
 **Source:** the owner, 2026-09-09 10:00: make the inbox lifecycle explicit — open, handled, noted, superseded, with superseded_by required for a cancelled letter; never guess a cancellation from prose; record the letter on the row at admission; the board shows an open letter's link to its task and shows no superseded letter as work; history stays readable; no host sweep and no other projects; a row admitted from a letter shows a compact inbox label carrying the letter's filename
 
