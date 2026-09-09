@@ -168,6 +168,10 @@ _SOURCE_RE = re.compile(r"^\*\*Source:\*\*\s*(.+)$")
 _COVERED_BY_RE = re.compile(r"^\*\*Covered by:\*\*\s*(.+)$")
 _DEFERRED_RE = re.compile(r"^\*\*Deferred:\*\*\s*(.+)$")
 _BLOCKED_BY_RE = re.compile(r"^\*\*Blocked by:\*\*\s*(.+)$")
+# A row admission cut from an inbox letter names that letter here, in the period-bold shape
+# `**Read before admission.**`/`**Context pointers.**` already carry — never the colon shape
+# `**Source:**` uses, which is a different field (who asked, in prose) and already taken.
+_SOURCE_INBOX_RE = re.compile(r"^\*\*Source inbox\.\*\*\s*(.+)$")
 
 # ---------------------------------------------------------------- what a priority means here
 # A project says in its own plan what its priority words mean and how they rank, under the
@@ -256,6 +260,7 @@ def _new_task(mark, title, task_id):
         "group": None,
         "priority": None,
         "source": None,
+        "source_inbox": None,
         "covered_by": None,
         "deferred": None,
         "blocked_by": None,
@@ -298,6 +303,10 @@ def _parse_headings(lines):
         sm = _SOURCE_RE.match(stripped)
         if sm and cur["source"] is None:
             cur["source"] = sm.group(1)
+            continue
+        sim = _SOURCE_INBOX_RE.match(stripped)
+        if sim and cur["source_inbox"] is None:
+            cur["source_inbox"] = sim.group(1)
             continue
         cbm = _COVERED_BY_RE.match(stripped)
         if cbm and cur["covered_by"] is None:
@@ -351,10 +360,12 @@ def _parse_table(lines):
 def parse_tasks(text, checks=None):
     """Parse a plan's rows into a list of task dicts, in file order.
 
-    Each dict carries: mark (canonically spelled), title, id, group, priority, source, covered_by,
-    deferred, blocked_by (each None if that line was missing), check (`checks[id]`, or None when
-    the caller passed no map or the map has no entry for this row), and body — the remaining lines
-    of the row's block, for a caller that wants more than the summary fields.
+    Each dict carries: mark (canonically spelled), title, id, group, priority, source,
+    source_inbox (the inbox letter this row was admitted from, or None — see
+    `scripts/inbox_lifecycle.py`), covered_by, deferred, blocked_by (each None if that line was
+    missing), check (`checks[id]`, or None when the caller passed no map or the map has no entry
+    for this row), and body — the remaining lines of the row's block, for a caller that wants more
+    than the summary fields.
 
     `checks` is the CALLER's own map of task id to the shell command that verifies that task. It
     is a parameter and not a thing this module owns: the commands belong to one project, and this

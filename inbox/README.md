@@ -62,6 +62,25 @@ The two births are named apart because they owe different things: the blocked me
 standing still, and the fault message owes the evidence. A rule demanding blocked work of both would
 refuse the fault message, which is the message a neighbour most wants.
 
+**A letter's own state lives in a `Status:` line (PLAN q-835).** A letter's position in this folder used
+to be the only fact a reader could check: open under `inbox/`, done under `inbox/handled/`. That fact
+alone says nothing about a letter a session read and set aside, and nothing about a letter a later letter
+replaced. A letter that carries no `Status:` line still reads by where it sits — open in the folder,
+handled in `handled/` — so every letter already on this record reads unchanged. A letter that does carry
+the line names one of four words, and a superseded letter also names the letter that replaced it:
+
+```
+Status: open | handled | noted | superseded
+Superseded-by: <the filename of the letter that replaced this one>
+```
+
+`open` is a letter nobody has acted on. `handled` is a letter a session turned into a row, or otherwise
+finished with. `noted` is a letter a session read and decided owns no row. `superseded` is a letter a
+later letter replaced; it carries `Superseded-by:` naming that later letter, and a letter that names none,
+or names a file that is not on disk, is refused rather than guessed at. `scripts/inbox_lifecycle.py` is
+the one reader of this line — `scripts/state-probe.sh`'s INBOX section and a row's own admission both read
+a letter's state through it, and neither keeps a second copy of the four words.
+
 **A reply names the message it discharges (SPEC INV-192).** A reply travels the sender's own inbox and
 owes no blocked work of its own: the message it answers already named the blocked work that earned the
 exchange, so the reply names that message's identifier and states where the message ended.

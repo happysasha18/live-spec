@@ -32,6 +32,15 @@ from pathlib import Path
 
 import checkpoint
 import plan_checks_core
+# A host that has not vendored scripts/inbox_lifecycle.py yet (adopt/install-status-view.sh does
+# not carry it) keeps admitting a route that names a letter with no existence check against it —
+# the same graceful-absence road scripts/state-probe.sh's own INBOX section takes, rather than
+# losing admission outright the way a bare `import inbox_lifecycle` did (every fixture and host
+# vendoring task-admission.py alone stopped loading it at all).
+try:
+    import inbox_lifecycle
+except ImportError:  # noqa: BLE001 - absent module, not a broken one; admission still runs
+    inbox_lifecycle = None
 
 
 REQUIRED_NEW = ("title", "observable_outcome", "done_when", "verification", "project", "scope")
@@ -727,6 +736,18 @@ def _read_paragraph(prior: dict, supersedes) -> str:
     return out
 
 
+def _source_inbox_paragraph(route: dict) -> str:
+    """The letter a route carries, recorded on the row it becomes.
+
+    Named `source.inbox` on the route, in the period-bold shape `**Read before admission.**` and
+    `**Context pointers.**` already use — never the `**Source:**` shape, which is a different
+    field (who asked, in prose) admission already writes. A route that carries none leaves the
+    row exactly as it was before this paragraph existed.
+    """
+    name = str(route.get("source", {}).get("inbox") or "").strip()
+    return "**Source inbox.** %s\n\n" % name if name else ""
+
+
 def render_task(route: dict, task_id: str, statement: str,
                 prior: dict, supersedes=None) -> str:
     source = route["source"]["detail"].strip()
@@ -734,6 +755,7 @@ def render_task(route: dict, task_id: str, statement: str,
         "### ⬜ {title} — id: {task_id}\n"
         "**Group:** {scope} · **Priority:** normal\n"
         "**Source:** {source}\n\n"
+        "{source_inbox}"
         "**Outcome:** {outcome}\n\n"
         "{statement_prefix} {statement}\n\n"
         "**Done when:** {done}\n\n"
@@ -743,7 +765,8 @@ def render_task(route: dict, task_id: str, statement: str,
         "**Context pointers.** {pointers}\n"
     ).format(
         title=route["title"].strip(), task_id=task_id, scope=route["scope"].strip(),
-        source=source, outcome=route["observable_outcome"].strip(),
+        source=source, source_inbox=_source_inbox_paragraph(route),
+        outcome=route["observable_outcome"].strip(),
         statement_prefix=STATEMENT, statement=statement,
         done=route["done_when"].strip(), verification=route["verification"].strip(),
         read=_read_paragraph(prior, supersedes),
@@ -792,6 +815,16 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
     # than a habit a session may or may not have had. Both calls refuse rather than warn.
     prior = read_prior_record(route, tree_root)
     supersedes = read_supersedes(route, tree_root)
+
+    # A route naming the letter it came from must name a real one — the row's own paragraph is
+    # a pointer, and a pointer to nothing readable defeats the reason it was written (SPEC's own
+    # rule for context pointers, `_pointers` above, applied to this one).
+    inbox_name = str(route.get("source", {}).get("inbox") or "").strip()
+    if inbox_name and inbox_lifecycle is not None \
+            and inbox_lifecycle.find_letter(tree_root / "inbox", inbox_name) is None:
+        raise AdmissionError(
+            "source.inbox names %s, which is not on disk under inbox/ or inbox/handled/"
+            % inbox_name)
 
     normalized_title = " ".join(route["title"].lower().split())
     # Runs to the end rather than stopping at the first match: a title standing on two rows

@@ -330,6 +330,11 @@ for t in shown:
         verified = f"{D}marked done{X}"
     else:
         verified = f"{D}verified{X}" if t["verified"] else f"{D}declared{X}"
+    # A row admitted from a letter carries that letter's name in its own paragraph
+    # (**Source inbox.**, read by plan_checks_core into t["source_inbox"]); shown compact,
+    # riding beside the declared/verified marker rather than in the reason text below, so the
+    # link is visible without reading the row itself.
+    inbox_tag = f"  {D}inbox:{t['source_inbox']}{X}" if t["source_inbox"] else ""
     colour = ICON_COLOUR.get(t["icon"], D)
     reason = ""
     if t["failing_key"] and t["blocked_by"]:
@@ -347,7 +352,7 @@ for t in shown:
         # An open row whose acceptance command already passes: the row stays open, because only
         # its close closes it, and the line says the command's own verdict beside the mark.
         reason = f" {D}— {t['note']}{X}"
-    print(f"  {D}{t['id'].ljust(id_width)}{X} {t['icon']} {colour}{t['title']}{X}  {verified}{reason}{tag}")
+    print(f"  {D}{t['id'].ljust(id_width)}{X} {t['icon']} {colour}{t['title']}{X}  {verified}{inbox_tag}{reason}{tag}")
 
 shown_ids = {t["id"] for t in shown}
 open_count = sum(1 for t in tasks if t["icon"] != "✅")
@@ -485,21 +490,66 @@ done
 [ "$ALARM" = "0" ] && ok "no alarms"
 
 # ---------------------------------------------------------------- inbox
-# What came in through the door and nobody has taken yet. The sweep REMOVES a file when it harvests
-# it, so a file still standing here is an unhandled item — no second ledger to keep in step.
-# A name ending `.draft` is a deposit mid-write and is passed over, exactly as the sweep passes over
-# it, and README.md is the folder's own instructions rather than an item.
+# What came in through the door and nobody has taken yet. A letter's own Status: line decides
+# that now (scripts/inbox_lifecycle.py) rather than its mere presence here: a letter this folder
+# still holds can be handled, noted or superseded without having moved, and only OPEN is work
+# nobody has taken. A name ending `.draft` is a deposit mid-write and is passed over, exactly as
+# the sweep passes over it, and README.md is the folder's own instructions rather than an item.
 if [ -d inbox ]; then
   b "INBOX"
-  INBOX_N=0
-  for f in inbox/*; do
-    base=$(basename "$f")
-    case "$base" in *.draft|README.md|'*') continue ;; esac
-    [ -f "$f" ] || continue
-    warn "$base"
-    INBOX_N=$((INBOX_N + 1))
-  done
-  [ "$INBOX_N" = "0" ] && ok "nothing unhandled"
+  python3 - <<'PYEOF'
+import os, sys
+sys.path.insert(0, "scripts")
+from plan_checks import parse_tasks
+# A host that has not vendored scripts/inbox_lifecycle.py yet (adopt/install-status-view.sh does
+# not carry it) keeps the road this block took before the reader existed — every file standing in
+# the folder read as unhandled, by position alone — rather than losing the INBOX section outright.
+try:
+    import inbox_lifecycle
+except ImportError:
+    inbox_lifecycle = None
+
+Y, G, R, D, X = "\033[0;33m", "\033[0;32m", "\033[0;31m", "\033[2m", "\033[0m"
+
+# The row a letter became, when a route named one at admission: read the same **Source inbox.**
+# paragraph the PLAN block above reads, so an open letter that already has a row shows the link
+# instead of reading as untaken work all over again.
+by_letter = {}
+if os.path.exists("PLAN.md"):
+    for t in parse_tasks(open("PLAN.md", encoding="utf-8").read()):
+        if t.get("source_inbox"):
+            by_letter[t["source_inbox"]] = t
+
+shown = 0
+for base in sorted(os.listdir("inbox")):
+    if base == "README.md" or base.endswith(".draft"):
+        continue
+    if not os.path.isfile(os.path.join("inbox", base)):
+        continue
+    if inbox_lifecycle is None:
+        print(f"  {Y}! {base}{X}")
+        shown += 1
+        continue
+    try:
+        info = inbox_lifecycle.read_state("inbox", base)
+    except inbox_lifecycle.InboxLifecycleError as exc:
+        print(f"  {R}X {base} — {exc}{X}")
+        shown += 1
+        continue
+    # Handled, noted and superseded letters stay on disk and readable — history stays readable —
+    # but only an open letter is printed as something waiting on someone.
+    if info["state"] != inbox_lifecycle.OPEN:
+        continue
+    row = by_letter.get(base)
+    if row:
+        print(f"  {Y}! {base}{X}  {D}→ {row['id']} {row['title']}{X}")
+    else:
+        print(f"  {Y}! {base}{X}")
+    shown += 1
+
+if shown == 0:
+    print(f"  {G}nothing unhandled{X}")
+PYEOF
 fi
 
 # ---------------------------------------------------------------- blockers
